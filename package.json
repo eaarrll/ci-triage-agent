@@ -1,0 +1,39 @@
+{
+  "name": "ci-triage-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub Action: an AI agent that investigates failed CI runs and posts the root cause, evidence and fix on the PR.",
+  "type": "module",
+  "license": "MIT",
+  "author": "eaarrll",
+  "engines": {
+    "node": ">=24"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "eval": "tsx evals/run-evals.ts",
+    "all": "npm run typecheck && npm run lint && npm test && npm run build"
+  },
+  "dependencies": {
+    "@actions/core": "^3.0.1",
+    "@actions/github": "^9.1.1",
+    "@anthropic-ai/sdk": "^1.12.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.15.0",
+    "prettier": "^3.10.1",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.74.0",
+    "vitest": "^5.1.1"
+  }
+}
