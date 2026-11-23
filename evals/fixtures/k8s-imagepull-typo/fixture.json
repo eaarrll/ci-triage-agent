@@ -1,0 +1,354 @@
+{
+  "id": "k8s-imagepull-typo",
+  "title": "Staging rollout times out: deployment image tag v1.8.O (letter O) does not exist",
+  "description": "Push to main of the squash-merged release PR #317 bumps web-frontend to 1.8.0. In k8s/deployment.yaml the pod label says 1.8.0 but the image tag was typed as v1.8.O (capital letter O instead of zero). kubectl apply succeeds and kubeconform validation passed, so the failed step only shows 'kubectl rollout status ... error: timed out waiting for the condition'. The decisive evidence is in the always() Diagnostics step that runs after it: the new pod is in ImagePullBackOff and kubelet reports 'Failed to pull image \"ghcr.io/example-org/web:v1.8.O\": ... not found'. release.yml publishes images as ghcr.io/example-org/web:<git tag>, so the intended tag is v1.8.0. The HPA FailedGetResourceMetric warnings are a side effect of the unready pod, not a cause. Fix: correct the tag in k8s/deployment.yaml. Category configuration (deploy manifest); code is also acceptable since the bad value was introduced by the change itself.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "web-frontend"
+  },
+  "run": {
+    "id": 19524871306,
+    "attempt": 1,
+    "workflowId": 98712345,
+    "workflowName": "Deploy",
+    "workflowPath": ".github/workflows/deploy.yml",
+    "event": "push",
+    "headBranch": "main",
+    "headSha": "a7199daa937bd3492b54e0a9598806eb1b4e34b3",
+    "headRepoFullName": "example-org/web-frontend",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19524871306",
+    "displayTitle": "Release 1.8.0 to staging (#317)",
+    "pullRequestNumbers": [],
+    "createdAt": "2026-11-19T14:00:52Z"
+  },
+  "jobs": [
+    {
+      "id": 55530118201,
+      "name": "Validate manifests",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-19T14:00:58Z",
+      "completedAt": "2026-11-19T14:01:06Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19524871306/job/55530118201",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:00:58Z",
+          "completedAt": "2026-11-19T14:01:00Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:01:00Z",
+          "completedAt": "2026-11-19T14:01:01Z"
+        },
+        {
+          "number": 3,
+          "name": "Install kubeconform",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:01:01Z",
+          "completedAt": "2026-11-19T14:01:03Z"
+        },
+        {
+          "number": 4,
+          "name": "Validate",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:01:03Z",
+          "completedAt": "2026-11-19T14:01:04Z"
+        },
+        {
+          "number": 5,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:01:04Z",
+          "completedAt": "2026-11-19T14:01:05Z"
+        },
+        {
+          "number": 6,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:01:05Z",
+          "completedAt": "2026-11-19T14:01:06Z"
+        }
+      ]
+    },
+    {
+      "id": 55530160417,
+      "name": "Deploy to staging",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-19T14:01:27Z",
+      "completedAt": "2026-11-19T14:04:00Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19524871306/job/55530160417",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:01:27Z",
+          "completedAt": "2026-11-19T14:01:30Z"
+        },
+        {
+          "number": 2,
+          "name": "Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:01:30Z",
+          "completedAt": "2026-11-19T14:01:32Z"
+        },
+        {
+          "number": 3,
+          "name": "Configure AWS credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:01:32Z",
+          "completedAt": "2026-11-19T14:01:35Z"
+        },
+        {
+          "number": 4,
+          "name": "Set up kubectl",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:01:35Z",
+          "completedAt": "2026-11-19T14:01:38Z"
+        },
+        {
+          "number": 5,
+          "name": "Update kubeconfig",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:01:38Z",
+          "completedAt": "2026-11-19T14:01:41Z"
+        },
+        {
+          "number": 6,
+          "name": "Apply manifests",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:01:41Z",
+          "completedAt": "2026-11-19T14:01:47Z"
+        },
+        {
+          "number": 7,
+          "name": "Wait for rollout",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-19T14:01:47Z",
+          "completedAt": "2026-11-19T14:03:49Z"
+        },
+        {
+          "number": 8,
+          "name": "Diagnostics",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:03:49Z",
+          "completedAt": "2026-11-19T14:03:54Z"
+        },
+        {
+          "number": 9,
+          "name": "Record deployment",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-19T14:03:54Z",
+          "completedAt": "2026-11-19T14:03:54Z"
+        },
+        {
+          "number": 10,
+          "name": "Post Configure AWS credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:03:54Z",
+          "completedAt": "2026-11-19T14:03:56Z"
+        },
+        {
+          "number": 11,
+          "name": "Post Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:03:56Z",
+          "completedAt": "2026-11-19T14:03:58Z"
+        },
+        {
+          "number": 12,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-19T14:03:58Z",
+          "completedAt": "2026-11-19T14:04:00Z"
+        }
+      ]
+    },
+    {
+      "id": 55530417733,
+      "name": "Smoke test staging",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-19T14:04:00Z",
+      "completedAt": "2026-11-19T14:04:00Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19524871306/job/55530417733",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "CHANGELOG.md",
+      "status": "modified",
+      "additions": 10,
+      "deletions": 0,
+      "patch": "@@ -1,5 +1,15 @@\n # Changelog\n \n+## [1.8.0] - 2026-11-19\n+\n+### Added\n+\n+- Checkout v2 behind the `FEATURE_CHECKOUT_V2` flag (enabled on staging).\n+\n+### Changed\n+\n+- Product images are served as AVIF when the browser supports it.\n+\n ## [1.7.3] - 2026-11-06\n \n ### Fixed",
+      "previousPath": null
+    },
+    {
+      "path": "k8s/configmap.yaml",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "patch": "@@ -9,3 +9,4 @@\n   API_BASE_URL: https://api.staging.example.com\n   LOG_LEVEL: info\n   FEATURE_SEARCH_V2: \"true\"\n+  FEATURE_CHECKOUT_V2: \"true\"",
+      "previousPath": null
+    },
+    {
+      "path": "k8s/deployment.yaml",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "patch": "@@ -22,7 +22,7 @@\n       labels:\n         app.kubernetes.io/name: web\n         app.kubernetes.io/part-of: web-frontend\n-        app.kubernetes.io/version: \"1.7.3\"\n+        app.kubernetes.io/version: \"1.8.0\"\n     spec:\n       serviceAccountName: web\n       imagePullSecrets:\n@@ -32,7 +32,7 @@\n         runAsUser: 10001\n       containers:\n         - name: web\n-          image: ghcr.io/example-org/web:v1.7.3\n+          image: ghcr.io/example-org/web:v1.8.O\n           imagePullPolicy: IfNotPresent\n           ports:\n             - name: http",
+      "previousPath": null
+    },
+    {
+      "path": "package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"web-frontend\",\n-  \"version\": \"1.7.3\",\n+  \"version\": \"1.8.0\",\n   \"private\": true,\n   \"type\": \"module\",\n   \"scripts\": {",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "Deploy to staging": [
+      {
+        "runId": 19388270514,
+        "attempt": 1,
+        "headSha": "3c6d1a11f6783e59cbfd88f2bfbbf61ee8e63e40",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T09:44:03Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19388270514/job/55107733029"
+      },
+      {
+        "runId": 19351840266,
+        "attempt": 1,
+        "headSha": "2b2e96f7dd19ec53b372f4aaa4c2263f8071edd0",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-14T16:12:37Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19351840266/job/54990216781"
+      },
+      {
+        "runId": 19323017745,
+        "attempt": 1,
+        "headSha": "14c9a4a04c63b707273f009d9ed3f04fc8cfd33d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-12T11:30:19Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19323017745/job/54897410362"
+      },
+      {
+        "runId": 19322395108,
+        "attempt": 1,
+        "headSha": "268fd1e07771fd6e5b9e0d2beaf4e7e4d851b2ef",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "failure",
+        "createdAt": "2026-11-12T11:02:51Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19322395108/job/54895327714"
+      },
+      {
+        "runId": 19280044917,
+        "attempt": 1,
+        "headSha": "51fbc3e39b5660fd6e5f83a95b96c03882e0e277",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-10T08:57:26Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19280044917/job/54761108495"
+      },
+      {
+        "runId": 19205367730,
+        "attempt": 1,
+        "headSha": "2ea861313641767253b7a62ceaf8dbcd2826eb2c",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-06T15:21:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19205367730/job/54522940183"
+      },
+      {
+        "runId": 19168810274,
+        "attempt": 1,
+        "headSha": "b7b55795151deb2663815290de353ad909a7808e",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-04T10:09:14Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19168810274/job/54404178826"
+      },
+      {
+        "runId": 19124401196,
+        "attempt": 1,
+        "headSha": "6c854d6a6215aab09507e7f489db65c5b652728f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-10-30T13:48:55Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/web-frontend/actions/runs/19124401196/job/54262035547"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "configuration",
+      "code"
+    ],
+    "keywords": [
+      [
+        "v1.8.O",
+        "tag",
+        "image"
+      ]
+    ],
+    "fixPath": "k8s/deployment.yaml"
+  }
+}

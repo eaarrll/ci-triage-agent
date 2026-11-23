@@ -1,0 +1,465 @@
+{
+  "id": "docker-oom-137",
+  "title": "Next.js production build OOM-killed inside docker buildx after adding plotly.js",
+  "description": "PR #482 adds plotly.js + react-plotly.js for a cohort heatmap and imports react-plotly.js statically in a client component. The Build image job runs docker/build-push-action; inside the image, `RUN npm run build` (next build, webpack) grows the V8 heap to the 4 GB cap the Dockerfile sets (NODE_OPTIONS=--max-old-space-size=4096), prints 'FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory', and buildx reports the RUN step killed with exit code 137 on a 2-CPU / 7.75 GiB runner (visible in the docker info block). Lint and unit tests pass and Build image is green on main, so this is not flaky: the build needs more memory than the runner has once plotly is in the bundle. Expected category is infrastructure (runner resources); the fix is a larger runner or less build memory (keep plotly out of the server/webpack graph with next/dynamic and ssr:false, or plotly.js-dist-min). Raising the heap cap further does not help on a 7.75 GiB VM. Distractor: npm's 'inflight ... leaks memory' deprecation warning is unrelated.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "analytics-dashboard"
+  },
+  "run": {
+    "id": 19483726150,
+    "attempt": 1,
+    "workflowId": 112093847,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/cohort-charts",
+    "headSha": "e0452bbad8800c33797ef21d89a58cbc3b4f9563",
+    "headRepoFullName": "example-org/analytics-dashboard",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19483726150",
+    "displayTitle": "Add revenue cohort heatmap to reports",
+    "pullRequestNumbers": [
+      482
+    ],
+    "createdAt": "2026-11-20T09:12:41Z"
+  },
+  "jobs": [
+    {
+      "id": 55412093811,
+      "name": "Lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-20T09:12:47Z",
+      "completedAt": "2026-11-20T09:13:32Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19483726150/job/55412093811",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:47Z",
+          "completedAt": "2026-11-20T09:12:49Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:49Z",
+          "completedAt": "2026-11-20T09:12:50Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:50Z",
+          "completedAt": "2026-11-20T09:12:54Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:54Z",
+          "completedAt": "2026-11-20T09:13:15Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm run lint",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:15Z",
+          "completedAt": "2026-11-20T09:13:29Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:29Z",
+          "completedAt": "2026-11-20T09:13:30Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:30Z",
+          "completedAt": "2026-11-20T09:13:31Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:31Z",
+          "completedAt": "2026-11-20T09:13:32Z"
+        }
+      ]
+    },
+    {
+      "id": 55412093822,
+      "name": "Unit tests",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-20T09:12:46Z",
+      "completedAt": "2026-11-20T09:13:34Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19483726150/job/55412093822",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:46Z",
+          "completedAt": "2026-11-20T09:12:48Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:48Z",
+          "completedAt": "2026-11-20T09:12:49Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:49Z",
+          "completedAt": "2026-11-20T09:12:52Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:52Z",
+          "completedAt": "2026-11-20T09:13:14Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm test -- --reporter=dot",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:14Z",
+          "completedAt": "2026-11-20T09:13:31Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:31Z",
+          "completedAt": "2026-11-20T09:13:32Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:32Z",
+          "completedAt": "2026-11-20T09:13:33Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:33Z",
+          "completedAt": "2026-11-20T09:13:34Z"
+        }
+      ]
+    },
+    {
+      "id": 55412093835,
+      "name": "Build image",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-20T09:12:48Z",
+      "completedAt": "2026-11-20T09:17:01Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19483726150/job/55412093835",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:48Z",
+          "completedAt": "2026-11-20T09:12:58Z"
+        },
+        {
+          "number": 2,
+          "name": "Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:58Z",
+          "completedAt": "2026-11-20T09:13:01Z"
+        },
+        {
+          "number": 3,
+          "name": "Lint Dockerfile",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:01Z",
+          "completedAt": "2026-11-20T09:13:04Z"
+        },
+        {
+          "number": 4,
+          "name": "Set up Docker Buildx",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:04Z",
+          "completedAt": "2026-11-20T09:13:11Z"
+        },
+        {
+          "number": 5,
+          "name": "Log in to GHCR",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-20T09:13:11Z",
+          "completedAt": "2026-11-20T09:13:11Z"
+        },
+        {
+          "number": 6,
+          "name": "Docker metadata",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:11Z",
+          "completedAt": "2026-11-20T09:13:13Z"
+        },
+        {
+          "number": 7,
+          "name": "Build image",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-20T09:13:13Z",
+          "completedAt": "2026-11-20T09:16:51Z"
+        },
+        {
+          "number": 8,
+          "name": "Smoke test image",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-20T09:16:51Z",
+          "completedAt": "2026-11-20T09:16:51Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Build image",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:16:51Z",
+          "completedAt": "2026-11-20T09:16:55Z"
+        },
+        {
+          "number": 10,
+          "name": "Post Set up Docker Buildx",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:16:55Z",
+          "completedAt": "2026-11-20T09:16:57Z"
+        },
+        {
+          "number": 11,
+          "name": "Post Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:16:57Z",
+          "completedAt": "2026-11-20T09:16:59Z"
+        },
+        {
+          "number": 12,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:16:59Z",
+          "completedAt": "2026-11-20T09:17:01Z"
+        }
+      ]
+    },
+    {
+      "id": 55412391077,
+      "name": "Deploy preview",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-20T09:17:01Z",
+      "completedAt": "2026-11-20T09:17:01Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19483726150/job/55412391077",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "package.json",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0,
+      "patch": "@@ -14,8 +14,10 @@\n     \"clsx\": \"^2.1.1\",\n     \"date-fns\": \"^4.1.0\",\n     \"next\": \"15.5.6\",\n+    \"plotly.js\": \"^3.1.2\",\n     \"react\": \"19.1.1\",\n     \"react-dom\": \"19.1.1\",\n+    \"react-plotly.js\": \"^2.6.0\",\n     \"recharts\": \"^2.15.4\",\n     \"zod\": \"^3.25.76\"\n   },",
+      "previousPath": null
+    },
+    {
+      "path": "package-lock.json",
+      "status": "modified",
+      "additions": 1468,
+      "deletions": 9,
+      "patch": null,
+      "previousPath": null
+    },
+    {
+      "path": "src/app/reports/cohorts/page.jsx",
+      "status": "added",
+      "additions": 16,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,16 @@\n+import { CohortHeatmap } from \"@/components/charts/CohortHeatmap\";\n+import { RevenueTrend } from \"@/components/charts/RevenueTrend\";\n+import { fetchCohorts } from \"@/lib/cohorts\";\n+\n+export const revalidate = 3600;\n+\n+export default async function CohortsPage() {\n+  const matrix = await fetchCohorts({ months: 12 });\n+  return (\n+    <section className=\"space-y-6\">\n+      <h1 className=\"text-xl font-semibold\">Revenue cohorts</h1>\n+      <CohortHeatmap matrix={matrix} />\n+      <RevenueTrend series={matrix.revenueByMonth} />\n+    </section>\n+  );\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "src/app/reports/layout.jsx",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "patch": "@@ -2,6 +2,7 @@\n \n const NAV = [\n   { href: \"/reports/revenue\", label: \"Revenue\" },\n+  { href: \"/reports/cohorts\", label: \"Cohorts\" },\n   { href: \"/reports/accounts\", label: \"Accounts\" },\n ];\n ",
+      "previousPath": null
+    },
+    {
+      "path": "src/components/charts/CohortHeatmap.jsx",
+      "status": "added",
+      "additions": 24,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,24 @@\n+\"use client\";\n+\n+import Plot from \"react-plotly.js\";\n+\n+/** @param {{ matrix: import(\"@/lib/cohorts\").CohortMatrix, height?: number }} props */\n+export function CohortHeatmap({ matrix, height = 480 }) {\n+  return (\n+    <Plot\n+      data={[\n+        {\n+          type: \"heatmap\",\n+          z: matrix.retention,\n+          x: matrix.periods.map((p) => `M+${p}`),\n+          y: matrix.cohorts,\n+          colorscale: \"Blues\",\n+          hovertemplate: \"%{y} / %{x}: %{z:.1%}<extra></extra>\",\n+        },\n+      ]}\n+      layout={{ height, margin: { l: 80, r: 16, t: 16, b: 40 }, yaxis: { autorange: \"reversed\" } }}\n+      config={{ displayModeBar: false, responsive: true }}\n+      style={{ width: \"100%\" }}\n+    />\n+  );\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "src/lib/cohorts.js",
+      "status": "added",
+      "additions": 28,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,28 @@\n+import { z } from \"zod\";\n+import { apiGet } from \"./api\";\n+\n+const CohortResponse = z.object({\n+  cohorts: z.array(z.string()),\n+  periods: z.array(z.number().int().nonnegative()),\n+  retention: z.array(z.array(z.number().min(0).max(1).nullable())),\n+  revenue_by_month: z.array(z.object({ month: z.string(), revenue: z.number() })),\n+});\n+\n+/**\n+ * @typedef {object} CohortMatrix\n+ * @property {string[]} cohorts\n+ * @property {number[]} periods\n+ * @property {(number | null)[][]} retention\n+ * @property {{ month: string, revenue: number }[]} revenueByMonth\n+ */\n+\n+/** @returns {Promise<CohortMatrix>} */\n+export async function fetchCohorts({ months }) {\n+  const parsed = CohortResponse.parse(await apiGet(`/v2/reports/cohorts?months=${months}`));\n+  return {\n+    cohorts: parsed.cohorts,\n+    periods: parsed.periods,\n+    retention: parsed.retention,\n+    revenueByMonth: parsed.revenue_by_month,\n+  };\n+}",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "Build image": [
+      {
+        "runId": 19479310012,
+        "attempt": 1,
+        "headSha": "902da5c80d4b931f3c5287d5620913d345d45495",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T07:58:10Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19479310012/job/55398410277"
+      },
+      {
+        "runId": 19467751930,
+        "attempt": 1,
+        "headSha": "809222ec82c461dbbb5fabe4b682686ecdc09fcd",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T16:21:44Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19467751930/job/55361092818"
+      },
+      {
+        "runId": 19466102215,
+        "attempt": 1,
+        "headSha": "2be709945645cfe6eb56533c8944a4b5f3f0352d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T14:03:09Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19466102215/job/55355874306"
+      },
+      {
+        "runId": 19452880471,
+        "attempt": 1,
+        "headSha": "6c54b8c9df100739ac157fb8e497079cfe5be080",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "cancelled",
+        "createdAt": "2026-11-19T08:47:31Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19452880471/job/55313327790"
+      },
+      {
+        "runId": 19452663018,
+        "attempt": 1,
+        "headSha": "7bc80e466375b264e4e106e9ec1412cf2c52347b",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T08:40:12Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19452663018/job/55312671453"
+      },
+      {
+        "runId": 19431020877,
+        "attempt": 1,
+        "headSha": "cf15991435a968a92ba6e395d8c35bfaf8ed6df5",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T13:12:58Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19431020877/job/55244018925"
+      },
+      {
+        "runId": 19417734102,
+        "attempt": 1,
+        "headSha": "1e5c4277059d644a9fc708a2609ddf178a432436",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T17:31:20Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19417734102/job/55201377640"
+      },
+      {
+        "runId": 19409913376,
+        "attempt": 1,
+        "headSha": "d056f4367b1ab99a0c4e37a4d9940a061aecff8e",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T10:05:47Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/analytics-dashboard/actions/runs/19409913376/job/55176245011"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "infrastructure"
+    ],
+    "keywords": [
+      [
+        "memory",
+        "heap",
+        "OOM",
+        "137"
+      ]
+    ]
+  }
+}

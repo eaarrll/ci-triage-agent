@@ -1,0 +1,358 @@
+{
+  "id": "azure-oidc-subject-mismatch",
+  "title": "Azure OIDC login fails after the deploy job moved into a GitHub environment",
+  "description": "Squash-merged PR #231 adds `environment: production` to the `Deploy to production` job in .github/workflows/deploy.yml (base/ holds the version before the merge) so production deploys need an approval. Once a job references an environment, GitHub issues its OIDC token with subject repo:example-org/payments-api:environment:production instead of repo:example-org/payments-api:ref:refs/heads/main. The only federated credential on the id-payments-api-deploy managed identity (infra/modules/github-oidc.bicep, deployed by the platform team, not this workflow) trusts the ref:refs/heads/main subject, so azure/login fails with AADSTS700213 \"No matching federated identity record found for presented assertion subject\". The log prints the presented subject claim just above the error, and every earlier main run deployed successfully. The right answer is cloud_auth (OIDC federation); configuration is accepted too because a workflow YAML change triggered it. Either fix is valid: add a federated credential for the environment:production subject (the usual one, keeping the approval gate), or drop the environment line. No fixPath is required because the fix may be on the Azure side.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "payments-api"
+  },
+  "run": {
+    "id": 19511374029,
+    "attempt": 1,
+    "workflowId": 85120377,
+    "workflowName": "deploy",
+    "workflowPath": ".github/workflows/deploy.yml",
+    "event": "push",
+    "headBranch": "main",
+    "headSha": "e07b4d19a6c25f83d0e9b1a74c6f2d58b3a90e16",
+    "headRepoFullName": "example-org/payments-api",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19511374029",
+    "displayTitle": "Require approval for production deploys (#231)",
+    "pullRequestNumbers": [],
+    "createdAt": "2026-11-21T14:09:31Z"
+  },
+  "jobs": [
+    {
+      "id": 55704118263,
+      "name": "Build & test",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-21T14:09:37Z",
+      "completedAt": "2026-11-21T14:11:18Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19511374029/job/55704118263",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:09:37Z",
+          "completedAt": "2026-11-21T14:09:39Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:09:40Z",
+          "completedAt": "2026-11-21T14:09:41Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-dotnet@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:09:42Z",
+          "completedAt": "2026-11-21T14:09:51Z"
+        },
+        {
+          "number": 4,
+          "name": "Run dotnet restore",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:09:52Z",
+          "completedAt": "2026-11-21T14:10:09Z"
+        },
+        {
+          "number": 5,
+          "name": "Run dotnet build --no-restore --configuration Release",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:10:10Z",
+          "completedAt": "2026-11-21T14:10:34Z"
+        },
+        {
+          "number": 6,
+          "name": "Run dotnet test --no-build --configuration Release --logger \"trx;LogFileName=test-results.trx\"",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:10:35Z",
+          "completedAt": "2026-11-21T14:11:15Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/setup-dotnet@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:11:16Z",
+          "completedAt": "2026-11-21T14:11:16Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:11:17Z",
+          "completedAt": "2026-11-21T14:11:17Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:11:18Z",
+          "completedAt": "2026-11-21T14:11:18Z"
+        }
+      ]
+    },
+    {
+      "id": 55704211807,
+      "name": "Deploy to production",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-21T14:22:31Z",
+      "completedAt": "2026-11-21T14:22:52Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19511374029/job/55704211807",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:22:31Z",
+          "completedAt": "2026-11-21T14:22:33Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:22:34Z",
+          "completedAt": "2026-11-21T14:22:35Z"
+        },
+        {
+          "number": 3,
+          "name": "Run docker/setup-buildx-action@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:22:36Z",
+          "completedAt": "2026-11-21T14:22:39Z"
+        },
+        {
+          "number": 4,
+          "name": "Azure login",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-21T14:22:40Z",
+          "completedAt": "2026-11-21T14:22:44Z"
+        },
+        {
+          "number": 5,
+          "name": "Log in to ACR",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-21T14:22:44Z",
+          "completedAt": "2026-11-21T14:22:44Z"
+        },
+        {
+          "number": 6,
+          "name": "Build and push image",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-21T14:22:44Z",
+          "completedAt": "2026-11-21T14:22:44Z"
+        },
+        {
+          "number": 7,
+          "name": "Deploy revision",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-21T14:22:44Z",
+          "completedAt": "2026-11-21T14:22:44Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Azure login",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:22:45Z",
+          "completedAt": "2026-11-21T14:22:46Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run docker/setup-buildx-action@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:22:47Z",
+          "completedAt": "2026-11-21T14:22:48Z"
+        },
+        {
+          "number": 10,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:22:49Z",
+          "completedAt": "2026-11-21T14:22:50Z"
+        },
+        {
+          "number": 11,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:22:51Z",
+          "completedAt": "2026-11-21T14:22:52Z"
+        }
+      ]
+    },
+    {
+      "id": 55704211846,
+      "name": "Smoke test",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-21T14:22:53Z",
+      "completedAt": "2026-11-21T14:22:53Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19511374029/job/55704211846",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": ".github/workflows/deploy.yml",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "patch": "@@ -32,6 +32,7 @@ jobs:\n     name: Deploy to production\n     needs: build\n     runs-on: ubuntu-24.04\n+    environment: production\n     steps:\n       - uses: actions/checkout@v4\n       - uses: docker/setup-buildx-action@v3",
+      "previousPath": null
+    },
+    {
+      "path": "docs/deploying.md",
+      "status": "modified",
+      "additions": 7,
+      "deletions": 3,
+      "patch": "@@ -3,11 +3,15 @@\n Every push to `main` runs `.github/workflows/deploy.yml`:\n \n 1. **Build & test** restores, builds and tests the solution.\n-2. **Deploy to production** signs in to Azure with the `id-payments-api-deploy` managed\n-   identity (OpenID Connect, no stored secrets), pushes the image to\n-   `crpaymentsprod.azurecr.io` and rolls a new Container Apps revision.\n+2. **Deploy to production** waits for an approval from the `payments-oncall` team\n+   (GitHub environment `production`), then signs in to Azure with the\n+   `id-payments-api-deploy` managed identity (OpenID Connect, no stored secrets), pushes\n+   the image to `crpaymentsprod.azurecr.io` and rolls a new Container Apps revision.\n 3. **Smoke test** polls `https://payments.example.com/healthz`.\n \n+Approvers see the commit list and the build result on the run page before approving.\n+Deploys that wait for more than 24 hours expire; push again or re-run the workflow.\n+\n ## Rolling back\n \n Activate the previous revision and move traffic back to it:",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "Deploy to production": [
+      {
+        "runId": 19503920815,
+        "attempt": 1,
+        "headSha": "6045f8ccb6244df8fa5a33e9ad384f056de4a03a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T10:02:44Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19503920815/job/55671533092"
+      },
+      {
+        "runId": 19486127560,
+        "attempt": 1,
+        "headSha": "4216132d895ef4a21abcbbf82d64aa1937667f50",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T16:40:19Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19486127560/job/55602884419"
+      },
+      {
+        "runId": 19482215337,
+        "attempt": 1,
+        "headSha": "71345de62ab3dd6ee6279b7f3cd5a2a9405247e6",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T14:11:02Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19482215337/job/55588017264"
+      },
+      {
+        "runId": 19455308791,
+        "attempt": 1,
+        "headSha": "2e514cdfc61e3344855671672eaac3a598af8309",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T17:26:38Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19455308791/job/55489320045"
+      },
+      {
+        "runId": 19438842106,
+        "attempt": 1,
+        "headSha": "b6a3521a8abf563f5a9604d36dca94f096abf258",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T09:58:12Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19438842106/job/55426671530"
+      },
+      {
+        "runId": 19406618274,
+        "attempt": 1,
+        "headSha": "44d8610fef0f481f00d015f332a74d10fda0690b",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T15:14:57Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19406618274/job/55301925586"
+      },
+      {
+        "runId": 19379150432,
+        "attempt": 1,
+        "headSha": "b08729a93a0362743da389665ff5b68ec90b218f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T13:33:21Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19379150432/job/55194118007"
+      },
+      {
+        "runId": 19351662718,
+        "attempt": 1,
+        "headSha": "01796d60230728da77cc595ba00506900f6acbc8",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-16T11:47:50Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payments-api/actions/runs/19351662718/job/55089047315"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "cloud_auth",
+      "configuration"
+    ],
+    "keywords": [
+      [
+        "federated",
+        "federation",
+        "workload identity",
+        "trust"
+      ],
+      [
+        "environment",
+        "subject"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+# Changelog
+
+## [1.8.0] - 2026-11-19
+
+### Added
+
+- Checkout v2 behind the `FEATURE_CHECKOUT_V2` flag (enabled on staging).
+
+### Changed
+
+- Product images are served as AVIF when the browser supports it.
+
+## [1.7.3] - 2026-11-06
+
+### Fixed
+
+- Search results no longer flash the empty state while the next page loads.
+
+## [1.7.2] - 2026-10-29
+
+### Fixed
+
+- Session cookie is now `SameSite=Lax` on the staging domain.

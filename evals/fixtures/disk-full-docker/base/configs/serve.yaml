@@ -1,0 +1,13 @@
+model:
+  name: detector-s
+  weights: s3://example-models/detector-s/v14/model.pt
+  input_size: [640, 640]
+  score_threshold: 0.35
+runtime:
+  backend: torch
+  device: cuda
+  batch_size: 8
+server:
+  host: 0.0.0.0
+  port: 8000
+  workers: 1

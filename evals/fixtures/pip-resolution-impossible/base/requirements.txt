@@ -1,0 +1,12 @@
+# Runtime dependencies for ml-features (exact pins; bumped by Renovate)
+numpy==2.1.3
+pandas==2.2.3
+pyarrow==18.1.0
+scikit-learn==1.5.2
+pydantic==1.10.18
+httpx==0.28.1
+tenacity==9.0.0
+structlog==24.4.0
+
+# internal
+acme-feature-store==3.2.0

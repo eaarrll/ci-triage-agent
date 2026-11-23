@@ -1,0 +1,371 @@
+{
+  "id": "flaky-network-test",
+  "title": "Sandbox integration test times out on a docs-only PR",
+  "description": "A PR to example-org/fx-rates only edits README.md and docs/setup.md, yet the test job fails in 'Integration tests (sandbox)': 'fetches latest rates from sandbox' hits the client's 5000ms AbortSignal timeout against sandbox.rates.example.com while the other four sandbox tests and every unit test pass. Nothing in the diff can affect runtime behaviour, and the job history on main shows the same job failing on 2 of the last 10 runs on unrelated commits. The right call is flaky (an external sandbox timing out), recommend a rerun, and optionally harden the test (retry on timeout, longer timeout, or stub the sandbox). 'infrastructure' is accepted because the proximate cause is a network timeout to a third-party host; 'code' is wrong.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "fx-rates"
+  },
+  "run": {
+    "id": 19563302147,
+    "attempt": 1,
+    "workflowId": 91247806,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "docs/local-setup",
+    "headSha": "1f7c4a9e2b8d05e63a1c7f9b4d2e80a6c5b3f17d",
+    "headRepoFullName": "example-org/fx-rates",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19563302147",
+    "displayTitle": "docs: expand the local setup guide",
+    "pullRequestNumbers": [
+      156
+    ],
+    "createdAt": "2026-11-21T08:05:37Z"
+  },
+  "jobs": [
+    {
+      "id": 55998741032,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-21T08:05:43Z",
+      "completedAt": "2026-11-21T08:06:09Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19563302147/job/55998741032",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:05:43Z",
+          "completedAt": "2026-11-21T08:05:44Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:05:45Z",
+          "completedAt": "2026-11-21T08:05:46Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:05:47Z",
+          "completedAt": "2026-11-21T08:05:50Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:05:51Z",
+          "completedAt": "2026-11-21T08:05:57Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm run lint",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:05:58Z",
+          "completedAt": "2026-11-21T08:06:02Z"
+        },
+        {
+          "number": 6,
+          "name": "Run npm run typecheck",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:06:03Z",
+          "completedAt": "2026-11-21T08:06:06Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:06:07Z",
+          "completedAt": "2026-11-21T08:06:07Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:06:08Z",
+          "completedAt": "2026-11-21T08:06:08Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:06:09Z",
+          "completedAt": "2026-11-21T08:06:09Z"
+        }
+      ]
+    },
+    {
+      "id": 55998741049,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-21T08:05:44Z",
+      "completedAt": "2026-11-21T08:06:22Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19563302147/job/55998741049",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:05:44Z",
+          "completedAt": "2026-11-21T08:05:46Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:05:47Z",
+          "completedAt": "2026-11-21T08:05:48Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:05:49Z",
+          "completedAt": "2026-11-21T08:05:53Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:05:54Z",
+          "completedAt": "2026-11-21T08:06:00Z"
+        },
+        {
+          "number": 5,
+          "name": "Unit tests",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:06:01Z",
+          "completedAt": "2026-11-21T08:06:04Z"
+        },
+        {
+          "number": 6,
+          "name": "Integration tests (sandbox)",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-21T08:06:05Z",
+          "completedAt": "2026-11-21T08:06:16Z"
+        },
+        {
+          "number": 7,
+          "name": "Upload coverage",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 9,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:06:19Z",
+          "completedAt": "2026-11-21T08:06:20Z"
+        },
+        {
+          "number": 10,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T08:06:21Z",
+          "completedAt": "2026-11-21T08:06:22Z"
+        }
+      ]
+    },
+    {
+      "id": 55998790311,
+      "name": "package",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-21T08:06:23Z",
+      "completedAt": "2026-11-21T08:06:23Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19563302147/job/55998790311",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "README.md",
+      "status": "modified",
+      "additions": 5,
+      "deletions": 1,
+      "patch": "@@ -10,6 +10,10 @@\n convert(100, \"GBP\", \"USD\", table);\n ```\n \n+`convert` rounds half-to-even to the target currency's minor units (0 for JPY, 3 for KWD).\n+\n ## Development\n \n-See [docs/setup.md](docs/setup.md).\n+Node 24 (see `.nvmrc`). Unit tests run offline; integration tests call the sandbox and are\n+skipped unless `RATES_SANDBOX_URL` and `RATES_SANDBOX_API_KEY` are set.\n+See [docs/setup.md](docs/setup.md) for the full guide.",
+      "previousPath": null
+    },
+    {
+      "path": "docs/setup.md",
+      "status": "modified",
+      "additions": 25,
+      "deletions": 1,
+      "patch": "@@ -1,6 +1,30 @@\n # Local setup\n \n+## Prerequisites\n+\n+- Node 24 (`nvm use` reads `.nvmrc`)\n+- A sandbox API key from the rates developer portal (optional, only for integration tests)\n+\n+## Install and test\n+\n ```bash\n npm ci\n-npm test\n+npm run test:unit                 # offline, with coverage\n ```\n+\n+## Integration tests\n+\n+The integration project talks to the hosted sandbox. Export the URL and your key first:\n+\n+```bash\n+export RATES_SANDBOX_URL=https://sandbox.rates.example.com\n+export RATES_SANDBOX_API_KEY=<your sandbox key>\n+npm run test:integration\n+```\n+\n+Without both variables the integration suites are skipped.\n+\n+## Releasing\n+\n+Bump the version in `package.json`, merge to `main`, then tag `vX.Y.Z`; the release workflow\n+publishes to the internal registry.",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test": [
+      {
+        "runId": 19552406718,
+        "attempt": 1,
+        "headSha": "b85e2d0f4a7c19e36d0b8a5f2c4e71d9a3b6c048",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T18:12:44Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19552406718"
+      },
+      {
+        "runId": 19540931266,
+        "attempt": 1,
+        "headSha": "e1c74a2d9f06b38e5a2d7c1f4b90e6a3d8c25f71",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T13:55:02Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19540931266"
+      },
+      {
+        "runId": 19529415873,
+        "attempt": 1,
+        "headSha": "5d0a9e3c7b21f48d6e0c3a9b5f72e1d4a8c60b39",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "failure",
+        "createdAt": "2026-11-20T08:41:19Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19529415873"
+      },
+      {
+        "runId": 19511862034,
+        "attempt": 1,
+        "headSha": "a37f2c8e0d5b16e94c7a3f0d2b8e61c5a9d47e02",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T16:27:51Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19511862034"
+      },
+      {
+        "runId": 19498570215,
+        "attempt": 1,
+        "headSha": "0c8e5b2f7a1d39c64e0b7d2a5f18c3e9b6a41d75",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T09:03:38Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19498570215"
+      },
+      {
+        "runId": 19479216647,
+        "attempt": 1,
+        "headSha": "f6b31d9a4e0c27b85d1f6a3c9e02b7d4f8a5c163",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T15:46:07Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19479216647"
+      },
+      {
+        "runId": 19465093189,
+        "attempt": 1,
+        "headSha": "29d7a0f5c3e86b14a9d2f7c0e5b38a6d1c4f90e8",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "failure",
+        "createdAt": "2026-11-18T10:18:26Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19465093189"
+      },
+      {
+        "runId": 19443771520,
+        "attempt": 1,
+        "headSha": "c4e09b6a2f7d31e58b0c4a9f6d23e7b1a5c80f94",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T14:39:13Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19443771520"
+      },
+      {
+        "runId": 19425308842,
+        "attempt": 1,
+        "headSha": "7b1f5e3d0a9c46b28f5e1d7a3c06b9e4d2f81a57",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T08:57:45Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19425308842"
+      },
+      {
+        "runId": 19398046113,
+        "attempt": 1,
+        "headSha": "d02a6c9f3b7e51d84a0f6c2e9b35d7a1f4c08e26",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-14T17:22:30Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/fx-rates/actions/runs/19398046113"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "flaky",
+      "infrastructure"
+    ],
+    "keywords": [
+      [
+        "timeout",
+        "timed out",
+        "time out",
+        "ETIMEDOUT"
+      ]
+    ],
+    "flaky": true
+  }
+}

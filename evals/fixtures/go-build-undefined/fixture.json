@@ -1,0 +1,404 @@
+{
+  "id": "go-build-undefined",
+  "title": "Go build breaks after ParseConfig was renamed to LoadConfig",
+  "description": "PR #73 adds INVENTORY_* environment overrides to internal/config and renames config.ParseConfig to config.LoadConfig. It updates the tests and cmd/migrate/main.go, but cmd/server/main.go (not touched by the PR) still calls config.ParseConfig. `go build -v ./...` prints ~250 package names from a cold build (the setup-go cache restore failed with a 503, an unrelated warning) and ends with `cmd/server/main.go:26:21: undefined: config.ParseConfig`; Vet and Test are skipped. The lint job fails as a cascade with the same compile error reported by golangci-lint as (typecheck), and docker is skipped because it needs both. Correct answer: a code error introduced by the rename; update the remaining caller in cmd/server/main.go to config.LoadConfig (keeping a deprecated ParseConfig wrapper would also work). The cache 503 is noise, not the cause.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "inventory-svc"
+  },
+  "run": {
+    "id": 19561208347,
+    "attempt": 1,
+    "workflowId": 98123407,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "config-env-overrides",
+    "headSha": "fbaa1a79f74547e5cdbfc602cfd7153a05e082e6",
+    "headRepoFullName": "example-org/inventory-svc",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19561208347",
+    "displayTitle": "config: support INVENTORY_* environment overrides",
+    "pullRequestNumbers": [
+      73
+    ],
+    "createdAt": "2026-11-21T14:02:37Z"
+  },
+  "jobs": [
+    {
+      "id": 56021774519,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-21T14:02:44Z",
+      "completedAt": "2026-11-21T14:03:30Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19561208347/job/56021774519",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:02:44Z",
+          "completedAt": "2026-11-21T14:02:45Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:02:45Z",
+          "completedAt": "2026-11-21T14:02:46Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:02:46Z",
+          "completedAt": "2026-11-21T14:02:49Z"
+        },
+        {
+          "number": 4,
+          "name": "Verify modules",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:02:49Z",
+          "completedAt": "2026-11-21T14:02:58Z"
+        },
+        {
+          "number": 5,
+          "name": "Build",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-21T14:02:58Z",
+          "completedAt": "2026-11-21T14:03:28Z"
+        },
+        {
+          "number": 6,
+          "name": "Vet",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-21T14:03:28Z",
+          "completedAt": "2026-11-21T14:03:28Z"
+        },
+        {
+          "number": 7,
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-21T14:03:28Z",
+          "completedAt": "2026-11-21T14:03:28Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-21T14:03:28Z",
+          "completedAt": "2026-11-21T14:03:28Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:03:28Z",
+          "completedAt": "2026-11-21T14:03:29Z"
+        },
+        {
+          "number": 10,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:03:29Z",
+          "completedAt": "2026-11-21T14:03:30Z"
+        }
+      ]
+    },
+    {
+      "id": 56021774533,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-21T14:02:45Z",
+      "completedAt": "2026-11-21T14:03:04Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19561208347/job/56021774533",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:02:45Z",
+          "completedAt": "2026-11-21T14:02:46Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:02:46Z",
+          "completedAt": "2026-11-21T14:02:47Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:02:47Z",
+          "completedAt": "2026-11-21T14:02:51Z"
+        },
+        {
+          "number": 4,
+          "name": "Run golangci/golangci-lint-action@v8",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-21T14:02:51Z",
+          "completedAt": "2026-11-21T14:03:01Z"
+        },
+        {
+          "number": 5,
+          "name": "Post Run golangci/golangci-lint-action@v8",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:03:01Z",
+          "completedAt": "2026-11-21T14:03:02Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-21T14:03:02Z",
+          "completedAt": "2026-11-21T14:03:02Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:03:02Z",
+          "completedAt": "2026-11-21T14:03:03Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T14:03:03Z",
+          "completedAt": "2026-11-21T14:03:04Z"
+        }
+      ]
+    },
+    {
+      "id": 56021891204,
+      "name": "docker",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-21T14:03:30Z",
+      "completedAt": "2026-11-21T14:03:30Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19561208347/job/56021891204",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "internal/config/config.go",
+      "status": "modified",
+      "additions": 31,
+      "deletions": 2,
+      "patch": "@@ -5,6 +5,7 @@ import (\n \t\"errors\"\n \t\"fmt\"\n \t\"os\"\n+\t\"strconv\"\n \t\"time\"\n \n \t\"gopkg.in/yaml.v3\"\n@@ -32,8 +33,9 @@ func defaults() Config {\n \t}\n }\n \n-// ParseConfig reads and validates the YAML file at path.\n-func ParseConfig(path string) (*Config, error) {\n+// LoadConfig reads the YAML file at path, applies INVENTORY_* environment\n+// overrides and validates the result.\n+func LoadConfig(path string) (*Config, error) {\n \tcfg := defaults()\n \traw, err := os.ReadFile(path)\n \tif err != nil {\n@@ -42,12 +44,39 @@ func ParseConfig(path string) (*Config, error) {\n \tif err := yaml.Unmarshal(raw, &cfg); err != nil {\n \t\treturn nil, fmt.Errorf(\"parse config %s: %w\", path, err)\n \t}\n+\tif err := applyEnv(&cfg, os.LookupEnv); err != nil {\n+\t\treturn nil, err\n+\t}\n \tif err := cfg.validate(); err != nil {\n \t\treturn nil, err\n \t}\n \treturn &cfg, nil\n }\n \n+func applyEnv(cfg *Config, lookup func(string) (string, bool)) error {\n+\tif v, ok := lookup(\"INVENTORY_HTTP_ADDR\"); ok {\n+\t\tcfg.HTTPAddr = v\n+\t}\n+\tif v, ok := lookup(\"INVENTORY_DATABASE_URL\"); ok {\n+\t\tcfg.DatabaseURL = v\n+\t}\n+\tif v, ok := lookup(\"INVENTORY_RESERVATION_TTL\"); ok {\n+\t\tttl, err := time.ParseDuration(v)\n+\t\tif err != nil {\n+\t\t\treturn fmt.Errorf(\"INVENTORY_RESERVATION_TTL: %w\", err)\n+\t\t}\n+\t\tcfg.Reservation.TTL = ttl\n+\t}\n+\tif v, ok := lookup(\"INVENTORY_RESERVATION_MAX_PER_ORDER\"); ok {\n+\t\tn, err := strconv.Atoi(v)\n+\t\tif err != nil {\n+\t\t\treturn fmt.Errorf(\"INVENTORY_RESERVATION_MAX_PER_ORDER: %w\", err)\n+\t\t}\n+\t\tcfg.Reservation.MaxPerOrder = n\n+\t}\n+\treturn nil\n+}\n+\n func (c Config) validate() error {\n \tvar errs []error\n \tif c.DatabaseURL == \"\" {",
+      "previousPath": null
+    },
+    {
+      "path": "internal/config/config_test.go",
+      "status": "modified",
+      "additions": 26,
+      "deletions": 5,
+      "patch": "@@ -18,18 +18,39 @@ func writeConfig(t *testing.T, body string) string {\n \treturn path\n }\n \n-func TestParseConfigDefaults(t *testing.T) {\n-\tcfg, err := ParseConfig(writeConfig(t, minimal))\n+func TestLoadConfigDefaults(t *testing.T) {\n+\tcfg, err := LoadConfig(writeConfig(t, minimal))\n \tif err != nil {\n-\t\tt.Fatalf(\"ParseConfig: %v\", err)\n+\t\tt.Fatalf(\"LoadConfig: %v\", err)\n \t}\n \tif cfg.HTTPAddr != \":8080\" || cfg.Reservation.TTL != 15*time.Minute || cfg.Reservation.MaxPerOrder != 50 {\n \t\tt.Fatalf(\"unexpected defaults: %+v\", cfg)\n \t}\n }\n \n-func TestParseConfigRequiresDatabaseURL(t *testing.T) {\n-\tif _, err := ParseConfig(writeConfig(t, \"http_addr: :9090\\n\")); err == nil {\n+func TestLoadConfigEnvOverrides(t *testing.T) {\n+\tt.Setenv(\"INVENTORY_RESERVATION_TTL\", \"2m\")\n+\tt.Setenv(\"INVENTORY_RESERVATION_MAX_PER_ORDER\", \"5\")\n+\n+\tcfg, err := LoadConfig(writeConfig(t, minimal))\n+\tif err != nil {\n+\t\tt.Fatalf(\"LoadConfig: %v\", err)\n+\t}\n+\tif cfg.Reservation.TTL != 2*time.Minute || cfg.Reservation.MaxPerOrder != 5 {\n+\t\tt.Fatalf(\"overrides not applied: %+v\", cfg.Reservation)\n+\t}\n+}\n+\n+func TestLoadConfigRejectsBadOverride(t *testing.T) {\n+\tt.Setenv(\"INVENTORY_RESERVATION_TTL\", \"soon\")\n+\n+\tif _, err := LoadConfig(writeConfig(t, minimal)); err == nil {\n+\t\tt.Fatal(\"expected an error for an unparsable TTL\")\n+\t}\n+}\n+\n+func TestLoadConfigRequiresDatabaseURL(t *testing.T) {\n+\tif _, err := LoadConfig(writeConfig(t, \"http_addr: :9090\\n\")); err == nil {\n \t\tt.Fatal(\"expected an error without database_url\")\n \t}\n }",
+      "previousPath": null
+    },
+    {
+      "path": "cmd/migrate/main.go",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -16,7 +16,7 @@ func main() {\n \tconfigPath := flag.String(\"config\", \"config.yaml\", \"path to the service config file\")\n \tflag.Parse()\n \n-\tcfg, err := config.ParseConfig(*configPath)\n+\tcfg, err := config.LoadConfig(*configPath)\n \tif err != nil {\n \t\tfmt.Fprintln(os.Stderr, \"migrate:\", err)\n \t\tos.Exit(1)",
+      "previousPath": null
+    },
+    {
+      "path": "README.md",
+      "status": "modified",
+      "additions": 10,
+      "deletions": 2,
+      "patch": "@@ -10,5 +10,13 @@ go run ./cmd/server -config config.yaml\n \n ## Configuration\n \n-Settings are read from the YAML file passed with `-config`; see\n-`config.example.yaml` for the available keys.\n+Settings are read from the YAML file passed with `-config`. Any of them can be\n+overridden with an environment variable, which is how the Helm chart injects\n+secrets:\n+\n+| Variable | Overrides |\n+| --- | --- |\n+| `INVENTORY_HTTP_ADDR` | `http_addr` |\n+| `INVENTORY_DATABASE_URL` | `database_url` |\n+| `INVENTORY_RESERVATION_TTL` | `reservation.ttl` |\n+| `INVENTORY_RESERVATION_MAX_PER_ORDER` | `reservation.max_per_order` |",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "build": [
+      {
+        "runId": 19554410982,
+        "attempt": 1,
+        "headSha": "1b19a8e0d116b3e5d58da94d07a5bdd3e58916a1",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T09:51:14Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19554410982"
+      },
+      {
+        "runId": 19540077315,
+        "attempt": 1,
+        "headSha": "730fa880963a557645ec0db2ed0f48bdc638a695",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T17:20:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19540077315"
+      },
+      {
+        "runId": 19528846120,
+        "attempt": 1,
+        "headSha": "4240c2b362f3673b9d7caa9469c05a4749508e40",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T11:03:29Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19528846120"
+      },
+      {
+        "runId": 19507391458,
+        "attempt": 1,
+        "headSha": "c2d61b9f5cf55db6c086bd9f4d1fae0f8d52e1c1",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T08:44:02Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19507391458"
+      },
+      {
+        "runId": 19482215077,
+        "attempt": 1,
+        "headSha": "a582ee4b0296b35de849912811713e5f89e0242f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T15:12:36Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19482215077"
+      },
+      {
+        "runId": 19460954311,
+        "attempt": 1,
+        "headSha": "295a2cc7175fa20e8a52b1a4a1ac6991f4fb005f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T13:37:55Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19460954311"
+      }
+    ],
+    "lint": [
+      {
+        "runId": 19554410982,
+        "attempt": 1,
+        "headSha": "1b19a8e0d116b3e5d58da94d07a5bdd3e58916a1",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T09:51:14Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19554410982"
+      },
+      {
+        "runId": 19540077315,
+        "attempt": 1,
+        "headSha": "730fa880963a557645ec0db2ed0f48bdc638a695",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T17:20:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19540077315"
+      },
+      {
+        "runId": 19528846120,
+        "attempt": 1,
+        "headSha": "4240c2b362f3673b9d7caa9469c05a4749508e40",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T11:03:29Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19528846120"
+      },
+      {
+        "runId": 19507391458,
+        "attempt": 1,
+        "headSha": "c2d61b9f5cf55db6c086bd9f4d1fae0f8d52e1c1",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T08:44:02Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19507391458"
+      },
+      {
+        "runId": 19482215077,
+        "attempt": 1,
+        "headSha": "a582ee4b0296b35de849912811713e5f89e0242f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "failure",
+        "createdAt": "2026-11-18T15:12:36Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19482215077"
+      },
+      {
+        "runId": 19460954311,
+        "attempt": 1,
+        "headSha": "295a2cc7175fa20e8a52b1a4a1ac6991f4fb005f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T13:37:55Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-svc/actions/runs/19460954311"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "code"
+    ],
+    "keywords": [
+      [
+        "ParseConfig"
+      ],
+      [
+        "LoadConfig",
+        "renamed",
+        "rename"
+      ]
+    ],
+    "fixPath": "cmd/server/main.go"
+  }
+}

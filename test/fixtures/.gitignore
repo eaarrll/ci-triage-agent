@@ -1,0 +1,2 @@
+# The root .gitignore drops *.log; test fixtures need their recorded job logs.
+!*.log

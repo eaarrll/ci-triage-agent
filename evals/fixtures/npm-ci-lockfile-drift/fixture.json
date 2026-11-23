@@ -1,0 +1,340 @@
+{
+  "id": "npm-ci-lockfile-drift",
+  "title": "npm ci rejects package.json / package-lock.json drift after adding zod",
+  "description": "A PR to example-org/notify-service adds \"zod\": \"^3.24.1\" to package.json (plus a new src/schemas/webhook.ts that uses it) but does not commit the regenerated package-lock.json. `npm ci` validates the lockfile against package.json before installing anything and exits with EUSAGE ('Missing: zod@... from lock file'), so lint, typecheck and tests never run and docker-build is skipped. The new zod code is not at fault; the fix is to run `npm install` locally and commit the updated package-lock.json. Expected answers mention the lockfile and zod.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "notify-service"
+  },
+  "run": {
+    "id": 19541876023,
+    "attempt": 1,
+    "workflowId": 87120554,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/webhook-payload-validation",
+    "headSha": "c4a7e19b2d06f83e5a1c9b7d40e2f6a8d3b51c90",
+    "headRepoFullName": "example-org/notify-service",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19541876023",
+    "displayTitle": "Validate inbound webhook payloads with zod",
+    "pullRequestNumbers": [
+      87
+    ],
+    "createdAt": "2026-11-20T14:27:24Z"
+  },
+  "jobs": [
+    {
+      "id": 55935120887,
+      "name": "build-and-test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-20T14:27:31Z",
+      "completedAt": "2026-11-20T14:27:48Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19541876023/job/55935120887",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T14:27:31Z",
+          "completedAt": "2026-11-20T14:27:32Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T14:27:33Z",
+          "completedAt": "2026-11-20T14:27:34Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T14:27:35Z",
+          "completedAt": "2026-11-20T14:27:38Z"
+        },
+        {
+          "number": 4,
+          "name": "Install dependencies",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-20T14:27:39Z",
+          "completedAt": "2026-11-20T14:27:42Z"
+        },
+        {
+          "number": 5,
+          "name": "Lint",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 6,
+          "name": "Typecheck",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 7,
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 8,
+          "name": "Upload coverage",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 9,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 10,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T14:27:45Z",
+          "completedAt": "2026-11-20T14:27:46Z"
+        },
+        {
+          "number": 11,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T14:27:47Z",
+          "completedAt": "2026-11-20T14:27:48Z"
+        }
+      ]
+    },
+    {
+      "id": 55935120894,
+      "name": "dependency-review",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-20T14:27:30Z",
+      "completedAt": "2026-11-20T14:27:40Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19541876023/job/55935120894",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T14:27:30Z",
+          "completedAt": "2026-11-20T14:27:32Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T14:27:33Z",
+          "completedAt": "2026-11-20T14:27:34Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/dependency-review-action@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T14:27:35Z",
+          "completedAt": "2026-11-20T14:27:38Z"
+        },
+        {
+          "number": 4,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T14:27:39Z",
+          "completedAt": "2026-11-20T14:27:39Z"
+        },
+        {
+          "number": 5,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T14:27:40Z",
+          "completedAt": "2026-11-20T14:27:40Z"
+        }
+      ]
+    },
+    {
+      "id": 55935161209,
+      "name": "docker-build",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-20T14:27:49Z",
+      "completedAt": "2026-11-20T14:27:49Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19541876023/job/55935161209",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "package.json",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 1,
+      "patch": "@@ -19,7 +19,8 @@\n     \"@fastify/sensible\": \"^6.0.1\",\n     \"fastify\": \"^5.2.0\",\n     \"pino\": \"^9.5.0\",\n-    \"undici\": \"^7.2.0\"\n+    \"undici\": \"^7.2.0\",\n+    \"zod\": \"^3.24.1\"\n   },\n   \"devDependencies\": {\n     \"@eslint/js\": \"^9.17.0\",",
+      "previousPath": null
+    },
+    {
+      "path": "src/handlers/webhook.ts",
+      "status": "modified",
+      "additions": 9,
+      "deletions": 17,
+      "patch": "@@ -1,25 +1,17 @@\n import type { FastifyInstance } from \"fastify\";\n import { dispatch } from \"../channels/index.js\";\n+import { webhookBodySchema } from \"../schemas/webhook.js\";\n \n-interface WebhookBody {\n-  event: string;\n-  template: string;\n-  recipient: { email?: string; slackChannel?: string };\n-  data?: Record<string, unknown>;\n-}\n-\n export async function webhookRoutes(app: FastifyInstance): Promise<void> {\n-  app.post<{ Body: WebhookBody }>(\"/v1/webhooks/notify\", async (request, reply) => {\n-    const body = request.body;\n-    if (!body?.event || !body.template || (!body.recipient?.email && !body.recipient?.slackChannel)) {\n-      return reply.badRequest(\"event, template and a recipient are required\");\n+  app.post(\"/v1/webhooks/notify\", async (request, reply) => {\n+    const parsed = webhookBodySchema.safeParse(request.body);\n+    if (!parsed.success) {\n+      return reply.code(400).send({\n+        error: \"invalid_payload\",\n+        issues: parsed.error.issues.map((i) => ({ path: i.path.join(\".\"), message: i.message })),\n+      });\n     }\n-    const id = await dispatch({\n-      event: body.event,\n-      template: body.template,\n-      recipient: body.recipient,\n-      data: body.data ?? {},\n-    });\n+    const id = await dispatch(parsed.data);\n     return reply.code(202).send({ id });\n   });\n }",
+      "previousPath": null
+    },
+    {
+      "path": "src/schemas/webhook.ts",
+      "status": "added",
+      "additions": 22,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,22 @@\n+import { z } from \"zod\";\n+\n+const recipientSchema = z\n+  .object({\n+    email: z.string().email().optional(),\n+    slackChannel: z\n+      .string()\n+      .regex(/^#[a-z0-9_-]{1,80}$/)\n+      .optional(),\n+  })\n+  .refine((r) => r.email !== undefined || r.slackChannel !== undefined, {\n+    message: \"recipient needs an email or a slackChannel\",\n+  });\n+\n+export const webhookBodySchema = z.object({\n+  event: z.string().min(1).max(64),\n+  template: z.string().min(1),\n+  recipient: recipientSchema,\n+  data: z.record(z.unknown()).default({}),\n+});\n+\n+export type WebhookBody = z.infer<typeof webhookBodySchema>;",
+      "previousPath": null
+    },
+    {
+      "path": "test/webhook.test.ts",
+      "status": "modified",
+      "additions": 11,
+      "deletions": 0,
+      "patch": "@@ -25,5 +25,16 @@\n       payload: { event: \"invoice.paid\", template: \"receipt\", recipient: {} },\n     });\n     expect(res.statusCode).toBe(400);\n+    expect(res.json().error).toBe(\"invalid_payload\");\n   });\n+\n+  it(\"reports the offending field for a malformed email\", async () => {\n+    const res = await app.inject({\n+      method: \"POST\",\n+      url: \"/v1/webhooks/notify\",\n+      payload: { event: \"invoice.paid\", template: \"receipt\", recipient: { email: \"not-an-email\" } },\n+    });\n+    expect(res.statusCode).toBe(400);\n+    expect(res.json().issues).toContainEqual(expect.objectContaining({ path: \"recipient.email\" }));\n+  });\n });",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "build-and-test": [
+      {
+        "runId": 19529930417,
+        "attempt": 1,
+        "headSha": "71e0b3d9a5c2f48e6b1d07a3c9e5f2b84d6a0e17",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T17:03:22Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19529930417"
+      },
+      {
+        "runId": 19516204758,
+        "attempt": 1,
+        "headSha": "3fa8c06d1e9b27f4a5d03c8e6b19f2a7d40e5c31",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T09:48:10Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19516204758"
+      },
+      {
+        "runId": 19493377102,
+        "attempt": 1,
+        "headSha": "a9d21e7c5b3f08a46e1d9c2b7f0a3e58c6d4b192",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T13:15:39Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19493377102"
+      },
+      {
+        "runId": 19470558843,
+        "attempt": 1,
+        "headSha": "0e5b8f3a2d6c19e74b0a5d8c3f1e6b29a7d40c58",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "failure",
+        "createdAt": "2026-11-17T15:51:04Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19470558843"
+      },
+      {
+        "runId": 19468120591,
+        "attempt": 1,
+        "headSha": "6c3d0a9e4f2b71d58c6e0b3a9d5f1e7c2b4a8d06",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T12:22:47Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19468120591"
+      },
+      {
+        "runId": 19437611260,
+        "attempt": 1,
+        "headSha": "d18f4b2e7a0c95d3e6b1a8f04c7e2d9b5a3f6c10",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-14T16:39:58Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19437611260"
+      },
+      {
+        "runId": 19409873325,
+        "attempt": 1,
+        "headSha": "4b7e0d3a9c6f12e85d0b4a7c3e9f6d21b8a5c704",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-13T10:07:31Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19409873325"
+      },
+      {
+        "runId": 19388452096,
+        "attempt": 1,
+        "headSha": "92a6f1c8e3d07b4a5f2e9c1d6b0a8e37f4c5d2b9",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-12T14:44:16Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/notify-service/actions/runs/19388452096"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "dependency"
+    ],
+    "keywords": [
+      [
+        "lock",
+        "package-lock"
+      ],
+      [
+        "zod"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+
+dnf install -y docker
+systemctl enable --now docker
+
+aws ecr get-login-password --region ${region} \
+  | docker login --username AWS --password-stdin "${split("/", image)[0]}"
+
+docker run -d --restart=always --name reconcile \
+  -e QUEUE_URL="${queue_url}" \
+  -e AWS_REGION="${region}" \
+  -e WORKER_THREADS="$(nproc)" \
+  "${image}"

@@ -1,0 +1,94 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "k8s/**"
+      - "scripts/deploy.sh"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: us-east-1
+  EKS_CLUSTER: staging-eks
+  NAMESPACE: web
+
+jobs:
+  validate:
+    name: Validate manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install kubeconform
+        run: |
+          curl -fsSL https://github.com/yannh/kubeconform/releases/download/v0.7.0/kubeconform-linux-amd64.tar.gz \
+            | sudo tar xz -C /usr/local/bin kubeconform
+      - name: Validate
+        run: kubeconform -strict -summary -kubernetes-version 1.33.0 k8s/
+
+  deploy-staging:
+    name: Deploy to staging
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/gha-deploy-web-staging
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: v1.33.4
+
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --name "$EKS_CLUSTER" --region "$AWS_REGION"
+
+      - name: Apply manifests
+        run: ./scripts/deploy.sh apply
+
+      - name: Wait for rollout
+        run: kubectl rollout status deployment/web -n web --timeout=120s
+
+      - name: Diagnostics
+        if: always()
+        run: |
+          echo "::group::pods"
+          kubectl get pods -n web -l app.kubernetes.io/name=web -o wide
+          echo "::endgroup::"
+          echo "::group::describe pods not running"
+          for p in $(kubectl get pods -n web -l app.kubernetes.io/name=web --field-selector=status.phase!=Running -o name); do
+            kubectl describe -n web "$p"
+          done
+          echo "::endgroup::"
+          echo "::group::recent events"
+          kubectl get events -n web --sort-by=.lastTimestamp | tail -n 15
+          echo "::endgroup::"
+
+      - name: Record deployment
+        run: |
+          kubectl annotate deployment/web -n web --overwrite \
+            example.org/deployed-sha="$GITHUB_SHA" example.org/deployed-run="$GITHUB_RUN_ID"
+
+  smoke:
+    name: Smoke test staging
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smoke test
+        run: ./scripts/smoke.sh https://staging.web.example.com

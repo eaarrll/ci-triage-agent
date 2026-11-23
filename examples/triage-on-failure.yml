@@ -1,0 +1,28 @@
+# Recommended setup: a separate workflow that runs after your CI workflow completes.
+# Works for pull requests from forks too, because workflow_run executes in the base
+# repository's context (with its secrets) and this action never checks out PR code.
+name: CI triage
+
+on:
+  workflow_run:
+    workflows: [CI] # the name of the workflow(s) to watch
+    types: [completed]
+
+permissions:
+  actions: read # read runs, jobs and logs
+  contents: read # read files at the failing commit
+  pull-requests: write # post / update the triage comment
+
+jobs:
+  triage:
+    # Failures get triaged; successes mark an earlier triage comment as resolved.
+    if: contains(fromJSON('["failure", "timed_out", "success"]'), github.event.workflow_run.conclusion)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: eaarrll/ci-triage-agent@v1
+        with:
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # model: claude-haiku-5-5   # ~1¢ per triage instead of ~10–30¢
+          # extra-instructions: |
+          #   Integration tests use Testcontainers; Docker Hub pulls go through our mirror.

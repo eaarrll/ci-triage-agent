@@ -1,0 +1,464 @@
+2026-11-21T14:02:44.2091575Z Current runner version: '2.330.0'
+2026-11-21T14:02:44.2101534Z ##[group]Runner Image Provisioner
+2026-11-21T14:02:44.2102023Z Hosted Compute Agent
+2026-11-21T14:02:44.2102885Z Version: 20261104.502
+2026-11-21T14:02:44.2103728Z Commit: d881a35a5ed26f49739d886248d35f121eea067d
+2026-11-21T14:02:44.2104099Z Build Date: 2026-11-04T18:22:51Z
+2026-11-21T14:02:44.2104557Z Worker ID: {4b7b991a-5c7e-4aec-ab33-692eb041607e}
+2026-11-21T14:02:44.2105315Z Azure Region: westus
+2026-11-21T14:02:44.2105544Z ##[endgroup]
+2026-11-21T14:02:44.2105910Z ##[group]Operating System
+2026-11-21T14:02:44.2106521Z Ubuntu
+2026-11-21T14:02:44.2106887Z 24.04.3
+2026-11-21T14:02:44.2107034Z LTS
+2026-11-21T14:02:44.2107918Z ##[endgroup]
+2026-11-21T14:02:44.2108163Z ##[group]Runner Image
+2026-11-21T14:02:44.2108721Z Image: ubuntu-24.04
+2026-11-21T14:02:44.2109521Z Version: 20261116.38.1
+2026-11-21T14:02:44.2109627Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.38/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-21T14:02:44.2110126Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.38
+2026-11-21T14:02:44.2110393Z ##[endgroup]
+2026-11-21T14:02:44.2110947Z ##[group]GITHUB_TOKEN Permissions
+2026-11-21T14:02:44.2111426Z Contents: read
+2026-11-21T14:02:44.2111574Z Metadata: read
+2026-11-21T14:02:44.2112235Z ##[endgroup]
+2026-11-21T14:02:44.2113019Z Secret source: Actions
+2026-11-21T14:02:44.2113887Z Prepare workflow directory
+2026-11-21T14:02:44.2114530Z Prepare all required actions
+2026-11-21T14:02:44.2115120Z Getting action download info
+2026-11-21T14:02:44.6123835Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-21T14:02:44.6132022Z Download action repository 'actions/setup-go@v5' (SHA:d35c59abb061a4a6fb18e82ac0862c26744d6ab5)
+2026-11-21T14:02:44.6143054Z Complete job name: build
+2026-11-21T14:02:45.1495728Z ##[group]Run actions/checkout@v4
+2026-11-21T14:02:45.1496466Z with:
+2026-11-21T14:02:45.1496808Z   repository: example-org/inventory-svc
+2026-11-21T14:02:45.1497646Z   token: ***
+2026-11-21T14:02:45.1498535Z   ssh-strict: true
+2026-11-21T14:02:45.1499310Z   ssh-user: git
+2026-11-21T14:02:45.1499946Z   persist-credentials: true
+2026-11-21T14:02:45.1500120Z   clean: true
+2026-11-21T14:02:45.1500604Z   sparse-checkout-cone-mode: true
+2026-11-21T14:02:45.1500717Z   fetch-depth: 1
+2026-11-21T14:02:45.1500868Z   fetch-tags: false
+2026-11-21T14:02:45.1501579Z   show-progress: true
+2026-11-21T14:02:45.1501991Z   lfs: false
+2026-11-21T14:02:45.1502757Z   submodules: false
+2026-11-21T14:02:45.1503068Z   set-safe-directory: true
+2026-11-21T14:02:45.1503321Z ##[endgroup]
+2026-11-21T14:02:45.1524767Z Syncing repository: example-org/inventory-svc
+2026-11-21T14:02:45.1525783Z ##[group]Getting Git version info
+2026-11-21T14:02:45.1525952Z Working directory is '/home/runner/work/inventory-svc/inventory-svc'
+2026-11-21T14:02:45.1526201Z [command]/usr/bin/git version
+2026-11-21T14:02:45.1526802Z git version 2.51.2
+2026-11-21T14:02:45.1527538Z ##[endgroup]
+2026-11-21T14:02:45.1552206Z Temporarily overriding HOME='/home/runner/work/_temp/481a242f-d22b-4dde-a14b-62d4df623c3d' before making global git config changes
+2026-11-21T14:02:45.1575135Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T14:02:45.3196988Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/inventory-svc/inventory-svc
+2026-11-21T14:02:45.3197634Z Deleting the contents of '/home/runner/work/inventory-svc/inventory-svc'
+2026-11-21T14:02:45.3217001Z ##[group]Initializing the repository
+2026-11-21T14:02:45.3217800Z [command]/usr/bin/git init /home/runner/work/inventory-svc/inventory-svc
+2026-11-21T14:02:45.3218509Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-21T14:02:45.3218938Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-21T14:02:45.3219282Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-21T14:02:45.3219543Z hint:
+2026-11-21T14:02:45.3220025Z hint: 	git config --global init.defaultBranch <name>
+2026-11-21T14:02:45.3220792Z hint:
+2026-11-21T14:02:45.3221076Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-21T14:02:45.3221477Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-21T14:02:45.3221682Z hint:
+2026-11-21T14:02:45.3222244Z hint: 	git branch -m <name>
+2026-11-21T14:02:45.3222660Z Initialized empty Git repository in /home/runner/work/inventory-svc/inventory-svc/.git/
+2026-11-21T14:02:45.3222767Z [command]/usr/bin/git remote add origin https://github.com/example-org/inventory-svc
+2026-11-21T14:02:45.3223328Z ##[endgroup]
+2026-11-21T14:02:45.3224206Z ##[group]Disabling automatic garbage collection
+2026-11-21T14:02:45.3224589Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-21T14:02:45.3225022Z ##[endgroup]
+2026-11-21T14:02:45.3225741Z ##[group]Setting up auth
+2026-11-21T14:02:45.3226103Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T14:02:45.3226340Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T14:02:45.3227027Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T14:02:45.3227838Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-21T14:02:45.3228417Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-21T14:02:45.3229319Z ##[endgroup]
+2026-11-21T14:02:45.3229794Z ##[group]Fetching the repository
+2026-11-21T14:02:45.3229898Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +bdffe0dce5b6099ba2e049bb7de17f80d15c7d80:refs/remotes/pull/73/merge
+2026-11-21T14:02:45.9230377Z From https://github.com/example-org/inventory-svc
+2026-11-21T14:02:45.9231048Z  * [new ref]         bdffe0dce5b6099ba2e049bb7de17f80d15c7d80 -> pull/73/merge
+2026-11-21T14:02:45.9231133Z ##[endgroup]
+2026-11-21T14:02:45.9231829Z ##[group]Determining the checkout info
+2026-11-21T14:02:45.9232471Z ##[endgroup]
+2026-11-21T14:02:45.9232770Z [command]/usr/bin/git sparse-checkout disable
+2026-11-21T14:02:45.9233289Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-21T14:02:45.9234111Z ##[group]Checking out the ref
+2026-11-21T14:02:45.9234373Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/73/merge
+2026-11-21T14:02:45.9234966Z Note: switching to 'refs/remotes/pull/73/merge'.
+2026-11-21T14:02:45.9235427Z 
+2026-11-21T14:02:45.9235906Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-21T14:02:45.9236531Z changes and commit them, and you can discard any commits you make in this
+2026-11-21T14:02:45.9237410Z state without impacting any branches by switching back to a branch.
+2026-11-21T14:02:45.9237484Z 
+2026-11-21T14:02:45.9238208Z If you want to create a new branch to retain commits you create, you may
+2026-11-21T14:02:45.9238634Z do so (now or later) by using -c with the switch command. Example:
+2026-11-21T14:02:45.9239361Z 
+2026-11-21T14:02:45.9239967Z   git switch -c <new-branch-name>
+2026-11-21T14:02:45.9240752Z 
+2026-11-21T14:02:45.9241335Z Or undo this operation with:
+2026-11-21T14:02:45.9241985Z 
+2026-11-21T14:02:45.9242794Z   git switch -
+2026-11-21T14:02:45.9243276Z 
+2026-11-21T14:02:45.9244103Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-21T14:02:45.9244532Z 
+2026-11-21T14:02:45.9244644Z HEAD is now at bdffe0d Merge fbaa1a79f74547e5cdbfc602cfd7153a05e082e6 into 44a6409c9d147f9a8c51b860d8d56f30a630ca6b
+2026-11-21T14:02:45.9244881Z ##[endgroup]
+2026-11-21T14:02:45.9245159Z [command]/usr/bin/git log -1 --format=%H
+2026-11-21T14:02:45.9245807Z bdffe0dce5b6099ba2e049bb7de17f80d15c7d80
+2026-11-21T14:02:46.0597911Z ##[group]Run actions/setup-go@v5
+2026-11-21T14:02:46.0598837Z with:
+2026-11-21T14:02:46.0599163Z   go-version-file: go.mod
+2026-11-21T14:02:46.0599771Z   check-latest: false
+2026-11-21T14:02:46.0600214Z   token: ***
+2026-11-21T14:02:46.0600371Z   cache: true
+2026-11-21T14:02:46.0600729Z ##[endgroup]
+2026-11-21T14:02:46.0606601Z Setup go version spec 1.25.3
+2026-11-21T14:02:46.0608691Z Found in cache @ /opt/hostedtoolcache/go/1.25.3/x64
+2026-11-21T14:02:46.0630887Z Added go to the path
+2026-11-21T14:02:46.3698218Z Successfully set up Go version 1.25.3
+2026-11-21T14:02:46.3992531Z [command]/opt/hostedtoolcache/go/1.25.3/x64/bin/go env GOMODCACHE
+2026-11-21T14:02:46.4000531Z [command]/opt/hostedtoolcache/go/1.25.3/x64/bin/go env GOCACHE
+2026-11-21T14:02:46.4004620Z /home/runner/go/pkg/mod
+2026-11-21T14:02:46.4021717Z /home/runner/.cache/go-build
+2026-11-21T14:02:48.5037355Z ##[warning]Failed to restore: Cache service responded with 503
+2026-11-21T14:02:48.5058218Z Cache is not found
+2026-11-21T14:02:48.5069323Z ##[group]go env
+2026-11-21T14:02:48.5070131Z AR='ar'
+2026-11-21T14:02:48.5070732Z CC='gcc'
+2026-11-21T14:02:48.5071485Z CGO_CFLAGS='-O2 -g'
+2026-11-21T14:02:48.5072268Z CGO_CPPFLAGS=''
+2026-11-21T14:02:48.5072568Z CGO_CXXFLAGS='-O2 -g'
+2026-11-21T14:02:48.5072946Z CGO_ENABLED='1'
+2026-11-21T14:02:48.5073485Z CGO_FFLAGS='-O2 -g'
+2026-11-21T14:02:48.5074241Z CGO_LDFLAGS='-O2 -g'
+2026-11-21T14:02:48.5075094Z CXX='g++'
+2026-11-21T14:02:48.5075347Z GCCGO='gccgo'
+2026-11-21T14:02:48.5075931Z GO111MODULE=''
+2026-11-21T14:02:48.5076645Z GOAMD64='v1'
+2026-11-21T14:02:48.5077297Z GOARCH='amd64'
+2026-11-21T14:02:48.5077988Z GOAUTH='netrc'
+2026-11-21T14:02:48.5078312Z GOBIN=''
+2026-11-21T14:02:48.5079025Z GOCACHE='/home/runner/.cache/go-build'
+2026-11-21T14:02:48.5079777Z GOCACHEPROG=''
+2026-11-21T14:02:48.5080014Z GODEBUG=''
+2026-11-21T14:02:48.5080632Z GOENV='/home/runner/.config/go/env'
+2026-11-21T14:02:48.5081493Z GOEXE=''
+2026-11-21T14:02:48.5082182Z GOEXPERIMENT=''
+2026-11-21T14:02:48.5082926Z GOFIPS140='off'
+2026-11-21T14:02:48.5083436Z GOFLAGS=''
+2026-11-21T14:02:48.5084352Z GOGCCFLAGS='-fPIC -m64 -pthread -Wl,--no-gc-sections -fmessage-length=0 -ffile-prefix-map=/tmp/go-build46518=/tmp/go-build -gno-record-gcc-switches'
+2026-11-21T14:02:48.5084923Z GOHOSTARCH='amd64'
+2026-11-21T14:02:48.5085086Z GOHOSTOS='linux'
+2026-11-21T14:02:48.5085827Z GOINSECURE=''
+2026-11-21T14:02:48.5086663Z GOMOD='/home/runner/work/inventory-svc/inventory-svc/go.mod'
+2026-11-21T14:02:48.5086882Z GOMODCACHE='/home/runner/go/pkg/mod'
+2026-11-21T14:02:48.5087787Z GONOPROXY=''
+2026-11-21T14:02:48.5087979Z GONOSUMDB=''
+2026-11-21T14:02:48.5088596Z GOOS='linux'
+2026-11-21T14:02:48.5089166Z GOPATH='/home/runner/go'
+2026-11-21T14:02:48.5089983Z GOPRIVATE=''
+2026-11-21T14:02:48.5090554Z GOPROXY='https://proxy.golang.org,direct'
+2026-11-21T14:02:48.5091131Z GOROOT='/opt/hostedtoolcache/go/1.25.3/x64'
+2026-11-21T14:02:48.5091301Z GOSUMDB='sum.golang.org'
+2026-11-21T14:02:48.5092115Z GOTELEMETRY='local'
+2026-11-21T14:02:48.5092481Z GOTELEMETRYDIR='/home/runner/.config/go/telemetry'
+2026-11-21T14:02:48.5093004Z GOTMPDIR=''
+2026-11-21T14:02:48.5093879Z GOTOOLCHAIN='auto'
+2026-11-21T14:02:48.5094664Z GOTOOLDIR='/opt/hostedtoolcache/go/1.25.3/x64/pkg/tool/linux_amd64'
+2026-11-21T14:02:48.5095239Z GOVCS=''
+2026-11-21T14:02:48.5095693Z GOVERSION='go1.25.3'
+2026-11-21T14:02:48.5096243Z GOWORK=''
+2026-11-21T14:02:48.5096885Z PKG_CONFIG='pkg-config'
+2026-11-21T14:02:48.5097066Z ##[endgroup]
+2026-11-21T14:02:49.2021276Z ##[group]Run go mod download
+2026-11-21T14:02:49.2021936Z go mod download
+2026-11-21T14:02:49.2022698Z go mod verify
+2026-11-21T14:02:49.2023306Z shell: /usr/bin/bash -e {0}
+2026-11-21T14:02:49.2023515Z ##[endgroup]
+2026-11-21T14:02:57.9028306Z all modules verified
+2026-11-21T14:02:58.1239227Z ##[group]Run go build -v ./...
+2026-11-21T14:02:58.1240015Z go build -v ./...
+2026-11-21T14:02:58.1240637Z shell: /usr/bin/bash -e {0}
+2026-11-21T14:02:58.1241207Z ##[endgroup]
+2026-11-21T14:02:59.3244346Z internal/goarch
+2026-11-21T14:02:59.3245222Z internal/unsafeheader
+2026-11-21T14:02:59.3245839Z internal/abi
+2026-11-21T14:02:59.3246421Z internal/cpu
+2026-11-21T14:02:59.3247269Z internal/bytealg
+2026-11-21T14:02:59.3247757Z internal/byteorder
+2026-11-21T14:02:59.3248171Z internal/chacha8rand
+2026-11-21T14:02:59.3248510Z internal/coverage/rtcov
+2026-11-21T14:02:59.3248650Z internal/godebugs
+2026-11-21T14:02:59.7157910Z internal/goexperiment
+2026-11-21T14:02:59.7158386Z internal/goos
+2026-11-21T14:02:59.7158566Z internal/profilerecord
+2026-11-21T14:02:59.7158643Z internal/runtime/atomic
+2026-11-21T14:02:59.7158982Z internal/asan
+2026-11-21T14:02:59.7159052Z internal/msan
+2026-11-21T14:02:59.7159180Z internal/race
+2026-11-21T14:02:59.7159617Z internal/runtime/math
+2026-11-21T14:02:59.7159852Z internal/runtime/strconv
+2026-11-21T14:03:00.4669289Z internal/runtime/syscall/linux
+2026-11-21T14:03:00.4669684Z internal/runtime/exithook
+2026-11-21T14:03:00.4669815Z internal/stringslite
+2026-11-21T14:03:00.4669976Z internal/runtime/sys
+2026-11-21T14:03:00.4670243Z internal/runtime/gc
+2026-11-21T14:03:00.4670361Z internal/runtime/cgroup
+2026-11-21T14:03:00.4671308Z internal/trace/tracev2
+2026-11-21T14:03:00.4671872Z internal/runtime/maps
+2026-11-21T14:03:00.4672542Z internal/synctest
+2026-11-21T14:03:01.6191983Z sync/atomic
+2026-11-21T14:03:01.6192590Z math/bits
+2026-11-21T14:03:01.6193037Z unicode/utf8
+2026-11-21T14:03:01.6193356Z internal/itoa
+2026-11-21T14:03:01.6193523Z math
+2026-11-21T14:03:01.6194422Z runtime
+2026-11-21T14:03:01.6195182Z internal/sync
+2026-11-21T14:03:01.6195333Z iter
+2026-11-21T14:03:01.6195851Z weak
+2026-11-21T14:03:03.1710236Z sync
+2026-11-21T14:03:03.1710928Z internal/reflectlite
+2026-11-21T14:03:03.1711609Z errors
+2026-11-21T14:03:03.1712160Z cmp
+2026-11-21T14:03:03.1712453Z slices
+2026-11-21T14:03:03.1713217Z internal/bisect
+2026-11-21T14:03:03.1713393Z internal/testlog
+2026-11-21T14:03:03.1713989Z internal/godebug
+2026-11-21T14:03:03.1714873Z strconv
+2026-11-21T14:03:03.5235870Z unicode
+2026-11-21T14:03:03.5236821Z internal/oserror
+2026-11-21T14:03:03.5237661Z syscall
+2026-11-21T14:03:03.5238318Z internal/syscall/unix
+2026-11-21T14:03:03.5238412Z time
+2026-11-21T14:03:03.5239076Z internal/poll
+2026-11-21T14:03:03.5239424Z io
+2026-11-21T14:03:03.5240155Z internal/fmtsort
+2026-11-21T14:03:03.5240766Z io/fs
+2026-11-21T14:03:04.2752176Z internal/filepathlite
+2026-11-21T14:03:04.2752937Z internal/syscall/execenv
+2026-11-21T14:03:04.2753377Z os
+2026-11-21T14:03:04.2753791Z reflect
+2026-11-21T14:03:04.2754225Z sort
+2026-11-21T14:03:04.2754287Z fmt
+2026-11-21T14:03:04.2754457Z bytes
+2026-11-21T14:03:04.2754559Z strings
+2026-11-21T14:03:04.2755084Z unicode/utf16
+2026-11-21T14:03:05.4275536Z encoding
+2026-11-21T14:03:05.4276098Z encoding/binary
+2026-11-21T14:03:05.4276618Z encoding/base64
+2026-11-21T14:03:05.4277371Z bufio
+2026-11-21T14:03:05.4277568Z context
+2026-11-21T14:03:05.4278221Z path
+2026-11-21T14:03:05.4278473Z encoding/json
+2026-11-21T14:03:05.4278792Z path/filepath
+2026-11-21T14:03:05.4279316Z log/internal
+2026-11-21T14:03:06.9804536Z log
+2026-11-21T14:03:06.9805142Z log/slog/internal
+2026-11-21T14:03:06.9805643Z log/slog/internal/buffer
+2026-11-21T14:03:06.9806088Z log/slog
+2026-11-21T14:03:06.9806336Z flag
+2026-11-21T14:03:06.9806705Z os/signal
+2026-11-21T14:03:06.9806797Z embed
+2026-11-21T14:03:06.9806940Z encoding/hex
+2026-11-21T14:03:06.9807417Z hash
+2026-11-21T14:03:07.3326085Z hash/crc32
+2026-11-21T14:03:07.3326290Z hash/fnv
+2026-11-21T14:03:07.3326614Z math/rand
+2026-11-21T14:03:07.3327036Z math/rand/v2
+2026-11-21T14:03:07.3327251Z crypto/internal/fips140deps/byteorder
+2026-11-21T14:03:07.3328070Z crypto/internal/fips140deps/cpu
+2026-11-21T14:03:07.3328573Z crypto/internal/impl
+2026-11-21T14:03:07.3329106Z crypto/internal/fips140/alias
+2026-11-21T14:03:07.3329551Z crypto/internal/fips140/subtle
+2026-11-21T14:03:08.0845057Z crypto/internal/fips140deps/godebug
+2026-11-21T14:03:08.0845695Z crypto/internal/fips140
+2026-11-21T14:03:08.0846404Z crypto/internal/fips140/sha256
+2026-11-21T14:03:08.0846947Z crypto/internal/fips140/sha512
+2026-11-21T14:03:08.0847141Z crypto/internal/fips140/sha3
+2026-11-21T14:03:08.0847369Z crypto/internal/fips140/hmac
+2026-11-21T14:03:08.0848208Z crypto/internal/fips140/check
+2026-11-21T14:03:08.0848425Z crypto/internal/randutil
+2026-11-21T14:03:08.0849189Z crypto/internal/entropy
+2026-11-21T14:03:09.2351575Z crypto/internal/sysrand
+2026-11-21T14:03:09.2351959Z crypto/internal/fips140/drbg
+2026-11-21T14:03:09.2352716Z crypto/internal/fips140/aes
+2026-11-21T14:03:09.2353333Z crypto/internal/fips140/aes/gcm
+2026-11-21T14:03:09.2353598Z crypto/internal/fips140/bigmod
+2026-11-21T14:03:09.2354411Z crypto/internal/fips140/edwards25519/field
+2026-11-21T14:03:09.2354708Z crypto/internal/fips140/edwards25519
+2026-11-21T14:03:09.2355105Z crypto/internal/fips140/nistec/fiat
+2026-11-21T14:03:09.2355338Z crypto/internal/fips140/nistec
+2026-11-21T14:03:10.7867968Z crypto/internal/fips140/ecdh
+2026-11-21T14:03:10.7868513Z crypto/internal/fips140/ecdsa
+2026-11-21T14:03:10.7868640Z crypto/internal/fips140/ed25519
+2026-11-21T14:03:10.7868858Z crypto/internal/fips140/rsa
+2026-11-21T14:03:10.7869759Z crypto/internal/fips140/tls12
+2026-11-21T14:03:10.7870439Z crypto/internal/fips140/tls13
+2026-11-21T14:03:10.7870677Z crypto/internal/fips140/mlkem
+2026-11-21T14:03:10.7871034Z crypto/internal/fips140only
+2026-11-21T14:03:10.7871271Z crypto/internal/boring/sig
+2026-11-21T14:03:11.1378253Z crypto/internal/boring
+2026-11-21T14:03:11.1379127Z crypto/subtle
+2026-11-21T14:03:11.1379911Z crypto
+2026-11-21T14:03:11.1380787Z crypto/cipher
+2026-11-21T14:03:11.1381585Z crypto/internal/hpke
+2026-11-21T14:03:11.1381675Z crypto/aes
+2026-11-21T14:03:11.1381772Z crypto/des
+2026-11-21T14:03:11.1382183Z crypto/rc4
+2026-11-21T14:03:11.1382924Z crypto/hmac
+2026-11-21T14:03:11.9314051Z crypto/md5
+2026-11-21T14:03:11.9314221Z crypto/sha1
+2026-11-21T14:03:11.9314953Z crypto/sha256
+2026-11-21T14:03:11.9315067Z crypto/sha512
+2026-11-21T14:03:11.9315260Z crypto/sha3
+2026-11-21T14:03:11.9315832Z crypto/hkdf
+2026-11-21T14:03:11.9316426Z crypto/pbkdf2
+2026-11-21T14:03:11.9316643Z crypto/rand
+2026-11-21T14:03:11.9317567Z math/big
+2026-11-21T14:03:13.1398920Z crypto/internal/boring/bbig
+2026-11-21T14:03:13.1399247Z crypto/elliptic
+2026-11-21T14:03:13.1399570Z crypto/ecdh
+2026-11-21T14:03:13.1400506Z crypto/ecdsa
+2026-11-21T14:03:13.1401252Z crypto/ed25519
+2026-11-21T14:03:13.1401474Z crypto/rsa
+2026-11-21T14:03:13.1401747Z crypto/mlkem
+2026-11-21T14:03:13.1402218Z encoding/asn1
+2026-11-21T14:03:13.1402991Z vendor/golang.org/x/crypto/cryptobyte/asn1
+2026-11-21T14:03:14.6917432Z vendor/golang.org/x/crypto/cryptobyte
+2026-11-21T14:03:14.6917973Z crypto/dsa
+2026-11-21T14:03:14.6918460Z encoding/pem
+2026-11-21T14:03:14.6918730Z net/netip
+2026-11-21T14:03:14.6919193Z internal/nettrace
+2026-11-21T14:03:14.6919873Z internal/singleflight
+2026-11-21T14:03:14.6920424Z vendor/golang.org/x/net/dns/dnsmessage
+2026-11-21T14:03:14.6921025Z runtime/cgo
+2026-11-21T14:03:14.6921128Z net
+2026-11-21T14:03:15.0680605Z net/url
+2026-11-21T14:03:15.0681437Z crypto/x509/pkix
+2026-11-21T14:03:15.0681834Z crypto/x509
+2026-11-21T14:03:15.0682721Z vendor/golang.org/x/crypto/chacha20
+2026-11-21T14:03:15.0683262Z vendor/golang.org/x/crypto/internal/poly1305
+2026-11-21T14:03:15.0683409Z vendor/golang.org/x/crypto/chacha20poly1305
+2026-11-21T14:03:15.0684089Z crypto/tls/internal/fips140tls
+2026-11-21T14:03:15.0684251Z crypto/tls
+2026-11-21T14:03:15.0685205Z container/list
+2026-11-21T14:03:15.8193960Z compress/flate
+2026-11-21T14:03:15.8194541Z compress/gzip
+2026-11-21T14:03:15.8195096Z mime
+2026-11-21T14:03:15.8195671Z mime/quotedprintable
+2026-11-21T14:03:15.8196035Z net/textproto
+2026-11-21T14:03:15.8196804Z mime/multipart
+2026-11-21T14:03:15.8197200Z net/http/httptrace
+2026-11-21T14:03:15.8198080Z net/http/internal
+2026-11-21T14:03:15.8198321Z net/http/internal/ascii
+2026-11-21T14:03:16.9714605Z net/http/internal/httpcommon
+2026-11-21T14:03:16.9715379Z vendor/golang.org/x/text/transform
+2026-11-21T14:03:16.9716308Z vendor/golang.org/x/text/unicode/bidi
+2026-11-21T14:03:16.9716528Z vendor/golang.org/x/text/secure/bidirule
+2026-11-21T14:03:16.9717072Z vendor/golang.org/x/text/unicode/norm
+2026-11-21T14:03:16.9717828Z vendor/golang.org/x/net/idna
+2026-11-21T14:03:16.9718647Z vendor/golang.org/x/net/http/httpguts
+2026-11-21T14:03:16.9719181Z vendor/golang.org/x/net/http/httpproxy
+2026-11-21T14:03:16.9719848Z vendor/golang.org/x/net/http2/hpack
+2026-11-21T14:03:18.5224878Z net/http
+2026-11-21T14:03:18.5225173Z text/tabwriter
+2026-11-21T14:03:18.5225869Z html
+2026-11-21T14:03:18.5226509Z text/template/parse
+2026-11-21T14:03:18.5226706Z text/template
+2026-11-21T14:03:18.5227186Z html/template
+2026-11-21T14:03:18.5227500Z runtime/debug
+2026-11-21T14:03:18.5227766Z regexp/syntax
+2026-11-21T14:03:18.5228337Z regexp
+2026-11-21T14:03:18.8733002Z encoding/csv
+2026-11-21T14:03:18.8733589Z gopkg.in/yaml.v3
+2026-11-21T14:03:18.8734076Z github.com/example-org/inventory-svc/internal/config
+2026-11-21T14:03:18.8734247Z github.com/jackc/pgpassfile
+2026-11-21T14:03:18.8734543Z github.com/jackc/pgservicefile
+2026-11-21T14:03:18.8735100Z golang.org/x/text/transform
+2026-11-21T14:03:18.8735774Z golang.org/x/text/cases
+2026-11-21T14:03:18.8736659Z golang.org/x/crypto/pbkdf2
+2026-11-21T14:03:18.8737412Z github.com/jackc/pgx/v5/internal/iobufpool
+2026-11-21T14:03:19.6245334Z github.com/jackc/pgx/v5/internal/pgio
+2026-11-21T14:03:19.6246054Z github.com/jackc/pgx/v5/pgproto3
+2026-11-21T14:03:19.6246882Z github.com/jackc/pgx/v5/internal/sanitize
+2026-11-21T14:03:19.6247586Z github.com/jackc/pgx/v5/internal/stmtcache
+2026-11-21T14:03:19.6248411Z github.com/jackc/pgx/v5/pgconn/ctxwatch
+2026-11-21T14:03:19.6248630Z github.com/jackc/pgx/v5/pgconn/internal/bgreader
+2026-11-21T14:03:19.6248765Z github.com/jackc/pgx/v5/pgconn
+2026-11-21T14:03:19.6249056Z github.com/jackc/pgx/v5/pgtype
+2026-11-21T14:03:19.6249459Z github.com/jackc/pgx/v5
+2026-11-21T14:03:20.8071080Z golang.org/x/sync/semaphore
+2026-11-21T14:03:20.8071427Z github.com/jackc/puddle/v2/internal/genstack
+2026-11-21T14:03:20.8071851Z github.com/jackc/puddle/v2
+2026-11-21T14:03:20.8072628Z github.com/jackc/pgx/v5/pgxpool
+2026-11-21T14:03:20.8072797Z github.com/example-org/inventory-svc/internal/inventory
+2026-11-21T14:03:20.8073690Z github.com/example-org/inventory-svc/internal/migrations
+2026-11-21T14:03:20.8074463Z github.com/go-chi/chi/v5
+2026-11-21T14:03:20.8075035Z github.com/go-chi/chi/v5/middleware
+2026-11-21T14:03:20.8075718Z github.com/beorn7/perks/quantile
+2026-11-21T14:03:22.3704090Z github.com/cespare/xxhash/v2
+2026-11-21T14:03:22.3704833Z google.golang.org/protobuf/internal/detrand
+2026-11-21T14:03:22.3705007Z google.golang.org/protobuf/internal/errors
+2026-11-21T14:03:22.3705766Z google.golang.org/protobuf/encoding/protowire
+2026-11-21T14:03:22.3706418Z google.golang.org/protobuf/internal/pragma
+2026-11-21T14:03:22.3706869Z google.golang.org/protobuf/reflect/protoreflect
+2026-11-21T14:03:22.3707571Z google.golang.org/protobuf/internal/encoding/messageset
+2026-11-21T14:03:22.3708379Z google.golang.org/protobuf/internal/flags
+2026-11-21T14:03:22.3709139Z google.golang.org/protobuf/internal/genid
+2026-11-21T14:03:22.7218364Z google.golang.org/protobuf/internal/order
+2026-11-21T14:03:22.7218589Z google.golang.org/protobuf/internal/strs
+2026-11-21T14:03:22.7219396Z google.golang.org/protobuf/reflect/protoregistry
+2026-11-21T14:03:22.7219797Z google.golang.org/protobuf/runtime/protoiface
+2026-11-21T14:03:22.7220092Z google.golang.org/protobuf/proto
+2026-11-21T14:03:22.7220719Z google.golang.org/protobuf/internal/encoding/text
+2026-11-21T14:03:22.7220976Z google.golang.org/protobuf/internal/encoding/defval
+2026-11-21T14:03:22.7221399Z google.golang.org/protobuf/internal/descfmt
+2026-11-21T14:03:22.7221550Z google.golang.org/protobuf/internal/descopts
+2026-11-21T14:03:23.4743760Z google.golang.org/protobuf/internal/editiondefaults
+2026-11-21T14:03:23.4744051Z google.golang.org/protobuf/internal/filedesc
+2026-11-21T14:03:23.4744281Z google.golang.org/protobuf/encoding/prototext
+2026-11-21T14:03:23.4744785Z google.golang.org/protobuf/internal/protolazy
+2026-11-21T14:03:23.4745441Z google.golang.org/protobuf/internal/impl
+2026-11-21T14:03:23.4746156Z google.golang.org/protobuf/internal/filetype
+2026-11-21T14:03:23.4747080Z google.golang.org/protobuf/internal/version
+2026-11-21T14:03:23.4747696Z google.golang.org/protobuf/runtime/protoimpl
+2026-11-21T14:03:23.4748460Z google.golang.org/protobuf/types/known/timestamppb
+2026-11-21T14:03:24.6261106Z github.com/prometheus/client_model/go
+2026-11-21T14:03:24.6261312Z github.com/munnerz/goautoneg
+2026-11-21T14:03:24.6261667Z github.com/prometheus/common/model
+2026-11-21T14:03:24.6261929Z google.golang.org/protobuf/encoding/protodelim
+2026-11-21T14:03:24.6262184Z github.com/prometheus/common/expfmt
+2026-11-21T14:03:24.6262562Z github.com/prometheus/procfs/internal/fs
+2026-11-21T14:03:24.6263091Z github.com/prometheus/procfs/internal/util
+2026-11-21T14:03:24.6263555Z github.com/prometheus/procfs
+2026-11-21T14:03:24.6263797Z github.com/prometheus/client_golang/internal/github.com/golang/gddo/httputil/header
+2026-11-21T14:03:26.3486644Z github.com/prometheus/client_golang/internal/github.com/golang/gddo/httputil
+2026-11-21T14:03:26.3486777Z github.com/prometheus/client_golang/prometheus/internal
+2026-11-21T14:03:26.3486914Z github.com/prometheus/client_golang/prometheus
+2026-11-21T14:03:26.3487154Z github.com/prometheus/client_golang/prometheus/promhttp
+2026-11-21T14:03:26.3488014Z github.com/example-org/inventory-svc/internal/httpapi
+2026-11-21T14:03:26.3488435Z github.com/example-org/inventory-svc/cmd/migrate
+2026-11-21T14:03:26.3489102Z github.com/example-org/inventory-svc/cmd/server
+2026-11-21T14:03:26.6998473Z # github.com/example-org/inventory-svc/cmd/server
+2026-11-21T14:03:27.0075692Z cmd/server/main.go:26:21: undefined: config.ParseConfig
+2026-11-21T14:03:27.0340688Z ##[error]Process completed with exit code 1.
+2026-11-21T14:03:28.0866150Z Post job cleanup.
+2026-11-21T14:03:28.0875524Z [command]/usr/bin/git version
+2026-11-21T14:03:28.0889294Z git version 2.51.2
+2026-11-21T14:03:28.1308911Z Temporarily overriding HOME='/home/runner/work/_temp/da47106a-f8b6-44ab-a47a-5f30dd6df880' before making global git config changes
+2026-11-21T14:03:28.3834590Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T14:03:28.3852781Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/inventory-svc/inventory-svc
+2026-11-21T14:03:28.3856790Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T14:03:28.3870920Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T14:03:28.3879746Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T14:03:28.3886219Z http.https://github.com/.extraheader
+2026-11-21T14:03:28.3900944Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-21T14:03:28.4423284Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-21T14:03:29.2138966Z Cleaning up orphan processes

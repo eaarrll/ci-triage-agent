@@ -1,0 +1,419 @@
+2026-11-18T16:44:06.2201522Z Current runner version: '2.330.0'
+2026-11-18T16:44:06.2209292Z Runner name: 'GitHub Actions 7'
+2026-11-18T16:44:06.2225085Z Runner group name: 'GitHub Actions'
+2026-11-18T16:44:06.2238250Z Machine name: 'fv-az1126-547'
+2026-11-18T16:44:06.2246096Z ##[group]Runner Image Provisioner
+2026-11-18T16:44:06.2261191Z Hosted Compute Agent
+2026-11-18T16:44:06.2264250Z Version: 20261103.418
+2026-11-18T16:44:06.2275522Z Commit: d896ec817cded6a40dc4fba1d7cc7119fb6aff62
+2026-11-18T16:44:06.2293760Z Build Date: 2026-11-03T21:14:52Z
+2026-11-18T16:44:06.2308210Z Worker ID: {a0511c1e-a92c-441f-96c1-ca490397e118}
+2026-11-18T16:44:06.2323861Z Azure Region: northeurope
+2026-11-18T16:44:06.2339471Z ##[endgroup]
+2026-11-18T16:44:06.2354687Z ##[group]Operating System
+2026-11-18T16:44:06.2360839Z Ubuntu
+2026-11-18T16:44:06.2368143Z 24.04.3
+2026-11-18T16:44:06.2385331Z LTS
+2026-11-18T16:44:06.2392090Z ##[endgroup]
+2026-11-18T16:44:06.2396005Z ##[group]Runner Image
+2026-11-18T16:44:06.2400060Z Image: ubuntu-24.04
+2026-11-18T16:44:06.2400954Z Version: 20261109.51.1
+2026-11-18T16:44:06.2407992Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261109.51/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-18T16:44:06.2418632Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261109.51
+2026-11-18T16:44:06.2419100Z ##[endgroup]
+2026-11-18T16:44:06.2425757Z ##[group]GITHUB_TOKEN Permissions
+2026-11-18T16:44:06.2437690Z Contents: read
+2026-11-18T16:44:06.2445487Z IdToken: write
+2026-11-18T16:44:06.2450995Z Metadata: read
+2026-11-18T16:44:06.2453955Z ##[endgroup]
+2026-11-18T16:44:06.2464092Z Secret source: Actions
+2026-11-18T16:44:06.2466637Z Prepare workflow directory
+2026-11-18T16:44:06.2468720Z Prepare all required actions
+2026-11-18T16:44:06.2483831Z Getting action download info
+2026-11-18T16:44:06.6286980Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-18T16:44:06.8388238Z Download action repository 'aws-actions/configure-aws-credentials@v4' (SHA:7474bc4690e29a8392af63c5b98e7449536d5c3a)
+2026-11-18T16:44:07.0491035Z Download action repository 'hashicorp/setup-terraform@v3' (SHA:b9cd54a3c349d3f38e8881555d616ced269862dd)
+2026-11-18T16:44:07.2592221Z Complete job name: Terraform apply
+2026-11-18T16:44:09.1780097Z ##[group]Run actions/checkout@v4
+2026-11-18T16:44:09.1791035Z with:
+2026-11-18T16:44:09.1808070Z   repository: example-org/orders-platform
+2026-11-18T16:44:09.1824494Z   token: ***
+2026-11-18T16:44:09.1828342Z   ssh-strict: true
+2026-11-18T16:44:09.1834567Z   ssh-user: git
+2026-11-18T16:44:09.1844844Z   persist-credentials: true
+2026-11-18T16:44:09.1857838Z   clean: true
+2026-11-18T16:44:09.1862333Z   sparse-checkout-cone-mode: true
+2026-11-18T16:44:09.1869701Z   fetch-depth: 1
+2026-11-18T16:44:09.1879373Z   fetch-tags: false
+2026-11-18T16:44:09.1879971Z   show-progress: true
+2026-11-18T16:44:09.1885968Z   lfs: false
+2026-11-18T16:44:09.1901916Z   submodules: false
+2026-11-18T16:44:09.1906704Z   set-safe-directory: true
+2026-11-18T16:44:09.1924653Z env:
+2026-11-18T16:44:09.1927268Z   AWS_REGION: eu-west-1
+2026-11-18T16:44:09.1937930Z   ECR_REPOSITORY: orders-api
+2026-11-18T16:44:09.1941292Z   DEPLOY_ROLE_ARN: arn:aws:iam::123456789012:role/gha-deploy
+2026-11-18T16:44:09.1956943Z ##[endgroup]
+2026-11-18T16:44:09.1966069Z Syncing repository: example-org/orders-platform
+2026-11-18T16:44:09.1969527Z ##[group]Getting Git version info
+2026-11-18T16:44:09.1971794Z Working directory is '/home/runner/work/orders-platform/orders-platform'
+2026-11-18T16:44:09.1990001Z [command]/usr/bin/git version
+2026-11-18T16:44:09.2007528Z git version 2.51.2
+2026-11-18T16:44:09.2019126Z ##[endgroup]
+2026-11-18T16:44:09.2027616Z Temporarily overriding HOME='/home/runner/work/_temp/b0610360-072f-4da2-b8e9-8fb6d24f9994' before making global git config changes
+2026-11-18T16:44:09.2036758Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-18T16:44:09.2054144Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/orders-platform/orders-platform
+2026-11-18T16:44:09.2056317Z Deleting the contents of '/home/runner/work/orders-platform/orders-platform'
+2026-11-18T16:44:09.2073340Z ##[group]Initializing the repository
+2026-11-18T16:44:09.2076382Z [command]/usr/bin/git init /home/runner/work/orders-platform/orders-platform
+2026-11-18T16:44:09.2083384Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-18T16:44:09.2097488Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-18T16:44:09.2098564Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-18T16:44:09.2115341Z hint:
+2026-11-18T16:44:09.2132364Z hint: 	git config --global init.defaultBranch <name>
+2026-11-18T16:44:09.2133527Z hint:
+2026-11-18T16:44:09.2144049Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-18T16:44:09.2160750Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-18T16:44:09.2171443Z hint:
+2026-11-18T16:44:09.2177485Z hint: 	git branch -m <name>
+2026-11-18T16:44:09.2188460Z hint:
+2026-11-18T16:44:09.2201559Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-18T16:44:09.2216921Z Initialized empty Git repository in /home/runner/work/orders-platform/orders-platform/.git/
+2026-11-18T16:44:09.2218919Z [command]/usr/bin/git remote add origin https://github.com/example-org/orders-platform
+2026-11-18T16:44:09.2219326Z ##[endgroup]
+2026-11-18T16:44:09.2228992Z ##[group]Disabling automatic garbage collection
+2026-11-18T16:44:09.2245432Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-18T16:44:09.2248551Z ##[endgroup]
+2026-11-18T16:44:09.2257267Z ##[group]Setting up auth
+2026-11-18T16:44:09.2263574Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-18T16:44:09.2276999Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-18T16:44:09.2281718Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-18T16:44:09.2285861Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-18T16:44:09.2291887Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-18T16:44:09.2304080Z ##[endgroup]
+2026-11-18T16:44:09.2308002Z ##[group]Fetching the repository
+2026-11-18T16:44:09.2312956Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +5a8e2c7f19d04b3e6a1c9f8d2b7e0a4c3f6d1e92:refs/remotes/origin/main
+2026-11-18T16:44:09.6530151Z remote: Enumerating objects: 96, done.        
+2026-11-18T16:44:09.6532318Z remote: Counting objects:   1% (1/96)        
+2026-11-18T16:44:09.6545255Z remote: Counting objects:   6% (6/96)        
+2026-11-18T16:44:09.6560538Z remote: Counting objects:  17% (17/96)        
+2026-11-18T16:44:09.6571521Z remote: Counting objects:  25% (24/96)        
+2026-11-18T16:44:09.6579085Z remote: Counting objects:  34% (33/96)        
+2026-11-18T16:44:09.6597164Z remote: Counting objects:  43% (42/96)        
+2026-11-18T16:44:09.6599717Z remote: Counting objects:  50% (48/96)        
+2026-11-18T16:44:09.6613937Z remote: Counting objects:  52% (50/96)        
+2026-11-18T16:44:09.6614275Z remote: Counting objects:  63% (61/96)        
+2026-11-18T16:44:09.6618329Z remote: Counting objects:  77% (74/96)        
+2026-11-18T16:44:09.6630696Z remote: Counting objects:  91% (88/96)        
+2026-11-18T16:44:09.6631179Z remote: Counting objects:  94% (91/96)        
+2026-11-18T16:44:09.6638182Z remote: Counting objects: 100% (96/96), done.        
+2026-11-18T16:44:09.6643725Z remote: Compressing objects:   1% (1/81)        
+2026-11-18T16:44:09.6661019Z remote: Compressing objects:   9% (8/81)        
+2026-11-18T16:44:09.6663709Z remote: Compressing objects:  14% (12/81)        
+2026-11-18T16:44:09.6671684Z remote: Compressing objects:  27% (22/81)        
+2026-11-18T16:44:09.6680298Z remote: Compressing objects:  30% (25/81)        
+2026-11-18T16:44:09.6680735Z remote: Compressing objects:  34% (28/81)        
+2026-11-18T16:44:09.6691703Z remote: Compressing objects:  37% (30/81)        
+2026-11-18T16:44:09.6698301Z remote: Compressing objects:  41% (34/81)        
+2026-11-18T16:44:09.6713302Z remote: Compressing objects:  51% (42/81)        
+2026-11-18T16:44:09.6718509Z remote: Compressing objects:  58% (47/81)        
+2026-11-18T16:44:09.6734597Z remote: Compressing objects:  69% (56/81)        
+2026-11-18T16:44:09.6736108Z remote: Compressing objects:  77% (63/81)        
+2026-11-18T16:44:09.6746878Z remote: Compressing objects:  92% (75/81)        
+2026-11-18T16:44:09.6760066Z remote: Compressing objects:  95% (77/81)        
+2026-11-18T16:44:09.6765319Z remote: Compressing objects: 100% (81/81), done.        
+2026-11-18T16:44:09.6779821Z remote: Total 96 (delta 4), reused 39 (delta 1), pack-reused 0 (from 0)        
+2026-11-18T16:44:09.6797234Z Receiving objects:   1% (1/96)
+2026-11-18T16:44:09.6799762Z Receiving objects:  11% (11/96)
+2026-11-18T16:44:09.6809265Z Receiving objects:  17% (17/96)
+2026-11-18T16:44:09.6815782Z Receiving objects:  20% (20/96)
+2026-11-18T16:44:09.6827671Z Receiving objects:  25% (24/96)
+2026-11-18T16:44:09.6831401Z Receiving objects:  28% (27/96)
+2026-11-18T16:44:09.6831935Z Receiving objects:  35% (34/96)
+2026-11-18T16:44:09.6836914Z Receiving objects:  44% (43/96)
+2026-11-18T16:44:09.6847581Z Receiving objects:  57% (55/96)
+2026-11-18T16:44:09.6857860Z Receiving objects:  64% (62/96)
+2026-11-18T16:44:09.6873066Z Receiving objects:  66% (64/96)
+2026-11-18T16:44:09.6887128Z Receiving objects:  70% (68/96)
+2026-11-18T16:44:09.6892396Z Receiving objects:  72% (70/96)
+2026-11-18T16:44:09.6894384Z Receiving objects:  86% (83/96)
+2026-11-18T16:44:09.6902900Z Receiving objects:  95% (92/96)
+2026-11-18T16:44:10.0006990Z Receiving objects: 100% (96/96), 61.87 KiB | 4.12 MiB/s, done.
+2026-11-18T16:44:10.0024360Z Resolving deltas:  25% (1/4)
+2026-11-18T16:44:10.0025840Z Resolving deltas:  25% (1/4)
+2026-11-18T16:44:10.0028174Z Resolving deltas:  25% (1/4)
+2026-11-18T16:44:10.0038879Z Resolving deltas:  25% (1/4)
+2026-11-18T16:44:10.0044864Z Resolving deltas:  25% (1/4)
+2026-11-18T16:44:10.0061583Z Resolving deltas:  25% (1/4)
+2026-11-18T16:44:10.0065245Z Resolving deltas:  25% (1/4)
+2026-11-18T16:44:10.0066226Z Resolving deltas:  50% (2/4)
+2026-11-18T16:44:10.0077978Z Resolving deltas:  50% (2/4)
+2026-11-18T16:44:10.0092953Z Resolving deltas:  75% (3/4)
+2026-11-18T16:44:10.0109666Z Resolving deltas:  75% (3/4)
+2026-11-18T16:44:10.0123771Z Resolving deltas:  75% (3/4)
+2026-11-18T16:44:10.0133642Z Resolving deltas: 100% (4/4), done.
+2026-11-18T16:44:10.0139799Z From https://github.com/example-org/orders-platform
+2026-11-18T16:44:10.0149379Z  * [new ref]         5a8e2c7f19d04b3e6a1c9f8d2b7e0a4c3f6d1e92 -> origin/main
+2026-11-18T16:44:10.0158199Z ##[endgroup]
+2026-11-18T16:44:10.0167907Z ##[group]Determining the checkout info
+2026-11-18T16:44:10.0179799Z ##[endgroup]
+2026-11-18T16:44:10.0186592Z [command]/usr/bin/git sparse-checkout disable
+2026-11-18T16:44:10.0192852Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-18T16:44:10.0200461Z ##[group]Checking out the ref
+2026-11-18T16:44:10.0207744Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-18T16:44:10.0223264Z Switched to a new branch 'main'
+2026-11-18T16:44:10.0228605Z branch 'main' set up to track 'origin/main'.
+2026-11-18T16:44:10.0244556Z ##[endgroup]
+2026-11-18T16:44:10.0261282Z [command]/usr/bin/git log -1 --format=%H
+2026-11-18T16:44:10.0263002Z 5a8e2c7f19d04b3e6a1c9f8d2b7e0a4c3f6d1e92
+2026-11-18T16:44:12.2400046Z ##[group]Run aws-actions/configure-aws-credentials@v4
+2026-11-18T16:44:12.2409765Z with:
+2026-11-18T16:44:12.2420771Z   role-to-assume: arn:aws:iam::123456789012:role/gha-deploy
+2026-11-18T16:44:12.2425792Z   aws-region: eu-west-1
+2026-11-18T16:44:12.2434093Z   audience: sts.amazonaws.com
+2026-11-18T16:44:12.2437137Z env:
+2026-11-18T16:44:12.2448659Z   AWS_REGION: eu-west-1
+2026-11-18T16:44:12.2459989Z   ECR_REPOSITORY: orders-api
+2026-11-18T16:44:12.2474071Z   DEPLOY_ROLE_ARN: arn:aws:iam::123456789012:role/gha-deploy
+2026-11-18T16:44:12.2480320Z ##[endgroup]
+2026-11-18T16:44:12.2492910Z Assuming role with OIDC
+2026-11-18T16:44:13.4903794Z Authenticated as assumedRoleId AROAEXAMPLEDEPLOY0001:GitHubActions
+2026-11-18T16:44:15.1937347Z ##[group]Run hashicorp/setup-terraform@v3
+2026-11-18T16:44:15.1946779Z with:
+2026-11-18T16:44:15.1954614Z   terraform_version: 1.13.5
+2026-11-18T16:44:15.1967677Z   terraform_wrapper: false
+2026-11-18T16:44:15.1971637Z   cli_config_credentials_hostname: app.terraform.io
+2026-11-18T16:44:15.1982368Z env:
+2026-11-18T16:44:15.1990289Z   AWS_REGION: eu-west-1
+2026-11-18T16:44:15.1992018Z   ECR_REPOSITORY: orders-api
+2026-11-18T16:44:15.1994402Z   DEPLOY_ROLE_ARN: arn:aws:iam::123456789012:role/gha-deploy
+2026-11-18T16:44:15.2008725Z   AWS_DEFAULT_REGION: eu-west-1
+2026-11-18T16:44:15.2018850Z   AWS_ACCESS_KEY_ID: ***
+2026-11-18T16:44:15.2023309Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-18T16:44:15.2037325Z   AWS_SESSION_TOKEN: ***
+2026-11-18T16:44:15.2054121Z ##[endgroup]
+2026-11-18T16:44:15.9170269Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/3dcc9df7-2c15-4daf-b40e-437a4f3fdd8b
+2026-11-18T16:44:17.0723158Z ##[group]Run terraform init -input=false
+2026-11-18T16:44:17.0726435Z [36;1mterraform init -input=false[0m
+2026-11-18T16:44:17.0733779Z shell: /usr/bin/bash -e {0}
+2026-11-18T16:44:17.0739824Z env:
+2026-11-18T16:44:17.0741873Z   AWS_REGION: eu-west-1
+2026-11-18T16:44:17.0754066Z   ECR_REPOSITORY: orders-api
+2026-11-18T16:44:17.0759340Z   DEPLOY_ROLE_ARN: arn:aws:iam::123456789012:role/gha-deploy
+2026-11-18T16:44:17.0767739Z   AWS_DEFAULT_REGION: eu-west-1
+2026-11-18T16:44:17.0769890Z   AWS_ACCESS_KEY_ID: ***
+2026-11-18T16:44:17.0784169Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-18T16:44:17.0796701Z   AWS_SESSION_TOKEN: ***
+2026-11-18T16:44:17.0809359Z ##[endgroup]
+2026-11-18T16:44:17.4624540Z [0m[1mInitializing the backend...[0m
+2026-11-18T16:44:18.6740163Z [0m[32m
+2026-11-18T16:44:18.6753171Z Successfully configured the backend "s3"! Terraform will automatically
+2026-11-18T16:44:18.6756214Z use this backend unless the backend configuration changes.[0m
+2026-11-18T16:44:18.6757407Z [0m[1mInitializing provider plugins...[0m
+2026-11-18T16:44:18.6764434Z - Reusing previous version of hashicorp/aws from the dependency lock file
+2026-11-18T16:44:19.1181670Z - Installing hashicorp/aws v6.22.0...
+2026-11-18T16:44:24.1999839Z - Installed hashicorp/aws v6.22.0 (signed by HashiCorp)
+2026-11-18T16:44:24.2017505Z 
+2026-11-18T16:44:24.2033964Z [0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+2026-11-18T16:44:26.2472895Z ##[group]Run terraform apply -input=false -auto-approve -var "image=123456789012.dkr.ecr.eu-west-1.amazonaws.com/orders-api:5a8e2c7f19d04b3e6a1c9f8d2b7e0a4c3f6d1e92"
+2026-11-18T16:44:26.2482893Z [36;1mterraform apply -input=false -auto-approve -var "image=123456789012.dkr.ecr.eu-west-1.amazonaws.com/orders-api:5a8e2c7f19d04b3e6a1c9f8d2b7e0a4c3f6d1e92"[0m
+2026-11-18T16:44:26.2486775Z shell: /usr/bin/bash -e {0}
+2026-11-18T16:44:26.2492523Z env:
+2026-11-18T16:44:26.2495104Z   AWS_REGION: eu-west-1
+2026-11-18T16:44:26.2506267Z   ECR_REPOSITORY: orders-api
+2026-11-18T16:44:26.2514516Z   DEPLOY_ROLE_ARN: arn:aws:iam::123456789012:role/gha-deploy
+2026-11-18T16:44:26.2524821Z   AWS_DEFAULT_REGION: eu-west-1
+2026-11-18T16:44:26.2525172Z   AWS_ACCESS_KEY_ID: ***
+2026-11-18T16:44:26.2539112Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-18T16:44:26.2546038Z   AWS_SESSION_TOKEN: ***
+2026-11-18T16:44:26.2557008Z ##[endgroup]
+2026-11-18T16:44:26.7767261Z Acquiring state lock. This may take a few moments...
+2026-11-18T16:44:27.6074886Z [0m[1mdata.aws_region.current: Reading...[0m[0m
+2026-11-18T16:44:27.6089232Z [0m[1mdata.aws_caller_identity.current: Reading...[0m[0m
+2026-11-18T16:44:27.6099962Z [0m[1mdata.aws_vpc.main: Reading...[0m[0m
+2026-11-18T16:44:27.6102967Z [0m[1mdata.aws_ecs_cluster.main: Reading...[0m[0m
+2026-11-18T16:44:27.6112589Z [0m[1mdata.aws_lb.public: Reading...[0m[0m
+2026-11-18T16:44:27.6127747Z [0m[1mdata.aws_iam_role.execution: Reading...[0m[0m
+2026-11-18T16:44:27.6141647Z [0m[1maws_sqs_queue.order_events_dlq: Refreshing state... [id=https://sqs.eu-west-1.amazonaws.com/123456789012/order-events-dlq][0m
+2026-11-18T16:44:27.6154892Z [0m[1maws_cloudwatch_log_group.orders_api: Refreshing state... [id=/ecs/orders-api][0m
+2026-11-18T16:44:27.6171718Z [0m[1mdata.aws_region.current: Read complete after 0s [id=eu-west-1][0m
+2026-11-18T16:44:27.9287381Z [0m[1mdata.aws_caller_identity.current: Read complete after 0s [id=123456789012][0m
+2026-11-18T16:44:27.9290845Z [0m[1mdata.aws_iam_role.execution: Read complete after 0s [id=orders-api-execution][0m
+2026-11-18T16:44:27.9292721Z [0m[1mdata.aws_iam_policy_document.orders_task_assume: Reading...[0m[0m
+2026-11-18T16:44:27.9296929Z [0m[1mdata.aws_iam_policy_document.orders_task_assume: Read complete after 0s [id=2690255455][0m
+2026-11-18T16:44:28.1512740Z [0m[1mdata.aws_ecs_cluster.main: Read complete after 0s [id=arn:aws:ecs:eu-west-1:123456789012:cluster/orders-prod][0m
+2026-11-18T16:44:28.5623488Z [0m[1mdata.aws_lb.public: Read complete after 1s [id=arn:aws:elasticloadbalancing:eu-west-1:123456789012:loadbalancer/app/public-production/6f2d0b8c1e9a4735][0m
+2026-11-18T16:44:28.5633279Z [0m[1mdata.aws_lb_listener.https: Reading...[0m[0m
+2026-11-18T16:44:28.5645778Z [0m[1mdata.aws_vpc.main: Read complete after 1s [id=vpc-0a7c3e9f15b2d4e86][0m
+2026-11-18T16:44:28.5660327Z [0m[1mdata.aws_subnets.private: Reading...[0m[0m
+2026-11-18T16:44:28.5675919Z [0m[1maws_security_group.orders_api: Refreshing state... [id=sg-0e4b91c7d2a3f6508][0m
+2026-11-18T16:44:28.5682953Z [0m[1maws_lb_target_group.orders_api: Refreshing state... [id=arn:aws:elasticloadbalancing:eu-west-1:123456789012:targetgroup/orders-api/0c9e2f7a4b1d8e36][0m
+2026-11-18T16:44:28.7494336Z [0m[1mdata.aws_subnets.private: Read complete after 0s [id=eu-west-1][0m
+2026-11-18T16:44:28.7498127Z [0m[1mdata.aws_lb_listener.https: Read complete after 0s [id=arn:aws:elasticloadbalancing:eu-west-1:123456789012:listener/app/public-production/6f2d0b8c1e9a4735/3a1e7c9d0b5f2846][0m
+2026-11-18T16:44:28.7511799Z [0m[1maws_sqs_queue.order_events: Refreshing state... [id=https://sqs.eu-west-1.amazonaws.com/123456789012/order-events][0m
+2026-11-18T16:44:28.7527699Z [0m[1maws_lb_listener_rule.orders_api: Refreshing state... [id=arn:aws:elasticloadbalancing:eu-west-1:123456789012:listener-rule/app/public-production/6f2d0b8c1e9a4735/3a1e7c9d0b5f2846/8d0f4e2a6c1b9753][0m
+2026-11-18T16:44:29.0230809Z [0m[1mdata.aws_iam_policy_document.orders_task_sqs: Reading...[0m[0m
+2026-11-18T16:44:29.0231606Z [0m[1mdata.aws_iam_policy_document.orders_task_sqs: Read complete after 0s [id=3925417710][0m
+2026-11-18T16:44:29.0247731Z [0m[1maws_ecs_task_definition.orders_api: Refreshing state... [id=orders-api][0m
+2026-11-18T16:44:29.3858773Z [0m[1maws_ecs_service.orders_api: Refreshing state... [id=arn:aws:ecs:eu-west-1:123456789012:service/orders-prod/orders-api][0m
+2026-11-18T16:44:29.9666701Z 
+2026-11-18T16:44:29.9677945Z Terraform used the selected providers to generate the following execution
+2026-11-18T16:44:29.9681088Z plan. Resource actions are indicated with the following symbols:
+2026-11-18T16:44:29.9685162Z   [32m+[0m create
+2026-11-18T16:44:29.9694410Z   [33m~[0m update in-place
+2026-11-18T16:44:29.9712176Z [31m-[0m/[32m+[0m destroy and then create replacement
+2026-11-18T16:44:29.9713853Z [0m
+2026-11-18T16:44:29.9718595Z Terraform will perform the following actions:
+2026-11-18T16:44:29.9731529Z 
+2026-11-18T16:44:29.9734776Z [1m  # aws_ecs_service.orders_api[0m will be updated in-place
+2026-11-18T16:44:29.9746706Z [0m  [33m~[0m[0m resource "aws_ecs_service" "orders_api" {
+2026-11-18T16:44:29.9751865Z         [1m[0mid[0m[0m                                 = "arn:aws:ecs:eu-west-1:123456789012:service/orders-prod/orders-api"
+2026-11-18T16:44:29.9753514Z         [1m[0mname[0m[0m                               = "orders-api"
+2026-11-18T16:44:29.9758158Z         tags                               = {}
+2026-11-18T16:44:29.9773924Z       [33m~[0m[0m [1m[0mtask_definition[0m[0m                    = "arn:aws:ecs:eu-west-1:123456789012:task-definition/orders-api:57" [33m->[0m[0m (known after apply)
+2026-11-18T16:44:29.9786089Z         [90m# (18 unchanged attributes hidden)[0m[0m
+2026-11-18T16:44:29.9787720Z 
+2026-11-18T16:44:29.9805348Z         [90m# (5 unchanged blocks hidden)[0m[0m
+2026-11-18T16:44:29.9822067Z     }
+2026-11-18T16:44:29.9835384Z 
+2026-11-18T16:44:29.9851223Z [1m  # aws_ecs_task_definition.orders_api[0m must be [1m[31mreplaced[0m
+2026-11-18T16:44:29.9860043Z [0m[31m-[0m/[32m+[0m[0m resource "aws_ecs_task_definition" "orders_api" {
+2026-11-18T16:44:29.9871782Z       [33m~[0m[0m [1m[0marn[0m[0m                      = "arn:aws:ecs:eu-west-1:123456789012:task-definition/orders-api:57" [33m->[0m[0m (known after apply)
+2026-11-18T16:44:29.9872346Z       [33m~[0m[0m [1m[0marn_without_revision[0m[0m     = "arn:aws:ecs:eu-west-1:123456789012:task-definition/orders-api" [33m->[0m[0m (known after apply)
+2026-11-18T16:44:29.9886190Z       [33m~[0m[0m [1m[0mcontainer_definitions[0m[0m    = jsonencode(
+2026-11-18T16:44:29.9895092Z           [33m~[0m[0m [
+2026-11-18T16:44:29.9910437Z               [33m~[0m[0m {
+2026-11-18T16:44:29.9928558Z                   [33m~[0m[0m environment      = [
+2026-11-18T16:44:29.9939959Z                         {
+2026-11-18T16:44:29.9952348Z                             name  = "LOG_LEVEL"
+2026-11-18T16:44:29.9961674Z                             value = "info"
+2026-11-18T16:44:29.9969252Z                         },
+2026-11-18T16:44:29.9976330Z                       [32m+[0m[0m {
+2026-11-18T16:44:29.9984670Z                           [32m+[0m[0m name  = "ORDER_EVENTS_QUEUE_URL"
+2026-11-18T16:44:29.9986332Z                           [32m+[0m[0m value = "https://sqs.eu-west-1.amazonaws.com/123456789012/order-events"
+2026-11-18T16:44:29.9988115Z                         },
+2026-11-18T16:44:30.0003990Z                     ]
+2026-11-18T16:44:30.0006776Z                   [33m~[0m[0m image            = "123456789012.dkr.ecr.eu-west-1.amazonaws.com/orders-api:2b7d40e1c9a8f3561e0d4b7a2c9f8e6d1a3b5c70" [33m->[0m[0m "123456789012.dkr.ecr.eu-west-1.amazonaws.com/orders-api:5a8e2c7f19d04b3e6a1c9f8d2b7e0a4c3f6d1e92"
+2026-11-18T16:44:30.0011587Z                     name             = "orders-api"
+2026-11-18T16:44:30.0029102Z                     [90m# (9 unchanged attributes hidden)[0m[0m
+2026-11-18T16:44:30.0041325Z                 },
+2026-11-18T16:44:30.0047488Z             ]
+2026-11-18T16:44:30.0065511Z         ) [31m# forces replacement[0m[0m
+2026-11-18T16:44:30.0075007Z       [33m~[0m[0m [1m[0mid[0m[0m                       = "orders-api" [33m->[0m[0m (known after apply)
+2026-11-18T16:44:30.0088279Z       [33m~[0m[0m [1m[0mrevision[0m[0m                 = 57 [33m->[0m[0m (known after apply)
+2026-11-18T16:44:30.0105810Z         tags                     = {}
+2026-11-18T16:44:30.0118645Z       [32m+[0m[0m [1m[0mtask_role_arn[0m[0m            = (known after apply) [31m# forces replacement[0m[0m
+2026-11-18T16:44:30.0119404Z         [90m# (12 unchanged attributes hidden)[0m[0m
+2026-11-18T16:44:30.0135288Z 
+2026-11-18T16:44:30.0141140Z         [90m# (1 unchanged block hidden)[0m[0m
+2026-11-18T16:44:30.0156541Z     }
+2026-11-18T16:44:30.0161451Z 
+2026-11-18T16:44:30.0170672Z [1m  # aws_iam_role.orders_task[0m will be created
+2026-11-18T16:44:30.0171789Z [0m  [32m+[0m[0m resource "aws_iam_role" "orders_task" {
+2026-11-18T16:44:30.0177611Z       [32m+[0m[0m [1m[0marn[0m[0m                   = (known after apply)
+2026-11-18T16:44:30.0185924Z       [32m+[0m[0m [1m[0massume_role_policy[0m[0m    = jsonencode(
+2026-11-18T16:44:30.0187269Z             {
+2026-11-18T16:44:30.0203866Z               [32m+[0m[0m Statement = [
+2026-11-18T16:44:30.0210989Z                   [32m+[0m[0m {
+2026-11-18T16:44:30.0225719Z                       [32m+[0m[0m Action    = "sts:AssumeRole"
+2026-11-18T16:44:30.0228458Z                       [32m+[0m[0m Condition = {
+2026-11-18T16:44:30.0242465Z                           [32m+[0m[0m ArnLike = {
+2026-11-18T16:44:30.0245497Z                               [32m+[0m[0m "aws:SourceArn" = "arn:aws:ecs:eu-west-1:123456789012:*"
+2026-11-18T16:44:30.0260948Z                             }
+2026-11-18T16:44:30.0265090Z                         }
+2026-11-18T16:44:30.0266947Z                       [32m+[0m[0m Effect    = "Allow"
+2026-11-18T16:44:30.0279181Z                       [32m+[0m[0m Principal = {
+2026-11-18T16:44:30.0283617Z                           [32m+[0m[0m Service = "ecs-tasks.amazonaws.com"
+2026-11-18T16:44:30.0292240Z                         }
+2026-11-18T16:44:30.0294008Z                     },
+2026-11-18T16:44:30.0297239Z                 ]
+2026-11-18T16:44:30.0297748Z               [32m+[0m[0m Version   = "2012-10-17"
+2026-11-18T16:44:30.0300026Z             }
+2026-11-18T16:44:30.0318080Z         )
+2026-11-18T16:44:30.0322567Z       [32m+[0m[0m [1m[0mcreate_date[0m[0m           = (known after apply)
+2026-11-18T16:44:30.0329699Z       [32m+[0m[0m [1m[0mforce_detach_policies[0m[0m = false
+2026-11-18T16:44:30.0334174Z       [32m+[0m[0m [1m[0mid[0m[0m                    = (known after apply)
+2026-11-18T16:44:30.0340495Z       [32m+[0m[0m [1m[0mmanaged_policy_arns[0m[0m   = (known after apply)
+2026-11-18T16:44:30.0353493Z       [32m+[0m[0m [1m[0mmax_session_duration[0m[0m  = 3600
+2026-11-18T16:44:30.0360284Z       [32m+[0m[0m [1m[0mname[0m[0m                  = "orders-task-role"
+2026-11-18T16:44:30.0361332Z       [32m+[0m[0m [1m[0mname_prefix[0m[0m           = (known after apply)
+2026-11-18T16:44:30.0364723Z       [32m+[0m[0m [1m[0mpath[0m[0m                  = "/"
+2026-11-18T16:44:30.0375677Z       [32m+[0m[0m [1m[0mtags_all[0m[0m              = {
+2026-11-18T16:44:30.0377197Z           [32m+[0m[0m "ManagedBy"  = "terraform"
+2026-11-18T16:44:30.0377536Z           [32m+[0m[0m "Repository" = "example-org/orders-platform"
+2026-11-18T16:44:30.0386857Z           [32m+[0m[0m "Service"    = "orders"
+2026-11-18T16:44:30.0395502Z         }
+2026-11-18T16:44:30.0403109Z       [32m+[0m[0m [1m[0munique_id[0m[0m             = (known after apply)
+2026-11-18T16:44:30.0409612Z 
+2026-11-18T16:44:30.0418403Z       [32m+[0m[0m inline_policy (known after apply)
+2026-11-18T16:44:30.0436668Z     }
+2026-11-18T16:44:30.0443664Z 
+2026-11-18T16:44:30.0458642Z [1m  # aws_iam_role_policy.orders_task_sqs[0m will be created
+2026-11-18T16:44:30.0460305Z [0m  [32m+[0m[0m resource "aws_iam_role_policy" "orders_task_sqs" {
+2026-11-18T16:44:30.0472078Z       [32m+[0m[0m [1m[0mid[0m[0m          = (known after apply)
+2026-11-18T16:44:30.0478510Z       [32m+[0m[0m [1m[0mname[0m[0m        = "orders-task-sqs"
+2026-11-18T16:44:30.0492037Z       [32m+[0m[0m [1m[0mname_prefix[0m[0m = (known after apply)
+2026-11-18T16:44:30.0499002Z       [32m+[0m[0m [1m[0mpolicy[0m[0m      = jsonencode(
+2026-11-18T16:44:30.0509474Z             {
+2026-11-18T16:44:30.0527346Z               [32m+[0m[0m Statement = [
+2026-11-18T16:44:30.0540107Z                   [32m+[0m[0m {
+2026-11-18T16:44:30.0549215Z                       [32m+[0m[0m Action   = [
+2026-11-18T16:44:30.0557661Z                           [32m+[0m[0m "sqs:ReceiveMessage",
+2026-11-18T16:44:30.0569853Z                           [32m+[0m[0m "sqs:GetQueueAttributes",
+2026-11-18T16:44:30.0578398Z                           [32m+[0m[0m "sqs:DeleteMessage",
+2026-11-18T16:44:30.0595998Z                           [32m+[0m[0m "sqs:ChangeMessageVisibility",
+2026-11-18T16:44:30.0608534Z                         ]
+2026-11-18T16:44:30.0619261Z                       [32m+[0m[0m Effect   = "Allow"
+2026-11-18T16:44:30.0636452Z                       [32m+[0m[0m Resource = "arn:aws:sqs:eu-west-1:123456789012:order-events"
+2026-11-18T16:44:30.0638492Z                     },
+2026-11-18T16:44:30.0656481Z                 ]
+2026-11-18T16:44:30.0672153Z               [32m+[0m[0m Version   = "2012-10-17"
+2026-11-18T16:44:30.0677010Z             }
+2026-11-18T16:44:30.0685692Z         )
+2026-11-18T16:44:30.0699135Z       [32m+[0m[0m [1m[0mrole[0m[0m        = (known after apply)
+2026-11-18T16:44:30.0706010Z     }
+2026-11-18T16:44:30.0711052Z 
+2026-11-18T16:44:30.0724393Z [1mPlan:[0m 3 to add, 1 to change, 1 to destroy.
+2026-11-18T16:44:30.0729810Z 
+2026-11-18T16:44:30.0732863Z [33m╷[0m[0m
+2026-11-18T16:44:30.0735456Z [33m│[0m [0m[1m[33mWarning: [0m[0m[1mDeprecated attribute[0m
+2026-11-18T16:44:30.0741386Z [33m│[0m [0m
+2026-11-18T16:44:30.0744325Z [33m│[0m [0m[0m  on main.tf line 28, in locals:
+2026-11-18T16:44:30.0754292Z [33m│[0m [0m  28:   region     = data.aws_region.current[4m.name[0m[0m
+2026-11-18T16:44:30.0767424Z [33m│[0m [0m
+2026-11-18T16:44:30.0781823Z [33m│[0m [0mThe attribute "name" is deprecated. Refer to the provider documentation for
+2026-11-18T16:44:30.0797310Z [33m│[0m [0mdetails.
+2026-11-18T16:44:30.0803884Z [33m│[0m [0m
+2026-11-18T16:44:30.0821180Z [33m│[0m [0m(and one more similar warning elsewhere)
+2026-11-18T16:44:30.0835548Z [33m╵[0m[0m
+2026-11-18T16:44:30.0849441Z [0m[1maws_ecs_task_definition.orders_api: Destroying... [id=orders-api][0m[0m
+2026-11-18T16:44:30.0866151Z [0m[1maws_iam_role.orders_task: Creating...[0m[0m
+2026-11-18T16:44:30.0873868Z [0m[1maws_ecs_task_definition.orders_api: Destruction complete after 0s[0m
+2026-11-18T16:44:31.0291100Z [0m[1maws_iam_role.orders_task: Creation complete after 1s [id=orders-task-role][0m
+2026-11-18T16:44:31.0297468Z [0m[1maws_iam_role_policy.orders_task_sqs: Creating...[0m[0m
+2026-11-18T16:44:31.0309780Z [0m[1maws_ecs_task_definition.orders_api: Creating...[0m[0m
+2026-11-18T16:44:31.3624908Z [0m[1maws_iam_role_policy.orders_task_sqs: Creation complete after 0s [id=orders-task-role:orders-task-sqs][0m
+2026-11-18T16:44:31.4828921Z [31m╷[0m[0m
+2026-11-18T16:44:31.4837212Z [31m│[0m [0m[1m[31mError: [0m[0m[1mcreating ECS Task Definition (orders-api): operation error ECS: RegisterTaskDefinition, https response error StatusCode: 400, RequestID: 0c8a5f3e-2b71-4e9d-a6c4-91d3e7f02b58, AccessDeniedException: User: arn:aws:sts::123456789012:assumed-role/gha-deploy/GitHubActions is not authorized to perform: iam:PassRole on resource: arn:aws:iam::123456789012:role/orders-task-role because no identity-based policy allows the iam:PassRole action[0m
+2026-11-18T16:44:31.4847931Z [31m│[0m [0m
+2026-11-18T16:44:31.4850444Z [31m│[0m [0m[0m  with aws_ecs_task_definition.orders_api,
+2026-11-18T16:44:31.4857193Z [31m│[0m [0m  on ecs.tf line 50, in resource "aws_ecs_task_definition" "orders_api":
+2026-11-18T16:44:31.4870141Z [31m│[0m [0m  50: [4mresource "aws_ecs_task_definition" "orders_api"[0m[0m {
+2026-11-18T16:44:31.4883237Z [31m│[0m [0m
+2026-11-18T16:44:31.4889941Z [31m╵[0m[0m
+2026-11-18T16:44:31.7003635Z Releasing state lock. This may take a few moments...
+2026-11-18T16:44:32.0406476Z ##[error]Process completed with exit code 1.
+2026-11-18T16:44:34.1714788Z Post job cleanup.
+2026-11-18T16:44:36.1384880Z Post job cleanup.
+2026-11-18T16:44:36.1393421Z [command]/usr/bin/git version
+2026-11-18T16:44:36.1404967Z git version 2.51.2
+2026-11-18T16:44:36.1417957Z Temporarily overriding HOME='/home/runner/work/_temp/3912e490-e2b3-425a-b0ad-49fcf099c6f2' before making global git config changes
+2026-11-18T16:44:36.1420175Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-18T16:44:36.1436648Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/orders-platform/orders-platform
+2026-11-18T16:44:36.1452018Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-18T16:44:36.1460308Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-18T16:44:36.1473823Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-18T16:44:36.1480034Z http.https://github.com/.extraheader
+2026-11-18T16:44:36.1481204Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-18T16:44:36.1489505Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-18T16:44:38.1503173Z Cleaning up orphan processes

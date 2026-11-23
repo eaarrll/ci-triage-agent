@@ -1,0 +1,159 @@
+name: terraform
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "envs/**"
+      - "modules/**"
+      - ".github/workflows/terraform.yml"
+  push:
+    branches: [main]
+    paths:
+      - "envs/**"
+      - "modules/**"
+      - ".github/workflows/terraform.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+env:
+  TF_IN_AUTOMATION: "true"
+  TF_INPUT: "false"
+  ARM_USE_OIDC: "true"
+  ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+  ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.5
+      - name: terraform fmt
+        run: terraform fmt -check -recursive -diff
+      - name: terraform validate
+        run: |
+          for dir in envs/*/; do
+            echo "::group::validate ${dir}"
+            terraform -chdir="$dir" init -backend=false -input=false >/dev/null
+            terraform -chdir="$dir" validate
+            echo "::endgroup::"
+          done
+
+  plan:
+    name: Plan (${{ matrix.environment }})
+    needs: validate
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [staging, prod]
+    defaults:
+      run:
+        working-directory: envs/${{ matrix.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.ARM_CLIENT_ID }}
+          tenant-id: ${{ vars.ARM_TENANT_ID }}
+          subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.5
+      - name: terraform init
+        run: terraform init -input=false
+      - name: terraform plan
+        id: plan
+        run: terraform plan -input=false -out=tfplan
+      - name: Upload plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan-${{ matrix.environment }}
+          path: envs/${{ matrix.environment }}/tfplan
+          retention-days: 5
+      - name: Comment plan on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          PLAN_STDOUT: ${{ steps.plan.outputs.stdout }}
+          ENVIRONMENT: ${{ matrix.environment }}
+        with:
+          script: |
+            const body = [
+              `#### Terraform plan: \`${process.env.ENVIRONMENT}\``,
+              "<details><summary>Show plan</summary>",
+              "",
+              "```",
+              process.env.PLAN_STDOUT.slice(-60000),
+              "```",
+              "</details>",
+            ].join("\n");
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body,
+            });
+
+  apply-staging:
+    name: Apply (staging)
+    needs: plan
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    environment: staging
+    defaults:
+      run:
+        working-directory: envs/staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.ARM_CLIENT_ID }}
+          tenant-id: ${{ vars.ARM_TENANT_ID }}
+          subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.5
+      - uses: actions/download-artifact@v4
+        with:
+          name: tfplan-staging
+          path: envs/staging
+      - name: terraform init
+        run: terraform init -input=false
+      - name: terraform apply
+        run: terraform apply -input=false tfplan
+
+  apply-prod:
+    name: Apply (prod)
+    needs: apply-staging
+    runs-on: ubuntu-24.04
+    environment: production
+    defaults:
+      run:
+        working-directory: envs/prod
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.ARM_CLIENT_ID }}
+          tenant-id: ${{ vars.ARM_TENANT_ID }}
+          subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.13.5
+      - uses: actions/download-artifact@v4
+        with:
+          name: tfplan-prod
+          path: envs/prod
+      - name: terraform init
+        run: terraform init -input=false
+      - name: terraform apply
+        run: terraform apply -input=false tfplan

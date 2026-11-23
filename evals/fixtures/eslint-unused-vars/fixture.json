@@ -1,0 +1,441 @@
+{
+  "id": "eslint-unused-vars",
+  "title": "ESLint fails on an import the PR left behind in CartSummary",
+  "description": "PR #962 adds a 'You save' row to the cart summary and moves amount rendering into a new <Money> component. CartSummary.tsx no longer calls formatCurrency but still imports it, so `eslint .` reports `4:10 error 'formatCurrency' is defined but never used` (@typescript-eslint/no-unused-vars) and exits 1. The same output also contains a react-hooks/exhaustive-deps warning in src/hooks/useShippingQuote.ts, a file the PR did not touch; it is only a warning (no --max-warnings) and was already present on main, so it is not the cause. test and build pass (tsconfig has no noUnusedLocals, so tsc -b does not catch it) and deploy-preview is skipped. Correct answer: code (lint) failure; remove the unused formatCurrency import from src/components/CartSummary.tsx.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "storefront-web"
+  },
+  "run": {
+    "id": 19588140226,
+    "attempt": 1,
+    "workflowId": 87650213,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "cart-savings-line",
+    "headSha": "9d1b76e329355932027b2d762b91a5017cd1a232",
+    "headRepoFullName": "example-org/storefront-web",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19588140226",
+    "displayTitle": "Cart: show savings and render amounts with <Money>",
+    "pullRequestNumbers": [
+      962
+    ],
+    "createdAt": "2026-11-22T10:31:01Z"
+  },
+  "jobs": [
+    {
+      "id": 56114093318,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-22T10:31:07Z",
+      "completedAt": "2026-11-22T10:31:37Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19588140226/job/56114093318",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:07Z",
+          "completedAt": "2026-11-22T10:31:09Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:09Z",
+          "completedAt": "2026-11-22T10:31:11Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:11Z",
+          "completedAt": "2026-11-22T10:31:14Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:14Z",
+          "completedAt": "2026-11-22T10:31:25Z"
+        },
+        {
+          "number": 5,
+          "name": "Check formatting",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:25Z",
+          "completedAt": "2026-11-22T10:31:28Z"
+        },
+        {
+          "number": 6,
+          "name": "Lint",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-22T10:31:28Z",
+          "completedAt": "2026-11-22T10:31:35Z"
+        },
+        {
+          "number": 7,
+          "name": "Typecheck",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-22T10:31:35Z",
+          "completedAt": "2026-11-22T10:31:35Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-22T10:31:35Z",
+          "completedAt": "2026-11-22T10:31:35Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:35Z",
+          "completedAt": "2026-11-22T10:31:36Z"
+        },
+        {
+          "number": 10,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:36Z",
+          "completedAt": "2026-11-22T10:31:37Z"
+        }
+      ]
+    },
+    {
+      "id": 56114093327,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-22T10:31:08Z",
+      "completedAt": "2026-11-22T10:31:37Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19588140226/job/56114093327",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:08Z",
+          "completedAt": "2026-11-22T10:31:09Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:09Z",
+          "completedAt": "2026-11-22T10:31:11Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:11Z",
+          "completedAt": "2026-11-22T10:31:14Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:14Z",
+          "completedAt": "2026-11-22T10:31:25Z"
+        },
+        {
+          "number": 5,
+          "name": "Unit tests",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:25Z",
+          "completedAt": "2026-11-22T10:31:34Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:34Z",
+          "completedAt": "2026-11-22T10:31:35Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:35Z",
+          "completedAt": "2026-11-22T10:31:36Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:36Z",
+          "completedAt": "2026-11-22T10:31:37Z"
+        }
+      ]
+    },
+    {
+      "id": 56114093341,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-22T10:31:07Z",
+      "completedAt": "2026-11-22T10:31:39Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19588140226/job/56114093341",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:07Z",
+          "completedAt": "2026-11-22T10:31:09Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:09Z",
+          "completedAt": "2026-11-22T10:31:10Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:10Z",
+          "completedAt": "2026-11-22T10:31:13Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:13Z",
+          "completedAt": "2026-11-22T10:31:24Z"
+        },
+        {
+          "number": 5,
+          "name": "Build",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:24Z",
+          "completedAt": "2026-11-22T10:31:34Z"
+        },
+        {
+          "number": 6,
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:34Z",
+          "completedAt": "2026-11-22T10:31:36Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:36Z",
+          "completedAt": "2026-11-22T10:31:37Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:37Z",
+          "completedAt": "2026-11-22T10:31:38Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:31:38Z",
+          "completedAt": "2026-11-22T10:31:39Z"
+        }
+      ]
+    },
+    {
+      "id": 56114170055,
+      "name": "deploy-preview",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-22T10:31:39Z",
+      "completedAt": "2026-11-22T10:31:39Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19588140226/job/56114170055",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "src/components/CartSummary.tsx",
+      "status": "modified",
+      "additions": 19,
+      "deletions": 4,
+      "patch": "@@ -1,6 +1,8 @@\n+import { useMemo } from \"react\";\n import { useCart } from \"../hooks/useCart\";\n import { useShippingQuote } from \"../hooks/useShippingQuote\";\n import { formatCurrency } from \"../lib/format\";\n+import { Money } from \"./Money\";\n import styles from \"./CartSummary.module.css\";\n \n interface CartSummaryProps {\n@@ -9,9 +11,10 @@ interface CartSummaryProps {\n }\n \n export function CartSummary({ postalCode, onCheckout }: CartSummaryProps) {\n-  const { lines, currency, subtotal } = useCart();\n+  const { lines, currency, subtotal, compareAtSubtotal } = useCart();\n   const shipping = useShippingQuote(postalCode, subtotal);\n \n+  const savings = useMemo(() => Math.max(0, compareAtSubtotal - subtotal), [compareAtSubtotal, subtotal]);\n   const total = subtotal + (shipping.status === \"ready\" ? shipping.amount : 0);\n \n   return (\n@@ -22,12 +25,22 @@ export function CartSummary({ postalCode, onCheckout }: CartSummaryProps) {\n           <dt>\n             Subtotal ({lines.length} {lines.length === 1 ? \"item\" : \"items\"})\n           </dt>\n-          <dd>{formatCurrency(subtotal, currency)}</dd>\n+          <dd>\n+            <Money amount={subtotal} currency={currency} />\n+          </dd>\n         </div>\n+        {savings > 0 && (\n+          <div className={`${styles.row} ${styles.savings}`}>\n+            <dt>You save</dt>\n+            <dd>\n+              <Money amount={-savings} currency={currency} />\n+            </dd>\n+          </div>\n+        )}\n         <div className={styles.row}>\n           <dt>Shipping</dt>\n           <dd>\n-            {shipping.status === \"ready\" && formatCurrency(shipping.amount, currency)}\n+            {shipping.status === \"ready\" && <Money amount={shipping.amount} currency={currency} />}\n             {shipping.status === \"loading\" && \"Calculating…\"}\n             {shipping.status === \"idle\" && \"Enter a postal code\"}\n             {shipping.status === \"error\" && \"Unavailable\"}\n@@ -35,7 +48,9 @@ export function CartSummary({ postalCode, onCheckout }: CartSummaryProps) {\n         </div>\n         <div className={`${styles.row} ${styles.total}`}>\n           <dt>Total</dt>\n-          <dd>{formatCurrency(total, currency)}</dd>\n+          <dd>\n+            <Money amount={total} currency={currency} />\n+          </dd>\n         </div>\n       </dl>\n       <button type=\"button\" className={styles.checkout} onClick={onCheckout} disabled={lines.length === 0}>",
+      "previousPath": null
+    },
+    {
+      "path": "src/components/Money.tsx",
+      "status": "added",
+      "additions": 15,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,15 @@\n+import { formatCurrency } from \"../lib/format\";\n+\n+interface MoneyProps {\n+  amount: number;\n+  currency: string;\n+  className?: string;\n+}\n+\n+export function Money({ amount, currency, className }: MoneyProps) {\n+  return (\n+    <span className={className} data-negative={amount < 0 || undefined}>\n+      {formatCurrency(amount, currency)}\n+    </span>\n+  );\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "src/components/CartLineItem.tsx",
+      "status": "modified",
+      "additions": 7,
+      "deletions": 2,
+      "patch": "@@ -1,5 +1,5 @@\n import type { CartLine } from \"../state/cart-context\";\n-import { formatCurrency } from \"../lib/format\";\n+import { Money } from \"./Money\";\n \n interface CartLineItemProps {\n   line: CartLine;\n@@ -11,7 +11,12 @@ export function CartLineItem({ line, currency }: CartLineItemProps) {\n     <li className=\"cart-line\">\n       <span className=\"cart-line__title\">{line.title}</span>\n       <span className=\"cart-line__quantity\">× {line.quantity}</span>\n-      <span className=\"cart-line__price\">{formatCurrency(line.unitPrice * line.quantity, currency)}</span>\n+      {line.compareAtPrice !== null && (\n+        <s className=\"cart-line__compare-at\">\n+          <Money amount={line.compareAtPrice * line.quantity} currency={currency} />\n+        </s>\n+      )}\n+      <Money className=\"cart-line__price\" amount={line.unitPrice * line.quantity} currency={currency} />\n     </li>\n   );\n }",
+      "previousPath": null
+    },
+    {
+      "path": "src/components/CartSummary.module.css",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 0,
+      "patch": "@@ -17,6 +17,10 @@\n   justify-content: space-between;\n }\n \n+.savings {\n+  color: var(--text-success);\n+}\n+\n .total {\n   font-weight: 600;\n   border-top: 1px solid var(--border-subtle);",
+      "previousPath": null
+    },
+    {
+      "path": "src/components/CartSummary.test.tsx",
+      "status": "modified",
+      "additions": 11,
+      "deletions": 0,
+      "patch": "@@ -29,6 +29,17 @@ describe(\"CartSummary\", () => {\n     expect(screen.getAllByText(\"$62.25\")).toHaveLength(2);\n   });\n \n+  it(\"shows savings against compare-at prices\", () => {\n+    renderSummary([tee]);\n+    expect(screen.getByText(\"You save\")).toBeInTheDocument();\n+    expect(screen.getByText(\"-$12.00\")).toBeInTheDocument();\n+  });\n+\n+  it(\"hides the savings row when nothing is discounted\", () => {\n+    renderSummary([mug]);\n+    expect(screen.queryByText(\"You save\")).not.toBeInTheDocument();\n+  });\n+\n   it(\"asks for a postal code before quoting shipping\", () => {\n     renderSummary([mug]);\n     expect(screen.getByText(\"Enter a postal code\")).toBeInTheDocument();",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "lint": [
+      {
+        "runId": 19581377409,
+        "attempt": 1,
+        "headSha": "ac27e177a4ddcf9511f2b45ba1f26f05e2329f71",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T08:12:53Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19581377409"
+      },
+      {
+        "runId": 19569920184,
+        "attempt": 1,
+        "headSha": "8c143b780a9cf767d791dea35ac5081d5c372dc3",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T19:40:11Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19569920184"
+      },
+      {
+        "runId": 19552246730,
+        "attempt": 1,
+        "headSha": "24e02a05112f3975bd6ed19ba84ee7f553e026b8",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T09:02:47Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19552246730"
+      },
+      {
+        "runId": 19533190861,
+        "attempt": 1,
+        "headSha": "aa418b77dcd653c0174bf4ed923159b793a68674",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T14:55:30Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19533190861"
+      },
+      {
+        "runId": 19517604395,
+        "attempt": 1,
+        "headSha": "2afd745fc883e2d45d73534758a4bfb3476e7035",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T21:18:06Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19517604395"
+      },
+      {
+        "runId": 19496638027,
+        "attempt": 1,
+        "headSha": "0d7b4d34a5267c9c13a0e0944286294ef6e8dce8",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T16:29:44Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19496638027"
+      },
+      {
+        "runId": 19475009163,
+        "attempt": 1,
+        "headSha": "5050fac4d7b8d343fb6274b304053159f6a6e5e1",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T11:47:21Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19475009163"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "code"
+    ],
+    "keywords": [
+      [
+        "unused",
+        "no-unused-vars"
+      ],
+      [
+        "CartSummary",
+        "formatCurrency"
+      ]
+    ],
+    "fixPath": "src/components/CartSummary.tsx"
+  }
+}

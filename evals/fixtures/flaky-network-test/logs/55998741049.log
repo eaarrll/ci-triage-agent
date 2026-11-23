@@ -1,0 +1,274 @@
+2026-11-21T08:05:44.1234602Z Current runner version: '2.330.0'
+2026-11-21T08:05:44.1235091Z Runner name: 'GitHub Actions 1000892265'
+2026-11-21T08:05:44.1239609Z Runner group name: 'GitHub Actions'
+2026-11-21T08:05:44.1241176Z Machine name: 'runnervm5p1ta'
+2026-11-21T08:05:44.1242480Z ##[group]Runner Image Provisioner
+2026-11-21T08:05:44.1247448Z Hosted Compute Agent
+2026-11-21T08:05:44.1253398Z Version: 20261103.428
+2026-11-21T08:05:44.1258006Z Commit: 6f2d0c1b8e4a7395d0c2e1f6a8b3d9c47e5f1a02
+2026-11-21T08:05:44.1262069Z Build Date: 2026-11-03T19:42:17Z
+2026-11-21T08:05:44.1266091Z ##[endgroup]
+2026-11-21T08:05:44.1270709Z ##[group]Operating System
+2026-11-21T08:05:44.1275515Z Ubuntu
+2026-11-21T08:05:44.1278324Z 24.04.3
+2026-11-21T08:05:44.1281669Z LTS
+2026-11-21T08:05:44.1287144Z ##[endgroup]
+2026-11-21T08:05:44.1289395Z ##[group]Runner Image
+2026-11-21T08:05:44.1291665Z Image: ubuntu-24.04
+2026-11-21T08:05:44.1294569Z Version: 20261116.1.0
+2026-11-21T08:05:44.1297411Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-21T08:05:44.1299591Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.1
+2026-11-21T08:05:44.1302225Z ##[endgroup]
+2026-11-21T08:05:44.1307487Z ##[group]GITHUB_TOKEN Permissions
+2026-11-21T08:05:44.1313826Z Contents: read
+2026-11-21T08:05:44.1320712Z Metadata: read
+2026-11-21T08:05:44.1322511Z ##[endgroup]
+2026-11-21T08:05:44.1336662Z Secret source: Actions
+2026-11-21T08:05:44.1345074Z Prepare workflow directory
+2026-11-21T08:05:44.1755947Z Prepare all required actions
+2026-11-21T08:05:44.1876824Z Getting action download info
+2026-11-21T08:05:44.4068864Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-21T08:05:44.6457442Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-21T08:05:44.7997125Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-21T08:05:45.0347248Z Complete job name: test
+2026-11-21T08:05:47.1024140Z ##[group]Run actions/checkout@v4
+2026-11-21T08:05:47.1031095Z with:
+2026-11-21T08:05:47.1038867Z   repository: example-org/fx-rates
+2026-11-21T08:05:47.1042808Z   token: ***
+2026-11-21T08:05:47.1047423Z   ssh-strict: true
+2026-11-21T08:05:47.1053320Z   ssh-user: git
+2026-11-21T08:05:47.1059371Z   persist-credentials: true
+2026-11-21T08:05:47.1061148Z   clean: true
+2026-11-21T08:05:47.1067578Z   sparse-checkout-cone-mode: true
+2026-11-21T08:05:47.1069860Z   fetch-depth: 1
+2026-11-21T08:05:47.1075806Z   fetch-tags: false
+2026-11-21T08:05:47.1078807Z   show-progress: true
+2026-11-21T08:05:47.1083310Z   lfs: false
+2026-11-21T08:05:47.1090691Z   submodules: false
+2026-11-21T08:05:47.1097917Z   set-safe-directory: true
+2026-11-21T08:05:47.1103688Z env:
+2026-11-21T08:05:47.1111465Z   FORCE_COLOR: 1
+2026-11-21T08:05:47.1114692Z ##[endgroup]
+2026-11-21T08:05:47.1119073Z Syncing repository: example-org/fx-rates
+2026-11-21T08:05:47.1125510Z ##[group]Getting Git version info
+2026-11-21T08:05:47.1133365Z Working directory is '/home/runner/work/fx-rates/fx-rates'
+2026-11-21T08:05:47.1163507Z [command]/usr/bin/git version
+2026-11-21T08:05:47.1183658Z git version 2.51.2
+2026-11-21T08:05:47.1188401Z ##[endgroup]
+2026-11-21T08:05:47.1189102Z Temporarily overriding HOME='/home/runner/work/_temp/4c7a0e2f-91d3-4b68-a5e0-3f8d2c61b974' before making global git config changes
+2026-11-21T08:05:47.1196789Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T08:05:47.1202523Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fx-rates/fx-rates
+2026-11-21T08:05:47.1223151Z Deleting the contents of '/home/runner/work/fx-rates/fx-rates'
+2026-11-21T08:05:47.1227714Z ##[group]Initializing the repository
+2026-11-21T08:05:47.1232313Z [command]/usr/bin/git init /home/runner/work/fx-rates/fx-rates
+2026-11-21T08:05:47.1272501Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-21T08:05:47.1275805Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-21T08:05:47.1279702Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-21T08:05:47.1284452Z hint:
+2026-11-21T08:05:47.1291711Z hint: 	git config --global init.defaultBranch <name>
+2026-11-21T08:05:47.1298625Z hint:
+2026-11-21T08:05:47.1303549Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-21T08:05:47.1308144Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-21T08:05:47.1309987Z hint:
+2026-11-21T08:05:47.1310526Z hint: 	git branch -m <name>
+2026-11-21T08:05:47.1317803Z hint:
+2026-11-21T08:05:47.1324150Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-21T08:05:47.1328563Z Initialized empty Git repository in /home/runner/work/fx-rates/fx-rates/.git/
+2026-11-21T08:05:47.1332149Z [command]/usr/bin/git remote add origin https://github.com/example-org/fx-rates
+2026-11-21T08:05:47.1362298Z ##[endgroup]
+2026-11-21T08:05:47.1363923Z ##[group]Disabling automatic garbage collection
+2026-11-21T08:05:47.1370136Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-21T08:05:47.1390483Z ##[endgroup]
+2026-11-21T08:05:47.1398275Z ##[group]Setting up auth
+2026-11-21T08:05:47.1401182Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T08:05:47.1431955Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T08:05:47.1712136Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T08:05:47.1742482Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-21T08:05:47.2013337Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-21T08:05:47.2033856Z ##[endgroup]
+2026-11-21T08:05:47.2039815Z ##[group]Fetching the repository
+2026-11-21T08:05:47.2042072Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +6a0d3e8b1f5c27a94e6b0d3c8f2a15e7b9d4c063:refs/remotes/pull/156/merge
+2026-11-21T08:05:47.5142560Z remote: Enumerating objects: 58, done.
+2026-11-21T08:05:47.5150142Z remote: Counting objects: 100% (58/58), done.
+2026-11-21T08:05:47.5331042Z remote: Compressing objects: 100% (47/47), done.
+2026-11-21T08:05:47.6281813Z remote: Total 58 (delta 3), reused 26 (delta 0), pack-reused 0 (from 0)
+2026-11-21T08:05:47.6682638Z From https://github.com/example-org/fx-rates
+2026-11-21T08:05:47.6689859Z  * [new ref]         6a0d3e8b1f5c27a94e6b0d3c8f2a15e7b9d4c063 -> pull/156/merge
+2026-11-21T08:05:47.6710086Z ##[endgroup]
+2026-11-21T08:05:47.6716324Z ##[group]Determining the checkout info
+2026-11-21T08:05:47.6723137Z ##[endgroup]
+2026-11-21T08:05:47.6729196Z [command]/usr/bin/git sparse-checkout disable
+2026-11-21T08:05:47.6779559Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-21T08:05:47.6810513Z ##[group]Checking out the ref
+2026-11-21T08:05:47.6816839Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/156/merge
+2026-11-21T08:05:47.7197220Z Note: switching to 'refs/remotes/pull/156/merge'.
+2026-11-21T08:05:47.7199494Z 
+2026-11-21T08:05:47.7201031Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-21T08:05:47.7207836Z changes and commit them, and you can discard any commits you make in this
+2026-11-21T08:05:47.7208922Z state without impacting any branches by switching back to a branch.
+2026-11-21T08:05:47.7216948Z 
+2026-11-21T08:05:47.7223584Z If you want to create a new branch to retain commits you create, you may
+2026-11-21T08:05:47.7228223Z do so (now or later) by using -c with the switch command. Example:
+2026-11-21T08:05:47.7233480Z 
+2026-11-21T08:05:47.7240861Z   git switch -c <new-branch-name>
+2026-11-21T08:05:47.7245482Z 
+2026-11-21T08:05:47.7248684Z Or undo this operation with:
+2026-11-21T08:05:47.7252877Z 
+2026-11-21T08:05:47.7258098Z   git switch -
+2026-11-21T08:05:47.7263403Z 
+2026-11-21T08:05:47.7268745Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-21T08:05:47.7269912Z 
+2026-11-21T08:05:47.7272447Z HEAD is now at 6a0d3e8 Merge 1f7c4a9e2b8d05e63a1c7f9b4d2e80a6c5b3f17d into b85e2d0f4a7c19e36d0b8a5f2c4e71d9a3b6c048
+2026-11-21T08:05:47.7292924Z ##[endgroup]
+2026-11-21T08:05:47.7295125Z [command]/usr/bin/git log -1 --format='%H'
+2026-11-21T08:05:47.7335383Z '6a0d3e8b1f5c27a94e6b0d3c8f2a15e7b9d4c063'
+2026-11-21T08:05:49.5099746Z ##[group]Run actions/setup-node@v4
+2026-11-21T08:05:49.5102725Z with:
+2026-11-21T08:05:49.5110340Z   node-version-file: .nvmrc
+2026-11-21T08:05:49.5116049Z   cache: npm
+2026-11-21T08:05:49.5122967Z   always-auth: false
+2026-11-21T08:05:49.5129992Z   check-latest: false
+2026-11-21T08:05:49.5136812Z   token: ***
+2026-11-21T08:05:49.5143920Z env:
+2026-11-21T08:05:49.5146648Z   FORCE_COLOR: 1
+2026-11-21T08:05:49.5149941Z ##[endgroup]
+2026-11-21T08:05:49.5210656Z Resolved .nvmrc as 24
+2026-11-21T08:05:49.5241362Z Found in cache @ /opt/hostedtoolcache/node/24.11.1/x64
+2026-11-21T08:05:49.5242845Z ##[group]Environment details
+2026-11-21T08:05:49.9043764Z node: v24.11.1
+2026-11-21T08:05:50.1144473Z npm: 11.6.2
+2026-11-21T08:05:50.3044652Z yarn: 1.22.22
+2026-11-21T08:05:50.3046436Z ##[endgroup]
+2026-11-21T08:05:50.3051163Z [command]/opt/hostedtoolcache/node/24.11.1/x64/bin/npm config get cache
+2026-11-21T08:05:50.5451922Z /home/runner/.npm
+2026-11-21T08:05:50.8052825Z Cache hit for: node-cache-Linux-x64-npm-8d3f1a6c0e9b4d27f5a1c8e3b6d09f2a7c4e1b58d3a6f90c2e7b4d1a8f5c3e06
+2026-11-21T08:05:51.3252861Z Received 29871442 of 29871442 (100.0%), 54.7 MBs/sec
+2026-11-21T08:05:51.3259296Z Cache Size: ~28 MB (29871442 B)
+2026-11-21T08:05:51.3261291Z [command]/usr/bin/tar -xf /home/runner/work/_temp/9b2e4f61-0c7d-4a3e-8f15-d6a0b92c7e48/cache.tzst -P -C /home/runner/work/fx-rates/fx-rates --use-compress-program unzstd
+2026-11-21T08:05:52.0161464Z Cache restored successfully
+2026-11-21T08:05:52.0191571Z Cache restored from key: node-cache-Linux-x64-npm-8d3f1a6c0e9b4d27f5a1c8e3b6d09f2a7c4e1b58d3a6f90c2e7b4d1a8f5c3e06
+2026-11-21T08:05:54.3642199Z ##[group]Run npm ci
+2026-11-21T08:05:54.3643374Z [36;1mnpm ci[0m
+2026-11-21T08:05:54.3648304Z shell: /usr/bin/bash -e {0}
+2026-11-21T08:05:54.3653633Z env:
+2026-11-21T08:05:54.3654438Z   FORCE_COLOR: 1
+2026-11-21T08:05:54.3661069Z ##[endgroup]
+2026-11-21T08:05:59.6662681Z 
+2026-11-21T08:05:59.6667846Z added 198 packages, and audited 199 packages in 5s
+2026-11-21T08:05:59.6687965Z 
+2026-11-21T08:05:59.6692650Z 51 packages are looking for funding
+2026-11-21T08:05:59.6696080Z   run `npm fund` for details
+2026-11-21T08:05:59.6906934Z 
+2026-11-21T08:05:59.6912744Z found 0 vulnerabilities
+2026-11-21T08:06:01.3078898Z ##[group]Run npm run test:unit
+2026-11-21T08:06:01.3082046Z [36;1mnpm run test:unit[0m
+2026-11-21T08:06:01.3084857Z shell: /usr/bin/bash -e {0}
+2026-11-21T08:06:01.3090709Z env:
+2026-11-21T08:06:01.3095300Z   FORCE_COLOR: 1
+2026-11-21T08:06:01.3101885Z ##[endgroup]
+2026-11-21T08:06:01.6202346Z 
+2026-11-21T08:06:01.6206554Z > fx-rates@1.8.0 test:unit
+2026-11-21T08:06:01.6210276Z > vitest run --project unit --coverage
+2026-11-21T08:06:01.6211602Z 
+2026-11-21T08:06:02.2411842Z 
+2026-11-21T08:06:02.2415282Z  [1m[46m RUN [49m[22m [36mv4.0.10 [39m[90m/home/runner/work/fx-rates/fx-rates[39m
+2026-11-21T08:06:02.2417991Z       [2mCoverage enabled with [22m[33mv8[39m
+2026-11-21T08:06:02.8818682Z  [32m✓[39m [30m[43m unit [49m[39m test/unit/parse.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+2026-11-21T08:06:02.9129433Z  [32m✓[39m [30m[43m unit [49m[39m test/unit/convert.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+2026-11-21T08:06:02.9570292Z [90mstderr[2m | test/unit/client.test.ts[2m > [22m[2mRatesClient[2m > [22m[2mretries once on 503 and then succeeds[22m[39m
+2026-11-21T08:06:02.9575784Z [fx-rates] upstream returned 503 for GET /v2/latest?base=EUR, retrying in 50ms
+2026-11-21T08:06:02.9579674Z 
+2026-11-21T08:06:03.0160645Z [90mstderr[2m | test/unit/client.test.ts[2m > [22m[2mRatesClient[2m > [22m[2msurfaces network errors from fetch[22m[39m
+2026-11-21T08:06:03.0163199Z [fx-rates] request failed: TypeError: fetch failed
+2026-11-21T08:06:03.0168200Z 
+2026-11-21T08:06:03.0388788Z  [32m✓[39m [30m[43m unit [49m[39m test/unit/client.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 87[2mms[22m[39m
+2026-11-21T08:06:03.0395416Z 
+2026-11-21T08:06:03.0401442Z [2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+2026-11-21T08:06:03.0406237Z [2m      Tests [22m [1m[32m23 passed[39m[22m[90m (23)[39m
+2026-11-21T08:06:03.0409026Z [2m   Start at [22m 08:06:02
+2026-11-21T08:06:03.0416958Z [2m   Duration [22m 1.31s[2m (transform 204ms, setup 0ms, collect 389ms, tests 102ms, environment 1ms, prepare 288ms)[22m
+2026-11-21T08:06:03.0422422Z 
+2026-11-21T08:06:03.4443213Z [34m % [39m[2mCoverage report from [22m[33mv8[39m
+2026-11-21T08:06:03.4445856Z -------------|---------|----------|---------|---------|-------------------
+2026-11-21T08:06:03.4449053Z File         | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+2026-11-21T08:06:03.4453347Z -------------|---------|----------|---------|---------|-------------------
+2026-11-21T08:06:03.4461155Z [32;1mAll files   [0m | [32;1m  88.15[0m | [32;1m   86.36[0m | [32;1m  84.21[0m | [32;1m  88.15[0m | [31;1m                 [0m 
+2026-11-21T08:06:03.4467841Z [32;1m client.ts  [0m | [32;1m  95.12[0m | [32;1m   88.88[0m | [32;1m  83.33[0m | [32;1m  95.12[0m | [31;1m47-53            [0m 
+2026-11-21T08:06:03.4474401Z [32;1m convert.ts [0m | [32;1m    100[0m | [32;1m   93.75[0m | [32;1m    100[0m | [32;1m    100[0m | [31;1m17               [0m 
+2026-11-21T08:06:03.4481616Z [32;1m errors.ts  [0m | [32;1m    100[0m | [32;1m     100[0m | [32;1m    100[0m | [32;1m    100[0m | [31;1m                 [0m 
+2026-11-21T08:06:03.4484028Z [31;1m index.ts   [0m | [31;1m      0[0m | [31;1m       0[0m | [31;1m      0[0m | [31;1m      0[0m | [31;1m1-4              [0m 
+2026-11-21T08:06:03.4487238Z [32;1m parse.ts   [0m | [32;1m    100[0m | [32;1m     100[0m | [32;1m    100[0m | [32;1m    100[0m | [31;1m                 [0m 
+2026-11-21T08:06:03.4492445Z -------------|---------|----------|---------|---------|-------------------
+2026-11-21T08:06:05.3271687Z ##[group]Run npm run test:integration
+2026-11-21T08:06:05.3278259Z [36;1mnpm run test:integration[0m
+2026-11-21T08:06:05.3281004Z shell: /usr/bin/bash -e {0}
+2026-11-21T08:06:05.3282866Z env:
+2026-11-21T08:06:05.3290020Z   FORCE_COLOR: 1
+2026-11-21T08:06:05.3294326Z   RATES_SANDBOX_URL: https://sandbox.rates.example.com
+2026-11-21T08:06:05.3296150Z   RATES_SANDBOX_API_KEY: ***
+2026-11-21T08:06:05.3299372Z ##[endgroup]
+2026-11-21T08:06:05.6280241Z 
+2026-11-21T08:06:05.6284903Z > fx-rates@1.8.0 test:integration
+2026-11-21T08:06:05.6291124Z > vitest run --project integration
+2026-11-21T08:06:05.6298100Z 
+2026-11-21T08:06:06.2198604Z 
+2026-11-21T08:06:06.2201765Z  [1m[46m RUN [49m[22m [36mv4.0.10 [39m[90m/home/runner/work/fx-rates/fx-rates[39m
+2026-11-21T08:06:07.5622109Z  [32m✓[39m [30m[45m integration [49m[39m test/integration/currencies.int.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 1268[2mms[22m[39m
+2026-11-21T08:06:07.5652639Z      [32m✓[39m GET /v2/currencies > lists ISO 4217 codes [33m 702[2mms[22m[39m
+2026-11-21T08:06:15.1552834Z  [31m❯[39m [30m[45m integration [49m[39m test/integration/sandbox.int.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 7561[2mms[22m[39m
+2026-11-21T08:06:15.1559210Z      [32m✓[39m RatesClient (sandbox) > authenticates with the sandbox key [33m 431[2mms[22m[39m
+2026-11-21T08:06:15.1560479Z [31m     [31m×[31m RatesClient (sandbox) > fetches latest rates from sandbox[39m[33m 5004[2mms[22m[39m
+2026-11-21T08:06:15.1562607Z      [32m✓[39m RatesClient (sandbox) > fetches historical rates for a fixed date [33m 962[2mms[22m[39m
+2026-11-21T08:06:15.1569643Z      [32m✓[39m RatesClient (sandbox) > rejects unsupported base currencies [33m 389[2mms[22m[39m
+2026-11-21T08:06:15.1574900Z      [32m✓[39m RatesClient (sandbox) > reuses the ETag on repeat requests [33m 771[2mms[22m[39m
+2026-11-21T08:06:15.1578132Z 
+2026-11-21T08:06:15.1580566Z [31m[2m⎯⎯⎯⎯⎯⎯⎯[22m[39m[1m[41m Failed Tests 1 [49m[22m[31m[2m⎯⎯⎯⎯⎯⎯⎯[22m[39m
+2026-11-21T08:06:15.1581563Z 
+2026-11-21T08:06:15.1582538Z [41m[1m FAIL [22m[49m [30m[45m integration [49m[39m test/integration/sandbox.int.test.ts[2m > [22mRatesClient (sandbox)[2m > [22mfetches latest rates from sandbox
+2026-11-21T08:06:15.1586586Z [31m[1mRatesApiError[22m: GET https://sandbox.rates.example.com/v2/latest?base=EUR&symbols=USD%2CGBP%2CJPY failed: request timed out after 5000ms[39m
+2026-11-21T08:06:15.1592024Z [36m [2m❯[22m RatesClient.request src/client.ts:[2m70:15[22m[39m
+2026-11-21T08:06:15.1598816Z [90m  68| [39m    } catch (err) {
+2026-11-21T08:06:15.1605088Z [90m  69| [39m      if (isTimeout(err)) {
+2026-11-21T08:06:15.1608514Z [90m  70| [39m        throw new RatesApiError(`GET ${url} failed: request timed out after ${this.timeoutMs}ms`, {
+2026-11-21T08:06:15.1610598Z [90m    | [39m              [31m^[39m
+2026-11-21T08:06:15.1617720Z [90m  71| [39m          cause: err,
+2026-11-21T08:06:15.1625577Z [90m  72| [39m        });
+2026-11-21T08:06:15.1632709Z [90m [2m❯[22m RatesClient.latest src/client.ts:[2m44:29[22m[39m
+2026-11-21T08:06:15.1635963Z [90m [2m❯[22m test/integration/sandbox.int.test.ts:[2m19:23[22m[39m
+2026-11-21T08:06:15.1637584Z 
+2026-11-21T08:06:15.1642743Z [31m[1mCaused by: TimeoutError[22m: The operation was aborted due to timeout[39m
+2026-11-21T08:06:15.1648586Z 
+2026-11-21T08:06:15.1650051Z [31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22m[39m[2m[1/1]⎯[22m
+2026-11-21T08:06:15.1656778Z 
+2026-11-21T08:06:15.1660372Z [2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+2026-11-21T08:06:15.1662801Z [2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m6 passed[39m[22m[90m (7)[39m
+2026-11-21T08:06:15.1666349Z [2m   Start at [22m 08:06:06
+2026-11-21T08:06:15.1670355Z [2m   Duration [22m 9.44s[2m (transform 151ms, setup 0ms, collect 297ms, tests 8.83s, environment 0ms, prepare 176ms)[22m
+2026-11-21T08:06:15.1674117Z 
+2026-11-21T08:06:15.1688411Z 
+2026-11-21T08:06:15.1690588Z ##[error]RatesApiError: GET https://sandbox.rates.example.com/v2/latest?base=EUR&symbols=USD%2CGBP%2CJPY failed: request timed out after 5000ms
+2026-11-21T08:06:15.1692478Z  ❯ RatesClient.request src/client.ts:70:15
+2026-11-21T08:06:15.1693671Z   68|     } catch (err) {
+2026-11-21T08:06:15.1695315Z   69|       if (isTimeout(err)) {
+2026-11-21T08:06:15.1696117Z   70|         throw new RatesApiError(`GET ${url} failed: request timed out after ${this.timeoutMs}ms`, {
+2026-11-21T08:06:15.1697210Z     |               ^
+2026-11-21T08:06:15.1698035Z   71|           cause: err,
+2026-11-21T08:06:15.1698771Z   72|         });
+2026-11-21T08:06:15.1700775Z  ❯ RatesClient.latest src/client.ts:44:29
+2026-11-21T08:06:15.1702496Z  ❯ test/integration/sandbox.int.test.ts:19:23
+2026-11-21T08:06:15.1704020Z 
+2026-11-21T08:06:15.1704819Z Caused by: TimeoutError: The operation was aborted due to timeout
+2026-11-21T08:06:15.2634442Z ##[error]Process completed with exit code 1.
+2026-11-21T08:06:19.2254976Z Post job cleanup.
+2026-11-21T08:06:19.2285212Z [command]/usr/bin/git version
+2026-11-21T08:06:19.2305975Z git version 2.51.2
+2026-11-21T08:06:19.2311972Z Temporarily overriding HOME='/home/runner/work/_temp/f0e83b5a-26c1-4d97-b0a4-8e5c13d7f269' before making global git config changes
+2026-11-21T08:06:19.2317496Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T08:06:19.2320758Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fx-rates/fx-rates
+2026-11-21T08:06:19.2351742Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T08:06:19.2382462Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T08:06:19.2652999Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T08:06:19.2673821Z http.https://github.com/.extraheader
+2026-11-21T08:06:19.2681343Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-21T08:06:19.2711502Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-21T08:06:21.1970466Z Cleaning up orphan processes

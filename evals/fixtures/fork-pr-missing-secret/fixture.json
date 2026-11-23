@@ -1,0 +1,610 @@
+{
+  "id": "fork-pr-missing-secret",
+  "title": "Coverage upload fails on a fork PR: COVERAGE_TOKEN secret is not passed to fork workflows",
+  "description": "A contributor's pull_request from the fork contributor-fork/sdk-python adds retry jitter. Lint and the whole test matrix pass (19 passed in the failing job too); only the 3.12 job's 'Upload coverage' step fails with '##[error]Input required and not supplied: token'. The step passes token: ${{ secrets.COVERAGE_TOKEN }}, and GitHub does not expose repository secrets to pull_request workflows triggered from forks, so the input is empty (the log's 'Secret source: None' and the empty 'token:' input echo show it). Main-branch history is green and the diff does not touch CI. Fix belongs in .github/workflows/ci.yml: skip the upload (or make it non-fatal / tokenless) when the PR comes from a fork, e.g. if: github.event.pull_request.head.repo.full_name == github.repository. Not a code problem and not flaky.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "sdk-python"
+  },
+  "run": {
+    "id": 19551203987,
+    "attempt": 1,
+    "workflowId": 61234508,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/retry-jitter",
+    "headSha": "601ca875c13c7aa6e955f77b09c5e6fe9aaadb56",
+    "headRepoFullName": "contributor-fork/sdk-python",
+    "isFork": true,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19551203987",
+    "displayTitle": "Add jitter to retry backoff",
+    "pullRequestNumbers": [
+      388
+    ],
+    "createdAt": "2026-11-21T10:22:07Z"
+  },
+  "jobs": [
+    {
+      "id": 55601200118,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-21T10:22:12Z",
+      "completedAt": "2026-11-21T10:22:40Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19551203987/job/55601200118",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:12Z",
+          "completedAt": "2026-11-21T10:22:14Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:14Z",
+          "completedAt": "2026-11-21T10:22:15Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:15Z",
+          "completedAt": "2026-11-21T10:22:18Z"
+        },
+        {
+          "number": 4,
+          "name": "Run pip install -e \".[dev]\"",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:18Z",
+          "completedAt": "2026-11-21T10:22:29Z"
+        },
+        {
+          "number": 5,
+          "name": "Run ruff check .",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:29Z",
+          "completedAt": "2026-11-21T10:22:30Z"
+        },
+        {
+          "number": 6,
+          "name": "Run ruff format --check .",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:30Z",
+          "completedAt": "2026-11-21T10:22:31Z"
+        },
+        {
+          "number": 7,
+          "name": "Run mypy src",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:31Z",
+          "completedAt": "2026-11-21T10:22:37Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:37Z",
+          "completedAt": "2026-11-21T10:22:38Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:38Z",
+          "completedAt": "2026-11-21T10:22:39Z"
+        },
+        {
+          "number": 10,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:39Z",
+          "completedAt": "2026-11-21T10:22:40Z"
+        }
+      ]
+    },
+    {
+      "id": 55601200127,
+      "name": "test (3.10)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-21T10:22:14Z",
+      "completedAt": "2026-11-21T10:22:38Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19551203987/job/55601200127",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:14Z",
+          "completedAt": "2026-11-21T10:22:16Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:16Z",
+          "completedAt": "2026-11-21T10:22:17Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:17Z",
+          "completedAt": "2026-11-21T10:22:20Z"
+        },
+        {
+          "number": 4,
+          "name": "Install",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:20Z",
+          "completedAt": "2026-11-21T10:22:30Z"
+        },
+        {
+          "number": 5,
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:30Z",
+          "completedAt": "2026-11-21T10:22:35Z"
+        },
+        {
+          "number": 6,
+          "name": "Upload coverage",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-21T10:22:35Z",
+          "completedAt": "2026-11-21T10:22:35Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:35Z",
+          "completedAt": "2026-11-21T10:22:36Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:36Z",
+          "completedAt": "2026-11-21T10:22:37Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:37Z",
+          "completedAt": "2026-11-21T10:22:38Z"
+        }
+      ]
+    },
+    {
+      "id": 55601200133,
+      "name": "test (3.11)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-21T10:22:12Z",
+      "completedAt": "2026-11-21T10:22:34Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19551203987/job/55601200133",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:12Z",
+          "completedAt": "2026-11-21T10:22:14Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:14Z",
+          "completedAt": "2026-11-21T10:22:15Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:15Z",
+          "completedAt": "2026-11-21T10:22:18Z"
+        },
+        {
+          "number": 4,
+          "name": "Install",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:18Z",
+          "completedAt": "2026-11-21T10:22:27Z"
+        },
+        {
+          "number": 5,
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:27Z",
+          "completedAt": "2026-11-21T10:22:31Z"
+        },
+        {
+          "number": 6,
+          "name": "Upload coverage",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-21T10:22:31Z",
+          "completedAt": "2026-11-21T10:22:31Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:31Z",
+          "completedAt": "2026-11-21T10:22:32Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:32Z",
+          "completedAt": "2026-11-21T10:22:33Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:33Z",
+          "completedAt": "2026-11-21T10:22:34Z"
+        }
+      ]
+    },
+    {
+      "id": 55601200140,
+      "name": "test (3.12)",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-21T10:22:13Z",
+      "completedAt": "2026-11-21T10:22:41Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19551203987/job/55601200140",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:13Z",
+          "completedAt": "2026-11-21T10:22:15Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:15Z",
+          "completedAt": "2026-11-21T10:22:17Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:17Z",
+          "completedAt": "2026-11-21T10:22:20Z"
+        },
+        {
+          "number": 4,
+          "name": "Install",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:20Z",
+          "completedAt": "2026-11-21T10:22:29Z"
+        },
+        {
+          "number": 5,
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:29Z",
+          "completedAt": "2026-11-21T10:22:33Z"
+        },
+        {
+          "number": 6,
+          "name": "Upload coverage",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-21T10:22:33Z",
+          "completedAt": "2026-11-21T10:22:35Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:35Z",
+          "completedAt": "2026-11-21T10:22:37Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:37Z",
+          "completedAt": "2026-11-21T10:22:39Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:39Z",
+          "completedAt": "2026-11-21T10:22:41Z"
+        }
+      ]
+    },
+    {
+      "id": 55601200156,
+      "name": "test (3.13)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-21T10:22:15Z",
+      "completedAt": "2026-11-21T10:22:37Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19551203987/job/55601200156",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:15Z",
+          "completedAt": "2026-11-21T10:22:17Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:17Z",
+          "completedAt": "2026-11-21T10:22:18Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:18Z",
+          "completedAt": "2026-11-21T10:22:21Z"
+        },
+        {
+          "number": 4,
+          "name": "Install",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:21Z",
+          "completedAt": "2026-11-21T10:22:30Z"
+        },
+        {
+          "number": 5,
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:30Z",
+          "completedAt": "2026-11-21T10:22:34Z"
+        },
+        {
+          "number": 6,
+          "name": "Upload coverage",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-21T10:22:34Z",
+          "completedAt": "2026-11-21T10:22:34Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:34Z",
+          "completedAt": "2026-11-21T10:22:35Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:35Z",
+          "completedAt": "2026-11-21T10:22:36Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-21T10:22:36Z",
+          "completedAt": "2026-11-21T10:22:37Z"
+        }
+      ]
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "CHANGELOG.md",
+      "status": "modified",
+      "additions": 3,
+      "deletions": 0,
+      "patch": "@@ -2,6 +2,9 @@\n \n ## Unreleased\n \n+- Retry backoff now applies proportional jitter (`RetryPolicy.jitter`, default 0.2) so clients that\n+  failed together do not retry in lockstep.\n+\n ## 2.4.0 - 2026-11-03\n \n - Added `Client.projects.archive()`.",
+      "previousPath": null
+    },
+    {
+      "path": "docs/retries.md",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 2,
+      "patch": "@@ -4,10 +4,12 @@\n `RetryPolicy.max_attempts` (default 4) attempts in total.\n \n Between attempts it waits `base_delay * 2 ** (attempt - 1)` seconds, capped at `max_delay`, unless\n-the server sent `Retry-After`, which always wins.\n+the server sent `Retry-After`, which always wins. The computed delay is then spread by\n+`+/- jitter` (a fraction, default `0.2`) so many clients that failed at the same moment do not all\n+retry at the same moment. Set `jitter=0` for deterministic delays.\n \n ```python\n from acme_sdk import Client, RetryPolicy\n \n-client = Client(api_key=\"...\", retry=RetryPolicy(max_attempts=6, max_delay=30))\n+client = Client(api_key=\"...\", retry=RetryPolicy(max_attempts=6, max_delay=30, jitter=0.1))\n ```",
+      "previousPath": null
+    },
+    {
+      "path": "src/acme_sdk/_http.py",
+      "status": "modified",
+      "additions": 9,
+      "deletions": 3,
+      "patch": "@@ -2,6 +2,7 @@\n \n from __future__ import annotations\n \n+import random\n import time\n from dataclasses import dataclass\n from typing import Any\n@@ -18,10 +19,15 @@\n     max_attempts: int = 4\n     base_delay: float = 0.5\n     max_delay: float = 8.0\n+    jitter: float = 0.2\n \n-    def delay(self, attempt: int) -> float:\n-        \"\"\"Exponential backoff for the given 1-based attempt.\"\"\"\n-        return min(self.max_delay, self.base_delay * 2 ** (attempt - 1))\n+    def delay(self, attempt: int, *, rng: random.Random | None = None) -> float:\n+        \"\"\"Exponential backoff for the given 1-based attempt, +/- `jitter` as a fraction.\"\"\"\n+        raw = min(self.max_delay, self.base_delay * 2 ** (attempt - 1))\n+        if not self.jitter:\n+            return raw\n+        spread = (rng or random).uniform(-self.jitter, self.jitter)\n+        return max(0.0, raw * (1 + spread))\n \n \n class Transport:",
+      "previousPath": null
+    },
+    {
+      "path": "tests/test_http.py",
+      "status": "modified",
+      "additions": 13,
+      "deletions": 1,
+      "patch": "@@ -1,3 +1,5 @@\n+import random\n+\n import httpx\n import pytest\n \n@@ -6,9 +8,19 @@\n \n @pytest.mark.parametrize((\"attempt\", \"expected\"), [(1, 0.5), (2, 1.0), (3, 2.0), (5, 8.0), (9, 8.0)])\n def test_backoff_is_exponential_and_capped(attempt, expected):\n-    assert RetryPolicy().delay(attempt) == expected\n+    assert RetryPolicy(jitter=0).delay(attempt) == expected\n \n \n+@pytest.mark.parametrize(\"attempt\", [1, 2, 3, 4, 6])\n+def test_jitter_stays_within_bounds(attempt):\n+    policy = RetryPolicy(jitter=0.2)\n+    raw = RetryPolicy(jitter=0).delay(attempt)\n+    rng = random.Random(1234)\n+    delays = [policy.delay(attempt, rng=rng) for _ in range(200)]\n+    assert all(raw * 0.8 <= d <= raw * 1.2 for d in delays)\n+    assert len(set(delays)) > 1\n+\n+\n def test_retries_5xx_then_succeeds(api, client):\n     route = api.get(\"/projects\").mock(\n         side_effect=[httpx.Response(503), httpx.Response(200, json={\"data\": [], \"next_cursor\": None})]",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test (3.12)": [
+      {
+        "runId": 19537712840,
+        "attempt": 1,
+        "headSha": "7e84a8219bdbce70cb66541ec7b4e2fa548fb971",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T15:47:33Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19537712840/job/55561904721"
+      },
+      {
+        "runId": 19501448391,
+        "attempt": 1,
+        "headSha": "baf34db73772552f158c28198a26acef71da3a7f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T11:05:12Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19501448391/job/55459063118"
+      },
+      {
+        "runId": 19470192665,
+        "attempt": 1,
+        "headSha": "052871ac00b3e105999b355a6d7c9d551fd6cdcc",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T09:31:50Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19470192665/job/55369227405"
+      },
+      {
+        "runId": 19433867102,
+        "attempt": 1,
+        "headSha": "8e4b836bfb7922a47dc7f0c7b315813ed3ddb3ef",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-14T17:22:08Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19433867102/job/55251346677"
+      },
+      {
+        "runId": 19391025543,
+        "attempt": 1,
+        "headSha": "141cd7166d1bf5ee64a9b8b00e1f7040e11db11b",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-12T13:58:41Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19391025543/job/55117680934"
+      },
+      {
+        "runId": 19344410876,
+        "attempt": 1,
+        "headSha": "b0f329d281ef9db98278f3de1f32f4f3802164d1",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-10T10:14:27Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19344410876/job/54968215560"
+      },
+      {
+        "runId": 19262735119,
+        "attempt": 1,
+        "headSha": "6988fcb8d9cafe483958fea8cc2bf7521bda33af",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-05T16:40:03Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19262735119/job/54706943271"
+      },
+      {
+        "runId": 19217040288,
+        "attempt": 1,
+        "headSha": "ab74ca8ad91d30237f0cc1371177c2677296961d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-03T12:11:59Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/sdk-python/actions/runs/19217040288/job/54560311842"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "configuration"
+    ],
+    "keywords": [
+      [
+        "fork"
+      ],
+      [
+        "secret",
+        "token"
+      ]
+    ],
+    "fixPath": ".github/workflows/ci.yml"
+  }
+}

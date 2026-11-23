@@ -1,0 +1,357 @@
+2026-11-23T10:09:14.3944985Z Current runner version: '2.330.0'
+2026-11-23T10:09:14.3948001Z Runner name: 'GitHub Actions 31'
+2026-11-23T10:09:14.3962418Z Runner group name: 'GitHub Actions'
+2026-11-23T10:09:14.3980240Z Machine name: 'fv-az1871-226'
+2026-11-23T10:09:14.3984171Z ##[group]Runner Image Provisioner
+2026-11-23T10:09:14.3988574Z Hosted Compute Agent
+2026-11-23T10:09:14.3988929Z Version: 20261117.427
+2026-11-23T10:09:14.3995472Z Commit: 2c72ed0fa4ea29737611eaae3d6831b592e24f60
+2026-11-23T10:09:14.4004746Z Build Date: 2026-11-17T19:02:37Z
+2026-11-23T10:09:14.4007157Z Worker ID: {ddce9ffb-5768-452e-aead-571d61f8ccc8}
+2026-11-23T10:09:14.4024972Z Azure Region: eastus
+2026-11-23T10:09:14.4029957Z ##[endgroup]
+2026-11-23T10:09:14.4041094Z ##[group]Operating System
+2026-11-23T10:09:14.4057693Z Ubuntu
+2026-11-23T10:09:14.4066550Z 24.04.3
+2026-11-23T10:09:14.4075052Z LTS
+2026-11-23T10:09:14.4085878Z ##[endgroup]
+2026-11-23T10:09:14.4098127Z ##[group]Runner Image
+2026-11-23T10:09:14.4105817Z Image: ubuntu-24.04
+2026-11-23T10:09:14.4112665Z Version: 20261116.58.1
+2026-11-23T10:09:14.4117973Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.58/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-23T10:09:14.4132046Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.58
+2026-11-23T10:09:14.4137071Z ##[endgroup]
+2026-11-23T10:09:14.4148303Z ##[group]GITHUB_TOKEN Permissions
+2026-11-23T10:09:14.4164902Z Contents: read
+2026-11-23T10:09:14.4171089Z IdToken: write
+2026-11-23T10:09:14.4183996Z Metadata: read
+2026-11-23T10:09:14.4198591Z ##[endgroup]
+2026-11-23T10:09:14.4216609Z Secret source: Actions
+2026-11-23T10:09:14.4228987Z Prepare workflow directory
+2026-11-23T10:09:14.4245423Z Prepare all required actions
+2026-11-23T10:09:14.4247802Z Getting action download info
+2026-11-23T10:09:14.8051773Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-23T10:09:15.0168985Z Download action repository 'aws-actions/configure-aws-credentials@v4' (SHA:7474bc4690e29a8392af63c5b98e7449536d5c3a)
+2026-11-23T10:09:15.2276260Z Download action repository 'hashicorp/setup-terraform@v3' (SHA:b9cd54a3c349d3f38e8881555d616ced269862dd)
+2026-11-23T10:09:15.4385855Z Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+2026-11-23T10:09:15.6490270Z Complete job name: Apply
+2026-11-23T10:09:17.0811815Z ##[group]Run actions/checkout@v4
+2026-11-23T10:09:17.0820258Z with:
+2026-11-23T10:09:17.0831914Z   repository: example-org/batch-jobs
+2026-11-23T10:09:17.0834024Z   token: ***
+2026-11-23T10:09:17.0835709Z   ssh-strict: true
+2026-11-23T10:09:17.0844990Z   ssh-user: git
+2026-11-23T10:09:17.0852639Z   persist-credentials: true
+2026-11-23T10:09:17.0865480Z   clean: true
+2026-11-23T10:09:17.0881162Z   sparse-checkout-cone-mode: true
+2026-11-23T10:09:17.0887386Z   fetch-depth: 1
+2026-11-23T10:09:17.0901826Z   fetch-tags: false
+2026-11-23T10:09:17.0914890Z   show-progress: true
+2026-11-23T10:09:17.0921780Z   lfs: false
+2026-11-23T10:09:17.0936930Z   submodules: false
+2026-11-23T10:09:17.0941852Z   set-safe-directory: true
+2026-11-23T10:09:17.0950836Z env:
+2026-11-23T10:09:17.0958388Z   AWS_REGION: us-east-1
+2026-11-23T10:09:17.0964777Z   TF_IN_AUTOMATION: 1
+2026-11-23T10:09:17.0966325Z   TF_VERSION: 1.13.5
+2026-11-23T10:09:17.0976702Z ##[endgroup]
+2026-11-23T10:09:17.0987591Z Syncing repository: example-org/batch-jobs
+2026-11-23T10:09:17.0994487Z ##[group]Getting Git version info
+2026-11-23T10:09:17.1005653Z Working directory is '/home/runner/work/batch-jobs/batch-jobs'
+2026-11-23T10:09:17.1012026Z [command]/usr/bin/git version
+2026-11-23T10:09:17.1016552Z git version 2.51.2
+2026-11-23T10:09:17.1019713Z ##[endgroup]
+2026-11-23T10:09:17.1026342Z Temporarily overriding HOME='/home/runner/work/_temp/837401b0-fc1b-4335-b1ce-54176e633b8c' before making global git config changes
+2026-11-23T10:09:17.1026664Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-23T10:09:17.1033617Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/batch-jobs/batch-jobs
+2026-11-23T10:09:17.1034280Z Deleting the contents of '/home/runner/work/batch-jobs/batch-jobs'
+2026-11-23T10:09:17.1042619Z ##[group]Initializing the repository
+2026-11-23T10:09:17.1045396Z [command]/usr/bin/git init /home/runner/work/batch-jobs/batch-jobs
+2026-11-23T10:09:17.1045829Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-23T10:09:17.1051963Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-23T10:09:17.1069336Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-23T10:09:17.1081447Z hint:
+2026-11-23T10:09:17.1099715Z hint: 	git config --global init.defaultBranch <name>
+2026-11-23T10:09:17.1109136Z hint:
+2026-11-23T10:09:17.1115493Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-23T10:09:17.1132307Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-23T10:09:17.1133127Z hint:
+2026-11-23T10:09:17.1143347Z hint: 	git branch -m <name>
+2026-11-23T10:09:17.1160090Z hint:
+2026-11-23T10:09:17.1164083Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-23T10:09:17.1175286Z Initialized empty Git repository in /home/runner/work/batch-jobs/batch-jobs/.git/
+2026-11-23T10:09:17.1188761Z [command]/usr/bin/git remote add origin https://github.com/example-org/batch-jobs
+2026-11-23T10:09:17.1190399Z ##[endgroup]
+2026-11-23T10:09:17.1207509Z ##[group]Disabling automatic garbage collection
+2026-11-23T10:09:17.1209549Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-23T10:09:17.1221259Z ##[endgroup]
+2026-11-23T10:09:17.1233105Z ##[group]Setting up auth
+2026-11-23T10:09:17.1237586Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-23T10:09:17.1240792Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-23T10:09:17.1253880Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-23T10:09:17.1267163Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-23T10:09:17.1281748Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-23T10:09:17.1284702Z ##[endgroup]
+2026-11-23T10:09:17.1301169Z ##[group]Fetching the repository
+2026-11-23T10:09:17.1315585Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +b39f06d2e8a417c5f0b2d9e6a3c8147f5e2d0a6b:refs/remotes/origin/main
+2026-11-23T10:09:17.5518278Z remote: Enumerating objects: 58, done.        
+2026-11-23T10:09:17.5523603Z remote: Counting objects:   1% (1/58)        
+2026-11-23T10:09:17.5524843Z remote: Counting objects:   3% (2/58)        
+2026-11-23T10:09:17.5541720Z remote: Counting objects:   8% (5/58)        
+2026-11-23T10:09:17.5553584Z remote: Counting objects:  15% (9/58)        
+2026-11-23T10:09:17.5566851Z remote: Counting objects:  27% (16/58)        
+2026-11-23T10:09:17.5571095Z remote: Counting objects:  34% (20/58)        
+2026-11-23T10:09:17.5580023Z remote: Counting objects:  44% (26/58)        
+2026-11-23T10:09:17.5581854Z remote: Counting objects:  56% (33/58)        
+2026-11-23T10:09:17.5597203Z remote: Counting objects:  62% (36/58)        
+2026-11-23T10:09:17.5597708Z remote: Counting objects:  72% (42/58)        
+2026-11-23T10:09:17.5607617Z remote: Counting objects:  82% (48/58)        
+2026-11-23T10:09:17.5615429Z remote: Counting objects:  87% (51/58)        
+2026-11-23T10:09:17.5619913Z remote: Counting objects:  93% (54/58)        
+2026-11-23T10:09:17.5631037Z remote: Counting objects: 100% (58/58), done.        
+2026-11-23T10:09:17.5647376Z remote: Compressing objects:   2% (1/49)        
+2026-11-23T10:09:17.5649150Z remote: Compressing objects:  10% (5/49)        
+2026-11-23T10:09:17.5656728Z remote: Compressing objects:  22% (11/49)        
+2026-11-23T10:09:17.5658782Z remote: Compressing objects:  24% (12/49)        
+2026-11-23T10:09:17.5669611Z remote: Compressing objects:  26% (13/49)        
+2026-11-23T10:09:17.5672802Z remote: Compressing objects:  36% (18/49)        
+2026-11-23T10:09:17.5674292Z remote: Compressing objects:  42% (21/49)        
+2026-11-23T10:09:17.5680377Z remote: Compressing objects:  55% (27/49)        
+2026-11-23T10:09:17.5681825Z remote: Compressing objects:  65% (32/49)        
+2026-11-23T10:09:17.5682629Z remote: Compressing objects:  73% (36/49)        
+2026-11-23T10:09:17.5691852Z remote: Compressing objects:  83% (41/49)        
+2026-11-23T10:09:17.5696636Z remote: Compressing objects:  91% (45/49)        
+2026-11-23T10:09:17.5706357Z remote: Compressing objects:  95% (47/49)        
+2026-11-23T10:09:17.5713807Z remote: Compressing objects: 100% (49/49), done.        
+2026-11-23T10:09:17.5722566Z remote: Total 58 (delta 2), reused 23 (delta 0), pack-reused 0 (from 0)        
+2026-11-23T10:09:17.5734262Z Receiving objects:   1% (1/58)
+2026-11-23T10:09:17.5736149Z Receiving objects:   1% (1/58)
+2026-11-23T10:09:17.5752600Z Receiving objects:   8% (5/58)
+2026-11-23T10:09:17.5764019Z Receiving objects:  20% (12/58)
+2026-11-23T10:09:17.5774593Z Receiving objects:  32% (19/58)
+2026-11-23T10:09:17.5789197Z Receiving objects:  41% (24/58)
+2026-11-23T10:09:17.5799829Z Receiving objects:  50% (29/58)
+2026-11-23T10:09:17.5805014Z Receiving objects:  53% (31/58)
+2026-11-23T10:09:17.5805942Z Receiving objects:  56% (33/58)
+2026-11-23T10:09:17.5816673Z Receiving objects:  65% (38/58)
+2026-11-23T10:09:17.5834141Z Receiving objects:  77% (45/58)
+2026-11-23T10:09:17.5837011Z Receiving objects:  81% (47/58)
+2026-11-23T10:09:17.5848673Z Receiving objects:  91% (53/58)
+2026-11-23T10:09:17.5862032Z Receiving objects:  94% (55/58)
+2026-11-23T10:09:17.8972443Z Receiving objects: 100% (58/58), 38.05 KiB | 3.71 MiB/s, done.
+2026-11-23T10:09:17.8979985Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.8982083Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.8990823Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.8991748Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.9009872Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.9016021Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.9029297Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.9033546Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.9038106Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.9054043Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.9056262Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.9072698Z Resolving deltas:  50% (1/2)
+2026-11-23T10:09:17.9075159Z Resolving deltas: 100% (2/2), done.
+2026-11-23T10:09:17.9080788Z From https://github.com/example-org/batch-jobs
+2026-11-23T10:09:17.9095024Z  * [new ref]         b39f06d2e8a417c5f0b2d9e6a3c8147f5e2d0a6b -> origin/main
+2026-11-23T10:09:17.9095709Z ##[endgroup]
+2026-11-23T10:09:17.9109347Z ##[group]Determining the checkout info
+2026-11-23T10:09:17.9124124Z ##[endgroup]
+2026-11-23T10:09:17.9136632Z [command]/usr/bin/git sparse-checkout disable
+2026-11-23T10:09:17.9148138Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-23T10:09:17.9163557Z ##[group]Checking out the ref
+2026-11-23T10:09:17.9180498Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-23T10:09:17.9186003Z Switched to a new branch 'main'
+2026-11-23T10:09:17.9199747Z branch 'main' set up to track 'origin/main'.
+2026-11-23T10:09:17.9207920Z ##[endgroup]
+2026-11-23T10:09:17.9213793Z [command]/usr/bin/git log -1 --format=%H
+2026-11-23T10:09:17.9230891Z b39f06d2e8a417c5f0b2d9e6a3c8147f5e2d0a6b
+2026-11-23T10:09:19.0403033Z ##[group]Run aws-actions/configure-aws-credentials@v4
+2026-11-23T10:09:19.0419084Z with:
+2026-11-23T10:09:19.0423251Z   role-to-assume: arn:aws:iam::444455556666:role/gha-batch-deploy
+2026-11-23T10:09:19.0427720Z   aws-region: us-east-1
+2026-11-23T10:09:19.0431238Z   audience: sts.amazonaws.com
+2026-11-23T10:09:19.0446077Z env:
+2026-11-23T10:09:19.0450439Z   AWS_REGION: us-east-1
+2026-11-23T10:09:19.0460182Z   TF_IN_AUTOMATION: 1
+2026-11-23T10:09:19.0470283Z   TF_VERSION: 1.13.5
+2026-11-23T10:09:19.0474336Z ##[endgroup]
+2026-11-23T10:09:19.0483502Z Assuming role with OIDC
+2026-11-23T10:09:20.1387089Z Authenticated as assumedRoleId AROAEXAMPLEBATCHDPL01:GitHubActions
+2026-11-23T10:09:22.1999356Z ##[group]Run hashicorp/setup-terraform@v3
+2026-11-23T10:09:22.2015281Z with:
+2026-11-23T10:09:22.2016527Z   terraform_version: 1.13.5
+2026-11-23T10:09:22.2017124Z   cli_config_credentials_hostname: app.terraform.io
+2026-11-23T10:09:22.2018422Z   terraform_wrapper: true
+2026-11-23T10:09:22.2033413Z env:
+2026-11-23T10:09:22.2034702Z   AWS_REGION: us-east-1
+2026-11-23T10:09:22.2038646Z   TF_IN_AUTOMATION: 1
+2026-11-23T10:09:22.2056818Z   TF_VERSION: 1.13.5
+2026-11-23T10:09:22.2071468Z   AWS_DEFAULT_REGION: us-east-1
+2026-11-23T10:09:22.2079014Z   AWS_ACCESS_KEY_ID: ***
+2026-11-23T10:09:22.2085680Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-23T10:09:22.2101331Z   AWS_SESSION_TOKEN: ***
+2026-11-23T10:09:22.2114301Z ##[endgroup]
+2026-11-23T10:09:22.9832443Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/a95de9bd-b586-4db8-83db-2741b99726f1
+2026-11-23T10:09:24.0650436Z ##[group]Run actions/download-artifact@v4
+2026-11-23T10:09:24.0660686Z with:
+2026-11-23T10:09:24.0671873Z   name: tfplan
+2026-11-23T10:09:24.0683660Z   path: infra
+2026-11-23T10:09:24.0686525Z   merge-multiple: false
+2026-11-23T10:09:24.0702724Z   repository: example-org/batch-jobs
+2026-11-23T10:09:24.0717850Z   run-id: 19588042317
+2026-11-23T10:09:24.0734443Z env:
+2026-11-23T10:09:24.0746017Z   AWS_REGION: us-east-1
+2026-11-23T10:09:24.0756546Z   TF_IN_AUTOMATION: 1
+2026-11-23T10:09:24.0770856Z   TF_VERSION: 1.13.5
+2026-11-23T10:09:24.0774787Z   AWS_DEFAULT_REGION: us-east-1
+2026-11-23T10:09:24.0791877Z   AWS_ACCESS_KEY_ID: ***
+2026-11-23T10:09:24.0809969Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-23T10:09:24.0812759Z   AWS_SESSION_TOKEN: ***
+2026-11-23T10:09:24.0829228Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/c1f7a02e-8d4b-4e6a-9b35-f0e2d7c6a918
+2026-11-23T10:09:24.0840642Z ##[endgroup]
+2026-11-23T10:09:24.0854884Z Downloading single artifact
+2026-11-23T10:09:24.4272767Z Preparing to download the following artifacts:
+2026-11-23T10:09:24.4284230Z - tfplan (ID: 4630187245, Size: 6382, Expected Digest: sha256:bb88e6410688c7bf584fb051db423c77f46607e3cd1f52250fa1ae33c344a637)
+2026-11-23T10:09:24.6995730Z Starting download of artifact to: /home/runner/work/batch-jobs/batch-jobs/infra
+2026-11-23T10:09:25.1106287Z (node:2187) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-11-23T10:09:25.1113828Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-23T10:09:25.1128513Z SHA256 digest of downloaded artifact is bb88e6410688c7bf584fb051db423c77f46607e3cd1f52250fa1ae33c344a637
+2026-11-23T10:09:25.1145387Z Artifact download completed successfully.
+2026-11-23T10:09:25.1154975Z Total of 1 artifact(s) downloaded
+2026-11-23T10:09:25.1157018Z Download artifact has finished successfully
+2026-11-23T10:09:27.1458941Z ##[group]Run terraform init -input=false
+2026-11-23T10:09:27.1466736Z [36;1mterraform init -input=false[0m
+2026-11-23T10:09:27.1469789Z shell: /usr/bin/bash -e {0}
+2026-11-23T10:09:27.1483369Z env:
+2026-11-23T10:09:27.1494326Z   AWS_REGION: us-east-1
+2026-11-23T10:09:27.1508642Z   TF_IN_AUTOMATION: 1
+2026-11-23T10:09:27.1524212Z   TF_VERSION: 1.13.5
+2026-11-23T10:09:27.1528060Z   AWS_DEFAULT_REGION: us-east-1
+2026-11-23T10:09:27.1541386Z   AWS_ACCESS_KEY_ID: ***
+2026-11-23T10:09:27.1545115Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-23T10:09:27.1549916Z   AWS_SESSION_TOKEN: ***
+2026-11-23T10:09:27.1561521Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/c1f7a02e-8d4b-4e6a-9b35-f0e2d7c6a918
+2026-11-23T10:09:27.1572582Z ##[endgroup]
+2026-11-23T10:09:27.1586053Z [command]/home/runner/work/_temp/c1f7a02e-8d4b-4e6a-9b35-f0e2d7c6a918/terraform-bin init -input=false
+2026-11-23T10:09:27.5200541Z [0m[1mInitializing the backend...[0m
+2026-11-23T10:09:28.5901728Z [0m[32m
+2026-11-23T10:09:28.5903345Z Successfully configured the backend "s3"! Terraform will automatically
+2026-11-23T10:09:28.5910399Z use this backend unless the backend configuration changes.[0m
+2026-11-23T10:09:28.5914121Z [0m[1mInitializing provider plugins...[0m
+2026-11-23T10:09:28.5919027Z - Reusing previous version of hashicorp/aws from the dependency lock file
+2026-11-23T10:09:29.0636568Z - Installing hashicorp/aws v6.23.0...
+2026-11-23T10:09:33.9247321Z - Installed hashicorp/aws v6.23.0 (signed by HashiCorp)
+2026-11-23T10:09:33.9255102Z 
+2026-11-23T10:09:33.9270152Z [0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+2026-11-23T10:09:35.2614375Z ##[group]Run terraform show tfplan
+2026-11-23T10:09:35.2623377Z [36;1mterraform show tfplan[0m
+2026-11-23T10:09:35.2626905Z shell: /usr/bin/bash -e {0}
+2026-11-23T10:09:35.2635310Z env:
+2026-11-23T10:09:35.2648815Z   AWS_REGION: us-east-1
+2026-11-23T10:09:35.2655064Z   TF_IN_AUTOMATION: 1
+2026-11-23T10:09:35.2667114Z   TF_VERSION: 1.13.5
+2026-11-23T10:09:35.2673603Z   AWS_DEFAULT_REGION: us-east-1
+2026-11-23T10:09:35.2689785Z   AWS_ACCESS_KEY_ID: ***
+2026-11-23T10:09:35.2691767Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-23T10:09:35.2700019Z   AWS_SESSION_TOKEN: ***
+2026-11-23T10:09:35.2716146Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/c1f7a02e-8d4b-4e6a-9b35-f0e2d7c6a918
+2026-11-23T10:09:35.2721476Z ##[endgroup]
+2026-11-23T10:09:35.2729949Z [command]/home/runner/work/_temp/c1f7a02e-8d4b-4e6a-9b35-f0e2d7c6a918/terraform-bin show tfplan
+2026-11-23T10:09:36.6947633Z 
+2026-11-23T10:09:36.6962322Z Terraform used the selected providers to generate the following execution
+2026-11-23T10:09:36.6965757Z plan. Resource actions are indicated with the following symbols:
+2026-11-23T10:09:36.6982953Z   [33m~[0m update in-place
+2026-11-23T10:09:36.6985000Z 
+2026-11-23T10:09:36.7001588Z Terraform will perform the following actions:
+2026-11-23T10:09:36.7015912Z 
+2026-11-23T10:09:36.7021830Z [1m  # aws_autoscaling_group.workers[0m will be updated in-place
+2026-11-23T10:09:36.7024432Z [0m  [33m~[0m[0m resource "aws_autoscaling_group" "workers" {
+2026-11-23T10:09:36.7035452Z       [33m~[0m[0m [1m[0mdesired_capacity[0m[0m                 = 4 [33m->[0m[0m 12
+2026-11-23T10:09:36.7051908Z         [1m[0mid[0m[0m                               = "batch-reconcile-workers"
+2026-11-23T10:09:36.7060439Z       [33m~[0m[0m [1m[0mmax_size[0m[0m                         = 8 [33m->[0m[0m 16
+2026-11-23T10:09:36.7070593Z         [1m[0mname[0m[0m                             = "batch-reconcile-workers"
+2026-11-23T10:09:36.7078738Z         [90m# (28 unchanged attributes hidden)[0m[0m
+2026-11-23T10:09:36.7085681Z 
+2026-11-23T10:09:36.7092833Z       [33m~[0m[0m launch_template {
+2026-11-23T10:09:36.7110336Z             [1m[0mid[0m[0m      = "lt-0c4f7a91e2b38d561"
+2026-11-23T10:09:36.7110820Z             [1m[0mname[0m[0m    = "batch-reconcile-workers"
+2026-11-23T10:09:36.7125248Z           [33m~[0m[0m [1m[0mversion[0m[0m = "7" [33m->[0m[0m (known after apply)
+2026-11-23T10:09:36.7129762Z         }
+2026-11-23T10:09:36.7142556Z 
+2026-11-23T10:09:36.7153378Z         [90m# (2 unchanged blocks hidden)[0m[0m
+2026-11-23T10:09:36.7156869Z     }
+2026-11-23T10:09:36.7166066Z 
+2026-11-23T10:09:36.7166715Z [1m  # aws_cloudwatch_metric_alarm.queue_backlog[0m will be updated in-place
+2026-11-23T10:09:36.7173106Z [0m  [33m~[0m[0m resource "aws_cloudwatch_metric_alarm" "queue_backlog" {
+2026-11-23T10:09:36.7184845Z         [1m[0malarm_name[0m[0m                            = "batch-reconcile-queue-backlog"
+2026-11-23T10:09:36.7197561Z       [33m~[0m[0m [1m[0mevaluation_periods[0m[0m                    = 3 [33m->[0m[0m 6
+2026-11-23T10:09:36.7214060Z         [1m[0mid[0m[0m                                    = "batch-reconcile-queue-backlog"
+2026-11-23T10:09:36.7217682Z         tags                                  = {}
+2026-11-23T10:09:36.7218914Z       [33m~[0m[0m [1m[0mthreshold[0m[0m                             = 5000 [33m->[0m[0m 20000
+2026-11-23T10:09:36.7224912Z         [90m# (18 unchanged attributes hidden)[0m[0m
+2026-11-23T10:09:36.7238929Z     }
+2026-11-23T10:09:36.7247168Z 
+2026-11-23T10:09:36.7255571Z [1m  # aws_launch_template.workers[0m will be updated in-place
+2026-11-23T10:09:36.7270864Z [0m  [33m~[0m[0m resource "aws_launch_template" "workers" {
+2026-11-23T10:09:36.7284932Z       [33m~[0m[0m [1m[0mdefault_version[0m[0m                      = 7 [33m->[0m[0m (known after apply)
+2026-11-23T10:09:36.7300909Z         [1m[0mid[0m[0m                                   = "lt-0c4f7a91e2b38d561"
+2026-11-23T10:09:36.7312038Z       [33m~[0m[0m [1m[0minstance_type[0m[0m                        = "c6i.xlarge" [33m->[0m[0m "c6i.4xlarge"
+2026-11-23T10:09:36.7328063Z       [33m~[0m[0m [1m[0mlatest_version[0m[0m                       = 7 [33m->[0m[0m (known after apply)
+2026-11-23T10:09:36.7336128Z         [1m[0mname[0m[0m                                 = "batch-reconcile-workers"
+2026-11-23T10:09:36.7351846Z         tags                                 = {}
+2026-11-23T10:09:36.7367956Z         [90m# (16 unchanged attributes hidden)[0m[0m
+2026-11-23T10:09:36.7369601Z 
+2026-11-23T10:09:36.7382754Z         [90m# (6 unchanged blocks hidden)[0m[0m
+2026-11-23T10:09:36.7396059Z     }
+2026-11-23T10:09:36.7406266Z 
+2026-11-23T10:09:36.7409257Z [1mPlan:[0m 0 to add, 3 to change, 0 to destroy.
+2026-11-23T10:09:38.2217759Z ##[group]Run terraform apply -input=false tfplan
+2026-11-23T10:09:38.2235663Z [36;1mterraform apply -input=false tfplan[0m
+2026-11-23T10:09:38.2237863Z shell: /usr/bin/bash -e {0}
+2026-11-23T10:09:38.2245323Z env:
+2026-11-23T10:09:38.2254032Z   AWS_REGION: us-east-1
+2026-11-23T10:09:38.2261573Z   TF_IN_AUTOMATION: 1
+2026-11-23T10:09:38.2275275Z   TF_VERSION: 1.13.5
+2026-11-23T10:09:38.2290697Z   AWS_DEFAULT_REGION: us-east-1
+2026-11-23T10:09:38.2304880Z   AWS_ACCESS_KEY_ID: ***
+2026-11-23T10:09:38.2310363Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-23T10:09:38.2325687Z   AWS_SESSION_TOKEN: ***
+2026-11-23T10:09:38.2342273Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/c1f7a02e-8d4b-4e6a-9b35-f0e2d7c6a918
+2026-11-23T10:09:38.2347060Z ##[endgroup]
+2026-11-23T10:09:38.2354930Z [command]/home/runner/work/_temp/c1f7a02e-8d4b-4e6a-9b35-f0e2d7c6a918/terraform-bin apply -input=false tfplan
+2026-11-23T10:09:38.8165962Z Acquiring state lock. This may take a few moments...
+2026-11-23T10:09:39.9381690Z [0m[1maws_cloudwatch_metric_alarm.queue_backlog: Modifying... [id=batch-reconcile-queue-backlog][0m[0m
+2026-11-23T10:09:39.9392982Z [0m[1maws_launch_template.workers: Modifying... [id=lt-0c4f7a91e2b38d561][0m[0m
+2026-11-23T10:09:40.3297106Z [0m[1maws_cloudwatch_metric_alarm.queue_backlog: Modifications complete after 0s [id=batch-reconcile-queue-backlog][0m
+2026-11-23T10:09:40.9704462Z [0m[1maws_launch_template.workers: Modifications complete after 1s [id=lt-0c4f7a91e2b38d561][0m
+2026-11-23T10:09:41.0518937Z [0m[1maws_autoscaling_group.workers: Modifying... [id=batch-reconcile-workers][0m[0m
+2026-11-23T10:09:51.0536516Z [0m[1maws_autoscaling_group.workers: Still modifying... [id=batch-reconcile-workers, 00m10s elapsed][0m[0m
+2026-11-23T10:10:01.0553352Z [0m[1maws_autoscaling_group.workers: Still modifying... [id=batch-reconcile-workers, 00m20s elapsed][0m[0m
+2026-11-23T10:10:11.0567367Z [0m[1maws_autoscaling_group.workers: Still modifying... [id=batch-reconcile-workers, 00m30s elapsed][0m[0m
+2026-11-23T10:10:21.0583985Z [0m[1maws_autoscaling_group.workers: Still modifying... [id=batch-reconcile-workers, 00m40s elapsed][0m[0m
+2026-11-23T10:10:26.7895144Z [31m╷[0m[0m
+2026-11-23T10:10:26.7908379Z [31m│[0m [0m[1m[31mError: [0m[0m[1mwaiting for Auto Scaling Group (batch-reconcile-workers) capacity satisfied: scaling activity (bf118004-04f9-447f-a0fa-50553495d5dc): Failed: Could not launch On-Demand Instances. VcpuLimitExceeded - You have requested more vCPU capacity than your current vCPU limit of 32 allows for the instance bucket that the specified instance type belongs to. Please visit http://aws.amazon.com/contact-us/ec2-request to request an adjustment to this limit. Launching EC2 instance failed.[0m
+2026-11-23T10:10:26.7912151Z [31m│[0m [0m
+2026-11-23T10:10:26.7928648Z [31m│[0m [0m[0m  with aws_autoscaling_group.workers,
+2026-11-23T10:10:26.7931279Z [31m│[0m [0m  on asg.tf line 42, in resource "aws_autoscaling_group" "workers":
+2026-11-23T10:10:26.7947124Z [31m│[0m [0m  42: [4mresource "aws_autoscaling_group" "workers"[0m[0m {
+2026-11-23T10:10:26.7952197Z [31m│[0m [0m
+2026-11-23T10:10:26.7964568Z [31m╵[0m[0m
+2026-11-23T10:10:26.9865433Z Releasing state lock. This may take a few moments...
+2026-11-23T10:10:27.4071964Z ##[error]Terraform exited with code 1.
+2026-11-23T10:10:27.4073429Z ##[error]Process completed with exit code 1.
+2026-11-23T10:10:29.0276768Z Post job cleanup.
+2026-11-23T10:10:31.2130511Z Post job cleanup.
+2026-11-23T10:10:31.2136004Z [command]/usr/bin/git version
+2026-11-23T10:10:31.2142335Z git version 2.51.2
+2026-11-23T10:10:31.2152168Z Temporarily overriding HOME='/home/runner/work/_temp/07ba166e-c3ae-4380-95b1-54a228481fdf' before making global git config changes
+2026-11-23T10:10:31.2160323Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-23T10:10:31.2168761Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/batch-jobs/batch-jobs
+2026-11-23T10:10:31.2177258Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-23T10:10:31.2178256Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-23T10:10:31.2191495Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-23T10:10:31.2209348Z http.https://github.com/.extraheader
+2026-11-23T10:10:31.2212545Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-23T10:10:31.2217040Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-23T10:10:33.1627376Z Cleaning up orphan processes

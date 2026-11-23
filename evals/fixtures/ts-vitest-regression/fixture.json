@@ -1,0 +1,431 @@
+{
+  "id": "ts-vitest-regression",
+  "title": "Off-by-one in the volume discount threshold after moving it to config",
+  "description": "PR #418 moves the volume-discount threshold and rate from constants in src/pricing/discount.ts into env-driven config. While rewriting qualifiesForVolumeDiscount it changed `subtotal >= VOLUME_DISCOUNT_THRESHOLD` into `subtotal > pricingConfig.volumeDiscount.threshold`, so a subtotal of exactly 100 no longer gets the 10% discount. Vitest (verbose reporter) fails exactly one parametrized case, 'charges 90 for a 100 subtotal' (expected 100 to be 90), among 41 passing tests; the cases on either side of the boundary (99.99 and 100.01) pass, the README line removed by the PR and the unchanged doc comment both say 'or more' / 'at or above'. lint and typecheck pass (the change is type-correct) and deploy-preview is skipped because it needs test. Correct answer: a code regression in src/pricing/discount.ts; restore `>=` in qualifiesForVolumeDiscount. Changing the test expectation would be wrong because the documented behaviour is inclusive.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "shop-api"
+  },
+  "run": {
+    "id": 19523874160,
+    "attempt": 1,
+    "workflowId": 104857312,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/discount-config",
+    "headSha": "b455f6ed50f4ed9d2973ecd2fdd3738e68c76a02",
+    "headRepoFullName": "example-org/shop-api",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19523874160",
+    "displayTitle": "Make volume discount threshold and rate configurable",
+    "pullRequestNumbers": [
+      418
+    ],
+    "createdAt": "2026-11-20T09:13:52Z"
+  },
+  "jobs": [
+    {
+      "id": 55893312041,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-20T09:13:58Z",
+      "completedAt": "2026-11-20T09:14:21Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19523874160/job/55893312041",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:58Z",
+          "completedAt": "2026-11-20T09:13:59Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:59Z",
+          "completedAt": "2026-11-20T09:14:00Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:00Z",
+          "completedAt": "2026-11-20T09:14:03Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:03Z",
+          "completedAt": "2026-11-20T09:14:10Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm run lint",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:10Z",
+          "completedAt": "2026-11-20T09:14:18Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:18Z",
+          "completedAt": "2026-11-20T09:14:19Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:19Z",
+          "completedAt": "2026-11-20T09:14:20Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:20Z",
+          "completedAt": "2026-11-20T09:14:21Z"
+        }
+      ]
+    },
+    {
+      "id": 55893312044,
+      "name": "typecheck",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-20T09:13:59Z",
+      "completedAt": "2026-11-20T09:14:20Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19523874160/job/55893312044",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:59Z",
+          "completedAt": "2026-11-20T09:14:00Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:00Z",
+          "completedAt": "2026-11-20T09:14:01Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:01Z",
+          "completedAt": "2026-11-20T09:14:04Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:04Z",
+          "completedAt": "2026-11-20T09:14:11Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm run typecheck",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:11Z",
+          "completedAt": "2026-11-20T09:14:17Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:17Z",
+          "completedAt": "2026-11-20T09:14:18Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:18Z",
+          "completedAt": "2026-11-20T09:14:19Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:19Z",
+          "completedAt": "2026-11-20T09:14:20Z"
+        }
+      ]
+    },
+    {
+      "id": 55893312047,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-20T09:13:58Z",
+      "completedAt": "2026-11-20T09:14:19Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19523874160/job/55893312047",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:58Z",
+          "completedAt": "2026-11-20T09:14:00Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:00Z",
+          "completedAt": "2026-11-20T09:14:02Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:02Z",
+          "completedAt": "2026-11-20T09:14:06Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:06Z",
+          "completedAt": "2026-11-20T09:14:13Z"
+        },
+        {
+          "number": 5,
+          "name": "Unit tests",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-20T09:14:13Z",
+          "completedAt": "2026-11-20T09:14:17Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-20T09:14:17Z",
+          "completedAt": "2026-11-20T09:14:17Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:17Z",
+          "completedAt": "2026-11-20T09:14:18Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:18Z",
+          "completedAt": "2026-11-20T09:14:19Z"
+        }
+      ]
+    },
+    {
+      "id": 55893377102,
+      "name": "deploy-preview",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-20T09:14:19Z",
+      "completedAt": "2026-11-20T09:14:19Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19523874160/job/55893377102",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "src/pricing/discount.ts",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 5,
+      "patch": "@@ -1,16 +1,15 @@\n+import { pricingConfig } from \"../config.js\";\n import { roundMoney, sumMoney } from \"./money.js\";\n import type { Cart, PricedCart } from \"./types.js\";\n \n-const VOLUME_DISCOUNT_THRESHOLD = 100;\n-const VOLUME_DISCOUNT_RATE = 0.1;\n-\n /** Orders at or above the threshold get the volume discount. */\n export function qualifiesForVolumeDiscount(subtotal: number): boolean {\n-  return subtotal >= VOLUME_DISCOUNT_THRESHOLD;\n+  return subtotal > pricingConfig.volumeDiscount.threshold;\n }\n \n export function applyDiscount(cart: Cart): PricedCart {\n+  const { rate } = pricingConfig.volumeDiscount;\n   const subtotal = sumMoney(cart.items.map((item) => item.unitPrice * item.quantity));\n-  const discount = qualifiesForVolumeDiscount(subtotal) ? roundMoney(subtotal * VOLUME_DISCOUNT_RATE) : 0;\n+  const discount = qualifiesForVolumeDiscount(subtotal) ? roundMoney(subtotal * rate) : 0;\n   return { subtotal, discount, total: roundMoney(subtotal - discount) };\n }",
+      "previousPath": null
+    },
+    {
+      "path": "src/config.ts",
+      "status": "modified",
+      "additions": 9,
+      "deletions": 0,
+      "patch": "@@ -4,6 +4,8 @@ const envSchema = z.object({\n   NODE_ENV: z.enum([\"development\", \"test\", \"production\"]).default(\"development\"),\n   PORT: z.coerce.number().int().positive().default(8080),\n   LOG_LEVEL: z.enum([\"debug\", \"info\", \"warn\", \"error\"]).default(\"info\"),\n+  VOLUME_DISCOUNT_THRESHOLD: z.coerce.number().nonnegative().default(100),\n+  VOLUME_DISCOUNT_RATE: z.coerce.number().min(0).max(1).default(0.1),\n });\n \n const env = envSchema.parse(process.env);\n@@ -13,3 +15,10 @@ export const serverConfig = {\n   port: env.PORT,\n   logLevel: env.LOG_LEVEL,\n } as const;\n+\n+export const pricingConfig = {\n+  volumeDiscount: {\n+    threshold: env.VOLUME_DISCOUNT_THRESHOLD,\n+    rate: env.VOLUME_DISCOUNT_RATE,\n+  },\n+} as const;",
+      "previousPath": null
+    },
+    {
+      "path": "test/config.test.ts",
+      "status": "added",
+      "additions": 12,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,12 @@\n+import { describe, expect, it } from \"vitest\";\n+import { pricingConfig, serverConfig } from \"../src/config.js\";\n+\n+describe(\"config\", () => {\n+  it(\"defaults the volume discount settings\", () => {\n+    expect(pricingConfig.volumeDiscount).toEqual({ threshold: 100, rate: 0.1 });\n+  });\n+\n+  it(\"defaults the port\", () => {\n+    expect(serverConfig.port).toBe(8080);\n+  });\n+});",
+      "previousPath": null
+    },
+    {
+      "path": ".env.example",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 0,
+      "patch": "@@ -1,3 +1,7 @@\n NODE_ENV=development\n PORT=8080\n LOG_LEVEL=debug\n+\n+# Volume discount (defaults shown)\n+VOLUME_DISCOUNT_THRESHOLD=100\n+VOLUME_DISCOUNT_RATE=0.1",
+      "previousPath": null
+    },
+    {
+      "path": "README.md",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "patch": "@@ -18,7 +18,7 @@ npm run dev\n | --- | --- | --- |\n | `PORT` | `8080` | HTTP port |\n | `LOG_LEVEL` | `info` | `debug`, `info`, `warn` or `error` |\n-\n-Orders of 100.00 or more get a 10% volume discount.\n+| `VOLUME_DISCOUNT_THRESHOLD` | `100` | Order subtotal (in the cart currency) from which the volume discount applies |\n+| `VOLUME_DISCOUNT_RATE` | `0.1` | Volume discount as a fraction of the subtotal |\n \n Pull requests get a preview deployment once lint, typecheck and tests pass.",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test": [
+      {
+        "runId": 19519022871,
+        "attempt": 1,
+        "headSha": "f6479895d1803d7ecd762d734282e91b239684d5",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T16:42:10Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19519022871"
+      },
+      {
+        "runId": 19511877302,
+        "attempt": 1,
+        "headSha": "e64e204ccbbe72ee2274f1b7ec66a1e1037549ec",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T10:05:33Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19511877302"
+      },
+      {
+        "runId": 19498310455,
+        "attempt": 1,
+        "headSha": "dffc8387703fd3f633abfa5fc59eb7948d4a40f6",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T14:21:07Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19498310455"
+      },
+      {
+        "runId": 19489002116,
+        "attempt": 1,
+        "headSha": "65354c06a4d7c294743f753e67e0b490b9c7ba32",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T08:47:52Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19489002116"
+      },
+      {
+        "runId": 19476550983,
+        "attempt": 1,
+        "headSha": "111b327fd07a6867b642401fbaaca7f248521633",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T15:30:19Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19476550983"
+      },
+      {
+        "runId": 19461204478,
+        "attempt": 1,
+        "headSha": "ba4f094a2fd985c3be5e6acffc9236f87b57070c",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "failure",
+        "createdAt": "2026-11-17T09:12:44Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19461204478"
+      },
+      {
+        "runId": 19455871230,
+        "attempt": 1,
+        "headSha": "d972fdbd97e150fe34d1c44dfa74f85d61ea43f9",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-16T18:03:11Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19455871230"
+      },
+      {
+        "runId": 19440133907,
+        "attempt": 1,
+        "headSha": "99ad04b0d2e0c7f496ff80f8748be1ca8b19988e",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-15T11:26:58Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/shop-api/actions/runs/19440133907"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "code"
+    ],
+    "keywords": [
+      [
+        "discount",
+        "applyDiscount"
+      ],
+      [
+        ">=",
+        "threshold",
+        "boundary",
+        "exactly 100",
+        "100"
+      ]
+    ],
+    "fixPath": "src/pricing/discount.ts"
+  }
+}

@@ -1,0 +1,321 @@
+2026-11-19T14:01:28.0992379Z Current runner version: '2.330.0'
+2026-11-19T14:01:28.0993746Z Runner name: 'GitHub Actions 1000246253'
+2026-11-19T14:01:28.0994366Z Runner group name: 'GitHub Actions'
+2026-11-19T14:01:28.1001193Z Machine name: 'runnervmbcjdf'
+2026-11-19T14:01:28.1007266Z ##[group]Runner Image Provisioner
+2026-11-19T14:01:28.1012394Z Hosted Compute Agent
+2026-11-19T14:01:28.1016664Z Version: 20261110.488
+2026-11-19T14:01:28.1021361Z Commit: 3f9b2d7e61c04a8b5e2d1f07c9a4b6e8d3c2f1a0
+2026-11-19T14:01:28.1026136Z Build Date: 2026-11-10T18:02:47Z
+2026-11-19T14:01:28.1029556Z Worker ID: {923e4f8b-209a-450c-8716-01e12436048d}
+2026-11-19T14:01:28.1032681Z ##[endgroup]
+2026-11-19T14:01:28.1038559Z ##[group]Operating System
+2026-11-19T14:01:28.1040107Z Ubuntu
+2026-11-19T14:01:28.1042400Z 24.04.3
+2026-11-19T14:01:28.1047895Z LTS
+2026-11-19T14:01:28.1049181Z ##[endgroup]
+2026-11-19T14:01:28.1050987Z ##[group]Runner Image
+2026-11-19T14:01:28.1055276Z Image: ubuntu-24.04
+2026-11-19T14:01:28.1062137Z Version: 20261116.97.1
+2026-11-19T14:01:28.1063820Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.97/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-19T14:01:28.1070357Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.97
+2026-11-19T14:01:28.1071580Z ##[endgroup]
+2026-11-19T14:01:28.1077388Z ##[group]GITHUB_TOKEN Permissions
+2026-11-19T14:01:28.1079383Z Contents: read
+2026-11-19T14:01:28.1080300Z Metadata: read
+2026-11-19T14:01:28.1080986Z IdToken: write
+2026-11-19T14:01:28.1084507Z ##[endgroup]
+2026-11-19T14:01:28.1086105Z Secret source: Actions
+2026-11-19T14:01:28.1095149Z Prepare workflow directory
+2026-11-19T14:01:28.1098443Z Prepare all required actions
+2026-11-19T14:01:28.1100070Z Getting action download info
+2026-11-19T14:01:29.6662634Z Download action repository 'actions/checkout@v4' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2026-11-19T14:01:29.6761456Z Download action repository 'aws-actions/configure-aws-credentials@v4' (SHA:7474bc4690e29a8392af63c5b98e7449536d5c3a)
+2026-11-19T14:01:29.6764903Z Download action repository 'azure/setup-kubectl@v4' (SHA:776406bce94f63e41d621b960d78ee25c8b76ede)
+2026-11-19T14:01:29.9018389Z Complete job name: Deploy to staging
+2026-11-19T14:01:31.1794239Z ##[group]Run actions/checkout@v4
+2026-11-19T14:01:31.1797875Z with:
+2026-11-19T14:01:31.1802652Z   repository: example-org/web-frontend
+2026-11-19T14:01:31.1803254Z   token: ***
+2026-11-19T14:01:31.1805244Z   ssh-strict: true
+2026-11-19T14:01:31.1811216Z   ssh-user: git
+2026-11-19T14:01:31.1811906Z   persist-credentials: true
+2026-11-19T14:01:31.1813338Z   clean: true
+2026-11-19T14:01:31.1817525Z   sparse-checkout-cone-mode: true
+2026-11-19T14:01:31.1818088Z   fetch-depth: 1
+2026-11-19T14:01:31.1821682Z   fetch-tags: false
+2026-11-19T14:01:31.1822757Z   show-progress: true
+2026-11-19T14:01:31.1823204Z   lfs: false
+2026-11-19T14:01:31.1827795Z   submodules: false
+2026-11-19T14:01:31.1829035Z   set-safe-directory: true
+2026-11-19T14:01:31.1831341Z env:
+2026-11-19T14:01:31.1840333Z   AWS_REGION: us-east-1
+2026-11-19T14:01:31.1842706Z   EKS_CLUSTER: staging-eks
+2026-11-19T14:01:31.1845070Z   NAMESPACE: web
+2026-11-19T14:01:31.1853462Z ##[endgroup]
+2026-11-19T14:01:31.3153785Z Syncing repository: example-org/web-frontend
+2026-11-19T14:01:31.3191122Z ##[group]Getting Git version info
+2026-11-19T14:01:31.3489696Z Working directory is '/home/runner/work/web-frontend/web-frontend'
+2026-11-19T14:01:31.3533688Z [command]/usr/bin/git version
+2026-11-19T14:01:31.3545501Z git version 2.51.2
+2026-11-19T14:01:31.3591097Z ##[endgroup]
+2026-11-19T14:01:31.3732855Z Temporarily overriding HOME='/home/runner/work/_temp/780d7f8c-603d-4040-ad81-cd06323e326a' before making global git config changes
+2026-11-19T14:01:31.3734063Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-19T14:01:31.3807537Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/web-frontend/web-frontend
+2026-11-19T14:01:31.3842956Z Deleting the contents of '/home/runner/work/web-frontend/web-frontend'
+2026-11-19T14:01:31.3843396Z ##[group]Initializing the repository
+2026-11-19T14:01:31.3860593Z [command]/usr/bin/git init /home/runner/work/web-frontend/web-frontend
+2026-11-19T14:01:31.3863142Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-19T14:01:31.3997268Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-19T14:01:31.4015715Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-19T14:01:31.4253088Z hint:
+2026-11-19T14:01:31.4657118Z hint: 	git config --global init.defaultBranch <name>
+2026-11-19T14:01:31.4659069Z hint:
+2026-11-19T14:01:31.4662911Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-19T14:01:31.4705750Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-19T14:01:31.4881233Z hint:
+2026-11-19T14:01:31.4883529Z hint: 	git branch -m <name>
+2026-11-19T14:01:31.4990646Z hint:
+2026-11-19T14:01:31.5969542Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-19T14:01:31.6182071Z Initialized empty Git repository in /home/runner/work/web-frontend/web-frontend/.git/
+2026-11-19T14:01:31.6227443Z [command]/usr/bin/git remote add origin https://github.com/example-org/web-frontend
+2026-11-19T14:01:31.6235569Z ##[endgroup]
+2026-11-19T14:01:31.6728467Z ##[group]Disabling automatic garbage collection
+2026-11-19T14:01:31.7052607Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-19T14:01:31.7053146Z ##[endgroup]
+2026-11-19T14:01:31.7752901Z ##[group]Setting up auth
+2026-11-19T14:01:31.7772169Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-19T14:01:31.7783016Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-19T14:01:31.7808414Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-19T14:01:31.7808865Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-19T14:01:31.7809347Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-19T14:01:31.8182149Z ##[endgroup]
+2026-11-19T14:01:31.8242976Z ##[group]Fetching the repository
+2026-11-19T14:01:31.8416180Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a7199daa937bd3492b54e0a9598806eb1b4e34b3:refs/remotes/origin/main
+2026-11-19T14:01:31.8419293Z From https://github.com/example-org/web-frontend
+2026-11-19T14:01:31.8604754Z  * [new ref]         a7199daa937bd3492b54e0a9598806eb1b4e34b3 -> origin/main
+2026-11-19T14:01:31.8665551Z ##[endgroup]
+2026-11-19T14:01:31.8668410Z ##[group]Determining the checkout info
+2026-11-19T14:01:31.8835384Z ##[endgroup]
+2026-11-19T14:01:31.8837811Z [command]/usr/bin/git sparse-checkout disable
+2026-11-19T14:01:31.9561625Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-19T14:01:31.9573326Z ##[group]Checking out the ref
+2026-11-19T14:01:31.9588548Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-19T14:01:31.9588990Z Switched to a new branch 'main'
+2026-11-19T14:01:31.9609759Z branch 'main' set up to track 'origin/main'.
+2026-11-19T14:01:31.9716891Z ##[endgroup]
+2026-11-19T14:01:31.9763380Z [command]/usr/bin/git log -1 --format=%H
+2026-11-19T14:01:31.9793403Z a7199daa937bd3492b54e0a9598806eb1b4e34b3
+2026-11-19T14:01:33.1598641Z ##[group]Run aws-actions/configure-aws-credentials@v4
+2026-11-19T14:01:33.1600978Z with:
+2026-11-19T14:01:33.1603506Z   role-to-assume: arn:aws:iam::123456789012:role/gha-deploy-web-staging
+2026-11-19T14:01:33.1607116Z   aws-region: us-east-1
+2026-11-19T14:01:33.1615125Z   audience: sts.amazonaws.com
+2026-11-19T14:01:33.1621527Z env:
+2026-11-19T14:01:33.1628617Z   AWS_REGION: us-east-1
+2026-11-19T14:01:33.1629423Z   EKS_CLUSTER: staging-eks
+2026-11-19T14:01:33.1634134Z   NAMESPACE: web
+2026-11-19T14:01:33.1639237Z ##[endgroup]
+2026-11-19T14:01:34.8105917Z Assuming role with OIDC
+2026-11-19T14:01:34.8128583Z Authenticated as assumedRoleId AROAEXAMPLEROLEID7Q2XM:GitHubActions
+2026-11-19T14:01:36.1421113Z ##[group]Run azure/setup-kubectl@v4
+2026-11-19T14:01:36.1423183Z with:
+2026-11-19T14:01:36.1427581Z   version: v1.33.4
+2026-11-19T14:01:36.1433158Z env:
+2026-11-19T14:01:36.1437114Z   AWS_REGION: us-east-1
+2026-11-19T14:01:36.1446216Z   EKS_CLUSTER: staging-eks
+2026-11-19T14:01:36.1454811Z   NAMESPACE: web
+2026-11-19T14:01:36.1460918Z   AWS_DEFAULT_REGION: us-east-1
+2026-11-19T14:01:36.1464524Z   AWS_ACCESS_KEY_ID: ***
+2026-11-19T14:01:36.1466111Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-19T14:01:36.1474062Z   AWS_SESSION_TOKEN: ***
+2026-11-19T14:01:36.1479679Z ##[endgroup]
+2026-11-19T14:01:37.6227396Z Downloading kubectl v1.33.4 from https://dl.k8s.io/release/v1.33.4/bin/linux/amd64/kubectl
+2026-11-19T14:01:37.6741890Z [command]/usr/bin/chmod 777 /home/runner/work/_temp/b65b9e66-1a37-4e58-b352-5ca55ed4be28
+2026-11-19T14:01:37.8997218Z Kubectl tool version: 'v1.33.4' has been cached at /opt/hostedtoolcache/kubectl/1.33.4/x64/kubectl
+2026-11-19T14:01:39.1626255Z ##[group]Run aws eks update-kubeconfig --name "$EKS_CLUSTER" --region "$AWS_REGION"
+2026-11-19T14:01:39.1634889Z [36;1maws eks update-kubeconfig --name "$EKS_CLUSTER" --region "$AWS_REGION"[0m
+2026-11-19T14:01:39.1640209Z shell: /usr/bin/bash -e {0}
+2026-11-19T14:01:39.1649403Z env:
+2026-11-19T14:01:39.1654086Z   AWS_REGION: us-east-1
+2026-11-19T14:01:39.1660751Z   EKS_CLUSTER: staging-eks
+2026-11-19T14:01:39.1665845Z   NAMESPACE: web
+2026-11-19T14:01:39.1666641Z   AWS_DEFAULT_REGION: us-east-1
+2026-11-19T14:01:39.1671809Z   AWS_ACCESS_KEY_ID: ***
+2026-11-19T14:01:39.1675926Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-19T14:01:39.1677690Z   AWS_SESSION_TOKEN: ***
+2026-11-19T14:01:39.1683012Z ##[endgroup]
+2026-11-19T14:01:40.8840934Z Added new context arn:aws:eks:us-east-1:123456789012:cluster/staging-eks to /home/runner/.kube/config
+2026-11-19T14:01:42.2116891Z ##[group]Run ./scripts/deploy.sh apply
+2026-11-19T14:01:42.2117798Z [36;1m./scripts/deploy.sh apply[0m
+2026-11-19T14:01:42.2120802Z shell: /usr/bin/bash -e {0}
+2026-11-19T14:01:42.2127826Z env:
+2026-11-19T14:01:42.2136246Z   AWS_REGION: us-east-1
+2026-11-19T14:01:42.2142746Z   EKS_CLUSTER: staging-eks
+2026-11-19T14:01:42.2149617Z   NAMESPACE: web
+2026-11-19T14:01:42.2151284Z   AWS_DEFAULT_REGION: us-east-1
+2026-11-19T14:01:42.2154412Z   AWS_ACCESS_KEY_ID: ***
+2026-11-19T14:01:42.2163045Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-19T14:01:42.2171495Z   AWS_SESSION_TOKEN: ***
+2026-11-19T14:01:42.2174708Z ##[endgroup]
+2026-11-19T14:01:43.0703011Z [1;34m==>[0m Context: arn:aws:eks:us-east-1:123456789012:cluster/staging-eks
+2026-11-19T14:01:43.0994686Z [1;34m==>[0m Server-side dry run
+2026-11-19T14:01:43.1186852Z namespace/web
+2026-11-19T14:01:44.0555010Z configmap/web-config
+2026-11-19T14:01:44.3801726Z deployment.apps/web
+2026-11-19T14:01:44.3807541Z horizontalpodautoscaler.autoscaling/web
+2026-11-19T14:01:44.4717728Z ingress.networking.k8s.io/web
+2026-11-19T14:01:44.5656372Z poddisruptionbudget.policy/web
+2026-11-19T14:01:44.5674168Z service/web
+2026-11-19T14:01:44.5703811Z serviceaccount/web
+2026-11-19T14:01:44.5857215Z [1;34m==>[0m Applying k8s/ to namespace web
+2026-11-19T14:01:44.6025300Z namespace/web unchanged
+2026-11-19T14:01:44.6197489Z configmap/web-config configured
+2026-11-19T14:01:44.6865283Z deployment.apps/web configured
+2026-11-19T14:01:45.1187080Z horizontalpodautoscaler.autoscaling/web unchanged
+2026-11-19T14:01:45.3318669Z ingress.networking.k8s.io/web unchanged
+2026-11-19T14:01:45.8667896Z poddisruptionbudget.policy/web unchanged
+2026-11-19T14:01:45.9856724Z service/web unchanged
+2026-11-19T14:01:46.1419715Z serviceaccount/web unchanged
+2026-11-19T14:01:46.1631026Z [1;34m==>[0m deployment/web now targets ghcr.io/example-org/web:v1.8.O
+2026-11-19T14:01:48.2069080Z ##[group]Run kubectl rollout status deployment/web -n web --timeout=120s
+2026-11-19T14:01:48.2069770Z [36;1mkubectl rollout status deployment/web -n web --timeout=120s[0m
+2026-11-19T14:01:48.2069979Z shell: /usr/bin/bash -e {0}
+2026-11-19T14:01:48.2073758Z env:
+2026-11-19T14:01:48.2077891Z   AWS_REGION: us-east-1
+2026-11-19T14:01:48.2085500Z   EKS_CLUSTER: staging-eks
+2026-11-19T14:01:48.2088031Z   NAMESPACE: web
+2026-11-19T14:01:48.2090834Z   AWS_DEFAULT_REGION: us-east-1
+2026-11-19T14:01:48.2096235Z   AWS_ACCESS_KEY_ID: ***
+2026-11-19T14:01:48.2100641Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-19T14:01:48.2107759Z   AWS_SESSION_TOKEN: ***
+2026-11-19T14:01:48.2114894Z ##[endgroup]
+2026-11-19T14:01:49.6480022Z Waiting for deployment "web" rollout to finish: 1 out of 3 new replicas have been updated...
+2026-11-19T14:02:42.7724186Z Waiting for deployment "web" rollout to finish: 1 out of 3 new replicas have been updated...
+2026-11-19T14:03:48.3002852Z error: timed out waiting for the condition
+2026-11-19T14:03:48.8895505Z ##[error]Process completed with exit code 1.
+2026-11-19T14:03:50.2295385Z ##[group]Run echo "::group::pods"
+2026-11-19T14:03:50.2295779Z [36;1mecho "::group::pods"[0m
+2026-11-19T14:03:50.2298827Z [36;1mkubectl get pods -n web -l app.kubernetes.io/name=web -o wide[0m
+2026-11-19T14:03:50.2303371Z [36;1mecho "::endgroup::"[0m
+2026-11-19T14:03:50.2307036Z [36;1mecho "::group::describe pods not running"[0m
+2026-11-19T14:03:50.2309107Z [36;1mfor p in $(kubectl get pods -n web -l app.kubernetes.io/name=web --field-selector=status.phase!=Running -o name); do[0m
+2026-11-19T14:03:50.2311393Z [36;1m  kubectl describe -n web "$p"[0m
+2026-11-19T14:03:50.2316011Z [36;1mdone[0m
+2026-11-19T14:03:50.2322070Z [36;1mecho "::endgroup::"[0m
+2026-11-19T14:03:50.2329896Z [36;1mecho "::group::recent events"[0m
+2026-11-19T14:03:50.2330904Z [36;1mkubectl get events -n web --sort-by=.lastTimestamp | tail -n 15[0m
+2026-11-19T14:03:50.2339410Z [36;1mecho "::endgroup::"[0m
+2026-11-19T14:03:50.2342098Z shell: /usr/bin/bash -e {0}
+2026-11-19T14:03:50.2348008Z env:
+2026-11-19T14:03:50.2349941Z   AWS_REGION: us-east-1
+2026-11-19T14:03:50.2353882Z   EKS_CLUSTER: staging-eks
+2026-11-19T14:03:50.2362710Z   NAMESPACE: web
+2026-11-19T14:03:50.2364983Z   AWS_DEFAULT_REGION: us-east-1
+2026-11-19T14:03:50.2366391Z   AWS_ACCESS_KEY_ID: ***
+2026-11-19T14:03:50.2369502Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-19T14:03:50.2370585Z   AWS_SESSION_TOKEN: ***
+2026-11-19T14:03:50.2373124Z ##[endgroup]
+2026-11-19T14:03:50.5979141Z ##[group]pods
+2026-11-19T14:03:51.2071576Z NAME                   READY   STATUS             RESTARTS   AGE    IP             NODE                           NOMINATED NODE   READINESS GATES
+2026-11-19T14:03:51.2079832Z web-5c9d7f6b8d-7hq2m   1/1     Running            0          13d    10.20.14.77    ip-10-20-14-201.ec2.internal   <none>           <none>
+2026-11-19T14:03:51.2085847Z web-5c9d7f6b8d-kx4vr   1/1     Running            0          13d    10.20.33.12    ip-10-20-33-58.ec2.internal    <none>           <none>
+2026-11-19T14:03:51.2093639Z web-5c9d7f6b8d-p8wzn   1/1     Running            0          13d    10.20.21.140   ip-10-20-21-9.ec2.internal     <none>           <none>
+2026-11-19T14:03:51.2097874Z web-78f4b9c6d5-q2tln   0/1     ImagePullBackOff   0          2m6s   10.20.33.91    ip-10-20-33-58.ec2.internal    <none>           <none>
+2026-11-19T14:03:51.2924107Z ##[endgroup]
+2026-11-19T14:03:51.3648783Z ##[group]describe pods not running
+2026-11-19T14:03:51.7000642Z Name:             web-78f4b9c6d5-q2tln
+2026-11-19T14:03:51.7005299Z Namespace:        web
+2026-11-19T14:03:51.7015370Z Priority:         0
+2026-11-19T14:03:51.7023643Z Service Account:  web
+2026-11-19T14:03:51.7032767Z Node:             ip-10-20-33-58.ec2.internal/10.20.33.58
+2026-11-19T14:03:51.7038698Z Start Time:       Thu, 19 Nov 2026 14:01:45 +0000
+2026-11-19T14:03:51.7045646Z Labels:           app.kubernetes.io/name=web
+2026-11-19T14:03:51.7048020Z                   app.kubernetes.io/part-of=web-frontend
+2026-11-19T14:03:51.7057649Z                   app.kubernetes.io/version=1.8.0
+2026-11-19T14:03:51.7064652Z                   pod-template-hash=78f4b9c6d5
+2026-11-19T14:03:51.7072079Z Annotations:      <none>
+2026-11-19T14:03:51.7073967Z Status:           Pending
+2026-11-19T14:03:51.7076201Z IP:               10.20.33.91
+2026-11-19T14:03:51.7080962Z IPs:
+2026-11-19T14:03:51.7084854Z   IP:           10.20.33.91
+2026-11-19T14:03:51.7088048Z Controlled By:  ReplicaSet/web-78f4b9c6d5
+2026-11-19T14:03:51.7092704Z Containers:
+2026-11-19T14:03:51.7095305Z   web:
+2026-11-19T14:03:51.7097753Z     Container ID:
+2026-11-19T14:03:51.7107238Z     Image:          ghcr.io/example-org/web:v1.8.O
+2026-11-19T14:03:51.7115581Z     Image ID:
+2026-11-19T14:03:51.7120944Z     Port:           8080/TCP
+2026-11-19T14:03:51.7123813Z     Host Port:      0/TCP
+2026-11-19T14:03:51.7126188Z     State:          Waiting
+2026-11-19T14:03:51.7130429Z       Reason:       ImagePullBackOff
+2026-11-19T14:03:51.7140587Z     Ready:          False
+2026-11-19T14:03:51.7146961Z     Restart Count:  0
+2026-11-19T14:03:51.7153947Z     Limits:
+2026-11-19T14:03:51.7161826Z       memory:  512Mi
+2026-11-19T14:03:51.7172212Z     Requests:
+2026-11-19T14:03:51.7182389Z       cpu:      250m
+2026-11-19T14:03:51.7188525Z       memory:   256Mi
+2026-11-19T14:03:51.7190669Z     Liveness:   http-get http://:http/healthz delay=10s timeout=1s period=10s #success=1 #failure=3
+2026-11-19T14:03:51.7193729Z     Readiness:  http-get http://:http/readyz delay=5s timeout=1s period=5s #success=1 #failure=3
+2026-11-19T14:03:51.7198581Z     Environment Variables from:
+2026-11-19T14:03:51.7208248Z       web-config  ConfigMap  Optional: false
+2026-11-19T14:03:51.7210218Z     Environment:  <none>
+2026-11-19T14:03:51.7213820Z     Mounts:
+2026-11-19T14:03:51.7224214Z       /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-9xk2d (ro)
+2026-11-19T14:03:51.7233073Z Conditions:
+2026-11-19T14:03:51.7235304Z   Type                        Status
+2026-11-19T14:03:51.7244780Z   PodReadyToStartContainers   True
+2026-11-19T14:03:51.7247147Z   Initialized                 True
+2026-11-19T14:03:51.7254077Z   Ready                       False
+2026-11-19T14:03:51.7264259Z   ContainersReady             False
+2026-11-19T14:03:51.7270036Z   PodScheduled                True
+2026-11-19T14:03:51.7273019Z Volumes:
+2026-11-19T14:03:51.7280963Z   kube-api-access-9xk2d:
+2026-11-19T14:03:51.7288535Z     Type:                    Projected (a volume that contains injected data from multiple sources)
+2026-11-19T14:03:51.7296587Z     TokenExpirationSeconds:  3607
+2026-11-19T14:03:51.7306022Z     ConfigMapName:           kube-root-ca.crt
+2026-11-19T14:03:51.7308963Z     Optional:                false
+2026-11-19T14:03:51.7311716Z     DownwardAPI:             true
+2026-11-19T14:03:51.7316129Z QoS Class:                   Burstable
+2026-11-19T14:03:51.7326491Z Node-Selectors:              <none>
+2026-11-19T14:03:51.7328328Z Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+2026-11-19T14:03:51.7332225Z                              node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+2026-11-19T14:03:51.7336659Z Events:
+2026-11-19T14:03:51.7345825Z   Type     Reason     Age                 From               Message
+2026-11-19T14:03:51.7351118Z   ----     ------     ----                ----               -------
+2026-11-19T14:03:51.7356534Z   Normal   Scheduled  2m6s                default-scheduler  Successfully assigned web/web-78f4b9c6d5-q2tln to ip-10-20-33-58.ec2.internal
+2026-11-19T14:03:51.7361922Z   Normal   Pulling    31s (x4 over 2m5s)  kubelet            Pulling image "ghcr.io/example-org/web:v1.8.O"
+2026-11-19T14:03:51.7366997Z   Warning  Failed     31s (x4 over 2m5s)  kubelet            Failed to pull image "ghcr.io/example-org/web:v1.8.O": rpc error: code = NotFound desc = failed to pull and unpack image "ghcr.io/example-org/web:v1.8.O": failed to resolve reference "ghcr.io/example-org/web:v1.8.O": ghcr.io/example-org/web:v1.8.O: not found
+2026-11-19T14:03:51.7373777Z   Warning  Failed     31s (x4 over 2m5s)  kubelet            Error: ErrImagePull
+2026-11-19T14:03:51.7378543Z   Normal   BackOff    4s (x9 over 2m4s)   kubelet            Back-off pulling image "ghcr.io/example-org/web:v1.8.O"
+2026-11-19T14:03:51.7383309Z   Warning  Failed     4s (x9 over 2m4s)   kubelet            Error: ImagePullBackOff
+2026-11-19T14:03:52.6114483Z ##[endgroup]
+2026-11-19T14:03:52.6163811Z ##[group]recent events
+2026-11-19T14:03:53.6801524Z LAST SEEN   TYPE      REASON                         OBJECT                        MESSAGE
+2026-11-19T14:03:53.6806323Z 41m         Normal    SuccessfulRescale              horizontalpodautoscaler/web   New size: 3; reason: All metrics below target
+2026-11-19T14:03:53.6810389Z 2m6s        Normal    ScalingReplicaSet              deployment/web                Scaled up replica set web-78f4b9c6d5 from 0 to 1
+2026-11-19T14:03:53.6812978Z 2m6s        Normal    SuccessfulCreate               replicaset/web-78f4b9c6d5     Created pod: web-78f4b9c6d5-q2tln
+2026-11-19T14:03:53.6816913Z 2m6s        Normal    Scheduled                      pod/web-78f4b9c6d5-q2tln      Successfully assigned web/web-78f4b9c6d5-q2tln to ip-10-20-33-58.ec2.internal
+2026-11-19T14:03:53.6824696Z 95s         Warning   FailedGetResourceMetric        horizontalpodautoscaler/web   failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)
+2026-11-19T14:03:53.6829910Z 95s         Warning   FailedComputeMetricsReplicas   horizontalpodautoscaler/web   invalid metrics (1 invalid out of 1), first error is: failed to get cpu resource metric value: failed to get cpu utilization: did not receive metrics for targeted pods (pods might be unready)
+2026-11-19T14:03:53.6831699Z 31s         Normal    Pulling                        pod/web-78f4b9c6d5-q2tln      Pulling image "ghcr.io/example-org/web:v1.8.O"
+2026-11-19T14:03:53.6836643Z 31s         Warning   Failed                         pod/web-78f4b9c6d5-q2tln      Failed to pull image "ghcr.io/example-org/web:v1.8.O": rpc error: code = NotFound desc = failed to pull and unpack image "ghcr.io/example-org/web:v1.8.O": failed to resolve reference "ghcr.io/example-org/web:v1.8.O": ghcr.io/example-org/web:v1.8.O: not found
+2026-11-19T14:03:53.6846837Z 31s         Warning   Failed                         pod/web-78f4b9c6d5-q2tln      Error: ErrImagePull
+2026-11-19T14:03:53.6851635Z 4s          Normal    BackOff                        pod/web-78f4b9c6d5-q2tln      Back-off pulling image "ghcr.io/example-org/web:v1.8.O"
+2026-11-19T14:03:53.6856273Z 4s          Warning   Failed                         pod/web-78f4b9c6d5-q2tln      Error: ImagePullBackOff
+2026-11-19T14:03:53.8636391Z ##[endgroup]
+2026-11-19T14:03:55.7230221Z Post job cleanup.
+2026-11-19T14:03:57.2356134Z Post job cleanup.
+2026-11-19T14:03:57.2688898Z [command]/usr/bin/git version
+2026-11-19T14:03:57.2782428Z git version 2.51.2
+2026-11-19T14:03:57.2998173Z Temporarily overriding HOME='/home/runner/work/_temp/140754a0-2af6-4a1b-80b5-86943cbf4486' before making global git config changes
+2026-11-19T14:03:57.3549350Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-19T14:03:57.3562798Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/web-frontend/web-frontend
+2026-11-19T14:03:57.4788904Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-19T14:03:57.5134403Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-19T14:03:57.5294541Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-19T14:03:57.5303595Z http.https://github.com/.extraheader
+2026-11-19T14:03:57.5312000Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-19T14:03:57.8878925Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-19T14:03:59.0309593Z Cleaning up orphan processes

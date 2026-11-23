@@ -1,0 +1,174 @@
+2026-11-20T09:13:58.4223648Z Current runner version: '2.330.0'
+2026-11-20T09:13:58.4238801Z ##[group]Runner Image Provisioner
+2026-11-20T09:13:58.4239626Z Hosted Compute Agent
+2026-11-20T09:13:58.4240170Z Version: 20261104.502
+2026-11-20T09:13:58.4240302Z Commit: d881a35a5ed26f49739d886248d35f121eea067d
+2026-11-20T09:13:58.4240839Z Build Date: 2026-11-04T18:22:51Z
+2026-11-20T09:13:58.4241445Z Worker ID: {a3426b6b-cd90-49d0-a18a-632599dda470}
+2026-11-20T09:13:58.4241910Z Azure Region: westus
+2026-11-20T09:13:58.4242402Z ##[endgroup]
+2026-11-20T09:13:58.4243221Z ##[group]Operating System
+2026-11-20T09:13:58.4243658Z Ubuntu
+2026-11-20T09:13:58.4244321Z 24.04.3
+2026-11-20T09:13:58.4244994Z LTS
+2026-11-20T09:13:58.4245198Z ##[endgroup]
+2026-11-20T09:13:58.4245418Z ##[group]Runner Image
+2026-11-20T09:13:58.4245726Z Image: ubuntu-24.04
+2026-11-20T09:13:58.4246142Z Version: 20261116.38.1
+2026-11-20T09:13:58.4246541Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.38/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-20T09:13:58.4247125Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.38
+2026-11-20T09:13:58.4247299Z ##[endgroup]
+2026-11-20T09:13:58.4247896Z ##[group]GITHUB_TOKEN Permissions
+2026-11-20T09:13:58.4248474Z Contents: read
+2026-11-20T09:13:58.4248910Z Metadata: read
+2026-11-20T09:13:58.4249729Z ##[endgroup]
+2026-11-20T09:13:58.4250513Z Secret source: Actions
+2026-11-20T09:13:58.4251264Z Prepare workflow directory
+2026-11-20T09:13:58.4251609Z Prepare all required actions
+2026-11-20T09:13:58.4252229Z Getting action download info
+2026-11-20T09:13:58.8254034Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-20T09:13:58.8865635Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-20T09:13:58.8869698Z Complete job name: lint
+2026-11-20T09:13:59.2023114Z ##[group]Run actions/checkout@v4
+2026-11-20T09:13:59.2023693Z with:
+2026-11-20T09:13:59.2024513Z   repository: example-org/shop-api
+2026-11-20T09:13:59.2024701Z   token: ***
+2026-11-20T09:13:59.2025525Z   ssh-strict: true
+2026-11-20T09:13:59.2026323Z   ssh-user: git
+2026-11-20T09:13:59.2026729Z   persist-credentials: true
+2026-11-20T09:13:59.2026811Z   clean: true
+2026-11-20T09:13:59.2026940Z   sparse-checkout-cone-mode: true
+2026-11-20T09:13:59.2027757Z   fetch-depth: 1
+2026-11-20T09:13:59.2028264Z   fetch-tags: false
+2026-11-20T09:13:59.2028797Z   show-progress: true
+2026-11-20T09:13:59.2029100Z   lfs: false
+2026-11-20T09:13:59.2029611Z   submodules: false
+2026-11-20T09:13:59.2030331Z   set-safe-directory: true
+2026-11-20T09:13:59.2030471Z ##[endgroup]
+2026-11-20T09:13:59.2031998Z Syncing repository: example-org/shop-api
+2026-11-20T09:13:59.2048267Z ##[group]Getting Git version info
+2026-11-20T09:13:59.2049212Z Working directory is '/home/runner/work/shop-api/shop-api'
+2026-11-20T09:13:59.2049657Z [command]/usr/bin/git version
+2026-11-20T09:13:59.2050136Z git version 2.51.2
+2026-11-20T09:13:59.2050513Z ##[endgroup]
+2026-11-20T09:13:59.2069248Z Temporarily overriding HOME='/home/runner/work/_temp/09cfbee7-a403-4079-a373-101cc03f7c9a' before making global git config changes
+2026-11-20T09:13:59.2088634Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-20T09:13:59.2102903Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/shop-api/shop-api
+2026-11-20T09:13:59.2124363Z Deleting the contents of '/home/runner/work/shop-api/shop-api'
+2026-11-20T09:13:59.2127727Z ##[group]Initializing the repository
+2026-11-20T09:13:59.2128354Z [command]/usr/bin/git init /home/runner/work/shop-api/shop-api
+2026-11-20T09:13:59.2128975Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-20T09:13:59.2129147Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-20T09:13:59.2129539Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-20T09:13:59.2129938Z hint:
+2026-11-20T09:13:59.2130841Z hint: 	git config --global init.defaultBranch <name>
+2026-11-20T09:13:59.2131668Z hint:
+2026-11-20T09:13:59.2132294Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-20T09:13:59.2132723Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-20T09:13:59.2133609Z hint:
+2026-11-20T09:13:59.2134197Z hint: 	git branch -m <name>
+2026-11-20T09:13:59.2134648Z Initialized empty Git repository in /home/runner/work/shop-api/shop-api/.git/
+2026-11-20T09:13:59.2134985Z [command]/usr/bin/git remote add origin https://github.com/example-org/shop-api
+2026-11-20T09:13:59.2135508Z ##[endgroup]
+2026-11-20T09:13:59.2135575Z ##[group]Disabling automatic garbage collection
+2026-11-20T09:13:59.2136427Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-20T09:13:59.2136758Z ##[endgroup]
+2026-11-20T09:13:59.2137185Z ##[group]Setting up auth
+2026-11-20T09:13:59.2137356Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-20T09:13:59.2137487Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-20T09:13:59.2138217Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-20T09:13:59.2138767Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-20T09:13:59.2139289Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-20T09:13:59.2139442Z ##[endgroup]
+2026-11-20T09:13:59.2140005Z ##[group]Fetching the repository
+2026-11-20T09:13:59.2140624Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +fffcc8662f5a57af08d578d4bef92ba486ea851f:refs/remotes/pull/418/merge
+2026-11-20T09:13:59.8742445Z From https://github.com/example-org/shop-api
+2026-11-20T09:13:59.8743043Z  * [new ref]         fffcc8662f5a57af08d578d4bef92ba486ea851f -> pull/418/merge
+2026-11-20T09:13:59.8743646Z ##[endgroup]
+2026-11-20T09:13:59.8744221Z ##[group]Determining the checkout info
+2026-11-20T09:13:59.8744719Z ##[endgroup]
+2026-11-20T09:13:59.8744863Z [command]/usr/bin/git sparse-checkout disable
+2026-11-20T09:13:59.8745509Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-20T09:13:59.8746154Z ##[group]Checking out the ref
+2026-11-20T09:13:59.8747109Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/418/merge
+2026-11-20T09:13:59.8747808Z Note: switching to 'refs/remotes/pull/418/merge'.
+2026-11-20T09:13:59.8747989Z 
+2026-11-20T09:13:59.8748172Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-20T09:13:59.8748814Z changes and commit them, and you can discard any commits you make in this
+2026-11-20T09:13:59.8749748Z state without impacting any branches by switching back to a branch.
+2026-11-20T09:13:59.8750117Z 
+2026-11-20T09:13:59.8751009Z If you want to create a new branch to retain commits you create, you may
+2026-11-20T09:13:59.8751407Z do so (now or later) by using -c with the switch command. Example:
+2026-11-20T09:13:59.8752151Z 
+2026-11-20T09:13:59.8752799Z   git switch -c <new-branch-name>
+2026-11-20T09:13:59.8752923Z 
+2026-11-20T09:13:59.8753240Z Or undo this operation with:
+2026-11-20T09:13:59.8753897Z 
+2026-11-20T09:13:59.8754400Z   git switch -
+2026-11-20T09:13:59.8755025Z 
+2026-11-20T09:13:59.8755287Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-20T09:13:59.8755993Z 
+2026-11-20T09:13:59.8756336Z HEAD is now at fffcc86 Merge b455f6ed50f4ed9d2973ecd2fdd3738e68c76a02 into 731e59b8ed839700b3df968552eff86ed7e00742
+2026-11-20T09:13:59.8756478Z ##[endgroup]
+2026-11-20T09:13:59.8757036Z [command]/usr/bin/git log -1 --format=%H
+2026-11-20T09:13:59.8757438Z fffcc8662f5a57af08d578d4bef92ba486ea851f
+2026-11-20T09:14:00.1188737Z ##[group]Run actions/setup-node@v4
+2026-11-20T09:14:00.1189472Z with:
+2026-11-20T09:14:00.1189536Z   node-version-file: .nvmrc
+2026-11-20T09:14:00.1189985Z   cache: npm
+2026-11-20T09:14:00.1190810Z   always-auth: false
+2026-11-20T09:14:00.1191382Z   check-latest: false
+2026-11-20T09:14:00.1192072Z   token: ***
+2026-11-20T09:14:00.1192697Z ##[endgroup]
+2026-11-20T09:14:00.1205498Z Resolved .nvmrc as 24
+2026-11-20T09:14:00.1209976Z Found in cache @ /opt/hostedtoolcache/node/24.11.1/x64
+2026-11-20T09:14:00.1273194Z ##[group]Environment details
+2026-11-20T09:14:00.1273330Z node: v24.11.1
+2026-11-20T09:14:00.1274287Z npm: 11.6.2
+2026-11-20T09:14:00.1274898Z yarn: 1.22.22
+2026-11-20T09:14:00.1275591Z ##[endgroup]
+2026-11-20T09:14:00.1851775Z [command]/opt/hostedtoolcache/node/24.11.1/x64/bin/npm config get cache
+2026-11-20T09:14:00.2654266Z /home/runner/.npm
+2026-11-20T09:14:00.5669568Z Cache hit for: node-cache-Linux-x64-npm-33da613273a76f2dfbdf78048743a42f47a308042cfc1e67612f7166ba21f1dc
+2026-11-20T09:14:01.4680401Z Received 62914560 of 84934656 (74.1%), 59.8 MBs/sec
+2026-11-20T09:14:01.4682064Z Received 84934656 of 84934656 (100.0%), 66.4 MBs/sec
+2026-11-20T09:14:01.4694028Z Cache Size: ~81 MB (84934656 B)
+2026-11-20T09:14:01.4704859Z [command]/usr/bin/tar -xf /home/runner/work/_temp/c0f3b1e2-58a4-4d6e-9b7f-2a91d4e6c3b8/cache.tzst -P -C /home/runner/work/shop-api/shop-api --use-compress-program unzstd
+2026-11-20T09:14:02.5978151Z Cache restored successfully
+2026-11-20T09:14:02.5993269Z Cache restored from key: node-cache-Linux-x64-npm-33da613273a76f2dfbdf78048743a42f47a308042cfc1e67612f7166ba21f1dc
+2026-11-20T09:14:03.2868818Z ##[group]Run npm ci
+2026-11-20T09:14:03.2869279Z npm ci
+2026-11-20T09:14:03.2869559Z shell: /usr/bin/bash -e {0}
+2026-11-20T09:14:03.2870234Z ##[endgroup]
+2026-11-20T09:14:07.0884695Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2026-11-20T09:14:07.0885165Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-11-20T09:14:09.6889684Z 
+2026-11-20T09:14:09.6996084Z added 214 packages, and audited 215 packages in 6s
+2026-11-20T09:14:09.7137102Z 
+2026-11-20T09:14:09.7158141Z 54 packages are looking for funding
+2026-11-20T09:14:09.7670579Z   run `npm fund` for details
+2026-11-20T09:14:09.7673192Z 
+2026-11-20T09:14:09.7827642Z found 0 vulnerabilities
+2026-11-20T09:14:10.0435068Z ##[group]Run npm run lint
+2026-11-20T09:14:10.0435923Z npm run lint
+2026-11-20T09:14:10.0436558Z shell: /usr/bin/bash -e {0}
+2026-11-20T09:14:10.0437266Z ##[endgroup]
+2026-11-20T09:14:10.0456575Z 
+2026-11-20T09:14:10.0711813Z > shop-api@1.14.0 lint
+2026-11-20T09:14:10.0872816Z > eslint .
+2026-11-20T09:14:10.0876680Z 
+2026-11-20T09:14:18.1727860Z Post job cleanup.
+2026-11-20T09:14:18.5790890Z Cache hit occurred on the primary key node-cache-Linux-x64-npm-33da613273a76f2dfbdf78048743a42f47a308042cfc1e67612f7166ba21f1dc, not saving cache.
+2026-11-20T09:14:19.1508047Z Post job cleanup.
+2026-11-20T09:14:19.1527655Z [command]/usr/bin/git version
+2026-11-20T09:14:19.1552624Z git version 2.51.2
+2026-11-20T09:14:19.1574900Z Temporarily overriding HOME='/home/runner/work/_temp/30047543-7ad2-400f-a880-b473629c2f67' before making global git config changes
+2026-11-20T09:14:19.1598474Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-20T09:14:19.3754167Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/shop-api/shop-api
+2026-11-20T09:14:19.3765459Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-20T09:14:19.3770550Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-20T09:14:19.3773159Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-20T09:14:19.4128296Z http.https://github.com/.extraheader
+2026-11-20T09:14:19.4134484Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-20T09:14:19.4205867Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-20T09:14:20.2242074Z Cleaning up orphan processes

@@ -1,0 +1,6 @@
+http_addr: ":8080"
+database_url: "postgres://inventory@localhost:5432/inventory?sslmode=disable"
+shutdown_timeout: 15s
+reservation:
+  ttl: 15m
+  max_per_order: 50

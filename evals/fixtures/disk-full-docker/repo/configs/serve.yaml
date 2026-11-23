@@ -1,0 +1,16 @@
+model:
+  name: detector-s
+  weights: s3://example-models/detector-s/v14/model.pt
+  input_size: [640, 640]
+  score_threshold: 0.35
+runtime:
+  backend: tensorrt
+  device: cuda
+  batch_size: 8
+  tensorrt:
+    precision: fp16
+    engine_cache: /var/cache/vision-models/engines
+server:
+  host: 0.0.0.0
+  port: 8000
+  workers: 1

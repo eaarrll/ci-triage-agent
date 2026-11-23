@@ -1,0 +1,196 @@
+2026-11-22T10:31:08.0140255Z Current runner version: '2.330.0'
+2026-11-22T10:31:08.0162229Z ##[group]Runner Image Provisioner
+2026-11-22T10:31:08.0162792Z Hosted Compute Agent
+2026-11-22T10:31:08.0163268Z Version: 20261104.502
+2026-11-22T10:31:08.0163336Z Commit: d881a35a5ed26f49739d886248d35f121eea067d
+2026-11-22T10:31:08.0163900Z Build Date: 2026-11-04T18:22:51Z
+2026-11-22T10:31:08.0164662Z Worker ID: {3d632e38-5659-4e5e-acbe-1319ab643297}
+2026-11-22T10:31:08.0165498Z Azure Region: centralus
+2026-11-22T10:31:08.0165816Z ##[endgroup]
+2026-11-22T10:31:08.0165973Z ##[group]Operating System
+2026-11-22T10:31:08.0166223Z Ubuntu
+2026-11-22T10:31:08.0166916Z 24.04.3
+2026-11-22T10:31:08.0167445Z LTS
+2026-11-22T10:31:08.0167775Z ##[endgroup]
+2026-11-22T10:31:08.0168067Z ##[group]Runner Image
+2026-11-22T10:31:08.0168374Z Image: ubuntu-24.04
+2026-11-22T10:31:08.0169024Z Version: 20261116.38.1
+2026-11-22T10:31:08.0169614Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.38/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-22T10:31:08.0170011Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.38
+2026-11-22T10:31:08.0170534Z ##[endgroup]
+2026-11-22T10:31:08.0170758Z ##[group]GITHUB_TOKEN Permissions
+2026-11-22T10:31:08.0171632Z Contents: read
+2026-11-22T10:31:08.0172473Z Metadata: read
+2026-11-22T10:31:08.0172753Z ##[endgroup]
+2026-11-22T10:31:08.0173048Z Secret source: Actions
+2026-11-22T10:31:08.0173532Z Prepare workflow directory
+2026-11-22T10:31:08.0174478Z Prepare all required actions
+2026-11-22T10:31:08.0175228Z Getting action download info
+2026-11-22T10:31:08.4274585Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-22T10:31:08.4297702Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-22T10:31:08.4715768Z Complete job name: test
+2026-11-22T10:31:09.2268891Z ##[group]Run actions/checkout@v4
+2026-11-22T10:31:09.2268983Z with:
+2026-11-22T10:31:09.2269241Z   repository: example-org/storefront-web
+2026-11-22T10:31:09.2269714Z   token: ***
+2026-11-22T10:31:09.2270447Z   ssh-strict: true
+2026-11-22T10:31:09.2271109Z   ssh-user: git
+2026-11-22T10:31:09.2271235Z   persist-credentials: true
+2026-11-22T10:31:09.2271925Z   clean: true
+2026-11-22T10:31:09.2272629Z   sparse-checkout-cone-mode: true
+2026-11-22T10:31:09.2273504Z   fetch-depth: 1
+2026-11-22T10:31:09.2274139Z   fetch-tags: false
+2026-11-22T10:31:09.2274806Z   show-progress: true
+2026-11-22T10:31:09.2275340Z   lfs: false
+2026-11-22T10:31:09.2275618Z   submodules: false
+2026-11-22T10:31:09.2276194Z   set-safe-directory: true
+2026-11-22T10:31:09.2276888Z ##[endgroup]
+2026-11-22T10:31:09.4047637Z Syncing repository: example-org/storefront-web
+2026-11-22T10:31:09.4056823Z ##[group]Getting Git version info
+2026-11-22T10:31:09.4056988Z Working directory is '/home/runner/work/storefront-web/storefront-web'
+2026-11-22T10:31:09.4057798Z [command]/usr/bin/git version
+2026-11-22T10:31:09.4058539Z git version 2.51.2
+2026-11-22T10:31:09.4058772Z ##[endgroup]
+2026-11-22T10:31:09.4078424Z Temporarily overriding HOME='/home/runner/work/_temp/409da19e-8fbd-4ef7-a114-e6ba16b6956c' before making global git config changes
+2026-11-22T10:31:09.4085758Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-22T10:31:09.4098981Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-11-22T10:31:09.4116190Z Deleting the contents of '/home/runner/work/storefront-web/storefront-web'
+2026-11-22T10:31:09.4463064Z ##[group]Initializing the repository
+2026-11-22T10:31:09.4463578Z [command]/usr/bin/git init /home/runner/work/storefront-web/storefront-web
+2026-11-22T10:31:09.4464534Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-22T10:31:09.4464710Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-22T10:31:09.4464959Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-22T10:31:09.4465853Z hint:
+2026-11-22T10:31:09.4466308Z hint: 	git config --global init.defaultBranch <name>
+2026-11-22T10:31:09.4466433Z hint:
+2026-11-22T10:31:09.4466672Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-22T10:31:09.4467488Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-22T10:31:09.4468097Z hint:
+2026-11-22T10:31:09.4468733Z hint: 	git branch -m <name>
+2026-11-22T10:31:09.4469372Z Initialized empty Git repository in /home/runner/work/storefront-web/storefront-web/.git/
+2026-11-22T10:31:09.4470126Z [command]/usr/bin/git remote add origin https://github.com/example-org/storefront-web
+2026-11-22T10:31:09.4470485Z ##[endgroup]
+2026-11-22T10:31:09.4471062Z ##[group]Disabling automatic garbage collection
+2026-11-22T10:31:09.4471198Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-22T10:31:09.4471280Z ##[endgroup]
+2026-11-22T10:31:09.4471560Z ##[group]Setting up auth
+2026-11-22T10:31:09.4471729Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-22T10:31:09.4471983Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-22T10:31:09.4472537Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-22T10:31:09.4473307Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-22T10:31:09.4473513Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-22T10:31:09.4474052Z ##[endgroup]
+2026-11-22T10:31:09.4474222Z ##[group]Fetching the repository
+2026-11-22T10:31:09.4474319Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a37350dfd085803412501947aabe8cd723d985fb:refs/remotes/pull/962/merge
+2026-11-22T10:31:10.0487157Z From https://github.com/example-org/storefront-web
+2026-11-22T10:31:10.0487263Z  * [new ref]         a37350dfd085803412501947aabe8cd723d985fb -> pull/962/merge
+2026-11-22T10:31:10.0487826Z ##[endgroup]
+2026-11-22T10:31:10.0488690Z ##[group]Determining the checkout info
+2026-11-22T10:31:10.0489407Z ##[endgroup]
+2026-11-22T10:31:10.0490072Z [command]/usr/bin/git sparse-checkout disable
+2026-11-22T10:31:10.0490717Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-22T10:31:10.0491580Z ##[group]Checking out the ref
+2026-11-22T10:31:10.0492165Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/962/merge
+2026-11-22T10:31:10.0492545Z Note: switching to 'refs/remotes/pull/962/merge'.
+2026-11-22T10:31:10.0492776Z 
+2026-11-22T10:31:10.0493203Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-22T10:31:10.0493887Z changes and commit them, and you can discard any commits you make in this
+2026-11-22T10:31:10.0494472Z state without impacting any branches by switching back to a branch.
+2026-11-22T10:31:10.0494851Z 
+2026-11-22T10:31:10.0495548Z If you want to create a new branch to retain commits you create, you may
+2026-11-22T10:31:10.0495658Z do so (now or later) by using -c with the switch command. Example:
+2026-11-22T10:31:10.0496097Z 
+2026-11-22T10:31:10.0496260Z   git switch -c <new-branch-name>
+2026-11-22T10:31:10.0496364Z 
+2026-11-22T10:31:10.0496709Z Or undo this operation with:
+2026-11-22T10:31:10.0497526Z 
+2026-11-22T10:31:10.0498434Z   git switch -
+2026-11-22T10:31:10.0499161Z 
+2026-11-22T10:31:10.0499733Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-22T10:31:10.0500527Z 
+2026-11-22T10:31:10.0500730Z HEAD is now at a37350d Merge 9d1b76e329355932027b2d762b91a5017cd1a232 into 77151e439c8264701d19c6b4805718b549805fb8
+2026-11-22T10:31:10.0501336Z ##[endgroup]
+2026-11-22T10:31:10.0501536Z [command]/usr/bin/git log -1 --format=%H
+2026-11-22T10:31:10.0501868Z a37350dfd085803412501947aabe8cd723d985fb
+2026-11-22T10:31:11.2655980Z ##[group]Run actions/setup-node@v4
+2026-11-22T10:31:11.2656739Z with:
+2026-11-22T10:31:11.2657628Z   node-version-file: .nvmrc
+2026-11-22T10:31:11.2658261Z   cache: npm
+2026-11-22T10:31:11.2658732Z   always-auth: false
+2026-11-22T10:31:11.2658941Z   check-latest: false
+2026-11-22T10:31:11.2659261Z   token: ***
+2026-11-22T10:31:11.2659852Z ##[endgroup]
+2026-11-22T10:31:11.2671414Z Resolved .nvmrc as 22
+2026-11-22T10:31:11.2689350Z Found in cache @ /opt/hostedtoolcache/node/22.21.1/x64
+2026-11-22T10:31:11.3089772Z ##[group]Environment details
+2026-11-22T10:31:11.3090381Z node: v22.21.1
+2026-11-22T10:31:11.3090720Z npm: 10.9.4
+2026-11-22T10:31:11.3091668Z yarn: 1.22.22
+2026-11-22T10:31:11.3091728Z ##[endgroup]
+2026-11-22T10:31:11.3093748Z [command]/opt/hostedtoolcache/node/22.21.1/x64/bin/npm config get cache
+2026-11-22T10:31:11.3099755Z /home/runner/.npm
+2026-11-22T10:31:11.6115155Z Cache hit for: node-cache-Linux-x64-npm-296ab902678e9682866925faa7bfe63c970c29d562fbb8b620d6149c3fd78d16
+2026-11-22T10:31:12.5124573Z Received 100663296 of 131072301 (76.8%), 88.2 MBs/sec
+2026-11-22T10:31:12.5134595Z Received 131072301 of 131072301 (100.0%), 91.7 MBs/sec
+2026-11-22T10:31:12.5304834Z Cache Size: ~125 MB (131072301 B)
+2026-11-22T10:31:12.5719786Z [command]/usr/bin/tar -xf /home/runner/work/_temp/2b8c6f0d-9e41-4a7b-b3d5-61f0e8a2c947/cache.tzst -P -C /home/runner/work/storefront-web/storefront-web --use-compress-program unzstd
+2026-11-22T10:31:13.9290810Z Cache restored successfully
+2026-11-22T10:31:13.9595365Z Cache restored from key: node-cache-Linux-x64-npm-296ab902678e9682866925faa7bfe63c970c29d562fbb8b620d6149c3fd78d16
+2026-11-22T10:31:14.0781300Z ##[group]Run npm ci
+2026-11-22T10:31:14.0781549Z npm ci
+2026-11-22T10:31:14.0782043Z shell: /usr/bin/bash -e {0}
+2026-11-22T10:31:14.0782463Z ##[endgroup]
+2026-11-22T10:31:18.6796723Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2026-11-22T10:31:18.6805423Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-11-22T10:31:19.8825856Z npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+2026-11-22T10:31:24.7827068Z 
+2026-11-22T10:31:24.7914011Z added 412 packages, and audited 413 packages in 11s
+2026-11-22T10:31:24.7939235Z 
+2026-11-22T10:31:24.7956591Z 109 packages are looking for funding
+2026-11-22T10:31:24.7975448Z   run `npm fund` for details
+2026-11-22T10:31:24.8273075Z 
+2026-11-22T10:31:24.8294907Z found 0 vulnerabilities
+2026-11-22T10:31:25.2020851Z ##[group]Run npm test
+2026-11-22T10:31:25.2021580Z npm test
+2026-11-22T10:31:25.2022456Z shell: /usr/bin/bash -e {0}
+2026-11-22T10:31:25.2023290Z ##[endgroup]
+2026-11-22T10:31:25.2605374Z 
+2026-11-22T10:31:25.3207477Z > storefront-web@0.42.0 test
+2026-11-22T10:31:25.5510212Z > vitest run
+2026-11-22T10:31:25.5526345Z 
+2026-11-22T10:31:25.5544387Z 
+2026-11-22T10:31:25.5550354Z  RUN  v4.0.8 /home/runner/work/storefront-web/storefront-web
+2026-11-22T10:31:25.5553174Z 
+2026-11-22T10:31:31.9571896Z stderr | src/components/CartSummary.test.tsx > CartSummary > calls onCheckout
+2026-11-22T10:31:31.9572828Z An update to CartSummary inside a test was not wrapped in act(...).
+2026-11-22T10:31:31.9572968Z 
+2026-11-22T10:31:31.9573362Z When testing, code that causes React state updates should be wrapped into act(...):
+2026-11-22T10:31:31.9573892Z 
+2026-11-22T10:31:31.9574160Z act(() => {
+2026-11-22T10:31:31.9574232Z   /* fire events that update state */
+2026-11-22T10:31:31.9575189Z });
+2026-11-22T10:31:31.9575378Z /* assert on the output */
+2026-11-22T10:31:31.9575958Z 
+2026-11-22T10:31:31.9576818Z This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+2026-11-22T10:31:31.9577545Z 
+2026-11-22T10:31:33.0587702Z 
+2026-11-22T10:31:33.0587986Z  Test Files  1 passed (1)
+2026-11-22T10:31:33.0588362Z       Tests  6 passed (6)
+2026-11-22T10:31:33.0588599Z    Start at  10:31:26
+2026-11-22T10:31:33.0588945Z    Duration  2.87s (transform 233ms, setup 418ms, collect 611ms, tests 304ms, environment 1.12s, prepare 287ms)
+2026-11-22T10:31:33.0589319Z 
+2026-11-22T10:31:34.2603447Z Post job cleanup.
+2026-11-22T10:31:34.2928346Z Cache hit occurred on the primary key node-cache-Linux-x64-npm-296ab902678e9682866925faa7bfe63c970c29d562fbb8b620d6149c3fd78d16, not saving cache.
+2026-11-22T10:31:35.0187563Z Post job cleanup.
+2026-11-22T10:31:35.0575146Z [command]/usr/bin/git version
+2026-11-22T10:31:35.0593833Z git version 2.51.2
+2026-11-22T10:31:35.4224712Z Temporarily overriding HOME='/home/runner/work/_temp/d5b33dc9-8bbc-4904-a787-338f42011d36' before making global git config changes
+2026-11-22T10:31:35.4245485Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-22T10:31:35.4269745Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-11-22T10:31:35.4272406Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-22T10:31:35.4671732Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-22T10:31:35.4688321Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-22T10:31:35.4709329Z http.https://github.com/.extraheader
+2026-11-22T10:31:35.4718472Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-22T10:31:35.5269473Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-22T10:31:36.2129728Z Cleaning up orphan processes

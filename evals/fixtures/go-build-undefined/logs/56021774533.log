@@ -1,0 +1,243 @@
+2026-11-21T14:02:45.0516318Z Current runner version: '2.330.0'
+2026-11-21T14:02:45.0521850Z ##[group]Runner Image Provisioner
+2026-11-21T14:02:45.0522238Z Hosted Compute Agent
+2026-11-21T14:02:45.0523105Z Version: 20261104.502
+2026-11-21T14:02:45.0523565Z Commit: d881a35a5ed26f49739d886248d35f121eea067d
+2026-11-21T14:02:45.0524230Z Build Date: 2026-11-04T18:22:51Z
+2026-11-21T14:02:45.0524960Z Worker ID: {f693edbe-c7de-41bb-a28f-270241d4d0e3}
+2026-11-21T14:02:45.0525034Z Azure Region: eastus2
+2026-11-21T14:02:45.0525190Z ##[endgroup]
+2026-11-21T14:02:45.0525370Z ##[group]Operating System
+2026-11-21T14:02:45.0525594Z Ubuntu
+2026-11-21T14:02:45.0526102Z 24.04.3
+2026-11-21T14:02:45.0526300Z LTS
+2026-11-21T14:02:45.0526856Z ##[endgroup]
+2026-11-21T14:02:45.0527117Z ##[group]Runner Image
+2026-11-21T14:02:45.0527682Z Image: ubuntu-24.04
+2026-11-21T14:02:45.0528445Z Version: 20261116.38.1
+2026-11-21T14:02:45.0529104Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.38/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-21T14:02:45.0529861Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.38
+2026-11-21T14:02:45.0530012Z ##[endgroup]
+2026-11-21T14:02:45.0530669Z ##[group]GITHUB_TOKEN Permissions
+2026-11-21T14:02:45.0531109Z Contents: read
+2026-11-21T14:02:45.0531173Z Metadata: read
+2026-11-21T14:02:45.0531275Z ##[endgroup]
+2026-11-21T14:02:45.0531901Z Secret source: Actions
+2026-11-21T14:02:45.0532378Z Prepare workflow directory
+2026-11-21T14:02:45.0532592Z Prepare all required actions
+2026-11-21T14:02:45.0532888Z Getting action download info
+2026-11-21T14:02:45.4623918Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-21T14:02:45.4625447Z Download action repository 'actions/setup-go@v5' (SHA:d35c59abb061a4a6fb18e82ac0862c26744d6ab5)
+2026-11-21T14:02:45.4633237Z Download action repository 'golangci/golangci-lint-action@v8' (SHA:4afd733a84b1f43292c63897423277bb7f4313a9)
+2026-11-21T14:02:45.4641726Z Complete job name: lint
+2026-11-21T14:02:46.1092999Z ##[group]Run actions/checkout@v4
+2026-11-21T14:02:46.1093447Z with:
+2026-11-21T14:02:46.1093555Z   repository: example-org/inventory-svc
+2026-11-21T14:02:46.1094332Z   token: ***
+2026-11-21T14:02:46.1094949Z   ssh-strict: true
+2026-11-21T14:02:46.1095042Z   ssh-user: git
+2026-11-21T14:02:46.1095208Z   persist-credentials: true
+2026-11-21T14:02:46.1095742Z   clean: true
+2026-11-21T14:02:46.1096036Z   sparse-checkout-cone-mode: true
+2026-11-21T14:02:46.1096839Z   fetch-depth: 1
+2026-11-21T14:02:46.1097078Z   fetch-tags: false
+2026-11-21T14:02:46.1097513Z   show-progress: true
+2026-11-21T14:02:46.1098175Z   lfs: false
+2026-11-21T14:02:46.1098644Z   submodules: false
+2026-11-21T14:02:46.1099511Z   set-safe-directory: true
+2026-11-21T14:02:46.1099948Z ##[endgroup]
+2026-11-21T14:02:46.1107195Z Syncing repository: example-org/inventory-svc
+2026-11-21T14:02:46.1125616Z ##[group]Getting Git version info
+2026-11-21T14:02:46.1126147Z Working directory is '/home/runner/work/inventory-svc/inventory-svc'
+2026-11-21T14:02:46.1126751Z [command]/usr/bin/git version
+2026-11-21T14:02:46.1127602Z git version 2.51.2
+2026-11-21T14:02:46.1127771Z ##[endgroup]
+2026-11-21T14:02:46.1147077Z Temporarily overriding HOME='/home/runner/work/_temp/08cd6d16-cc6e-43e6-a5a1-c7535f02fd64' before making global git config changes
+2026-11-21T14:02:46.1148722Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T14:02:46.1168801Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/inventory-svc/inventory-svc
+2026-11-21T14:02:46.1191164Z Deleting the contents of '/home/runner/work/inventory-svc/inventory-svc'
+2026-11-21T14:02:46.1194610Z ##[group]Initializing the repository
+2026-11-21T14:02:46.1194677Z [command]/usr/bin/git init /home/runner/work/inventory-svc/inventory-svc
+2026-11-21T14:02:46.1195290Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-21T14:02:46.1195853Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-21T14:02:46.1196239Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-21T14:02:46.1196653Z hint:
+2026-11-21T14:02:46.1196979Z hint: 	git config --global init.defaultBranch <name>
+2026-11-21T14:02:46.1197165Z hint:
+2026-11-21T14:02:46.1197971Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-21T14:02:46.1198190Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-21T14:02:46.1198689Z hint:
+2026-11-21T14:02:46.1198879Z hint: 	git branch -m <name>
+2026-11-21T14:02:46.1199798Z Initialized empty Git repository in /home/runner/work/inventory-svc/inventory-svc/.git/
+2026-11-21T14:02:46.1200188Z [command]/usr/bin/git remote add origin https://github.com/example-org/inventory-svc
+2026-11-21T14:02:46.1200754Z ##[endgroup]
+2026-11-21T14:02:46.1201618Z ##[group]Disabling automatic garbage collection
+2026-11-21T14:02:46.1201956Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-21T14:02:46.1202652Z ##[endgroup]
+2026-11-21T14:02:46.1203076Z ##[group]Setting up auth
+2026-11-21T14:02:46.1203638Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T14:02:46.1203914Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T14:02:46.1204793Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T14:02:46.1205238Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-21T14:02:46.1206192Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-21T14:02:46.1206732Z ##[endgroup]
+2026-11-21T14:02:46.1207122Z ##[group]Fetching the repository
+2026-11-21T14:02:46.1207780Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +bdffe0dce5b6099ba2e049bb7de17f80d15c7d80:refs/remotes/pull/73/merge
+2026-11-21T14:02:46.7221703Z From https://github.com/example-org/inventory-svc
+2026-11-21T14:02:46.7221798Z  * [new ref]         bdffe0dce5b6099ba2e049bb7de17f80d15c7d80 -> pull/73/merge
+2026-11-21T14:02:46.7222395Z ##[endgroup]
+2026-11-21T14:02:46.7222678Z ##[group]Determining the checkout info
+2026-11-21T14:02:46.7223176Z ##[endgroup]
+2026-11-21T14:02:46.7223743Z [command]/usr/bin/git sparse-checkout disable
+2026-11-21T14:02:46.7224505Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-21T14:02:46.7225011Z ##[group]Checking out the ref
+2026-11-21T14:02:46.7225489Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/73/merge
+2026-11-21T14:02:46.7225748Z Note: switching to 'refs/remotes/pull/73/merge'.
+2026-11-21T14:02:46.7225816Z 
+2026-11-21T14:02:46.7226286Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-21T14:02:46.7226586Z changes and commit them, and you can discard any commits you make in this
+2026-11-21T14:02:46.7227188Z state without impacting any branches by switching back to a branch.
+2026-11-21T14:02:46.7227633Z 
+2026-11-21T14:02:46.7228500Z If you want to create a new branch to retain commits you create, you may
+2026-11-21T14:02:46.7229114Z do so (now or later) by using -c with the switch command. Example:
+2026-11-21T14:02:46.7229838Z 
+2026-11-21T14:02:46.7230477Z   git switch -c <new-branch-name>
+2026-11-21T14:02:46.7231434Z 
+2026-11-21T14:02:46.7231876Z Or undo this operation with:
+2026-11-21T14:02:46.7232652Z 
+2026-11-21T14:02:46.7232785Z   git switch -
+2026-11-21T14:02:46.7233141Z 
+2026-11-21T14:02:46.7233649Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-21T14:02:46.7234181Z 
+2026-11-21T14:02:46.7234880Z HEAD is now at bdffe0d Merge fbaa1a79f74547e5cdbfc602cfd7153a05e082e6 into 44a6409c9d147f9a8c51b860d8d56f30a630ca6b
+2026-11-21T14:02:46.7235574Z ##[endgroup]
+2026-11-21T14:02:46.7236228Z [command]/usr/bin/git log -1 --format=%H
+2026-11-21T14:02:46.7236924Z bdffe0dce5b6099ba2e049bb7de17f80d15c7d80
+2026-11-21T14:02:47.1305248Z ##[group]Run actions/setup-go@v5
+2026-11-21T14:02:47.1305686Z with:
+2026-11-21T14:02:47.1306186Z   go-version-file: go.mod
+2026-11-21T14:02:47.1306929Z   check-latest: false
+2026-11-21T14:02:47.1307623Z   token: ***
+2026-11-21T14:02:47.1307977Z   cache: true
+2026-11-21T14:02:47.1308599Z ##[endgroup]
+2026-11-21T14:02:47.1330053Z Setup go version spec 1.25.3
+2026-11-21T14:02:47.1843527Z Found in cache @ /opt/hostedtoolcache/go/1.25.3/x64
+2026-11-21T14:02:47.2055291Z Added go to the path
+2026-11-21T14:02:47.2249719Z Successfully set up Go version 1.25.3
+2026-11-21T14:02:47.2251391Z [command]/opt/hostedtoolcache/go/1.25.3/x64/bin/go env GOMODCACHE
+2026-11-21T14:02:47.2344563Z [command]/opt/hostedtoolcache/go/1.25.3/x64/bin/go env GOCACHE
+2026-11-21T14:02:47.2365046Z /home/runner/go/pkg/mod
+2026-11-21T14:02:47.2390078Z /home/runner/.cache/go-build
+2026-11-21T14:02:47.6392433Z Cache hit for: setup-go-Linux-x64-ubuntu24-go-1.25.3-3c272ad26e43c405653b836a77a8f4659e04747c593a52f118a7e88f04b31842
+2026-11-21T14:02:48.4400902Z Received 117440512 of 162531094 (72.3%), 111.9 MBs/sec
+2026-11-21T14:02:48.4406045Z Received 162531094 of 162531094 (100.0%), 102.6 MBs/sec
+2026-11-21T14:02:48.4425846Z Cache Size: ~155 MB (162531094 B)
+2026-11-21T14:02:48.4439561Z [command]/usr/bin/tar -xf /home/runner/work/_temp/ef626d85-efa4-41fb-a176-1f41a82d0173/cache.tzst -P -C /home/runner/work/inventory-svc/inventory-svc --use-compress-program unzstd
+2026-11-21T14:02:50.7445001Z Cache restored successfully
+2026-11-21T14:02:50.7445871Z Cache restored from key: setup-go-Linux-x64-ubuntu24-go-1.25.3-3c272ad26e43c405653b836a77a8f4659e04747c593a52f118a7e88f04b31842
+2026-11-21T14:02:50.7460750Z ##[group]go env
+2026-11-21T14:02:50.7461302Z AR='ar'
+2026-11-21T14:02:50.7461927Z CC='gcc'
+2026-11-21T14:02:50.7462127Z CGO_CFLAGS='-O2 -g'
+2026-11-21T14:02:50.7462413Z CGO_CPPFLAGS=''
+2026-11-21T14:02:50.7463082Z CGO_CXXFLAGS='-O2 -g'
+2026-11-21T14:02:50.7463159Z CGO_ENABLED='1'
+2026-11-21T14:02:50.7463579Z CGO_FFLAGS='-O2 -g'
+2026-11-21T14:02:50.7464102Z CGO_LDFLAGS='-O2 -g'
+2026-11-21T14:02:50.7464348Z CXX='g++'
+2026-11-21T14:02:50.7464479Z GCCGO='gccgo'
+2026-11-21T14:02:50.7464615Z GO111MODULE=''
+2026-11-21T14:02:50.7465461Z GOAMD64='v1'
+2026-11-21T14:02:50.7465741Z GOARCH='amd64'
+2026-11-21T14:02:50.7465955Z GOAUTH='netrc'
+2026-11-21T14:02:50.7466687Z GOBIN=''
+2026-11-21T14:02:50.7467344Z GOCACHE='/home/runner/.cache/go-build'
+2026-11-21T14:02:50.7467797Z GOCACHEPROG=''
+2026-11-21T14:02:50.7468631Z GODEBUG=''
+2026-11-21T14:02:50.7468764Z GOENV='/home/runner/.config/go/env'
+2026-11-21T14:02:50.7469622Z GOEXE=''
+2026-11-21T14:02:50.7469684Z GOEXPERIMENT=''
+2026-11-21T14:02:50.7469856Z GOFIPS140='off'
+2026-11-21T14:02:50.7470731Z GOFLAGS=''
+2026-11-21T14:02:50.7471590Z GOGCCFLAGS='-fPIC -m64 -pthread -Wl,--no-gc-sections -fmessage-length=0 -ffile-prefix-map=/tmp/go-build47532=/tmp/go-build -gno-record-gcc-switches'
+2026-11-21T14:02:50.7472539Z GOHOSTARCH='amd64'
+2026-11-21T14:02:50.7472659Z GOHOSTOS='linux'
+2026-11-21T14:02:50.7472793Z GOINSECURE=''
+2026-11-21T14:02:50.7472905Z GOMOD='/home/runner/work/inventory-svc/inventory-svc/go.mod'
+2026-11-21T14:02:50.7473488Z GOMODCACHE='/home/runner/go/pkg/mod'
+2026-11-21T14:02:50.7474369Z GONOPROXY=''
+2026-11-21T14:02:50.7474679Z GONOSUMDB=''
+2026-11-21T14:02:50.7475418Z GOOS='linux'
+2026-11-21T14:02:50.7476188Z GOPATH='/home/runner/go'
+2026-11-21T14:02:50.7477039Z GOPRIVATE=''
+2026-11-21T14:02:50.7477776Z GOPROXY='https://proxy.golang.org,direct'
+2026-11-21T14:02:50.7478465Z GOROOT='/opt/hostedtoolcache/go/1.25.3/x64'
+2026-11-21T14:02:50.7478762Z GOSUMDB='sum.golang.org'
+2026-11-21T14:02:50.7479438Z GOTELEMETRY='local'
+2026-11-21T14:02:50.7479744Z GOTELEMETRYDIR='/home/runner/.config/go/telemetry'
+2026-11-21T14:02:50.7480625Z GOTMPDIR=''
+2026-11-21T14:02:50.7481544Z GOTOOLCHAIN='auto'
+2026-11-21T14:02:50.7482248Z GOTOOLDIR='/opt/hostedtoolcache/go/1.25.3/x64/pkg/tool/linux_amd64'
+2026-11-21T14:02:50.7482892Z GOVCS=''
+2026-11-21T14:02:50.7483623Z GOVERSION='go1.25.3'
+2026-11-21T14:02:50.7484244Z GOWORK=''
+2026-11-21T14:02:50.7485010Z PKG_CONFIG='pkg-config'
+2026-11-21T14:02:50.7485360Z ##[endgroup]
+2026-11-21T14:02:51.1092058Z ##[group]Run golangci/golangci-lint-action@v8
+2026-11-21T14:02:51.1092323Z with:
+2026-11-21T14:02:51.1093017Z   version: v2.6.1
+2026-11-21T14:02:51.1093590Z   install-mode: binary
+2026-11-21T14:02:51.1094459Z   install-only: false
+2026-11-21T14:02:51.1094582Z   github-token: ***
+2026-11-21T14:02:51.1095138Z   verify: true
+2026-11-21T14:02:51.1095979Z   only-new-issues: false
+2026-11-21T14:02:51.1096507Z   skip-cache: false
+2026-11-21T14:02:51.1096862Z   skip-save-cache: false
+2026-11-21T14:02:51.1097503Z   cache-invalidation-interval: 7
+2026-11-21T14:02:51.1098277Z   problem-matchers: false
+2026-11-21T14:02:51.1098522Z ##[endgroup]
+2026-11-21T14:02:51.1107357Z ##[group]Restore cache
+2026-11-21T14:02:51.1107513Z Checking for go.mod: go.mod
+2026-11-21T14:02:51.1108305Z Cache hit for: golangci-lint.cache-Linux-2948-ec413eb749e9eea2a259ee3a1e5234e2b296c110
+2026-11-21T14:02:51.7119681Z Received 5964138 of 5964138 (100.0%), 9.4 MBs/sec
+2026-11-21T14:02:51.7120286Z Cache Size: ~6 MB (5964138 B)
+2026-11-21T14:02:51.7120630Z [command]/usr/bin/tar -xf /home/runner/work/_temp/8054d911-e0c7-4fc6-a7e7-e66efeccdf7f/cache.tzst -P -C /home/runner/work/inventory-svc/inventory-svc --use-compress-program unzstd
+2026-11-21T14:02:52.1136926Z Cache restored successfully
+2026-11-21T14:02:52.1158304Z Restored cache for golangci-lint from key 'golangci-lint.cache-Linux-2948-ec413eb749e9eea2a259ee3a1e5234e2b296c110' in 1005ms
+2026-11-21T14:02:52.1176962Z ##[endgroup]
+2026-11-21T14:02:52.1189447Z ##[group]Install
+2026-11-21T14:02:52.1189558Z Finding needed golangci-lint version...
+2026-11-21T14:02:52.1189926Z Installation mode: binary
+2026-11-21T14:02:52.1190632Z Installing golangci-lint binary v2.6.1...
+2026-11-21T14:02:52.1190967Z Downloading binary https://github.com/golangci/golangci-lint/releases/download/v2.6.1/golangci-lint-2.6.1-linux-amd64.tar.gz ...
+2026-11-21T14:02:52.6610413Z [command]/usr/bin/tar xz --overwrite --warning=no-unknown-keyword --overwrite -C /home/runner -f /home/runner/work/_temp/aff900cf-fe5e-4eee-af24-01d69589af03
+2026-11-21T14:02:52.6612542Z Installed golangci-lint into /home/runner/golangci-lint-2.6.1-linux-amd64/golangci-lint in 542ms
+2026-11-21T14:02:52.6632424Z ##[endgroup]
+2026-11-21T14:02:52.6633544Z ##[group]run golangci-lint
+2026-11-21T14:02:52.6650360Z Running [/home/runner/golangci-lint-2.6.1-linux-amd64/golangci-lint config path] in [/home/runner/work/inventory-svc/inventory-svc] ...
+2026-11-21T14:02:52.6725941Z Running [/home/runner/golangci-lint-2.6.1-linux-amd64/golangci-lint config verify] in [/home/runner/work/inventory-svc/inventory-svc] ...
+2026-11-21T14:02:52.6745782Z Running [/home/runner/golangci-lint-2.6.1-linux-amd64/golangci-lint run] in [/home/runner/work/inventory-svc/inventory-svc] ...
+2026-11-21T14:03:00.6335879Z [1mcmd/server/main.go:26:21[0m: [31mundefined: config.ParseConfig[0m (typecheck)
+2026-11-21T14:03:00.6336250Z 	cfg, err := config.ParseConfig(*configPath)
+2026-11-21T14:03:00.6336525Z 	                   ^
+2026-11-21T14:03:00.6337354Z 1 issues:
+2026-11-21T14:03:00.6338143Z * typecheck: 1
+2026-11-21T14:03:00.6338691Z 
+2026-11-21T14:03:00.6352558Z ##[error]issues found
+2026-11-21T14:03:00.6358245Z Ran golangci-lint in 7961ms
+2026-11-21T14:03:00.6368068Z ##[endgroup]
+2026-11-21T14:03:01.0743997Z Post job cleanup.
+2026-11-21T14:03:01.0749296Z Cache hit occurred on the primary key golangci-lint.cache-Linux-2948-ec413eb749e9eea2a259ee3a1e5234e2b296c110, not saving cache.
+2026-11-21T14:03:02.1100756Z Post job cleanup.
+2026-11-21T14:03:02.1110915Z [command]/usr/bin/git version
+2026-11-21T14:03:02.1134647Z git version 2.51.2
+2026-11-21T14:03:02.1359738Z Temporarily overriding HOME='/home/runner/work/_temp/a79a8ba7-6451-4272-ac01-74f9b125b22b' before making global git config changes
+2026-11-21T14:03:02.1964422Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T14:03:02.1972297Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/inventory-svc/inventory-svc
+2026-11-21T14:03:02.1994356Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T14:03:02.2008220Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T14:03:02.2513073Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T14:03:02.2536391Z http.https://github.com/.extraheader
+2026-11-21T14:03:02.3019569Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-21T14:03:02.3028383Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-21T14:03:03.2428449Z Cleaning up orphan processes

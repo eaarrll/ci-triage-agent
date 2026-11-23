@@ -1,0 +1,9 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "containerAppsEnvironmentId": {
+      "value": "/subscriptions/2f7c9a14-6b3e-4d85-9e10-c4a8b2d6f037/resourceGroups/rg-containerapps-prod/providers/Microsoft.App/managedEnvironments/cae-prod-weu"
+    }
+  }
+}

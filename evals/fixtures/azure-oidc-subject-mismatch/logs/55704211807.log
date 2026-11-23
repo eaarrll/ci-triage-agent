@@ -1,0 +1,381 @@
+2026-11-21T14:22:31.2043215Z Current runner version: '2.330.0'
+2026-11-21T14:22:31.2046761Z Runner name: 'GitHub Actions 14'
+2026-11-21T14:22:31.2050889Z Runner group name: 'GitHub Actions'
+2026-11-21T14:22:31.2061765Z Machine name: 'fv-az1452-093'
+2026-11-21T14:22:31.2072534Z ##[group]Runner Image Provisioner
+2026-11-21T14:22:31.2081299Z Hosted Compute Agent
+2026-11-21T14:22:31.2097250Z Version: 20261117.427
+2026-11-21T14:22:31.2100222Z Commit: 2c72ed0fa4ea29737611eaae3d6831b592e24f60
+2026-11-21T14:22:31.2106736Z Build Date: 2026-11-17T19:02:37Z
+2026-11-21T14:22:31.2113456Z Worker ID: {0ba683f9-3660-4949-97cb-766640a91831}
+2026-11-21T14:22:31.2119848Z Azure Region: westeurope
+2026-11-21T14:22:31.2122670Z ##[endgroup]
+2026-11-21T14:22:31.2132611Z ##[group]Operating System
+2026-11-21T14:22:31.2144965Z Ubuntu
+2026-11-21T14:22:31.2157159Z 24.04.3
+2026-11-21T14:22:31.2169107Z LTS
+2026-11-21T14:22:31.2177319Z ##[endgroup]
+2026-11-21T14:22:31.2185037Z ##[group]Runner Image
+2026-11-21T14:22:31.2203245Z Image: ubuntu-24.04
+2026-11-21T14:22:31.2214828Z Version: 20261116.58.1
+2026-11-21T14:22:31.2219432Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.58/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-21T14:22:31.2225277Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.58
+2026-11-21T14:22:31.2242994Z ##[endgroup]
+2026-11-21T14:22:31.2249027Z ##[group]GITHUB_TOKEN Permissions
+2026-11-21T14:22:31.2254562Z Contents: read
+2026-11-21T14:22:31.2255370Z IdToken: write
+2026-11-21T14:22:31.2261483Z Metadata: read
+2026-11-21T14:22:31.2262205Z ##[endgroup]
+2026-11-21T14:22:31.2275862Z Secret source: Actions
+2026-11-21T14:22:31.2281479Z Prepare workflow directory
+2026-11-21T14:22:31.2290955Z Prepare all required actions
+2026-11-21T14:22:31.2301800Z Getting action download info
+2026-11-21T14:22:31.6115596Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-21T14:22:31.8221700Z Download action repository 'docker/setup-buildx-action@v3' (SHA:e468171a9de216ec08956ac3ada2f0791b6bd435)
+2026-11-21T14:22:32.0323770Z Download action repository 'azure/login@v2' (SHA:a457da9ea143d694b1b9c7c869ebb04ebe844ef5)
+2026-11-21T14:22:32.2426806Z Download action repository 'docker/build-push-action@v6' (SHA:263435318d21b8e681c14492fe198d362a7d2c83)
+2026-11-21T14:22:32.4541822Z Complete job name: Deploy to production
+2026-11-21T14:22:34.0871136Z ##[group]Run actions/checkout@v4
+2026-11-21T14:22:34.0872083Z with:
+2026-11-21T14:22:34.0872677Z   repository: example-org/payments-api
+2026-11-21T14:22:34.0887293Z   token: ***
+2026-11-21T14:22:34.0888422Z   ssh-strict: true
+2026-11-21T14:22:34.0902567Z   ssh-user: git
+2026-11-21T14:22:34.0904750Z   persist-credentials: true
+2026-11-21T14:22:34.0914727Z   clean: true
+2026-11-21T14:22:34.0916312Z   sparse-checkout-cone-mode: true
+2026-11-21T14:22:34.0928562Z   fetch-depth: 1
+2026-11-21T14:22:34.0943505Z   fetch-tags: false
+2026-11-21T14:22:34.0954432Z   show-progress: true
+2026-11-21T14:22:34.0958646Z   lfs: false
+2026-11-21T14:22:34.0967338Z   submodules: false
+2026-11-21T14:22:34.0982271Z   set-safe-directory: true
+2026-11-21T14:22:34.0983764Z env:
+2026-11-21T14:22:34.0997960Z   REGISTRY: crpaymentsprod.azurecr.io
+2026-11-21T14:22:34.1014987Z   IMAGE_NAME: payments-api
+2026-11-21T14:22:34.1017510Z   RESOURCE_GROUP: rg-payments-prod
+2026-11-21T14:22:34.1019000Z   CONTAINER_APP: ca-payments-api
+2026-11-21T14:22:34.1027031Z ##[endgroup]
+2026-11-21T14:22:34.1034211Z Syncing repository: example-org/payments-api
+2026-11-21T14:22:34.1052346Z ##[group]Getting Git version info
+2026-11-21T14:22:34.1055091Z Working directory is '/home/runner/work/payments-api/payments-api'
+2026-11-21T14:22:34.1063476Z [command]/usr/bin/git version
+2026-11-21T14:22:34.1075037Z git version 2.51.2
+2026-11-21T14:22:34.1084100Z ##[endgroup]
+2026-11-21T14:22:34.1096659Z Temporarily overriding HOME='/home/runner/work/_temp/04f28ca8-1d50-4429-91af-5c5276294b1d' before making global git config changes
+2026-11-21T14:22:34.1110759Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T14:22:34.1124184Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/payments-api/payments-api
+2026-11-21T14:22:34.1130874Z Deleting the contents of '/home/runner/work/payments-api/payments-api'
+2026-11-21T14:22:34.1131958Z ##[group]Initializing the repository
+2026-11-21T14:22:34.1135875Z [command]/usr/bin/git init /home/runner/work/payments-api/payments-api
+2026-11-21T14:22:34.1146286Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-21T14:22:34.1162128Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-21T14:22:34.1165865Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-21T14:22:34.1168789Z hint:
+2026-11-21T14:22:34.1171431Z hint: 	git config --global init.defaultBranch <name>
+2026-11-21T14:22:34.1184030Z hint:
+2026-11-21T14:22:34.1188375Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-21T14:22:34.1195662Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-21T14:22:34.1196972Z hint:
+2026-11-21T14:22:34.1198290Z hint: 	git branch -m <name>
+2026-11-21T14:22:34.1201440Z hint:
+2026-11-21T14:22:34.1218705Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-21T14:22:34.1232853Z Initialized empty Git repository in /home/runner/work/payments-api/payments-api/.git/
+2026-11-21T14:22:34.1247009Z [command]/usr/bin/git remote add origin https://github.com/example-org/payments-api
+2026-11-21T14:22:34.1259345Z ##[endgroup]
+2026-11-21T14:22:34.1260412Z ##[group]Disabling automatic garbage collection
+2026-11-21T14:22:34.1265096Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-21T14:22:34.1277980Z ##[endgroup]
+2026-11-21T14:22:34.1292231Z ##[group]Setting up auth
+2026-11-21T14:22:34.1304791Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T14:22:34.1311490Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T14:22:34.1328750Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T14:22:34.1340701Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-21T14:22:34.1347080Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-21T14:22:34.1350872Z ##[endgroup]
+2026-11-21T14:22:34.1365618Z ##[group]Fetching the repository
+2026-11-21T14:22:34.1383865Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e07b4d19a6c25f83d0e9b1a74c6f2d58b3a90e16:refs/remotes/origin/main
+2026-11-21T14:22:34.5598318Z remote: Enumerating objects: 173, done.        
+2026-11-21T14:22:34.5614760Z remote: Counting objects:   0% (1/173)        
+2026-11-21T14:22:34.5617619Z remote: Counting objects:   5% (10/173)        
+2026-11-21T14:22:34.5631523Z remote: Counting objects:  10% (19/173)        
+2026-11-21T14:22:34.5634014Z remote: Counting objects:  24% (43/173)        
+2026-11-21T14:22:34.5649516Z remote: Counting objects:  28% (50/173)        
+2026-11-21T14:22:34.5665441Z remote: Counting objects:  34% (60/173)        
+2026-11-21T14:22:34.5683584Z remote: Counting objects:  40% (70/173)        
+2026-11-21T14:22:34.5691040Z remote: Counting objects:  53% (93/173)        
+2026-11-21T14:22:34.5696540Z remote: Counting objects:  58% (102/173)        
+2026-11-21T14:22:34.5707059Z remote: Counting objects:  60% (105/173)        
+2026-11-21T14:22:34.5712160Z remote: Counting objects:  73% (128/173)        
+2026-11-21T14:22:34.5721705Z remote: Counting objects:  82% (143/173)        
+2026-11-21T14:22:34.5735387Z remote: Counting objects:  96% (167/173)        
+2026-11-21T14:22:34.5745775Z remote: Counting objects: 100% (173/173), done.        
+2026-11-21T14:22:34.5762199Z remote: Compressing objects:   0% (1/139)        
+2026-11-21T14:22:34.5766934Z remote: Compressing objects:  10% (15/139)        
+2026-11-21T14:22:34.5780112Z remote: Compressing objects:  21% (30/139)        
+2026-11-21T14:22:34.5796222Z remote: Compressing objects:  25% (36/139)        
+2026-11-21T14:22:34.5810843Z remote: Compressing objects:  28% (40/139)        
+2026-11-21T14:22:34.5821239Z remote: Compressing objects:  40% (56/139)        
+2026-11-21T14:22:34.5832459Z remote: Compressing objects:  46% (65/139)        
+2026-11-21T14:22:34.5849760Z remote: Compressing objects:  54% (76/139)        
+2026-11-21T14:22:34.5866116Z remote: Compressing objects:  58% (82/139)        
+2026-11-21T14:22:34.5877136Z remote: Compressing objects:  67% (94/139)        
+2026-11-21T14:22:34.5892932Z remote: Compressing objects:  71% (100/139)        
+2026-11-21T14:22:34.5910558Z remote: Compressing objects:  83% (116/139)        
+2026-11-21T14:22:34.5915890Z remote: Compressing objects:  86% (120/139)        
+2026-11-21T14:22:34.5933484Z remote: Compressing objects:  92% (129/139)        
+2026-11-21T14:22:34.5946152Z remote: Compressing objects: 100% (139/139), done.        
+2026-11-21T14:22:34.5951563Z remote: Total 173 (delta 11), reused 70 (delta 3), pack-reused 0 (from 0)        
+2026-11-21T14:22:34.5962471Z Receiving objects:   0% (1/173)
+2026-11-21T14:22:34.5967111Z Receiving objects:  11% (20/173)
+2026-11-21T14:22:34.5984254Z Receiving objects:  19% (34/173)
+2026-11-21T14:22:34.5989381Z Receiving objects:  30% (53/173)
+2026-11-21T14:22:34.5994509Z Receiving objects:  33% (58/173)
+2026-11-21T14:22:34.6009983Z Receiving objects:  46% (81/173)
+2026-11-21T14:22:34.6027497Z Receiving objects:  59% (103/173)
+2026-11-21T14:22:34.6035039Z Receiving objects:  66% (115/173)
+2026-11-21T14:22:34.6048341Z Receiving objects:  78% (136/173)
+2026-11-21T14:22:34.6059023Z Receiving objects:  90% (157/173)
+2026-11-21T14:22:34.6068589Z Receiving objects:  98% (171/173)
+2026-11-21T14:22:34.9181391Z Receiving objects: 100% (173/173), 212.66 KiB | 7.94 MiB/s, done.
+2026-11-21T14:22:34.9191187Z Resolving deltas:   9% (1/11)
+2026-11-21T14:22:34.9202570Z Resolving deltas:   9% (1/11)
+2026-11-21T14:22:34.9204642Z Resolving deltas:   9% (1/11)
+2026-11-21T14:22:34.9215876Z Resolving deltas:  18% (2/11)
+2026-11-21T14:22:34.9219072Z Resolving deltas:  27% (3/11)
+2026-11-21T14:22:34.9232349Z Resolving deltas:  36% (4/11)
+2026-11-21T14:22:34.9236015Z Resolving deltas:  45% (5/11)
+2026-11-21T14:22:34.9237177Z Resolving deltas:  54% (6/11)
+2026-11-21T14:22:34.9254675Z Resolving deltas:  72% (8/11)
+2026-11-21T14:22:34.9270703Z Resolving deltas:  81% (9/11)
+2026-11-21T14:22:34.9276710Z Resolving deltas:  90% (10/11)
+2026-11-21T14:22:34.9280200Z Resolving deltas: 100% (11/11), done.
+2026-11-21T14:22:34.9284677Z From https://github.com/example-org/payments-api
+2026-11-21T14:22:34.9297688Z  * [new ref]         e07b4d19a6c25f83d0e9b1a74c6f2d58b3a90e16 -> origin/main
+2026-11-21T14:22:34.9298331Z ##[endgroup]
+2026-11-21T14:22:34.9299691Z ##[group]Determining the checkout info
+2026-11-21T14:22:34.9314582Z ##[endgroup]
+2026-11-21T14:22:34.9321527Z [command]/usr/bin/git sparse-checkout disable
+2026-11-21T14:22:34.9339003Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-21T14:22:34.9346658Z ##[group]Checking out the ref
+2026-11-21T14:22:34.9353348Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-21T14:22:34.9366807Z Switched to a new branch 'main'
+2026-11-21T14:22:34.9382048Z branch 'main' set up to track 'origin/main'.
+2026-11-21T14:22:34.9399674Z ##[endgroup]
+2026-11-21T14:22:34.9404534Z [command]/usr/bin/git log -1 --format=%H
+2026-11-21T14:22:34.9405634Z e07b4d19a6c25f83d0e9b1a74c6f2d58b3a90e16
+2026-11-21T14:22:36.2459637Z ##[group]Run docker/setup-buildx-action@v3
+2026-11-21T14:22:36.2477727Z with:
+2026-11-21T14:22:36.2486572Z   driver: docker-container
+2026-11-21T14:22:36.2491911Z   install: false
+2026-11-21T14:22:36.2503749Z   use: true
+2026-11-21T14:22:36.2507634Z   keep-state: false
+2026-11-21T14:22:36.2510244Z   cache-binary: true
+2026-11-21T14:22:36.2527590Z   cleanup: true
+2026-11-21T14:22:36.2534562Z env:
+2026-11-21T14:22:36.2550877Z   REGISTRY: crpaymentsprod.azurecr.io
+2026-11-21T14:22:36.2559705Z   IMAGE_NAME: payments-api
+2026-11-21T14:22:36.2573858Z   RESOURCE_GROUP: rg-payments-prod
+2026-11-21T14:22:36.2580069Z   CONTAINER_APP: ca-payments-api
+2026-11-21T14:22:36.2589095Z ##[endgroup]
+2026-11-21T14:22:36.2594686Z ##[group]Docker info
+2026-11-21T14:22:36.2606262Z [command]/usr/bin/docker version
+2026-11-21T14:22:36.2608458Z Client: Docker Engine - Community
+2026-11-21T14:22:36.2621147Z  Version:           28.5.2
+2026-11-21T14:22:36.2631560Z  API version:       1.51
+2026-11-21T14:22:36.2634630Z  Go version:        go1.24.9
+2026-11-21T14:22:36.2650747Z  Git commit:        ecc6942
+2026-11-21T14:22:36.2657285Z  Built:             Wed Nov  5 14:43:24 2025
+2026-11-21T14:22:36.2673417Z  OS/Arch:           linux/amd64
+2026-11-21T14:22:36.2679076Z  Context:           default
+2026-11-21T14:22:36.2689185Z 
+2026-11-21T14:22:36.2703332Z Server: Docker Engine - Community
+2026-11-21T14:22:36.2710316Z  Engine:
+2026-11-21T14:22:36.2715420Z   Version:          28.5.2
+2026-11-21T14:22:36.2726440Z   API version:      1.51 (minimum version 1.24)
+2026-11-21T14:22:36.2730552Z   Go version:       go1.24.9
+2026-11-21T14:22:36.2733941Z   Git commit:       89c5e8f
+2026-11-21T14:22:36.2747200Z   Built:            Wed Nov  5 14:43:24 2025
+2026-11-21T14:22:36.2756537Z   OS/Arch:          linux/amd64
+2026-11-21T14:22:36.2765323Z   Experimental:     false
+2026-11-21T14:22:36.2781788Z  containerd:
+2026-11-21T14:22:36.2786767Z   Version:          v1.7.29
+2026-11-21T14:22:36.2798317Z   GitCommit:        442cb34bda9a6a0fed82a2ca7cade05c5c749582
+2026-11-21T14:22:36.2813048Z  runc:
+2026-11-21T14:22:36.2826861Z   Version:          1.3.3
+2026-11-21T14:22:36.2837385Z   GitCommit:        v1.3.3-0-gd842d771
+2026-11-21T14:22:36.2854130Z  docker-init:
+2026-11-21T14:22:36.2865168Z   Version:          0.19.0
+2026-11-21T14:22:36.2867773Z   GitCommit:        de40ad0
+2026-11-21T14:22:36.4081609Z [command]/usr/bin/docker info
+2026-11-21T14:22:36.4098297Z Client: Docker Engine - Community
+2026-11-21T14:22:36.4108465Z  Version:    28.5.2
+2026-11-21T14:22:36.4124958Z  Context:    default
+2026-11-21T14:22:36.4138567Z  Debug Mode: false
+2026-11-21T14:22:36.4153765Z  Plugins:
+2026-11-21T14:22:36.4158243Z   buildx: Docker Buildx (Docker Inc.)
+2026-11-21T14:22:36.4171632Z     Version:  v0.30.0
+2026-11-21T14:22:36.4186195Z     Path:     /usr/libexec/docker/cli-plugins/docker-buildx
+2026-11-21T14:22:36.4199280Z   compose: Docker Compose (Docker Inc.)
+2026-11-21T14:22:36.4205369Z     Version:  v2.40.3
+2026-11-21T14:22:36.4207000Z     Path:     /usr/libexec/docker/cli-plugins/docker-compose
+2026-11-21T14:22:36.4215814Z 
+2026-11-21T14:22:36.4233247Z Server:
+2026-11-21T14:22:36.4249487Z  Containers: 0
+2026-11-21T14:22:36.4264061Z   Running: 0
+2026-11-21T14:22:36.4275817Z   Paused: 0
+2026-11-21T14:22:36.4288323Z   Stopped: 0
+2026-11-21T14:22:36.4297123Z  Images: 0
+2026-11-21T14:22:36.4305262Z  Server Version: 28.5.2
+2026-11-21T14:22:36.4310623Z  Storage Driver: overlay2
+2026-11-21T14:22:36.4324691Z   Backing Filesystem: extfs
+2026-11-21T14:22:36.4341768Z   Supports d_type: true
+2026-11-21T14:22:36.4354113Z   Using metacopy: false
+2026-11-21T14:22:36.4360411Z   Native Overlay Diff: false
+2026-11-21T14:22:36.4369802Z   userxattr: false
+2026-11-21T14:22:36.4373406Z  Logging Driver: json-file
+2026-11-21T14:22:36.4381768Z  Cgroup Driver: systemd
+2026-11-21T14:22:36.4394552Z  Cgroup Version: 2
+2026-11-21T14:22:36.4398281Z  Plugins:
+2026-11-21T14:22:36.4405311Z   Volume: local
+2026-11-21T14:22:36.4420417Z   Network: bridge host ipvlan macvlan null overlay
+2026-11-21T14:22:36.4422983Z   Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+2026-11-21T14:22:36.4425535Z  Swarm: inactive
+2026-11-21T14:22:36.4428330Z  Runtimes: io.containerd.runc.v2 runc
+2026-11-21T14:22:36.4438254Z  Default Runtime: runc
+2026-11-21T14:22:36.4453202Z  Init Binary: docker-init
+2026-11-21T14:22:36.4468505Z  containerd version: 442cb34bda9a6a0fed82a2ca7cade05c5c749582
+2026-11-21T14:22:36.4485237Z  runc version: v1.3.3-0-gd842d771
+2026-11-21T14:22:36.4499620Z  init version: de40ad0
+2026-11-21T14:22:36.4511883Z  Security Options:
+2026-11-21T14:22:36.4520866Z   apparmor
+2026-11-21T14:22:36.4530131Z   seccomp
+2026-11-21T14:22:36.4544835Z    Profile: builtin
+2026-11-21T14:22:36.4557533Z   cgroupns
+2026-11-21T14:22:36.4571851Z  Kernel Version: 6.14.0-1014-azure
+2026-11-21T14:22:36.4578186Z  Operating System: Ubuntu 24.04.3 LTS
+2026-11-21T14:22:36.4581054Z  OSType: linux
+2026-11-21T14:22:36.4581933Z  Architecture: x86_64
+2026-11-21T14:22:36.4597742Z  CPUs: 4
+2026-11-21T14:22:36.4601489Z  Total Memory: 15.62GiB
+2026-11-21T14:22:36.4616420Z  Name: fv-az1452-093
+2026-11-21T14:22:36.4625544Z  ID: 34db5288-d621-4c25-9a3a-57182aad54fa
+2026-11-21T14:22:36.4642989Z  Docker Root Dir: /var/lib/docker
+2026-11-21T14:22:36.4647046Z  Debug Mode: false
+2026-11-21T14:22:36.4658617Z  Experimental: false
+2026-11-21T14:22:36.4669384Z  Insecure Registries:
+2026-11-21T14:22:36.4683730Z   ::1/128
+2026-11-21T14:22:36.4693408Z   127.0.0.0/8
+2026-11-21T14:22:36.4701814Z  Live Restore Enabled: false
+2026-11-21T14:22:36.4711272Z 
+2026-11-21T14:22:36.4712405Z ##[endgroup]
+2026-11-21T14:22:36.4728764Z ##[group]Buildx version
+2026-11-21T14:22:36.4732874Z [command]/usr/bin/docker buildx version
+2026-11-21T14:22:36.4743727Z github.com/docker/buildx v0.30.0 7f3d1e2b8a9c40d5e6f1a2b3c4d5e6f7a8b9c0d1
+2026-11-21T14:22:36.4752023Z ##[endgroup]
+2026-11-21T14:22:36.4753706Z ##[group]Creating a new builder instance
+2026-11-21T14:22:36.4768560Z [command]/usr/bin/docker buildx create --name builder-b7d7fffe-1415-45c3-9267-bd0a299664f6 --driver docker-container --buildkitd-flags --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host --use
+2026-11-21T14:22:36.6586151Z builder-b7d7fffe-1415-45c3-9267-bd0a299664f6
+2026-11-21T14:22:36.6586504Z ##[endgroup]
+2026-11-21T14:22:36.6602253Z ##[group]Booting builder
+2026-11-21T14:22:36.6608372Z [command]/usr/bin/docker buildx inspect --bootstrap --builder builder-b7d7fffe-1415-45c3-9267-bd0a299664f6
+2026-11-21T14:22:36.6621341Z #1 [internal] booting buildkit
+2026-11-21T14:22:36.6635403Z #1 pulling image moby/buildkit:buildx-stable-1
+2026-11-21T14:22:37.8753097Z #1 pulling image moby/buildkit:buildx-stable-1 1.2s done
+2026-11-21T14:22:37.8756488Z #1 creating container buildx_buildkit_builder-b7d7fffe-1415-45c3-9267-bd0a299664f60
+2026-11-21T14:22:38.5067710Z #1 creating container buildx_buildkit_builder-b7d7fffe-1415-45c3-9267-bd0a299664f60 0.6s done
+2026-11-21T14:22:38.5069196Z #1 DONE 1.8s
+2026-11-21T14:22:38.5075401Z Name:          builder-b7d7fffe-1415-45c3-9267-bd0a299664f6
+2026-11-21T14:22:38.5077186Z Driver:        docker-container
+2026-11-21T14:22:38.5081995Z Last Activity: 2026-11-21 14:22:37 +0000 UTC
+2026-11-21T14:22:38.5099183Z 
+2026-11-21T14:22:38.5105867Z Nodes:
+2026-11-21T14:22:38.5106992Z Name:                  builder-b7d7fffe-1415-45c3-9267-bd0a299664f60
+2026-11-21T14:22:38.5110615Z Endpoint:              unix:///var/run/docker.sock
+2026-11-21T14:22:38.5117938Z Status:                running
+2026-11-21T14:22:38.5122162Z BuildKit daemon flags: --allow-insecure-entitlement=security.insecure --allow-insecure-entitlement=network.host
+2026-11-21T14:22:38.5133669Z BuildKit version:      v0.25.2
+2026-11-21T14:22:38.5139180Z Platforms:             linux/amd64, linux/amd64/v2, linux/amd64/v3, linux/386
+2026-11-21T14:22:38.5150111Z Labels:
+2026-11-21T14:22:38.5156145Z  org.mobyproject.buildkit.worker.executor:         oci
+2026-11-21T14:22:38.5161024Z  org.mobyproject.buildkit.worker.hostname:         423721255765
+2026-11-21T14:22:38.5173060Z  org.mobyproject.buildkit.worker.network:          host
+2026-11-21T14:22:38.5177253Z  org.mobyproject.buildkit.worker.oci.process-mode: sandbox
+2026-11-21T14:22:38.5184754Z  org.mobyproject.buildkit.worker.selinux.enabled:  false
+2026-11-21T14:22:38.5193433Z  org.mobyproject.buildkit.worker.snapshotter:      overlayfs
+2026-11-21T14:22:38.5203295Z GC Policy rule#0:
+2026-11-21T14:22:38.5212240Z  All:            false
+2026-11-21T14:22:38.5212756Z  Filters:        type==source.local,type==exec.cachemount,type==source.git.checkout
+2026-11-21T14:22:38.5214792Z  Keep Duration:  48h0m0s
+2026-11-21T14:22:38.5219483Z  Max Used Space: 488.3MiB
+2026-11-21T14:22:38.5230701Z GC Policy rule#1:
+2026-11-21T14:22:38.5235931Z  All:            false
+2026-11-21T14:22:38.5253535Z  Keep Duration:  1440h0m0s
+2026-11-21T14:22:38.5254670Z  Reserved Space: 7.451GiB
+2026-11-21T14:22:38.5268772Z  Max Used Space: 54.02GiB
+2026-11-21T14:22:38.5271683Z  Min Free Space: 13.97GiB
+2026-11-21T14:22:38.5282198Z GC Policy rule#2:
+2026-11-21T14:22:38.5288651Z  All:            false
+2026-11-21T14:22:38.5302345Z  Reserved Space: 7.451GiB
+2026-11-21T14:22:38.5314373Z  Max Used Space: 54.02GiB
+2026-11-21T14:22:38.5328901Z  Min Free Space: 13.97GiB
+2026-11-21T14:22:38.5343442Z GC Policy rule#3:
+2026-11-21T14:22:38.5358875Z  All:            true
+2026-11-21T14:22:38.5373122Z  Reserved Space: 7.451GiB
+2026-11-21T14:22:38.5384988Z  Max Used Space: 54.02GiB
+2026-11-21T14:22:38.5388077Z  Min Free Space: 13.97GiB
+2026-11-21T14:22:38.5402666Z ##[endgroup]
+2026-11-21T14:22:38.5420150Z ##[group]BuildKit version
+2026-11-21T14:22:38.5429949Z builder-b7d7fffe-1415-45c3-9267-bd0a299664f60: v0.25.2
+2026-11-21T14:22:38.5447262Z ##[endgroup]
+2026-11-21T14:22:40.1948355Z ##[group]Run azure/login@v2
+2026-11-21T14:22:40.1959848Z with:
+2026-11-21T14:22:40.1964011Z   client-id: 4d8b2f61-0c3a-4e9d-8a17-b52e6f0c9d34
+2026-11-21T14:22:40.1970192Z   tenant-id: 0b4e8f2c-91d7-4e3a-a6c2-5f1e9d0b7c34
+2026-11-21T14:22:40.1983531Z   subscription-id: 2f7c9a14-6b3e-4d85-9e10-c4a8b2d6f037
+2026-11-21T14:22:40.1988685Z   enable-AzPSSession: false
+2026-11-21T14:22:40.1990100Z   environment: azurecloud
+2026-11-21T14:22:40.2008153Z   allow-no-subscriptions: false
+2026-11-21T14:22:40.2016035Z   audience: api://AzureADTokenExchange
+2026-11-21T14:22:40.2026039Z   auth-type: SERVICE_PRINCIPAL
+2026-11-21T14:22:40.2038597Z env:
+2026-11-21T14:22:40.2044399Z   REGISTRY: crpaymentsprod.azurecr.io
+2026-11-21T14:22:40.2052684Z   IMAGE_NAME: payments-api
+2026-11-21T14:22:40.2058808Z   RESOURCE_GROUP: rg-payments-prod
+2026-11-21T14:22:40.2059679Z   CONTAINER_APP: ca-payments-api
+2026-11-21T14:22:40.2066096Z ##[endgroup]
+2026-11-21T14:22:40.2080453Z Running Azure CLI Login.
+2026-11-21T14:22:40.2092133Z [command]/usr/bin/az cloud set -n azurecloud
+2026-11-21T14:22:41.2800748Z Done setting cloud: "azurecloud"
+2026-11-21T14:22:41.2812472Z Federated token details:
+2026-11-21T14:22:41.2824862Z  issuer - https://token.actions.githubusercontent.com
+2026-11-21T14:22:41.2842441Z  subject claim - repo:example-org/payments-api:environment:production
+2026-11-21T14:22:41.2858164Z  audience - api://AzureADTokenExchange
+2026-11-21T14:22:41.2870027Z  job_workflow_ref - example-org/payments-api/.github/workflows/deploy.yml@refs/heads/main
+2026-11-21T14:22:41.2872005Z Attempting Azure CLI login by using OIDC...
+2026-11-21T14:22:43.5688082Z ##[error]: AADSTS700213: No matching federated identity record found for presented assertion subject 'repo:example-org/payments-api:environment:production'. Check your federated identity credential Subject, Audience and Issuer against the presented assertion. https://learn.microsoft.com/entra/workload-id/workload-identity-federation Trace ID: b9c94ff4-b41e-41f3-8eff-3e9bdcbda5bc Correlation ID: f0fe1121-e193-4ffd-a225-8acbf601086a Timestamp: 2026-11-21 14:22:43Z
+2026-11-21T14:22:43.5690992Z 
+2026-11-21T14:22:43.6196153Z ##[error]Login failed with Error: The process '/usr/bin/az' failed with exit code 1. Double check if the 'auth-type' is correct. Refer to https://github.com/Azure/login#readme for more information.
+2026-11-21T14:22:45.1383407Z Post job cleanup.
+2026-11-21T14:22:45.1388019Z Clearing azure cli accounts from the local cache.
+2026-11-21T14:22:45.1398728Z [command]/usr/bin/az account clear
+2026-11-21T14:22:47.2542682Z Post job cleanup.
+2026-11-21T14:22:47.2556325Z ##[group]Removing builder
+2026-11-21T14:22:47.2572721Z [command]/usr/bin/docker buildx rm builder-b7d7fffe-1415-45c3-9267-bd0a299664f6
+2026-11-21T14:22:47.7377881Z builder-b7d7fffe-1415-45c3-9267-bd0a299664f6 removed
+2026-11-21T14:22:47.7393039Z ##[endgroup]
+2026-11-21T14:22:47.7411029Z ##[group]Cleaning up certificates
+2026-11-21T14:22:47.7426735Z ##[endgroup]
+2026-11-21T14:22:49.1675670Z Post job cleanup.
+2026-11-21T14:22:49.1680327Z [command]/usr/bin/git version
+2026-11-21T14:22:49.1683364Z git version 2.51.2
+2026-11-21T14:22:49.1696791Z Temporarily overriding HOME='/home/runner/work/_temp/e4227702-9cfc-4992-9f8e-5935c7325482' before making global git config changes
+2026-11-21T14:22:49.1698040Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T14:22:49.1701985Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/payments-api/payments-api
+2026-11-21T14:22:49.1719835Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T14:22:49.1737213Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-21T14:22:49.1742484Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T14:22:49.1760573Z http.https://github.com/.extraheader
+2026-11-21T14:22:49.1768968Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-21T14:22:49.1775250Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-21T14:22:51.2156901Z Cleaning up orphan processes

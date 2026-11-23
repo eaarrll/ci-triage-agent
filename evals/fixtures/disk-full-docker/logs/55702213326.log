@@ -1,0 +1,592 @@
+2026-11-23T08:41:23.0684153Z Current runner version: '2.330.0'
+2026-11-23T08:41:23.0687735Z Runner name: 'GitHub Actions 1000665055'
+2026-11-23T08:41:23.0694305Z Runner group name: 'GitHub Actions'
+2026-11-23T08:41:23.0694823Z Machine name: 'runnervmeedfg'
+2026-11-23T08:41:23.0696221Z ##[group]Runner Image Provisioner
+2026-11-23T08:41:23.0702403Z Hosted Compute Agent
+2026-11-23T08:41:23.0704390Z Version: 20261110.488
+2026-11-23T08:41:23.0706630Z Commit: 3f9b2d7e61c04a8b5e2d1f07c9a4b6e8d3c2f1a0
+2026-11-23T08:41:23.0715405Z Build Date: 2026-11-10T18:02:47Z
+2026-11-23T08:41:23.0718693Z Worker ID: {00632571-70b8-433e-b6ca-d668e2315ad2}
+2026-11-23T08:41:23.0724294Z ##[endgroup]
+2026-11-23T08:41:23.0733258Z ##[group]Operating System
+2026-11-23T08:41:23.0735252Z Ubuntu
+2026-11-23T08:41:23.0736126Z 24.04.3
+2026-11-23T08:41:23.0741418Z LTS
+2026-11-23T08:41:23.0743957Z ##[endgroup]
+2026-11-23T08:41:23.0752289Z ##[group]Runner Image
+2026-11-23T08:41:23.0757539Z Image: ubuntu-24.04
+2026-11-23T08:41:23.0761126Z Version: 20261116.97.1
+2026-11-23T08:41:23.0765817Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.97/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-23T08:41:23.0767852Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.97
+2026-11-23T08:41:23.0774667Z ##[endgroup]
+2026-11-23T08:41:23.0776099Z ##[group]GITHUB_TOKEN Permissions
+2026-11-23T08:41:23.0776427Z Contents: read
+2026-11-23T08:41:23.0780280Z Metadata: read
+2026-11-23T08:41:23.0785087Z Packages: write
+2026-11-23T08:41:23.0786742Z ##[endgroup]
+2026-11-23T08:41:23.0790629Z Secret source: Actions
+2026-11-23T08:41:23.0797942Z Prepare workflow directory
+2026-11-23T08:41:23.0801675Z Prepare all required actions
+2026-11-23T08:41:23.0805955Z Getting action download info
+2026-11-23T08:41:23.8123888Z Download action repository 'actions/checkout@v4' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2026-11-23T08:41:23.8219289Z Download action repository 'docker/setup-buildx-action@v3' (SHA:e468171a9de216ec08956ac3ada2f0791b6bd435)
+2026-11-23T08:41:23.8221774Z Download action repository 'docker/login-action@v3' (SHA:184bdaa0721073962dff0199f1fb9940f07167d1)
+2026-11-23T08:41:23.8237960Z Download action repository 'docker/build-push-action@v6' (SHA:263435318d21b8e681c14492fe198d362a7d2c83)
+2026-11-23T08:41:23.8374090Z Complete job name: build (cuda)
+2026-11-23T08:41:25.1981488Z ##[group]Run actions/checkout@v4
+2026-11-23T08:41:25.1989518Z with:
+2026-11-23T08:41:25.1990861Z   repository: example-org/vision-models
+2026-11-23T08:41:25.1991762Z   token: ***
+2026-11-23T08:41:25.1995362Z   ssh-strict: true
+2026-11-23T08:41:25.1997235Z   ssh-user: git
+2026-11-23T08:41:25.2004160Z   persist-credentials: true
+2026-11-23T08:41:25.2011870Z   clean: true
+2026-11-23T08:41:25.2013352Z   sparse-checkout-cone-mode: true
+2026-11-23T08:41:25.2013805Z   fetch-depth: 1
+2026-11-23T08:41:25.2016068Z   fetch-tags: false
+2026-11-23T08:41:25.2022340Z   show-progress: true
+2026-11-23T08:41:25.2023467Z   lfs: false
+2026-11-23T08:41:25.2023937Z   submodules: false
+2026-11-23T08:41:25.2025698Z   set-safe-directory: true
+2026-11-23T08:41:25.2028704Z env:
+2026-11-23T08:41:25.2032489Z   IMAGE: ghcr.io/example-org/vision-models
+2026-11-23T08:41:25.2033480Z ##[endgroup]
+2026-11-23T08:41:25.3548594Z Syncing repository: example-org/vision-models
+2026-11-23T08:41:25.3603892Z ##[group]Getting Git version info
+2026-11-23T08:41:25.3845384Z Working directory is '/home/runner/work/vision-models/vision-models'
+2026-11-23T08:41:25.4122083Z [command]/usr/bin/git version
+2026-11-23T08:41:25.4123149Z git version 2.51.2
+2026-11-23T08:41:25.4136286Z ##[endgroup]
+2026-11-23T08:41:25.4317471Z Temporarily overriding HOME='/home/runner/work/_temp/bbdd4993-2a7e-47ce-a02b-2f7eaab51df9' before making global git config changes
+2026-11-23T08:41:25.4544625Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-23T08:41:25.5284700Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/vision-models/vision-models
+2026-11-23T08:41:25.5332457Z Deleting the contents of '/home/runner/work/vision-models/vision-models'
+2026-11-23T08:41:25.5357646Z ##[group]Initializing the repository
+2026-11-23T08:41:25.5359063Z [command]/usr/bin/git init /home/runner/work/vision-models/vision-models
+2026-11-23T08:41:25.5468068Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-23T08:41:25.5658098Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-23T08:41:25.5677088Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-23T08:41:25.5681248Z hint:
+2026-11-23T08:41:25.5686979Z hint: 	git config --global init.defaultBranch <name>
+2026-11-23T08:41:25.5690942Z hint:
+2026-11-23T08:41:25.5691884Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-23T08:41:25.5812814Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-23T08:41:25.5833743Z hint:
+2026-11-23T08:41:25.5837492Z hint: 	git branch -m <name>
+2026-11-23T08:41:25.5838410Z hint:
+2026-11-23T08:41:25.5934670Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-23T08:41:25.6768810Z Initialized empty Git repository in /home/runner/work/vision-models/vision-models/.git/
+2026-11-23T08:41:25.6819147Z [command]/usr/bin/git remote add origin https://github.com/example-org/vision-models
+2026-11-23T08:41:25.6952883Z ##[endgroup]
+2026-11-23T08:41:25.7316003Z ##[group]Disabling automatic garbage collection
+2026-11-23T08:41:26.4308885Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-23T08:41:26.4310187Z ##[endgroup]
+2026-11-23T08:41:26.4694661Z ##[group]Setting up auth
+2026-11-23T08:41:26.4699776Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-23T08:41:26.4707176Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-23T08:41:26.5013048Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-23T08:41:26.5019014Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-23T08:41:26.5283758Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-23T08:41:26.5288684Z ##[endgroup]
+2026-11-23T08:41:26.5343257Z ##[group]Fetching the repository
+2026-11-23T08:41:26.5346524Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +711d5b269b453ccf1c2683169db848e2a0372c24:refs/remotes/pull/211/merge
+2026-11-23T08:41:26.5389145Z From https://github.com/example-org/vision-models
+2026-11-23T08:41:26.5390437Z  * [new ref]         711d5b269b453ccf1c2683169db848e2a0372c24 -> pull/211/merge
+2026-11-23T08:41:26.5400355Z ##[endgroup]
+2026-11-23T08:41:26.5498652Z ##[group]Determining the checkout info
+2026-11-23T08:41:26.5689032Z ##[endgroup]
+2026-11-23T08:41:26.5689955Z [command]/usr/bin/git sparse-checkout disable
+2026-11-23T08:41:26.6348860Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-23T08:41:26.6380625Z ##[group]Checking out the ref
+2026-11-23T08:41:26.6381623Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/211/merge
+2026-11-23T08:41:26.6397774Z Note: switching to 'refs/remotes/pull/211/merge'.
+2026-11-23T08:41:26.6509884Z 
+2026-11-23T08:41:26.6526047Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-23T08:41:26.6748474Z changes and commit them, and you can discard any commits you make in this
+2026-11-23T08:41:26.6803341Z state without impacting any branches by switching back to a branch.
+2026-11-23T08:41:26.6804273Z 
+2026-11-23T08:41:26.6806815Z If you want to create a new branch to retain commits you create, you may
+2026-11-23T08:41:26.6820099Z do so (now or later) by using -c with the switch command. Example:
+2026-11-23T08:41:26.6839209Z 
+2026-11-23T08:41:26.6856351Z   git switch -c <new-branch-name>
+2026-11-23T08:41:26.6871402Z 
+2026-11-23T08:41:26.6911372Z Or undo this operation with:
+2026-11-23T08:41:26.6917079Z 
+2026-11-23T08:41:26.6924462Z   git switch -
+2026-11-23T08:41:26.6954472Z 
+2026-11-23T08:41:26.7114226Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-23T08:41:26.7115121Z 
+2026-11-23T08:41:26.7316930Z HEAD is now at 711d5b2 Merge f5a5c705d31ce5b32737e6873de62d48c3ff8919 into ed99c03c1e90191e33aaed469194036b1f711b20
+2026-11-23T08:41:26.7318039Z ##[endgroup]
+2026-11-23T08:41:26.7703152Z [command]/usr/bin/git log -1 --format=%H
+2026-11-23T08:41:26.7863478Z 711d5b269b453ccf1c2683169db848e2a0372c24
+2026-11-23T08:41:28.2129906Z ##[group]Run echo "cpus: $(nproc)"
+2026-11-23T08:41:28.2136773Z [36;1mecho "cpus: $(nproc)"[0m
+2026-11-23T08:41:28.2139244Z [36;1mfree -h[0m
+2026-11-23T08:41:28.2145350Z [36;1mdf -h[0m
+2026-11-23T08:41:28.2148346Z [36;1mdocker system df[0m
+2026-11-23T08:41:28.2148838Z shell: /usr/bin/bash -e {0}
+2026-11-23T08:41:28.2154087Z env:
+2026-11-23T08:41:28.2160099Z   IMAGE: ghcr.io/example-org/vision-models
+2026-11-23T08:41:28.2162813Z ##[endgroup]
+2026-11-23T08:41:28.3161585Z cpus: 4
+2026-11-23T08:41:28.3360066Z                total        used        free      shared  buff/cache   available
+2026-11-23T08:41:28.3467489Z Mem:            15Gi       1.2Gi        11Gi        41Mi       3.1Gi        14Gi
+2026-11-23T08:41:28.3964045Z Swap:          4.0Gi          0B       4.0Gi
+2026-11-23T08:41:28.5664552Z Filesystem      Size  Used Avail Use% Mounted on
+2026-11-23T08:41:28.5666359Z /dev/root        72G   57G   15G  80% /
+2026-11-23T08:41:28.5722746Z tmpfs           7.9G   84K  7.9G   1% /dev/shm
+2026-11-23T08:41:28.5735847Z tmpfs           3.2G  1.1M  3.2G   1% /run
+2026-11-23T08:41:28.5745381Z tmpfs           5.0M     0  5.0M   0% /run/lock
+2026-11-23T08:41:28.5837016Z efivarfs        128K   34K   90K  28% /sys/firmware/efi/efivars
+2026-11-23T08:41:28.6038688Z /dev/sda16      881M   62M  758M   8% /boot
+2026-11-23T08:41:28.7211418Z /dev/sda15      105M  6.2M   99M   6% /boot/efi
+2026-11-23T08:41:28.8117523Z /dev/sdb1        74G  4.1G   66G   6% /mnt
+2026-11-23T08:41:28.8230055Z tmpfs           1.6G   12K  1.6G   1% /run/user/1001
+2026-11-23T08:41:28.9533943Z TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+2026-11-23T08:41:28.9593206Z Images          0         0         0B        0B
+2026-11-23T08:41:28.9617678Z Containers      0         0         0B        0B
+2026-11-23T08:41:28.9619698Z Local Volumes   0         0         0B        0B
+2026-11-23T08:41:28.9655642Z Build Cache     0         0         0B        0B
+2026-11-23T08:41:30.1926735Z ##[group]Run docker/setup-buildx-action@v3
+2026-11-23T08:41:30.1929534Z with:
+2026-11-23T08:41:30.1929891Z   driver: docker-container
+2026-11-23T08:41:30.1931300Z   install: false
+2026-11-23T08:41:30.1934542Z   use: true
+2026-11-23T08:41:30.1943441Z   keep-state: false
+2026-11-23T08:41:30.1948879Z   cache-binary: true
+2026-11-23T08:41:30.1950210Z   cleanup: true
+2026-11-23T08:41:30.1956818Z env:
+2026-11-23T08:41:30.1962298Z   IMAGE: ghcr.io/example-org/vision-models
+2026-11-23T08:41:30.1968615Z ##[endgroup]
+2026-11-23T08:41:30.7681233Z ##[group]Buildx version
+2026-11-23T08:41:30.7781487Z [command]/usr/bin/docker buildx version
+2026-11-23T08:41:30.8099024Z github.com/docker/buildx v0.30.0 2bf7b85
+2026-11-23T08:41:30.8250911Z ##[endgroup]
+2026-11-23T08:41:30.8253032Z ##[group]Creating a new builder instance
+2026-11-23T08:41:30.8257756Z [command]/usr/bin/docker buildx create --name builder-36660966-b6ef-4b01-954c-587eaf566ec5 --driver docker-container --buildkitd-flags --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host --use
+2026-11-23T08:41:30.8312075Z builder-36660966-b6ef-4b01-954c-587eaf566ec5
+2026-11-23T08:41:31.1952444Z ##[endgroup]
+2026-11-23T08:41:31.2014208Z ##[group]Booting builder
+2026-11-23T08:41:31.2043247Z [command]/usr/bin/docker buildx inspect --bootstrap --builder builder-36660966-b6ef-4b01-954c-587eaf566ec5
+2026-11-23T08:41:31.2554149Z #1 [internal] booting buildkit
+2026-11-23T08:41:31.2654067Z #1 pulling image moby/buildkit:buildx-stable-1
+2026-11-23T08:41:33.0712489Z #1 pulling image moby/buildkit:buildx-stable-1 1.8s done
+2026-11-23T08:41:33.0731356Z #1 creating container buildx_buildkit_builder-36660966-b6ef-4b01-954c-587eaf566ec50
+2026-11-23T08:41:33.6789045Z #1 creating container buildx_buildkit_builder-36660966-b6ef-4b01-954c-587eaf566ec50 0.6s done
+2026-11-23T08:41:33.6804569Z #1 DONE 2.4s
+2026-11-23T08:41:33.6821723Z Name:          builder-36660966-b6ef-4b01-954c-587eaf566ec5
+2026-11-23T08:41:33.6831268Z Driver:        docker-container
+2026-11-23T08:41:33.6839162Z Last Activity: 2026-11-23 08:41:30 +0000 UTC
+2026-11-23T08:41:33.6844496Z 
+2026-11-23T08:41:33.6853750Z Nodes:
+2026-11-23T08:41:33.6857771Z Name:                  builder-36660966-b6ef-4b01-954c-587eaf566ec50
+2026-11-23T08:41:33.6860842Z Endpoint:              unix:///var/run/docker.sock
+2026-11-23T08:41:33.6863843Z Status:                running
+2026-11-23T08:41:33.6867086Z BuildKit daemon flags: --allow-insecure-entitlement=security.insecure --allow-insecure-entitlement=network.host
+2026-11-23T08:41:33.6874835Z BuildKit version:      v0.25.2
+2026-11-23T08:41:33.6877744Z Platforms:             linux/amd64, linux/amd64/v2, linux/amd64/v3, linux/386
+2026-11-23T08:41:33.6881212Z Labels:
+2026-11-23T08:41:33.6891157Z  org.mobyproject.buildkit.worker.executor:         oci
+2026-11-23T08:41:33.6900462Z  org.mobyproject.buildkit.worker.hostname:         8e41c07b2d55
+2026-11-23T08:41:33.6911049Z  org.mobyproject.buildkit.worker.network:          host
+2026-11-23T08:41:33.6915611Z  org.mobyproject.buildkit.worker.oci.process-mode: sandbox
+2026-11-23T08:41:33.6919054Z  org.mobyproject.buildkit.worker.selinux.enabled:  false
+2026-11-23T08:41:33.6929328Z  org.mobyproject.buildkit.worker.snapshotter:      overlayfs
+2026-11-23T08:41:33.6938240Z GC Policy rule#0:
+2026-11-23T08:41:33.6943664Z  All:            false
+2026-11-23T08:41:33.6949639Z  Filters:        type==source.local,type==exec.cachemount,type==source.git.checkout
+2026-11-23T08:41:33.6957038Z  Keep Duration:  48h0m0s
+2026-11-23T08:41:33.6960590Z  Max Used Space: 488.3MiB
+2026-11-23T08:41:33.6963042Z ##[endgroup]
+2026-11-23T08:41:35.7342005Z ##[group]BuildKit version
+2026-11-23T08:41:35.7368555Z builder-36660966-b6ef-4b01-954c-587eaf566ec50: v0.25.2
+2026-11-23T08:41:35.7846336Z ##[endgroup]
+2026-11-23T08:41:37.0570789Z ##[group]Run docker/build-push-action@v6
+2026-11-23T08:41:37.0577195Z with:
+2026-11-23T08:41:37.0577772Z   context: .
+2026-11-23T08:41:37.0586724Z   file: docker/cuda.Dockerfile
+2026-11-23T08:41:37.0587803Z   push: false
+2026-11-23T08:41:37.0596230Z   load: true
+2026-11-23T08:41:37.0598437Z   tags: ghcr.io/example-org/vision-models:cuda-711d5b269b453ccf1c2683169db848e2a0372c24
+2026-11-23T08:41:37.0599877Z   cache-from: type=gha,scope=cuda
+2026-11-23T08:41:37.0605873Z   cache-to: type=gha,scope=cuda,mode=max
+2026-11-23T08:41:37.0608903Z   no-cache: false
+2026-11-23T08:41:37.0611558Z   pull: false
+2026-11-23T08:41:37.0614620Z   github-token: ***
+2026-11-23T08:41:37.0615557Z env:
+2026-11-23T08:41:37.0619524Z   IMAGE: ghcr.io/example-org/vision-models
+2026-11-23T08:41:37.0621276Z ##[endgroup]
+2026-11-23T08:41:37.1884379Z ##[group]GitHub Actions runtime token ACs
+2026-11-23T08:41:37.1885874Z refs/pull/211/merge: read/write
+2026-11-23T08:41:37.1910953Z refs/heads/main: read
+2026-11-23T08:41:37.1934720Z ##[endgroup]
+2026-11-23T08:41:37.3126293Z ##[group]Docker info
+2026-11-23T08:41:37.3155245Z [command]/usr/bin/docker version
+2026-11-23T08:41:37.5962024Z Client: Docker Engine - Community
+2026-11-23T08:41:37.6175760Z  Version:           28.5.2
+2026-11-23T08:41:37.6182692Z  API version:       1.51
+2026-11-23T08:41:37.6521126Z  Go version:        go1.24.9
+2026-11-23T08:41:37.6527045Z  Git commit:        ecc6942
+2026-11-23T08:41:37.8666171Z  Built:             Wed Nov  5 14:43:25 2025
+2026-11-23T08:41:37.8679159Z  OS/Arch:           linux/amd64
+2026-11-23T08:41:37.8700018Z  Context:           default
+2026-11-23T08:41:38.0373894Z 
+2026-11-23T08:41:38.0378119Z Server: Docker Engine - Community
+2026-11-23T08:41:38.0454724Z  Engine:
+2026-11-23T08:41:38.0462761Z   Version:          28.5.2
+2026-11-23T08:41:38.0500653Z   API version:      1.51 (minimum version 1.24)
+2026-11-23T08:41:38.0519169Z   Go version:       go1.24.9
+2026-11-23T08:41:38.2970598Z   Git commit:       89c5e8f
+2026-11-23T08:41:38.3126526Z   Built:            Wed Nov  5 14:43:25 2025
+2026-11-23T08:41:38.3127660Z   OS/Arch:          linux/amd64
+2026-11-23T08:41:38.3292277Z   Experimental:     false
+2026-11-23T08:41:38.3645084Z [command]/usr/bin/docker info
+2026-11-23T08:41:38.3660507Z Client: Docker Engine - Community
+2026-11-23T08:41:38.3968228Z  Version:    28.5.2
+2026-11-23T08:41:38.4120721Z  Context:    default
+2026-11-23T08:41:38.4121633Z  Debug Mode: false
+2026-11-23T08:41:38.4372681Z 
+2026-11-23T08:41:38.4386829Z Server:
+2026-11-23T08:41:38.4398837Z  Containers: 1
+2026-11-23T08:41:38.4457940Z   Running: 1
+2026-11-23T08:41:38.4458961Z   Paused: 0
+2026-11-23T08:41:38.4560485Z   Stopped: 0
+2026-11-23T08:41:38.4880403Z  Images: 1
+2026-11-23T08:41:38.4881950Z  Server Version: 28.5.2
+2026-11-23T08:41:38.4982550Z  Storage Driver: overlay2
+2026-11-23T08:41:38.5060192Z   Backing Filesystem: extfs
+2026-11-23T08:41:38.5281113Z   Supports d_type: true
+2026-11-23T08:41:38.5546157Z  Logging Driver: json-file
+2026-11-23T08:41:38.6057153Z  Cgroup Driver: systemd
+2026-11-23T08:41:38.6062129Z  Cgroup Version: 2
+2026-11-23T08:41:38.6089822Z  Kernel Version: 6.14.0-1017-azure
+2026-11-23T08:41:38.6884071Z  Operating System: Ubuntu 24.04.3 LTS
+2026-11-23T08:41:38.7122353Z  OSType: linux
+2026-11-23T08:41:38.7211031Z  Architecture: x86_64
+2026-11-23T08:41:38.7278220Z  CPUs: 4
+2026-11-23T08:41:38.7279298Z  Total Memory: 15.62GiB
+2026-11-23T08:41:38.7316402Z  Name: runnervmeedfg
+2026-11-23T08:41:38.7751526Z  ID: 8aec17f8-a9bc-4b9f-84ad-74d8c7a5b477
+2026-11-23T08:41:38.8507153Z  Docker Root Dir: /var/lib/docker
+2026-11-23T08:41:38.8584863Z  Debug Mode: false
+2026-11-23T08:41:38.8588356Z  Username: githubactions
+2026-11-23T08:41:38.8901706Z  Experimental: false
+2026-11-23T08:41:38.9933429Z  Live Restore Enabled: false
+2026-11-23T08:41:38.9938586Z ##[endgroup]
+2026-11-23T08:41:38.9940523Z ##[group]Proxy configuration
+2026-11-23T08:41:38.9942940Z No proxy configuration found
+2026-11-23T08:41:38.9957465Z ##[endgroup]
+2026-11-23T08:41:39.0243090Z ##[group]Buildx version
+2026-11-23T08:41:39.0342400Z [command]/usr/bin/docker buildx version
+2026-11-23T08:41:39.0988237Z github.com/docker/buildx v0.30.0 2bf7b85
+2026-11-23T08:41:39.0989881Z ##[endgroup]
+2026-11-23T08:41:39.1002152Z [command]/usr/bin/docker buildx build --cache-from type=gha,scope=cuda --cache-to type=gha,scope=cuda,mode=max --file docker/cuda.Dockerfile --iidfile /home/runner/work/_temp/docker-actions-toolkit-dff04e/build-iidfile-bcdc1ce12b.txt --load --attest type=provenance,mode=min,inline-only=true,builder-id=https://github.com/example-org/vision-models/actions/runs/19602217744 --tag ghcr.io/example-org/vision-models:cuda-711d5b269b453ccf1c2683169db848e2a0372c24 --metadata-file /home/runner/work/_temp/docker-actions-toolkit-dff04e/build-metadata-1122672f25.json .
+2026-11-23T08:41:39.1027029Z #0 building with "builder-36660966-b6ef-4b01-954c-587eaf566ec5" instance using docker-container driver
+2026-11-23T08:41:39.1058312Z 
+2026-11-23T08:41:39.1060759Z #1 [internal] load build definition from cuda.Dockerfile
+2026-11-23T08:41:39.1330874Z #1 transferring dockerfile: 1.21kB done
+2026-11-23T08:41:39.1339588Z #1 DONE 0.0s
+2026-11-23T08:41:39.1345256Z 
+2026-11-23T08:41:39.1351719Z #2 resolve image config for docker-image://docker.io/docker/dockerfile:1.7
+2026-11-23T08:41:39.1410892Z #2 DONE 0.5s
+2026-11-23T08:41:39.4741751Z 
+2026-11-23T08:41:39.4743407Z #3 docker-image://docker.io/docker/dockerfile:1.7@sha256:cdeeb7d7c56cafdaf85294bd40271a98aa5d3d00a92df2e3ef201dea04a4e108
+2026-11-23T08:41:39.5719901Z #3 resolve docker.io/docker/dockerfile:1.7@sha256:cdeeb7d7c56cafdaf85294bd40271a98aa5d3d00a92df2e3ef201dea04a4e108 0.0s done
+2026-11-23T08:41:39.7329205Z #3 sha256:0575c088191e73d0e5e3ed319b725012a5b2812e6b5ba271061416e317ca76c3 12.64MB / 12.64MB 0.2s done
+2026-11-23T08:41:39.7360583Z #3 extracting sha256:0575c088191e73d0e5e3ed319b725012a5b2812e6b5ba271061416e317ca76c3 0.2s done
+2026-11-23T08:41:39.7427023Z #3 DONE 0.4s
+2026-11-23T08:41:40.0749592Z 
+2026-11-23T08:41:40.0760776Z #4 [internal] load metadata for docker.io/nvidia/cuda:12.6.3-cudnn-runtime-ubuntu24.04
+2026-11-23T08:41:40.0762165Z #4 DONE 0.6s
+2026-11-23T08:41:40.0763806Z 
+2026-11-23T08:41:40.0841993Z #5 [internal] load metadata for docker.io/nvidia/cuda:12.6.3-cudnn-devel-ubuntu24.04
+2026-11-23T08:41:40.0969332Z #5 DONE 0.6s
+2026-11-23T08:41:40.1251307Z 
+2026-11-23T08:41:40.1256160Z #6 [internal] load .dockerignore
+2026-11-23T08:41:40.1276998Z #6 transferring context: 98B done
+2026-11-23T08:41:40.1860298Z #6 DONE 0.0s
+2026-11-23T08:41:40.1863083Z 
+2026-11-23T08:41:40.2550724Z #7 [internal] load build context
+2026-11-23T08:41:40.2575823Z #7 transferring context: 41.83kB done
+2026-11-23T08:41:40.2577007Z #7 DONE 0.0s
+2026-11-23T08:41:40.2583739Z 
+2026-11-23T08:41:40.2744633Z #8 importing cache manifest from gha:9031846211720458113
+2026-11-23T08:41:40.2803071Z #8 DONE 0.8s
+2026-11-23T08:41:40.2805510Z 
+2026-11-23T08:41:40.2807647Z #9 [builder 1/8] FROM docker.io/nvidia/cuda:12.6.3-cudnn-devel-ubuntu24.04@sha256:c7f74f6d9158ff408eb64d38244e93612eec04e74ef22f6e894724244dee49b5
+2026-11-23T08:41:40.2843172Z #9 resolve docker.io/nvidia/cuda:12.6.3-cudnn-devel-ubuntu24.04@sha256:c7f74f6d9158ff408eb64d38244e93612eec04e74ef22f6e894724244dee49b5 0.0s done
+2026-11-23T08:41:40.3044704Z #9 DONE 0.0s
+2026-11-23T08:41:40.3322764Z 
+2026-11-23T08:41:40.3477736Z #10 [runtime 1/5] FROM docker.io/nvidia/cuda:12.6.3-cudnn-runtime-ubuntu24.04@sha256:76879ac38112a67639d5250097395311b4da7734f49713aaa988714d6233ae8a
+2026-11-23T08:41:40.3731248Z #10 resolve docker.io/nvidia/cuda:12.6.3-cudnn-runtime-ubuntu24.04@sha256:76879ac38112a67639d5250097395311b4da7734f49713aaa988714d6233ae8a 0.0s done
+2026-11-23T08:41:40.4012030Z #10 DONE 0.0s
+2026-11-23T08:41:40.4039207Z 
+2026-11-23T08:41:40.4475319Z #11 [builder 2/8] RUN apt-get update && apt-get install -y --no-install-recommends       python3.12 python3.12-venv python3.12-dev build-essential git     && rm -rf /var/lib/apt/lists/*
+2026-11-23T08:41:40.4648365Z #11 CACHED
+2026-11-23T08:41:40.4658867Z 
+2026-11-23T08:41:40.5037007Z #12 [builder 3/8] RUN python3.12 -m venv /opt/venv
+2026-11-23T08:41:40.5245036Z #12 CACHED
+2026-11-23T08:41:40.5990539Z 
+2026-11-23T08:41:40.6071623Z #13 [builder 4/8] COPY requirements.txt requirements-gpu.txt /tmp/
+2026-11-23T08:41:41.0000016Z #13 sha256:6786af0dba1379f5c1247c19a79373eaa70f5825ed890e38f7c454138a42ef66 4.62MB / 4.62MB 0.4s done
+2026-11-23T08:41:41.0499142Z #13 sha256:2d73ee6270273a2809bb006bcb8227bcae2b69e4a98dd3261560c537dab290a0 186B / 186B 0.4s done
+2026-11-23T08:41:41.1005927Z #13 sha256:07654993b7bf6a48a1835888ac936cbddfe7a4695f0c6aed6a410ecafba7298d 6.88kB / 6.88kB 0.5s done
+2026-11-23T08:41:41.2009976Z #13 sha256:010c979d79eb37518aff2810851cbe97410f8de1c160aa05ae5c7f3980dfeeaf 29.72MB / 29.72MB 0.6s done
+2026-11-23T08:41:41.4121456Z #13 sha256:6c71f6048dc9dbea2c6753bdc2ef8275d3cfcd8a581f05f3ee363803fa70a937 64.05kB / 64.05kB 0.8s done
+2026-11-23T08:41:41.5001221Z #13 sha256:4e30c5232040cd3f9cab03175c65db9ef22cb3df6941ff073b997e323578088a 57.13MB / 57.13MB 0.9s done
+2026-11-23T08:41:41.5282781Z #13 sha256:2cdc02d99b4cc2307133f4e2dff23438bdccded3ad4322da95e163971708490e 87.53kB / 87.53kB 0.9s done
+2026-11-23T08:41:42.7119391Z #13 sha256:2734477f4eb2e29865ce4c5e331b401a7e900208eeb2e4607a78baf696f7169e 323.74MB / 1.37GB 2.1s
+2026-11-23T08:41:42.7638014Z #13 sha256:f352e1c7882b71d0b4c647e57a7902d77a3985d832942f62597f9adb1117cd63 230.32MB / 1.96GB 2.1s
+2026-11-23T08:41:42.8311917Z #13 sha256:070ab518e856a596a1def6d29d37844c6eee39063a2f812f36104146806e1aee 243.99MB / 1.18GB 2.1s
+2026-11-23T08:41:42.9976717Z #13 sha256:cee5608820f38bb8dfd3997a77d28b77e936fdb8e8eeb152876f9f0d443fdc65 251.86MB / 1.71GB 2.1s
+2026-11-23T08:41:45.6000462Z #13 sha256:2734477f4eb2e29865ce4c5e331b401a7e900208eeb2e4607a78baf696f7169e 770.81MB / 1.37GB 5.0s
+2026-11-23T08:41:45.6274044Z #13 sha256:f352e1c7882b71d0b4c647e57a7902d77a3985d832942f62597f9adb1117cd63 548.37MB / 1.96GB 5.0s
+2026-11-23T08:41:45.6281177Z #13 sha256:070ab518e856a596a1def6d29d37844c6eee39063a2f812f36104146806e1aee 580.92MB / 1.18GB 5.0s
+2026-11-23T08:41:45.7173108Z #13 sha256:cee5608820f38bb8dfd3997a77d28b77e936fdb8e8eeb152876f9f0d443fdc65 599.67MB / 1.71GB 5.0s
+2026-11-23T08:41:48.5000214Z #13 sha256:2734477f4eb2e29865ce4c5e331b401a7e900208eeb2e4607a78baf696f7169e 1.19GB / 1.37GB 7.9s
+2026-11-23T08:41:48.5991124Z #13 sha256:f352e1c7882b71d0b4c647e57a7902d77a3985d832942f62597f9adb1117cd63 866.43MB / 1.96GB 7.9s
+2026-11-23T08:41:48.6005812Z #13 sha256:070ab518e856a596a1def6d29d37844c6eee39063a2f812f36104146806e1aee 917.86MB / 1.18GB 7.9s
+2026-11-23T08:41:48.7957790Z #13 sha256:cee5608820f38bb8dfd3997a77d28b77e936fdb8e8eeb152876f9f0d443fdc65 947.48MB / 1.71GB 7.9s
+2026-11-23T08:41:49.7500447Z #13 sha256:2734477f4eb2e29865ce4c5e331b401a7e900208eeb2e4607a78baf696f7169e 1.37GB / 1.37GB 9.1s done
+2026-11-23T08:41:51.1426943Z #13 sha256:070ab518e856a596a1def6d29d37844c6eee39063a2f812f36104146806e1aee 1.18GB / 1.18GB 10.4s done
+2026-11-23T08:41:51.4002556Z #13 sha256:f352e1c7882b71d0b4c647e57a7902d77a3985d832942f62597f9adb1117cd63 1.16GB / 1.96GB 10.8s
+2026-11-23T08:41:51.5463426Z #13 sha256:cee5608820f38bb8dfd3997a77d28b77e936fdb8e8eeb152876f9f0d443fdc65 1.26GB / 1.71GB 10.8s
+2026-11-23T08:41:54.3005462Z #13 sha256:f352e1c7882b71d0b4c647e57a7902d77a3985d832942f62597f9adb1117cd63 1.47GB / 1.96GB 13.7s
+2026-11-23T08:41:54.3046765Z #13 sha256:cee5608820f38bb8dfd3997a77d28b77e936fdb8e8eeb152876f9f0d443fdc65 1.60GB / 1.71GB 13.7s
+2026-11-23T08:41:55.5366049Z #13 sha256:cee5608820f38bb8dfd3997a77d28b77e936fdb8e8eeb152876f9f0d443fdc65 1.71GB / 1.71GB 14.6s done
+2026-11-23T08:41:57.2219916Z #13 sha256:f352e1c7882b71d0b4c647e57a7902d77a3985d832942f62597f9adb1117cd63 1.78GB / 1.96GB 16.6s
+2026-11-23T08:41:58.9508397Z #13 sha256:f352e1c7882b71d0b4c647e57a7902d77a3985d832942f62597f9adb1117cd63 1.96GB / 1.96GB 18.3s done
+2026-11-23T08:42:00.1214079Z #13 extracting sha256:010c979d79eb37518aff2810851cbe97410f8de1c160aa05ae5c7f3980dfeeaf 0.9s done
+2026-11-23T08:42:00.2485980Z #13 extracting sha256:6786af0dba1379f5c1247c19a79373eaa70f5825ed890e38f7c454138a42ef66 0.1s done
+2026-11-23T08:42:01.6600477Z #13 extracting sha256:4e30c5232040cd3f9cab03175c65db9ef22cb3df6941ff073b997e323578088a 1.4s done
+2026-11-23T08:42:01.6818192Z #13 extracting sha256:2d73ee6270273a2809bb006bcb8227bcae2b69e4a98dd3261560c537dab290a0 0.0s done
+2026-11-23T08:42:01.8052477Z #13 extracting sha256:07654993b7bf6a48a1835888ac936cbddfe7a4695f0c6aed6a410ecafba7298d 0.0s done
+2026-11-23T08:42:33.3249614Z #13 extracting sha256:2734477f4eb2e29865ce4c5e331b401a7e900208eeb2e4607a78baf696f7169e 31.6s done
+2026-11-23T08:42:33.3252290Z #13 extracting sha256:6c71f6048dc9dbea2c6753bdc2ef8275d3cfcd8a581f05f3ee363803fa70a937 0.0s done
+2026-11-23T08:42:33.3335412Z #13 extracting sha256:2cdc02d99b4cc2307133f4e2dff23438bdccded3ad4322da95e163971708490e 0.0s done
+2026-11-23T08:43:20.8108254Z #13 extracting sha256:f352e1c7882b71d0b4c647e57a7902d77a3985d832942f62597f9adb1117cd63 47.2s done
+2026-11-23T08:43:45.4668092Z #13 extracting sha256:070ab518e856a596a1def6d29d37844c6eee39063a2f812f36104146806e1aee 24.8s done
+2026-11-23T08:44:24.3395871Z #13 extracting sha256:cee5608820f38bb8dfd3997a77d28b77e936fdb8e8eeb152876f9f0d443fdc65 38.9s done
+2026-11-23T08:44:28.5200082Z #13 sha256:94e812ac76fa75e710aab60c62fe4013fb217260873ddb6264d6076aec44cd20 418.36MB / 418.36MB 4.1s done
+2026-11-23T08:44:28.8544971Z #13 sha256:4d8f3ef146491b1316ff821192b88b07d650ff1fc56356e99c17d5f95bd46ddf 25.82MB / 25.82MB 0.6s done
+2026-11-23T08:44:35.7883040Z #13 extracting sha256:94e812ac76fa75e710aab60c62fe4013fb217260873ddb6264d6076aec44cd20 6.8s done
+2026-11-23T08:44:36.1208146Z #13 extracting sha256:4d8f3ef146491b1316ff821192b88b07d650ff1fc56356e99c17d5f95bd46ddf 0.3s done
+2026-11-23T08:44:36.7156997Z #13 DONE 175.8s
+2026-11-23T08:44:38.1730647Z 
+2026-11-23T08:44:38.2504993Z #14 [builder 5/8] RUN pip install --upgrade pip wheel  && pip install -r /tmp/requirements-gpu.txt
+2026-11-23T08:44:38.2866535Z #14 1.250 Requirement already satisfied: pip in /opt/venv/lib/python3.12/site-packages (24.0)
+2026-11-23T08:44:38.5719660Z #14 1.650 Collecting pip
+2026-11-23T08:44:38.6177421Z #14 1.700   Downloading pip-25.3-py3-none-any.whl.metadata (4.7 kB)
+2026-11-23T08:44:38.6704709Z #14 1.750 Collecting wheel
+2026-11-23T08:44:38.7200084Z #14 1.800   Downloading wheel-0.45.1-py3-none-any.whl.metadata (2.3 kB)
+2026-11-23T08:44:38.7504970Z #14 1.850 Downloading pip-25.3-py3-none-any.whl (1.8 MB)
+2026-11-23T08:44:38.8200562Z #14 1.900 Downloading wheel-0.45.1-py3-none-any.whl (72 kB)
+2026-11-23T08:44:38.8476236Z #14 1.950 Installing collected packages: wheel, pip
+2026-11-23T08:44:38.9204542Z #14 2.000   Attempting uninstall: pip
+2026-11-23T08:44:38.9777562Z #14 2.050     Found existing installation: pip 24.0
+2026-11-23T08:44:39.1700347Z #14 2.250     Uninstalling pip-24.0:
+2026-11-23T08:44:39.2202253Z #14 2.300       Successfully uninstalled pip-24.0
+2026-11-23T08:44:40.4200603Z #14 3.500 Successfully installed pip-25.3 wheel-0.45.1
+2026-11-23T08:44:41.0221492Z #14 4.100 Looking in indexes: https://pypi.org/simple, https://download.pytorch.org/whl/cu126
+2026-11-23T08:44:41.3200747Z #14 4.400 Collecting numpy==2.3.4 (from -r /tmp/requirements.txt (line 1))
+2026-11-23T08:44:41.4200304Z #14 4.500   Downloading numpy-2.3.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+2026-11-23T08:44:41.7205483Z #14 4.800 Collecting pillow==12.0.0 (from -r /tmp/requirements.txt (line 2))
+2026-11-23T08:44:41.8274477Z #14 4.900   Downloading pillow-12.0.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+2026-11-23T08:44:42.1200063Z #14 5.200 Collecting pydantic==2.12.4 (from -r /tmp/requirements.txt (line 3))
+2026-11-23T08:44:42.2201139Z #14 5.300   Downloading pydantic-2.12.4-py3-none-any.whl.metadata (89 kB)
+2026-11-23T08:44:42.5216326Z #14 5.600 Collecting fastapi==0.121.2 (from -r /tmp/requirements.txt (line 4))
+2026-11-23T08:44:42.6320333Z #14 5.700   Downloading fastapi-0.121.2-py3-none-any.whl.metadata (28 kB)
+2026-11-23T08:44:42.9200098Z #14 6.000 Collecting uvicorn==0.38.0 (from -r /tmp/requirements.txt (line 5))
+2026-11-23T08:44:43.0270941Z #14 6.100   Downloading uvicorn-0.38.0-py3-none-any.whl.metadata (6.8 kB)
+2026-11-23T08:44:43.3226949Z #14 6.400 Collecting pyyaml==6.0.3 (from -r /tmp/requirements.txt (line 6))
+2026-11-23T08:44:43.4222766Z #14 6.500   Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-11-23T08:44:43.7200903Z #14 6.800 Collecting opencv-python-headless==4.12.0.88 (from -r /tmp/requirements.txt (line 7))
+2026-11-23T08:44:43.8330202Z #14 6.900   Downloading opencv_python_headless-4.12.0.88-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (19 kB)
+2026-11-23T08:44:44.1208123Z #14 7.200 Collecting torch==2.9.1+cu126 (from -r /tmp/requirements-gpu.txt (line 3))
+2026-11-23T08:44:44.2660403Z #14 7.300   Downloading torch-2.9.1%2Bcu126-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (29 kB)
+2026-11-23T08:44:44.5207564Z #14 7.600 Collecting torchvision==0.24.1+cu126 (from -r /tmp/requirements-gpu.txt (line 4))
+2026-11-23T08:44:44.6512559Z #14 7.700   Downloading torchvision-0.24.1%2Bcu126-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (6.1 kB)
+2026-11-23T08:44:44.9325667Z #14 8.000 Collecting onnx==1.19.1 (from -r /tmp/requirements-gpu.txt (line 5))
+2026-11-23T08:44:45.0227516Z #14 8.100   Downloading onnx-1.19.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (7.0 kB)
+2026-11-23T08:44:45.3200399Z #14 8.400 Collecting onnxruntime-gpu==1.23.2 (from -r /tmp/requirements-gpu.txt (line 6))
+2026-11-23T08:44:45.4227331Z #14 8.500   Downloading onnxruntime_gpu-1.23.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.4 kB)
+2026-11-23T08:44:45.7203432Z #14 8.800 Collecting tensorrt-cu12==10.13.3.9 (from -r /tmp/requirements-gpu.txt (line 7))
+2026-11-23T08:44:45.8200042Z #14 8.900   Downloading tensorrt_cu12-10.13.3.9.tar.gz (18 kB)
+2026-11-23T08:44:45.9211833Z #14 9.000   Installing build dependencies: started
+2026-11-23T08:44:47.8200195Z #14 10.90   Installing build dependencies: finished with status 'done'
+2026-11-23T08:44:47.8285077Z #14 10.95   Getting requirements to build wheel: started
+2026-11-23T08:44:48.2723768Z #14 11.35   Getting requirements to build wheel: finished with status 'done'
+2026-11-23T08:44:48.3200615Z #14 11.40   Preparing metadata (pyproject.toml): started
+2026-11-23T08:44:48.9209906Z #14 12.00   Preparing metadata (pyproject.toml): finished with status 'done'
+2026-11-23T08:44:49.1202384Z #14 12.20 Collecting nvidia-cuda-nvrtc-cu12==12.6.77 (from torch==2.9.1+cu126->-r /tmp/requirements-gpu.txt (line 3))
+2026-11-23T08:44:49.1702754Z #14 12.25   Downloading nvidia_cuda_nvrtc_cu12-12.6.77-py3-none-manylinux2014_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:44:49.3703743Z #14 12.45 Collecting nvidia-cuda-runtime-cu12==12.6.77 (from torch==2.9.1+cu126->-r /tmp/requirements-gpu.txt (line 3))
+2026-11-23T08:44:49.4200782Z #14 12.50   Downloading nvidia_cuda_runtime_cu12-12.6.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:44:49.6255720Z #14 12.70 Collecting nvidia-cudnn-cu12==9.10.2.21 (from torch==2.9.1+cu126->-r /tmp/requirements-gpu.txt (line 3))
+2026-11-23T08:44:49.6706103Z #14 12.75   Downloading nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:44:49.8709541Z #14 12.95 Collecting nvidia-cublas-cu12==12.6.4.1 (from torch==2.9.1+cu126->-r /tmp/requirements-gpu.txt (line 3))
+2026-11-23T08:44:49.9203132Z #14 13.00   Downloading nvidia_cublas_cu12-12.6.4.1-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:44:50.1355638Z #14 13.20 Collecting nvidia-cufft-cu12==11.3.0.4 (from torch==2.9.1+cu126->-r /tmp/requirements-gpu.txt (line 3))
+2026-11-23T08:44:50.1701563Z #14 13.25   Downloading nvidia_cufft_cu12-11.3.0.4-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:44:50.3702800Z #14 13.45 Collecting nvidia-cusolver-cu12==11.7.1.2 (from torch==2.9.1+cu126->-r /tmp/requirements-gpu.txt (line 3))
+2026-11-23T08:44:50.4200089Z 
+2026-11-23T08:44:50.4200598Z #15 [runtime 2/5] RUN apt-get update && apt-get install -y --no-install-recommends       python3.12 libgl1 libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+2026-11-23T08:44:50.5148015Z #15 sha256:69e131d455a806cde8636f036b348ef07af01ae1afeadb7e319dd80a6613322b 1.03GB / 1.03GB 8.9s done
+2026-11-23T08:44:50.5151146Z #15 sha256:009fc3885b3ac267782415e7820cd927d4ba6ad38e54f98e14e306b9461d3039 1.52GB / 1.52GB 13.1s done
+2026-11-23T08:44:50.5153527Z 
+2026-11-23T08:44:50.5157031Z #14 [builder 5/8] RUN pip install --upgrade pip wheel  && pip install -r /tmp/requirements-gpu.txt
+2026-11-23T08:44:50.5196279Z #14 13.50   Downloading nvidia_cusolver_cu12-11.7.1.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:44:50.6392743Z #14 13.70 Collecting nvidia-cusparse-cu12==12.5.4.2 (from torch==2.9.1+cu126->-r /tmp/requirements-gpu.txt (line 3))
+2026-11-23T08:44:50.6731358Z #14 13.75   Downloading nvidia_cusparse_cu12-12.5.4.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:44:50.8700278Z #14 13.95 Collecting nvidia-cusparselt-cu12==0.7.1 (from torch==2.9.1+cu126->-r /tmp/requirements-gpu.txt (line 3))
+2026-11-23T08:44:50.9219118Z #14 14.00   Downloading nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:44:51.1200120Z #14 14.20 Collecting nvidia-nccl-cu12==2.27.5 (from torch==2.9.1+cu126->-r /tmp/requirements-gpu.txt (line 3))
+2026-11-23T08:44:51.2135898Z #14 14.25   Downloading nvidia_nccl_cu12-2.27.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:44:51.3710363Z #14 14.45 Collecting triton==3.5.1 (from torch==2.9.1+cu126->-r /tmp/requirements-gpu.txt (line 3))
+2026-11-23T08:44:51.4658625Z #14 14.50   Downloading triton-3.5.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:44:51.6200341Z #14 14.70 Collecting tensorrt_cu12_libs==10.13.3.9 (from tensorrt-cu12==10.13.3.9->-r /tmp/requirements-gpu.txt (line 7))
+2026-11-23T08:44:51.6700762Z #14 14.75   Downloading tensorrt_cu12_libs-10.13.3.9-py2.py3-none-manylinux_2_28_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:44:51.8707822Z #14 14.95 Collecting tensorrt_cu12_bindings==10.13.3.9 (from tensorrt-cu12==10.13.3.9->-r /tmp/requirements-gpu.txt (line 7))
+2026-11-23T08:44:51.9200352Z #14 15.00   Downloading tensorrt_cu12_bindings-10.13.3.9-cp312-none-manylinux_2_28_x86_64.whl.metadata (1.7 kB)
+2026-11-23T08:45:03.2380136Z #14 26.32 Downloading torch-2.9.1%2Bcu126-cp312-cp312-manylinux_2_28_x86_64.whl (885.2 MB)
+2026-11-23T08:45:03.5379921Z #14 26.62 Downloading torchvision-0.24.1%2Bcu126-cp312-cp312-manylinux_2_28_x86_64.whl (8.0 MB)
+2026-11-23T08:45:03.8379911Z #14 26.92 Downloading onnx-1.19.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (18.2 MB)
+2026-11-23T08:45:07.0266493Z #14 30.08 Downloading onnxruntime_gpu-1.23.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (300.5 MB)
+2026-11-23T08:45:07.4413115Z #14 30.38 Downloading nvidia_cuda_nvrtc_cu12-12.6.77-py3-none-manylinux2014_x86_64.whl (23.7 MB)
+2026-11-23T08:45:08.7204765Z 
+2026-11-23T08:45:08.7386632Z #15 [runtime 2/5] RUN apt-get update && apt-get install -y --no-install-recommends       python3.12 libgl1 libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+2026-11-23T08:45:09.0128461Z #15 extracting sha256:69e131d455a806cde8636f036b348ef07af01ae1afeadb7e319dd80a6613322b 18.2s done
+2026-11-23T08:45:15.4561418Z 
+2026-11-23T08:45:15.5771117Z #14 [builder 5/8] RUN pip install --upgrade pip wheel  && pip install -r /tmp/requirements-gpu.txt
+2026-11-23T08:45:15.7447995Z #14 38.54 Downloading nvidia_cuda_runtime_cu12-12.6.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (897 kB)
+2026-11-23T08:45:21.8869765Z #14 44.96 Downloading nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl (706.8 MB)
+2026-11-23T08:45:25.4617310Z #14 48.53 Downloading nvidia_cublas_cu12-12.6.4.1-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (393.1 MB)
+2026-11-23T08:45:27.3021482Z #14 50.35 Downloading nvidia_cufft_cu12-11.3.0.4-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (200.2 MB)
+2026-11-23T08:45:28.7129735Z #14 51.79 Downloading nvidia_cusolver_cu12-11.7.1.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (158.2 MB)
+2026-11-23T08:45:30.8046130Z #14 53.76 Downloading nvidia_cusparse_cu12-12.5.4.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (216.6 MB)
+2026-11-23T08:45:33.2945607Z #14 56.37 Downloading nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl (287.2 MB)
+2026-11-23T08:45:36.2795066Z #14 59.30 Downloading nvidia_nccl_cu12-2.27.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (322.3 MB)
+2026-11-23T08:45:37.7711096Z #14 60.85 Downloading triton-3.5.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (170.3 MB)
+2026-11-23T08:45:38.8200041Z 
+2026-11-23T08:45:38.8451214Z #15 [runtime 2/5] RUN apt-get update && apt-get install -y --no-install-recommends       python3.12 libgl1 libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+2026-11-23T08:45:38.8476168Z #15 extracting sha256:009fc3885b3ac267782415e7820cd927d4ba6ad38e54f98e14e306b9461d3039 22.4s done
+2026-11-23T08:45:38.8622440Z #15 54.21 Get:1 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+2026-11-23T08:45:38.8641039Z #15 54.32 Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  InRelease [1581 B]
+2026-11-23T08:45:38.8643802Z #15 54.46 Get:3 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+2026-11-23T08:45:38.8648256Z #15 54.77 Get:4 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+2026-11-23T08:45:38.8825179Z #15 55.19 Get:5 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  Packages [1047 kB]
+2026-11-23T08:45:38.8929239Z #15 56.83 Get:6 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]
+2026-11-23T08:45:38.8947438Z #15 58.91 Fetched 31.6 MB in 5s (6721 kB/s)
+2026-11-23T08:45:38.8948170Z #15 60.12 Reading package lists...
+2026-11-23T08:45:38.8954292Z #15 61.04 Reading package lists...
+2026-11-23T08:45:38.8955990Z #15 61.22 Building dependency tree...
+2026-11-23T08:45:38.8960307Z #15 61.23 Reading state information...
+2026-11-23T08:45:38.9249585Z #15 61.41 The following additional packages will be installed:
+2026-11-23T08:45:39.0179517Z #15 61.41   libdrm-common libdrm2 libgl1-mesa-dri libglapi-mesa libglib2.0-data libglvnd0 libglx-mesa0
+2026-11-23T08:45:39.0204023Z #15 61.41   libglx0 libllvm19 libpython3.12-minimal libpython3.12-stdlib libsensors5 libx11-6 libx11-data
+2026-11-23T08:45:39.0222988Z #15 61.41   libx11-xcb1 libxcb-dri3-0 libxcb-glx0 libxcb-present0 libxcb1 libxshmfence1 mesa-libgallium
+2026-11-23T08:45:39.0412863Z #15 61.41   python3.12-minimal
+2026-11-23T08:45:39.1165873Z #15 61.52 0 upgraded, 38 newly installed, 0 to remove and 4 not upgraded.
+2026-11-23T08:45:39.1193907Z #15 61.52 Need to get 52.7 MB of archives.
+2026-11-23T08:45:39.1195599Z #15 61.52 After this operation, 236 MB of additional disk space will be used.
+2026-11-23T08:45:56.6039824Z 
+2026-11-23T08:45:56.7518471Z #14 [builder 5/8] RUN pip install --upgrade pip wheel  && pip install -r /tmp/requirements-gpu.txt
+2026-11-23T08:45:56.7520087Z #14 79.68 Downloading tensorrt_cu12_libs-10.13.3.9-py2.py3-none-manylinux_2_28_x86_64.whl (2071.6 MB)
+2026-11-23T08:45:56.9567189Z #14 79.98 Downloading tensorrt_cu12_bindings-10.13.3.9-cp312-none-manylinux_2_28_x86_64.whl (1.2 MB)
+2026-11-23T08:45:57.3045578Z #14 80.38 Building wheels for collected packages: tensorrt-cu12
+2026-11-23T08:45:57.5014545Z #14 80.43   Building wheel for tensorrt-cu12 (pyproject.toml): started
+2026-11-23T08:45:59.4539207Z #14 82.53   Building wheel for tensorrt-cu12 (pyproject.toml): finished with status 'done'
+2026-11-23T08:45:59.4596919Z #14 82.58   Created wheel for tensorrt-cu12: filename=tensorrt_cu12-10.13.3.9-py2.py3-none-any.whl size=17561 sha256=122ec12a3252fb74b4ded37a1783def7fad8632337d01613ad5e11a2bf0a4592
+2026-11-23T08:45:59.5538404Z #14 82.63 Successfully built tensorrt-cu12
+2026-11-23T08:46:00.8692043Z #14 83.93 Installing collected packages: nvidia-cusparselt-cu12, triton, nvidia-nvtx-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufile-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, numpy, tensorrt_cu12_libs, nvidia-cusparse-cu12, nvidia-cufft-cu12, nvidia-cudnn-cu12, tensorrt_cu12_bindings, pillow, opencv-python-headless, onnx, nvidia-cusolver-cu12, onnxruntime-gpu, torch, torchvision, tensorrt-cu12, pyyaml, pydantic, uvicorn, fastapi
+2026-11-23T08:46:02.3710443Z 
+2026-11-23T08:46:02.3743452Z #15 [runtime 2/5] RUN apt-get update && apt-get install -y --no-install-recommends       python3.12 libgl1 libglib2.0-0     && rm -rf /var/lib/apt/lists/*
+2026-11-23T08:46:02.3765907Z #15 75.30 debconf: delaying package configuration, since apt-utils is not installed
+2026-11-23T08:46:02.3793191Z #15 75.48 Fetched 52.7 MB in 9s (5711 kB/s)
+2026-11-23T08:46:02.3845492Z #15 79.86 Setting up python3.12-minimal (3.12.3-1ubuntu0.9) ...
+2026-11-23T08:46:02.3853563Z #15 83.02 Setting up python3.12 (3.12.3-1ubuntu0.9) ...
+2026-11-23T08:46:02.3858301Z #15 84.33 Processing triggers for libc-bin (2.39-0ubuntu8.6) ...
+2026-11-23T08:46:02.3861352Z #15 DONE 85.1s
+2026-11-23T08:48:18.9048598Z 
+2026-11-23T08:48:19.2008528Z #14 [builder 5/8] RUN pip install --upgrade pip wheel  && pip install -r /tmp/requirements-gpu.txt
+2026-11-23T08:48:19.2024530Z #14 222.0 Successfully installed fastapi-0.121.2 numpy-2.3.4 nvidia-cublas-cu12-12.6.4.1 nvidia-cuda-cupti-cu12-12.6.80 nvidia-cuda-nvrtc-cu12-12.6.77 nvidia-cuda-runtime-cu12-12.6.77 nvidia-cudnn-cu12-9.10.2.21 nvidia-cufft-cu12-11.3.0.4 nvidia-cufile-cu12-1.11.1.6 nvidia-curand-cu12-10.3.7.77 nvidia-cusolver-cu12-11.7.1.2 nvidia-cusparse-cu12-12.5.4.2 nvidia-cusparselt-cu12-0.7.1 nvidia-nccl-cu12-2.27.5 nvidia-nvjitlink-cu12-12.6.85 nvidia-nvtx-cu12-12.6.77 onnx-1.19.1 onnxruntime-gpu-1.23.2 opencv-python-headless-4.12.0.88 pillow-12.0.0 pydantic-2.12.4 pyyaml-6.0.3 tensorrt-cu12-10.13.3.9 tensorrt_cu12_bindings-10.13.3.9 tensorrt_cu12_libs-10.13.3.9 torch-2.9.1+cu126 torchvision-0.24.1+cu126 triton-3.5.1 uvicorn-0.38.0
+2026-11-23T08:48:25.0620273Z #14 DONE 228.1s
+2026-11-23T08:48:25.3686468Z 
+2026-11-23T08:48:25.5076883Z #16 [builder 6/8] COPY pyproject.toml /opt/app/
+2026-11-23T08:48:25.5134634Z #16 DONE 0.1s
+2026-11-23T08:48:25.5174231Z 
+2026-11-23T08:48:25.5528803Z #17 [builder 7/8] COPY src/ /opt/app/src/
+2026-11-23T08:48:25.6678064Z #17 DONE 0.1s
+2026-11-23T08:48:26.3977167Z 
+2026-11-23T08:48:26.4040961Z #18 [builder 8/8] RUN pip install --no-deps /opt/app
+2026-11-23T08:48:27.7201147Z #18 1.311 Processing /opt/app
+2026-11-23T08:48:27.7253104Z #18 1.316   Installing build dependencies: started
+2026-11-23T08:48:30.3112753Z #18 3.904   Installing build dependencies: finished with status 'done'
+2026-11-23T08:48:30.3135414Z #18 3.907   Getting requirements to build wheel: started
+2026-11-23T08:48:30.6950467Z #18 4.288   Getting requirements to build wheel: finished with status 'done'
+2026-11-23T08:48:30.6968052Z #18 4.291   Preparing metadata (pyproject.toml): started
+2026-11-23T08:48:30.9183852Z #18 4.512   Preparing metadata (pyproject.toml): finished with status 'done'
+2026-11-23T08:48:30.9259505Z #18 4.519 Building wheels for collected packages: vision-models
+2026-11-23T08:48:30.9277208Z #18 4.522   Building wheel for vision-models (pyproject.toml): started
+2026-11-23T08:48:31.2481849Z #18 4.841   Building wheel for vision-models (pyproject.toml): finished with status 'done'
+2026-11-23T08:48:31.2499978Z #18 4.843   Created wheel for vision-models: filename=vision_models-0.9.0-py3-none-any.whl size=6419 sha256=b15266fd2ad26cca9e7a560131134c8b9d4b50c05620f4d0622d0722604c956d
+2026-11-23T08:48:31.2510018Z #18 4.844 Successfully built vision-models
+2026-11-23T08:48:31.2679460Z #18 4.861 Installing collected packages: vision-models
+2026-11-23T08:48:31.3178908Z #18 4.911 Successfully installed vision-models-0.9.0
+2026-11-23T08:48:31.5203104Z #18 DONE 5.1s
+2026-11-23T08:48:31.5221319Z 
+2026-11-23T08:48:31.5240682Z #19 [runtime 3/5] COPY --from=builder /opt/venv /opt/venv
+2026-11-23T08:49:25.0973928Z #19 ERROR: failed to copy files: userspace copy failed: write /var/lib/buildkit/runc-overlayfs/snapshots/snapshots/47/fs/opt/venv/lib/python3.12/site-packages/tensorrt_libs/libnvinfer_builder_resource.so.10.13.3: no space left on device
+2026-11-23T08:49:25.0990175Z ------
+2026-11-23T08:49:25.0995419Z  > [runtime 3/5] COPY --from=builder /opt/venv /opt/venv:
+2026-11-23T08:49:25.0998011Z ------
+2026-11-23T08:49:25.1001589Z cuda.Dockerfile:26
+2026-11-23T08:49:25.1012183Z --------------------
+2026-11-23T08:49:25.1020531Z   24 |           python3.12 libgl1 libglib2.0-0 \
+2026-11-23T08:49:25.1029657Z   25 |         && rm -rf /var/lib/apt/lists/*
+2026-11-23T08:49:25.1035985Z   26 | >>> COPY --from=builder /opt/venv /opt/venv
+2026-11-23T08:49:25.1045128Z   27 |     WORKDIR /opt/app
+2026-11-23T08:49:25.1050094Z   28 |     COPY configs/ ./configs/
+2026-11-23T08:49:25.1057717Z --------------------
+2026-11-23T08:49:25.1168918Z ERROR: failed to solve: failed to copy files: userspace copy failed: write /var/lib/buildkit/runc-overlayfs/snapshots/snapshots/47/fs/opt/venv/lib/python3.12/site-packages/tensorrt_libs/libnvinfer_builder_resource.so.10.13.3: no space left on device
+2026-11-23T08:49:25.1290335Z ##[group]Reference
+2026-11-23T08:49:25.1712908Z builder-36660966-b6ef-4b01-954c-587eaf566ec5/builder-36660966-b6ef-4b01-954c-587eaf566ec50/4c0bad222916d942e1bcd8676
+2026-11-23T08:49:25.1715407Z ##[endgroup]
+2026-11-23T08:49:25.1721668Z ##[group]Check build summary support
+2026-11-23T08:49:25.2846601Z Build summary supported!
+2026-11-23T08:49:25.2849280Z ##[endgroup]
+2026-11-23T08:49:25.2883255Z ##[error]buildx failed with: ERROR: failed to solve: failed to copy files: userspace copy failed: write /var/lib/buildkit/runc-overlayfs/snapshots/snapshots/47/fs/opt/venv/lib/python3.12/site-packages/tensorrt_libs/libnvinfer_builder_resource.so.10.13.3: no space left on device
+2026-11-23T08:49:27.2718156Z Post job cleanup.
+2026-11-23T08:49:27.2728032Z ##[group]Generating build summary
+2026-11-23T08:49:27.5744123Z [command]/usr/bin/docker buildx history export --builder builder-36660966-b6ef-4b01-954c-587eaf566ec5 --finalize --output /home/runner/work/_temp/docker-actions-toolkit-170e1c/export/example-org~vision-models~W8D2RX.dockerbuild 4c0bad222916d942e1bcd8676
+2026-11-23T08:49:27.6989303Z Build record written to /home/runner/work/_temp/docker-actions-toolkit-170e1c/export/example-org~vision-models~W8D2RX.dockerbuild (61.88KB)
+2026-11-23T08:49:28.0585207Z Artifact example-org~vision-models~W8D2RX.dockerbuild has been successfully uploaded! Final size is 63379 bytes. Artifact ID is 4802917735
+2026-11-23T08:49:28.0734112Z Build summary added
+2026-11-23T08:49:28.0977215Z ##[endgroup]
+2026-11-23T08:49:28.3119899Z ##[group]Removing temp folder /home/runner/work/_temp/docker-actions-toolkit-dff04e
+2026-11-23T08:49:28.4238879Z ##[endgroup]
+2026-11-23T08:49:31.0101574Z Post job cleanup.
+2026-11-23T08:49:31.0241638Z ##[group]Removing builder
+2026-11-23T08:49:31.5787364Z [command]/usr/bin/docker buildx rm builder-36660966-b6ef-4b01-954c-587eaf566ec5
+2026-11-23T08:49:31.5824250Z builder-36660966-b6ef-4b01-954c-587eaf566ec5 removed
+2026-11-23T08:49:31.5844062Z ##[endgroup]
+2026-11-23T08:49:31.5847509Z ##[group]Cleaning up certificates
+2026-11-23T08:49:31.9531248Z ##[endgroup]
+2026-11-23T08:49:31.9582799Z ##[group]Post cache
+2026-11-23T08:49:32.9836450Z State not set
+2026-11-23T08:49:32.9953560Z ##[endgroup]
+2026-11-23T08:49:34.1978728Z Post job cleanup.
+2026-11-23T08:49:34.2163311Z [command]/usr/bin/git version
+2026-11-23T08:49:34.3225965Z git version 2.51.2
+2026-11-23T08:49:34.3290445Z Temporarily overriding HOME='/home/runner/work/_temp/0453cda8-5227-4fed-ab02-f8469e692624' before making global git config changes
+2026-11-23T08:49:34.5186132Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-23T08:49:34.5306226Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/vision-models/vision-models
+2026-11-23T08:49:34.5515445Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-23T08:49:34.5641276Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-23T08:49:34.5906117Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-23T08:49:34.7194495Z http.https://github.com/.extraheader
+2026-11-23T08:49:34.8108119Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-23T08:49:34.9214211Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-23T08:49:36.2034826Z Cleaning up orphan processes

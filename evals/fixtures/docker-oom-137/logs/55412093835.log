@@ -1,0 +1,597 @@
+2026-11-20T09:12:49.0489652Z Current runner version: '2.330.0'
+2026-11-20T09:12:49.0496490Z Runner name: 'GitHub Actions 1000267990'
+2026-11-20T09:12:49.0497705Z Runner group name: 'GitHub Actions'
+2026-11-20T09:12:49.0502815Z Machine name: 'runnervmajjac'
+2026-11-20T09:12:49.0505629Z ##[group]Runner Image Provisioner
+2026-11-20T09:12:49.0509661Z Hosted Compute Agent
+2026-11-20T09:12:49.0513722Z Version: 20261110.488
+2026-11-20T09:12:49.0516173Z Commit: 3f9b2d7e61c04a8b5e2d1f07c9a4b6e8d3c2f1a0
+2026-11-20T09:12:49.0517400Z Build Date: 2026-11-10T18:02:47Z
+2026-11-20T09:12:49.0525843Z Worker ID: {c051bf43-36f0-4844-8402-03a8e832e368}
+2026-11-20T09:12:49.0529350Z ##[endgroup]
+2026-11-20T09:12:49.0531202Z ##[group]Operating System
+2026-11-20T09:12:49.0534100Z Ubuntu
+2026-11-20T09:12:49.0541957Z 24.04.3
+2026-11-20T09:12:49.0548458Z LTS
+2026-11-20T09:12:49.0552287Z ##[endgroup]
+2026-11-20T09:12:49.0553938Z ##[group]Runner Image
+2026-11-20T09:12:49.0554649Z Image: ubuntu-24.04
+2026-11-20T09:12:49.0562544Z Version: 20261116.97.1
+2026-11-20T09:12:49.0568133Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.97/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-20T09:12:49.0574206Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.97
+2026-11-20T09:12:49.0579681Z ##[endgroup]
+2026-11-20T09:12:49.0583554Z ##[group]GITHUB_TOKEN Permissions
+2026-11-20T09:12:49.0591972Z Contents: read
+2026-11-20T09:12:49.0592286Z Metadata: read
+2026-11-20T09:12:49.0597090Z Packages: write
+2026-11-20T09:12:49.0603276Z ##[endgroup]
+2026-11-20T09:12:49.0604311Z Secret source: Actions
+2026-11-20T09:12:49.0610478Z Prepare workflow directory
+2026-11-20T09:12:49.0618054Z Prepare all required actions
+2026-11-20T09:12:49.0622194Z Getting action download info
+2026-11-20T09:12:50.9373901Z Download action repository 'actions/checkout@v4' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2026-11-20T09:12:50.9379726Z Download action repository 'hadolint/hadolint-action@v3.1.0' (SHA:54c9adbab1582c2ef04b2016b760714a4bfde3cf)
+2026-11-20T09:12:50.9574873Z Download action repository 'docker/setup-buildx-action@v3' (SHA:e468171a9de216ec08956ac3ada2f0791b6bd435)
+2026-11-20T09:12:50.9575960Z Download action repository 'docker/login-action@v3' (SHA:184bdaa0721073962dff0199f1fb9940f07167d1)
+2026-11-20T09:12:50.9577287Z Download action repository 'docker/metadata-action@v5' (SHA:c1e51972afc2121e065aed6d45c65596fe445f3f)
+2026-11-20T09:12:50.9578662Z Download action repository 'docker/build-push-action@v6' (SHA:263435318d21b8e681c14492fe198d362a7d2c83)
+2026-11-20T09:12:50.9827112Z Complete job name: Build image
+2026-11-20T09:12:51.0001688Z ##[group]Build container for action use: '/home/runner/work/_actions/hadolint/hadolint-action/v3.1.0/Dockerfile'.
+2026-11-20T09:12:51.0330011Z ##[command]/usr/bin/docker build -t 2f3c1a:9b0e47d2c51a4c3f8e6d1b27a5f40c93 -f "/home/runner/work/_actions/hadolint/hadolint-action/v3.1.0/Dockerfile" "/home/runner/work/_actions/hadolint/hadolint-action/v3.1.0"
+2026-11-20T09:12:51.0338773Z #0 building with "default" instance using docker driver
+2026-11-20T09:12:53.3001046Z 
+2026-11-20T09:12:53.3021078Z #1 [internal] load build definition from Dockerfile
+2026-11-20T09:12:53.3059978Z #1 transferring dockerfile: 179B done
+2026-11-20T09:12:53.3283934Z #1 DONE 0.0s
+2026-11-20T09:12:53.3596829Z 
+2026-11-20T09:12:54.0790542Z #2 [internal] load metadata for ghcr.io/hadolint/hadolint:v2.12.0-debian
+2026-11-20T09:12:54.7800016Z #2 DONE 0.7s
+2026-11-20T09:12:54.9488151Z 
+2026-11-20T09:12:54.9500277Z #3 [1/2] FROM ghcr.io/hadolint/hadolint:v2.12.0-debian@sha256:28f221bc444aed8fa42b7a1475cdae0f44076b70f4a6a80b7b76ea83b438b912
+2026-11-20T09:12:55.4475747Z #3 resolve ghcr.io/hadolint/hadolint:v2.12.0-debian@sha256:28f221bc444aed8fa42b7a1475cdae0f44076b70f4a6a80b7b76ea83b438b912 0.0s done
+2026-11-20T09:12:55.4730595Z #3 sha256:8f84e26aec38b8564b43d0606ddb1bf087ea2caae7da93423922712ba846bb0f 0B / 29.13MB 0.2s
+2026-11-20T09:12:55.5507873Z #3 sha256:7264b1e683153b0be2c7e72cd55f6d7efb665a1be557e3490e42349d207c5e84 0B / 2.43MB 0.2s
+2026-11-20T09:12:55.5626122Z #3 sha256:7264b1e683153b0be2c7e72cd55f6d7efb665a1be557e3490e42349d207c5e84 2.43MB / 2.43MB 0.3s done
+2026-11-20T09:12:55.5700060Z #3 sha256:8f84e26aec38b8564b43d0606ddb1bf087ea2caae7da93423922712ba846bb0f 29.13MB / 29.13MB 0.6s done
+2026-11-20T09:12:56.5812815Z #3 extracting sha256:8f84e26aec38b8564b43d0606ddb1bf087ea2caae7da93423922712ba846bb0f 1.0s done
+2026-11-20T09:12:56.6855403Z #3 extracting sha256:7264b1e683153b0be2c7e72cd55f6d7efb665a1be557e3490e42349d207c5e84 0.1s done
+2026-11-20T09:12:56.8982168Z #3 DONE 1.9s
+2026-11-20T09:12:57.3257597Z 
+2026-11-20T09:12:57.4678743Z #4 [2/2] COPY LICENSE README.md problem-matcher.json hadolint.sh /
+2026-11-20T09:12:57.4690730Z #4 DONE 0.1s
+2026-11-20T09:12:57.5634545Z 
+2026-11-20T09:12:57.5666868Z #5 exporting to image
+2026-11-20T09:12:57.5957428Z #5 exporting layers 0.0s done
+2026-11-20T09:12:57.5965771Z #5 writing image sha256:cb63fef110a3a6a1817ba5fb9b113bf0a421455aeccf88e7e6158aee000edf91 done
+2026-11-20T09:12:57.8928650Z #5 naming to docker.io/library/2f3c1a:9b0e47d2c51a4c3f8e6d1b27a5f40c93 done
+2026-11-20T09:12:57.9645961Z #5 DONE 0.1s
+2026-11-20T09:12:57.9821314Z ##[endgroup]
+2026-11-20T09:12:59.0445602Z ##[group]Run actions/checkout@v4
+2026-11-20T09:12:59.0447590Z with:
+2026-11-20T09:12:59.0449204Z   repository: example-org/analytics-dashboard
+2026-11-20T09:12:59.0450076Z   token: ***
+2026-11-20T09:12:59.0456994Z   ssh-strict: true
+2026-11-20T09:12:59.0461928Z   ssh-user: git
+2026-11-20T09:12:59.0464923Z   persist-credentials: true
+2026-11-20T09:12:59.0467470Z   clean: true
+2026-11-20T09:12:59.0474659Z   sparse-checkout-cone-mode: true
+2026-11-20T09:12:59.0481324Z   fetch-depth: 1
+2026-11-20T09:12:59.0486998Z   fetch-tags: false
+2026-11-20T09:12:59.0487230Z   show-progress: true
+2026-11-20T09:12:59.0491078Z   lfs: false
+2026-11-20T09:12:59.0492677Z   submodules: false
+2026-11-20T09:12:59.0499179Z   set-safe-directory: true
+2026-11-20T09:12:59.0500791Z env:
+2026-11-20T09:12:59.0506032Z   REGISTRY: ghcr.io
+2026-11-20T09:12:59.0514298Z   IMAGE_NAME: example-org/analytics-dashboard
+2026-11-20T09:12:59.0522884Z ##[endgroup]
+2026-11-20T09:12:59.3966658Z Syncing repository: example-org/analytics-dashboard
+2026-11-20T09:12:59.4746431Z ##[group]Getting Git version info
+2026-11-20T09:12:59.4972311Z Working directory is '/home/runner/work/analytics-dashboard/analytics-dashboard'
+2026-11-20T09:12:59.4998671Z [command]/usr/bin/git version
+2026-11-20T09:12:59.5094141Z git version 2.51.2
+2026-11-20T09:12:59.5095055Z ##[endgroup]
+2026-11-20T09:12:59.5096417Z Temporarily overriding HOME='/home/runner/work/_temp/ba8b7c1f-ea3f-4983-9238-1c151f2d85f8' before making global git config changes
+2026-11-20T09:12:59.5485703Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-20T09:12:59.5535920Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/analytics-dashboard/analytics-dashboard
+2026-11-20T09:12:59.5639562Z Deleting the contents of '/home/runner/work/analytics-dashboard/analytics-dashboard'
+2026-11-20T09:12:59.5640451Z ##[group]Initializing the repository
+2026-11-20T09:12:59.6618387Z [command]/usr/bin/git init /home/runner/work/analytics-dashboard/analytics-dashboard
+2026-11-20T09:12:59.6713855Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-20T09:12:59.6728184Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-20T09:12:59.7330453Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-20T09:12:59.7398674Z hint:
+2026-11-20T09:12:59.9181659Z hint: 	git config --global init.defaultBranch <name>
+2026-11-20T09:12:59.9213879Z hint:
+2026-11-20T09:12:59.9262835Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-20T09:12:59.9381541Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-20T09:12:59.9385152Z hint:
+2026-11-20T09:12:59.9408863Z hint: 	git branch -m <name>
+2026-11-20T09:13:00.0154783Z hint:
+2026-11-20T09:13:00.0935039Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-20T09:13:00.1005895Z Initialized empty Git repository in /home/runner/work/analytics-dashboard/analytics-dashboard/.git/
+2026-11-20T09:13:00.1014023Z [command]/usr/bin/git remote add origin https://github.com/example-org/analytics-dashboard
+2026-11-20T09:13:00.1061498Z ##[endgroup]
+2026-11-20T09:13:00.1066737Z ##[group]Disabling automatic garbage collection
+2026-11-20T09:13:00.1367487Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-20T09:13:00.1418035Z ##[endgroup]
+2026-11-20T09:13:00.1506289Z ##[group]Setting up auth
+2026-11-20T09:13:00.2308219Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-20T09:13:00.5220298Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-20T09:13:00.5222523Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-20T09:13:00.5244078Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-20T09:13:00.5248989Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-20T09:13:00.5252254Z ##[endgroup]
+2026-11-20T09:13:00.5254488Z ##[group]Fetching the repository
+2026-11-20T09:13:00.5296282Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +ae1880260c47ff3e7253ec07bd3e00e2fc684d94:refs/remotes/pull/482/merge
+2026-11-20T09:13:00.5436065Z From https://github.com/example-org/analytics-dashboard
+2026-11-20T09:13:00.5588679Z  * [new ref]         ae1880260c47ff3e7253ec07bd3e00e2fc684d94 -> pull/482/merge
+2026-11-20T09:13:00.5675982Z ##[endgroup]
+2026-11-20T09:13:00.5796740Z ##[group]Determining the checkout info
+2026-11-20T09:13:00.5797569Z ##[endgroup]
+2026-11-20T09:13:00.6039725Z [command]/usr/bin/git sparse-checkout disable
+2026-11-20T09:13:00.6151035Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-20T09:13:00.6535214Z ##[group]Checking out the ref
+2026-11-20T09:13:00.6537785Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/482/merge
+2026-11-20T09:13:00.6542627Z Note: switching to 'refs/remotes/pull/482/merge'.
+2026-11-20T09:13:00.6543439Z 
+2026-11-20T09:13:00.7338419Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-20T09:13:00.7339546Z changes and commit them, and you can discard any commits you make in this
+2026-11-20T09:13:00.8016365Z state without impacting any branches by switching back to a branch.
+2026-11-20T09:13:00.8052095Z 
+2026-11-20T09:13:00.8053026Z If you want to create a new branch to retain commits you create, you may
+2026-11-20T09:13:00.8402501Z do so (now or later) by using -c with the switch command. Example:
+2026-11-20T09:13:00.8403459Z 
+2026-11-20T09:13:00.8494698Z   git switch -c <new-branch-name>
+2026-11-20T09:13:00.8579276Z 
+2026-11-20T09:13:00.8651144Z Or undo this operation with:
+2026-11-20T09:13:00.8727319Z 
+2026-11-20T09:13:00.8998020Z   git switch -
+2026-11-20T09:13:00.9219649Z 
+2026-11-20T09:13:00.9340268Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-20T09:13:00.9531592Z 
+2026-11-20T09:13:00.9646510Z HEAD is now at ae18802 Merge e0452bbad8800c33797ef21d89a58cbc3b4f9563 into 3dc82f1bf643d18f3644983f003561d9839b5c33
+2026-11-20T09:13:00.9695718Z ##[endgroup]
+2026-11-20T09:13:00.9698061Z [command]/usr/bin/git log -1 --format=%H
+2026-11-20T09:13:00.9796901Z ae1880260c47ff3e7253ec07bd3e00e2fc684d94
+2026-11-20T09:13:02.1135666Z ##[group]Run hadolint/hadolint-action@v3.1.0
+2026-11-20T09:13:02.1136805Z with:
+2026-11-20T09:13:02.1145253Z   dockerfile: Dockerfile
+2026-11-20T09:13:02.1146349Z   failure-threshold: error
+2026-11-20T09:13:02.1154950Z   config: 
+2026-11-20T09:13:02.1159573Z   recursive: false
+2026-11-20T09:13:02.1162164Z   output-file: /dev/stdout
+2026-11-20T09:13:02.1166935Z   no-color: false
+2026-11-20T09:13:02.1170893Z   no-fail: false
+2026-11-20T09:13:02.1176704Z   verbose: false
+2026-11-20T09:13:02.1179259Z   format: tty
+2026-11-20T09:13:02.1185000Z env:
+2026-11-20T09:13:02.1188268Z   REGISTRY: ghcr.io
+2026-11-20T09:13:02.1197212Z   IMAGE_NAME: example-org/analytics-dashboard
+2026-11-20T09:13:02.1205789Z ##[endgroup]
+2026-11-20T09:13:02.4112554Z /usr/bin/docker run --name a3f19b0e47d2c51a4c3f8e6d1b27a5f40c93_4c1e7a --label 2f3c1a --workdir /github/workspace --rm -e "REGISTRY" -e "IMAGE_NAME" -e "INPUT_DOCKERFILE" -e "INPUT_FAILURE-THRESHOLD" -e "INPUT_CONFIG" -e "INPUT_RECURSIVE" -e "INPUT_OUTPUT-FILE" -e "INPUT_NO-COLOR" -e "INPUT_NO-FAIL" -e "INPUT_VERBOSE" -e "INPUT_FORMAT" -e "INPUT_IGNORE" -e "INPUT_TRUSTED-REGISTRIES" -e "HOME" -e "GITHUB_JOB" -e "GITHUB_REF" -e "GITHUB_SHA" -e "GITHUB_REPOSITORY" -e "GITHUB_REPOSITORY_OWNER" -e "GITHUB_REPOSITORY_OWNER_ID" -e "GITHUB_RUN_ID" -e "GITHUB_RUN_NUMBER" -e "GITHUB_RETENTION_DAYS" -e "GITHUB_RUN_ATTEMPT" -e "GITHUB_ACTOR_ID" -e "GITHUB_ACTOR" -e "GITHUB_WORKFLOW" -e "GITHUB_HEAD_REF" -e "GITHUB_BASE_REF" -e "GITHUB_EVENT_NAME" -e "GITHUB_SERVER_URL" -e "GITHUB_API_URL" -e "GITHUB_GRAPHQL_URL" -e "GITHUB_REF_NAME" -e "GITHUB_REF_PROTECTED" -e "GITHUB_REF_TYPE" -e "GITHUB_WORKFLOW_REF" -e "GITHUB_WORKFLOW_SHA" -e "GITHUB_REPOSITORY_ID" -e "GITHUB_TRIGGERING_ACTOR" -e "GITHUB_WORKSPACE" -e "GITHUB_ACTION" -e "GITHUB_EVENT_PATH" -e "GITHUB_ACTION_REPOSITORY" -e "GITHUB_ACTION_REF" -e "GITHUB_PATH" -e "GITHUB_ENV" -e "GITHUB_STEP_SUMMARY" -e "GITHUB_STATE" -e "GITHUB_OUTPUT" -e "RUNNER_OS" -e "RUNNER_ARCH" -e "RUNNER_NAME" -e "RUNNER_ENVIRONMENT" -e "RUNNER_TOOL_CACHE" -e "RUNNER_TEMP" -e "RUNNER_WORKSPACE" -e "ACTIONS_RUNTIME_URL" -e "ACTIONS_RUNTIME_TOKEN" -e "ACTIONS_CACHE_URL" -e "ACTIONS_RESULTS_URL" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" -v "/home/runner/work/analytics-dashboard/analytics-dashboard":"/github/workspace" 2f3c1a:9b0e47d2c51a4c3f8e6d1b27a5f40c93
+2026-11-20T09:13:03.9024712Z Dockerfile:7 DL3018 [93mwarning[0m: Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`
+2026-11-20T09:13:05.0313878Z ##[group]Run docker/setup-buildx-action@v3
+2026-11-20T09:13:05.0322638Z with:
+2026-11-20T09:13:05.0323917Z   driver: docker-container
+2026-11-20T09:13:05.0325497Z   install: false
+2026-11-20T09:13:05.0334082Z   use: true
+2026-11-20T09:13:05.0342911Z   keep-state: false
+2026-11-20T09:13:05.0348358Z   cache-binary: true
+2026-11-20T09:13:05.0357477Z   cleanup: true
+2026-11-20T09:13:05.0360247Z env:
+2026-11-20T09:13:05.0362788Z   REGISTRY: ghcr.io
+2026-11-20T09:13:05.0368222Z   IMAGE_NAME: example-org/analytics-dashboard
+2026-11-20T09:13:05.0371532Z ##[endgroup]
+2026-11-20T09:13:05.4149504Z ##[group]Buildx version
+2026-11-20T09:13:05.4156210Z [command]/usr/bin/docker buildx version
+2026-11-20T09:13:05.4161243Z github.com/docker/buildx v0.30.0 2bf7b85
+2026-11-20T09:13:05.4168405Z ##[endgroup]
+2026-11-20T09:13:06.2079335Z ##[group]Creating a new builder instance
+2026-11-20T09:13:06.2139885Z [command]/usr/bin/docker buildx create --name builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e998 --driver docker-container --buildkitd-flags --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host --use
+2026-11-20T09:13:06.3915658Z builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e998
+2026-11-20T09:13:06.3984876Z ##[endgroup]
+2026-11-20T09:13:06.4001585Z ##[group]Booting builder
+2026-11-20T09:13:06.4191616Z [command]/usr/bin/docker buildx inspect --bootstrap --builder builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e998
+2026-11-20T09:13:06.4215316Z #1 [internal] booting buildkit
+2026-11-20T09:13:06.4831235Z #1 pulling image moby/buildkit:buildx-stable-1
+2026-11-20T09:13:08.1857372Z #1 pulling image moby/buildkit:buildx-stable-1 1.7s done
+2026-11-20T09:13:08.1874925Z #1 creating container buildx_buildkit_builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e9980
+2026-11-20T09:13:08.7932465Z #1 creating container buildx_buildkit_builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e9980 0.6s done
+2026-11-20T09:13:08.7951319Z #1 DONE 2.4s
+2026-11-20T09:13:08.7963255Z Name:          builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e998
+2026-11-20T09:13:08.7966143Z Driver:        docker-container
+2026-11-20T09:13:08.7975931Z Last Activity: 2026-11-20 09:13:06 +0000 UTC
+2026-11-20T09:13:08.7979224Z 
+2026-11-20T09:13:08.7984891Z Nodes:
+2026-11-20T09:13:08.7991520Z Name:                  builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e9980
+2026-11-20T09:13:08.7997408Z Endpoint:              unix:///var/run/docker.sock
+2026-11-20T09:13:08.8000113Z Status:                running
+2026-11-20T09:13:08.8007713Z BuildKit daemon flags: --allow-insecure-entitlement=security.insecure --allow-insecure-entitlement=network.host
+2026-11-20T09:13:08.8010869Z BuildKit version:      v0.25.2
+2026-11-20T09:13:08.8017420Z Platforms:             linux/amd64, linux/amd64/v2, linux/amd64/v3, linux/386
+2026-11-20T09:13:08.8020507Z Labels:
+2026-11-20T09:13:08.8024106Z  org.mobyproject.buildkit.worker.executor:         oci
+2026-11-20T09:13:08.8025813Z  org.mobyproject.buildkit.worker.hostname:         5b3e0c2f9a14
+2026-11-20T09:13:08.8028196Z  org.mobyproject.buildkit.worker.network:          host
+2026-11-20T09:13:08.8032461Z  org.mobyproject.buildkit.worker.oci.process-mode: sandbox
+2026-11-20T09:13:08.8040146Z  org.mobyproject.buildkit.worker.selinux.enabled:  false
+2026-11-20T09:13:08.8043726Z  org.mobyproject.buildkit.worker.snapshotter:      overlayfs
+2026-11-20T09:13:08.8053838Z GC Policy rule#0:
+2026-11-20T09:13:08.8063231Z  All:            false
+2026-11-20T09:13:08.8072404Z  Filters:        type==source.local,type==exec.cachemount,type==source.git.checkout
+2026-11-20T09:13:08.8081924Z  Keep Duration:  48h0m0s
+2026-11-20T09:13:08.8091643Z  Max Used Space: 488.3MiB
+2026-11-20T09:13:08.8095657Z ##[endgroup]
+2026-11-20T09:13:08.8104456Z ##[group]Inspect builder
+2026-11-20T09:13:08.8112969Z {
+2026-11-20T09:13:08.8121483Z   "nodes": [
+2026-11-20T09:13:08.8128110Z     {
+2026-11-20T09:13:08.8136334Z       "name": "builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e9980",
+2026-11-20T09:13:08.8145312Z       "endpoint": "unix:///var/run/docker.sock",
+2026-11-20T09:13:08.8149725Z       "status": "running",
+2026-11-20T09:13:08.8157551Z       "buildkitd-flags": "--allow-insecure-entitlement=security.insecure --allow-insecure-entitlement=network.host",
+2026-11-20T09:13:08.8163115Z       "buildkit": "v0.25.2",
+2026-11-20T09:13:08.8170954Z       "platforms": "linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/386"
+2026-11-20T09:13:08.8181372Z     }
+2026-11-20T09:13:08.8190031Z   ],
+2026-11-20T09:13:08.8192989Z   "name": "builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e998",
+2026-11-20T09:13:08.8199385Z   "driver": "docker-container",
+2026-11-20T09:13:08.8206527Z   "lastActivity": "2026-11-20T09:13:06.000Z"
+2026-11-20T09:13:08.8210033Z }
+2026-11-20T09:13:08.8212233Z ##[endgroup]
+2026-11-20T09:13:12.1037325Z ##[group]Run docker/metadata-action@v5
+2026-11-20T09:13:12.1037987Z with:
+2026-11-20T09:13:12.1043058Z   images: ghcr.io/example-org/analytics-dashboard
+2026-11-20T09:13:12.1051944Z   tags: type=ref,event=pr
+2026-11-20T09:13:12.1060302Z type=sha,format=short
+2026-11-20T09:13:12.1064885Z type=raw,value=latest,enable={{is_default_branch}}
+2026-11-20T09:13:12.1068803Z 
+2026-11-20T09:13:12.1070887Z   context: workflow
+2026-11-20T09:13:12.1072391Z   github-token: ***
+2026-11-20T09:13:12.1075355Z env:
+2026-11-20T09:13:12.1079225Z   REGISTRY: ghcr.io
+2026-11-20T09:13:12.1079629Z   IMAGE_NAME: example-org/analytics-dashboard
+2026-11-20T09:13:12.1081522Z ##[endgroup]
+2026-11-20T09:13:12.4187990Z ##[group]Context info
+2026-11-20T09:13:12.4188674Z eventName: pull_request
+2026-11-20T09:13:12.4861636Z sha: ae1880260c47ff3e7253ec07bd3e00e2fc684d94
+2026-11-20T09:13:12.4959621Z ref: refs/pull/482/merge
+2026-11-20T09:13:12.4986431Z workflow: CI
+2026-11-20T09:13:12.4987208Z action: meta
+2026-11-20T09:13:12.4993505Z actor: example-dev
+2026-11-20T09:13:12.4994545Z runNumber: 1873
+2026-11-20T09:13:12.5023803Z runId: 19483726150
+2026-11-20T09:13:12.5029647Z commitDate: Fri Nov 20 2026 09:12:31 GMT+0000 (Coordinated Universal Time)
+2026-11-20T09:13:12.5180676Z ##[endgroup]
+2026-11-20T09:13:12.5437706Z ##[group]Processing images input
+2026-11-20T09:13:12.5578723Z name=ghcr.io/example-org/analytics-dashboard,enable=true
+2026-11-20T09:13:12.5581700Z ##[endgroup]
+2026-11-20T09:13:12.5889814Z ##[group]Processing tags input
+2026-11-20T09:13:12.5892593Z type=ref,event=pr,enable=true,priority=600
+2026-11-20T09:13:12.5897308Z type=sha,format=short,enable=true,priority=100,prefix=sha-
+2026-11-20T09:13:12.5903441Z type=raw,value=latest,enable=false,priority=200
+2026-11-20T09:13:12.5923518Z ##[endgroup]
+2026-11-20T09:13:12.5933936Z ##[group]Processing flavor input
+2026-11-20T09:13:12.5953768Z latest=auto
+2026-11-20T09:13:12.6080597Z prefix=
+2026-11-20T09:13:12.6340219Z prefixLatest=false
+2026-11-20T09:13:12.6427995Z suffix=
+2026-11-20T09:13:12.6447335Z suffixLatest=false
+2026-11-20T09:13:12.6491860Z ##[endgroup]
+2026-11-20T09:13:12.6895463Z ##[group]Docker image version
+2026-11-20T09:13:12.7269155Z pr-482
+2026-11-20T09:13:12.7288603Z ##[endgroup]
+2026-11-20T09:13:12.7293835Z ##[group]Docker tags
+2026-11-20T09:13:12.7307652Z ghcr.io/example-org/analytics-dashboard:pr-482
+2026-11-20T09:13:12.7309420Z ghcr.io/example-org/analytics-dashboard:sha-ae18802
+2026-11-20T09:13:12.7752306Z ##[endgroup]
+2026-11-20T09:13:12.8250943Z ##[group]Docker labels
+2026-11-20T09:13:12.8427595Z org.opencontainers.image.created=2026-11-20T09:13:06.431Z
+2026-11-20T09:13:12.8585227Z org.opencontainers.image.description=Internal reporting UI for revenue, accounts and retention
+2026-11-20T09:13:12.8601057Z org.opencontainers.image.revision=ae1880260c47ff3e7253ec07bd3e00e2fc684d94
+2026-11-20T09:13:12.8601854Z org.opencontainers.image.source=https://github.com/example-org/analytics-dashboard
+2026-11-20T09:13:12.9042550Z org.opencontainers.image.title=analytics-dashboard
+2026-11-20T09:13:12.9105009Z org.opencontainers.image.version=pr-482
+2026-11-20T09:13:12.9122564Z ##[endgroup]
+2026-11-20T09:13:14.0718874Z ##[group]Run docker/build-push-action@v6
+2026-11-20T09:13:14.0727615Z with:
+2026-11-20T09:13:14.0734210Z   context: .
+2026-11-20T09:13:14.0734659Z   push: false
+2026-11-20T09:13:14.0734995Z   load: true
+2026-11-20T09:13:14.0739818Z   tags: ghcr.io/example-org/analytics-dashboard:pr-482
+2026-11-20T09:13:14.0741615Z ghcr.io/example-org/analytics-dashboard:sha-ae18802
+2026-11-20T09:13:14.0742106Z 
+2026-11-20T09:13:14.0748958Z   labels: org.opencontainers.image.created=2026-11-20T09:13:06.431Z
+2026-11-20T09:13:14.0754732Z org.opencontainers.image.description=Internal reporting UI for revenue, accounts and retention
+2026-11-20T09:13:14.0755218Z org.opencontainers.image.revision=ae1880260c47ff3e7253ec07bd3e00e2fc684d94
+2026-11-20T09:13:14.0756102Z org.opencontainers.image.source=https://github.com/example-org/analytics-dashboard
+2026-11-20T09:13:14.0757953Z org.opencontainers.image.title=analytics-dashboard
+2026-11-20T09:13:14.0758530Z org.opencontainers.image.version=pr-482
+2026-11-20T09:13:14.0764399Z 
+2026-11-20T09:13:14.0771554Z   cache-from: type=gha
+2026-11-20T09:13:14.0776462Z   cache-to: type=gha,mode=max
+2026-11-20T09:13:14.0776953Z   no-cache: false
+2026-11-20T09:13:14.0782648Z   pull: false
+2026-11-20T09:13:14.0784405Z   github-token: ***
+2026-11-20T09:13:14.0787906Z env:
+2026-11-20T09:13:14.0788580Z   REGISTRY: ghcr.io
+2026-11-20T09:13:14.0791251Z   IMAGE_NAME: example-org/analytics-dashboard
+2026-11-20T09:13:14.0799963Z   DOCKER_METADATA_OUTPUT_VERSION: pr-482
+2026-11-20T09:13:14.0802751Z   DOCKER_METADATA_OUTPUT_TAGS: ghcr.io/example-org/analytics-dashboard:pr-482
+2026-11-20T09:13:14.0805965Z ghcr.io/example-org/analytics-dashboard:sha-ae18802
+2026-11-20T09:13:14.0812648Z   DOCKER_METADATA_OUTPUT_TAG_NAMES: pr-482
+2026-11-20T09:13:14.0821394Z sha-ae18802
+2026-11-20T09:13:14.0828384Z   DOCKER_METADATA_OUTPUT_LABELS: org.opencontainers.image.created=2026-11-20T09:13:06.431Z
+2026-11-20T09:13:14.0832619Z org.opencontainers.image.description=Internal reporting UI for revenue, accounts and retention
+2026-11-20T09:13:14.0833971Z org.opencontainers.image.revision=ae1880260c47ff3e7253ec07bd3e00e2fc684d94
+2026-11-20T09:13:14.0834509Z org.opencontainers.image.source=https://github.com/example-org/analytics-dashboard
+2026-11-20T09:13:14.0842097Z org.opencontainers.image.title=analytics-dashboard
+2026-11-20T09:13:14.0846270Z org.opencontainers.image.version=pr-482
+2026-11-20T09:13:14.0852085Z   DOCKER_METADATA_OUTPUT_BAKE_FILE_TAGS: /home/runner/work/_temp/docker-actions-toolkit-21b0fd/docker-metadata-action-bake-tags.json
+2026-11-20T09:13:14.0860080Z   DOCKER_METADATA_OUTPUT_BAKE_FILE_LABELS: /home/runner/work/_temp/docker-actions-toolkit-21b0fd/docker-metadata-action-bake-labels.json
+2026-11-20T09:13:14.0868892Z   DOCKER_METADATA_OUTPUT_BAKE_FILE_ANNOTATIONS: /home/runner/work/_temp/docker-actions-toolkit-21b0fd/docker-metadata-action-bake-annotations.json
+2026-11-20T09:13:14.0877128Z ##[endgroup]
+2026-11-20T09:13:14.7824781Z ##[group]GitHub Actions runtime token ACs
+2026-11-20T09:13:14.7953688Z refs/pull/482/merge: read/write
+2026-11-20T09:13:14.7963717Z refs/heads/main: read
+2026-11-20T09:13:14.9862400Z ##[endgroup]
+2026-11-20T09:13:14.9909553Z ##[group]Docker info
+2026-11-20T09:13:15.0431485Z [command]/usr/bin/docker version
+2026-11-20T09:13:15.1775576Z Client: Docker Engine - Community
+2026-11-20T09:13:15.1849025Z  Version:           28.5.2
+2026-11-20T09:13:15.1853188Z  API version:       1.51
+2026-11-20T09:13:15.1903461Z  Go version:        go1.24.9
+2026-11-20T09:13:15.1906058Z  Git commit:        ecc6942
+2026-11-20T09:13:15.2367964Z  Built:             Wed Nov  5 14:43:25 2025
+2026-11-20T09:13:15.2424661Z  OS/Arch:           linux/amd64
+2026-11-20T09:13:15.2425154Z  Context:           default
+2026-11-20T09:13:15.4126528Z 
+2026-11-20T09:13:15.4150951Z Server: Docker Engine - Community
+2026-11-20T09:13:15.4232946Z  Engine:
+2026-11-20T09:13:15.4233438Z   Version:          28.5.2
+2026-11-20T09:13:15.4284679Z   API version:      1.51 (minimum version 1.24)
+2026-11-20T09:13:15.4286991Z   Go version:       go1.24.9
+2026-11-20T09:13:15.4347916Z   Git commit:       89c5e8f
+2026-11-20T09:13:15.4349024Z   Built:            Wed Nov  5 14:43:25 2025
+2026-11-20T09:13:15.4371956Z   OS/Arch:          linux/amd64
+2026-11-20T09:13:15.4418434Z   Experimental:     false
+2026-11-20T09:13:15.4557112Z [command]/usr/bin/docker info
+2026-11-20T09:13:15.4807541Z Client: Docker Engine - Community
+2026-11-20T09:13:15.4810139Z  Version:    28.5.2
+2026-11-20T09:13:15.4822562Z  Context:    default
+2026-11-20T09:13:15.5310027Z  Debug Mode: false
+2026-11-20T09:13:15.5326900Z 
+2026-11-20T09:13:15.5360649Z Server:
+2026-11-20T09:13:15.5377461Z  Containers: 1
+2026-11-20T09:13:15.5382416Z   Running: 1
+2026-11-20T09:13:15.5495620Z   Paused: 0
+2026-11-20T09:13:15.5521304Z   Stopped: 0
+2026-11-20T09:13:15.5573726Z  Images: 2
+2026-11-20T09:13:15.7393397Z  Server Version: 28.5.2
+2026-11-20T09:13:15.7466608Z  Storage Driver: overlay2
+2026-11-20T09:13:15.7490156Z   Backing Filesystem: extfs
+2026-11-20T09:13:15.7523584Z   Supports d_type: true
+2026-11-20T09:13:15.7527638Z   Using metacopy: false
+2026-11-20T09:13:15.7532267Z   Native Overlay Diff: false
+2026-11-20T09:13:15.7709097Z   userxattr: false
+2026-11-20T09:13:15.7796699Z  Logging Driver: json-file
+2026-11-20T09:13:15.7797240Z  Cgroup Driver: systemd
+2026-11-20T09:13:15.7799310Z  Cgroup Version: 2
+2026-11-20T09:13:15.7800797Z  Swarm: inactive
+2026-11-20T09:13:15.8014266Z  Runtimes: io.containerd.runc.v2 runc
+2026-11-20T09:13:15.8014873Z  Default Runtime: runc
+2026-11-20T09:13:15.8285218Z  Init Binary: docker-init
+2026-11-20T09:13:15.8288693Z  containerd version: 442cb34bda9a6a0fed82a2ca7cade05c5c749582
+2026-11-20T09:13:15.9033180Z  runc version: v1.3.3-0-gd842d771
+2026-11-20T09:13:15.9040326Z  init version: de40ad0
+2026-11-20T09:13:15.9145068Z  Kernel Version: 6.14.0-1017-azure
+2026-11-20T09:13:15.9145599Z  Operating System: Ubuntu 24.04.3 LTS
+2026-11-20T09:13:15.9146350Z  OSType: linux
+2026-11-20T09:13:15.9146932Z  Architecture: x86_64
+2026-11-20T09:13:15.9849477Z  CPUs: 2
+2026-11-20T09:13:15.9851531Z  Total Memory: 7.751GiB
+2026-11-20T09:13:15.9989575Z  Name: runnervmajjac
+2026-11-20T09:13:16.0018101Z  ID: a1b20ed1-9ee3-48a1-856c-ddd8d66bcbab
+2026-11-20T09:13:16.0046811Z  Docker Root Dir: /var/lib/docker
+2026-11-20T09:13:16.0088414Z  Debug Mode: false
+2026-11-20T09:13:16.1002572Z  Username: githubactions
+2026-11-20T09:13:16.1016548Z  Experimental: false
+2026-11-20T09:13:16.1017976Z  Live Restore Enabled: false
+2026-11-20T09:13:16.1028981Z ##[endgroup]
+2026-11-20T09:13:16.1029966Z ##[group]Proxy configuration
+2026-11-20T09:13:16.1901972Z No proxy configuration found
+2026-11-20T09:13:16.1908455Z ##[endgroup]
+2026-11-20T09:13:16.1921683Z ##[group]Buildx version
+2026-11-20T09:13:16.1949595Z [command]/usr/bin/docker buildx version
+2026-11-20T09:13:16.1950810Z github.com/docker/buildx v0.30.0 2bf7b85
+2026-11-20T09:13:16.1952706Z ##[endgroup]
+2026-11-20T09:13:16.2000831Z [command]/usr/bin/docker buildx build --cache-from type=gha --cache-to type=gha,mode=max --iidfile /home/runner/work/_temp/docker-actions-toolkit-21b0fd/build-iidfile-77782febe2.txt --label org.opencontainers.image.created=2026-11-20T09:13:06.431Z --label org.opencontainers.image.description=Internal reporting UI for revenue, accounts and retention --label org.opencontainers.image.revision=ae1880260c47ff3e7253ec07bd3e00e2fc684d94 --label org.opencontainers.image.source=https://github.com/example-org/analytics-dashboard --label org.opencontainers.image.title=analytics-dashboard --label org.opencontainers.image.version=pr-482 --load --attest type=provenance,mode=min,inline-only=true,builder-id=https://github.com/example-org/analytics-dashboard/actions/runs/19483726150 --tag ghcr.io/example-org/analytics-dashboard:pr-482 --tag ghcr.io/example-org/analytics-dashboard:sha-ae18802 --metadata-file /home/runner/work/_temp/docker-actions-toolkit-21b0fd/build-metadata-26d55c08f4.json .
+2026-11-20T09:13:16.2004425Z #0 building with "builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e998" instance using docker-container driver
+2026-11-20T09:13:16.2086915Z 
+2026-11-20T09:13:16.2116379Z #1 [internal] load build definition from Dockerfile
+2026-11-20T09:13:16.2264853Z #1 transferring dockerfile: 861B done
+2026-11-20T09:13:16.2312739Z #1 DONE 0.0s
+2026-11-20T09:13:16.2319277Z 
+2026-11-20T09:13:16.2322863Z #2 resolve image config for docker-image://docker.io/docker/dockerfile:1.7
+2026-11-20T09:13:16.8401301Z #2 DONE 0.6s
+2026-11-20T09:13:16.8412809Z 
+2026-11-20T09:13:16.8433512Z #3 docker-image://docker.io/docker/dockerfile:1.7@sha256:cdeeb7d7c56cafdaf85294bd40271a98aa5d3d00a92df2e3ef201dea04a4e108
+2026-11-20T09:13:16.8481965Z #3 resolve docker.io/docker/dockerfile:1.7@sha256:cdeeb7d7c56cafdaf85294bd40271a98aa5d3d00a92df2e3ef201dea04a4e108 0.0s done
+2026-11-20T09:13:17.0512736Z #3 sha256:56a3ec2ae107dc3a3385dc0c9b677e192960ebae2b97d01f06c1ff08492b7a4e 12.64MB / 12.64MB 0.2s done
+2026-11-20T09:13:17.2561891Z #3 extracting sha256:56a3ec2ae107dc3a3385dc0c9b677e192960ebae2b97d01f06c1ff08492b7a4e 0.2s done
+2026-11-20T09:13:17.3504900Z #3 DONE 0.5s
+2026-11-20T09:13:17.3521474Z 
+2026-11-20T09:13:17.3611439Z #4 [internal] load metadata for docker.io/library/node:22-alpine
+2026-11-20T09:13:18.1688479Z #4 DONE 0.8s
+2026-11-20T09:13:18.1702927Z 
+2026-11-20T09:13:18.1730246Z #5 [internal] load .dockerignore
+2026-11-20T09:13:18.1745854Z #5 transferring context: 117B done
+2026-11-20T09:13:18.1751518Z #5 DONE 0.0s
+2026-11-20T09:13:18.1762776Z 
+2026-11-20T09:13:18.1790125Z #6 [internal] load build context
+2026-11-20T09:13:18.2911893Z #6 transferring context: 3.86MB 0.1s done
+2026-11-20T09:13:18.2930402Z #6 DONE 0.1s
+2026-11-20T09:13:18.2941151Z 
+2026-11-20T09:13:18.2988034Z #7 [base 1/1] FROM docker.io/library/node:22-alpine@sha256:fbc58381fe56909acf78cc770356976769f1a741c3ba1dc762ec472bcce871d9
+2026-11-20T09:13:18.3013291Z #7 resolve docker.io/library/node:22-alpine@sha256:fbc58381fe56909acf78cc770356976769f1a741c3ba1dc762ec472bcce871d9 0.0s done
+2026-11-20T09:13:18.3021998Z #7 DONE 0.0s
+2026-11-20T09:13:18.3033893Z 
+2026-11-20T09:13:18.3060274Z #8 importing cache manifest from gha:16613784412360851457
+2026-11-20T09:13:19.0102917Z #8 DONE 0.7s
+2026-11-20T09:13:19.0115825Z 
+2026-11-20T09:13:19.0141983Z #9 [deps 1/4] RUN apk add --no-cache libc6-compat
+2026-11-20T09:13:19.0150674Z #9 CACHED
+2026-11-20T09:13:19.0152521Z 
+2026-11-20T09:13:19.0157233Z #10 [deps 2/4] WORKDIR /app
+2026-11-20T09:13:19.0160873Z #10 CACHED
+2026-11-20T09:13:19.0168341Z 
+2026-11-20T09:13:19.0172059Z #11 [builder 1/4] WORKDIR /app
+2026-11-20T09:13:19.0178299Z #11 CACHED
+2026-11-20T09:13:19.0184983Z 
+2026-11-20T09:13:19.0190730Z #12 [runner 1/5] WORKDIR /app
+2026-11-20T09:13:19.0197498Z #12 CACHED
+2026-11-20T09:13:19.0207039Z 
+2026-11-20T09:13:19.0212496Z #13 [runner 2/5] RUN addgroup -S -g 1001 nodejs && adduser -S -u 1001 -G nodejs nextjs
+2026-11-20T09:13:19.0215124Z #13 CACHED
+2026-11-20T09:13:19.0218813Z 
+2026-11-20T09:13:19.0226827Z #14 [deps 3/4] COPY package.json package-lock.json ./
+2026-11-20T09:13:19.2301682Z #14 sha256:5cb22984476f8414e06c0a4e03b9a141a358f096879754585498aec113bdb68d 0B / 3.80MB 0.2s
+2026-11-20T09:13:19.2310003Z #14 sha256:5be049865e2ada46473d97af3d8a0febad8b4d8d9d6c5f957ce75b07f7cdf5cb 0B / 51.37MB 0.2s
+2026-11-20T09:13:19.2318529Z #14 sha256:9e5f630e022e938da5223f09de169d11ca64deb06e353e34433fe1748f7fa1c9 0B / 1.26MB 0.2s
+2026-11-20T09:13:19.3335679Z #14 sha256:9e5f630e022e938da5223f09de169d11ca64deb06e353e34433fe1748f7fa1c9 1.26MB / 1.26MB 0.3s done
+2026-11-20T09:13:19.3342185Z #14 sha256:5cb22984476f8414e06c0a4e03b9a141a358f096879754585498aec113bdb68d 3.80MB / 3.80MB 0.3s done
+2026-11-20T09:13:19.3350962Z #14 sha256:e791de9d2dbf8a97f4d157b48e25ba067c66415e4b0ebc15f4655f157ecc1242 446B / 446B 0.3s done
+2026-11-20T09:13:19.5341933Z #14 sha256:5be049865e2ada46473d97af3d8a0febad8b4d8d9d6c5f957ce75b07f7cdf5cb 26.21MB / 51.37MB 0.5s
+2026-11-20T09:13:19.7350089Z #14 sha256:5be049865e2ada46473d97af3d8a0febad8b4d8d9d6c5f957ce75b07f7cdf5cb 51.37MB / 51.37MB 0.7s done
+2026-11-20T09:13:19.8421596Z #14 extracting sha256:5cb22984476f8414e06c0a4e03b9a141a358f096879754585498aec113bdb68d 0.1s done
+2026-11-20T09:13:19.8445828Z #14 extracting sha256:5be049865e2ada46473d97af3d8a0febad8b4d8d9d6c5f957ce75b07f7cdf5cb
+2026-11-20T09:13:21.1453173Z #14 extracting sha256:5be049865e2ada46473d97af3d8a0febad8b4d8d9d6c5f957ce75b07f7cdf5cb 1.3s done
+2026-11-20T09:13:21.1500082Z #14 extracting sha256:9e5f630e022e938da5223f09de169d11ca64deb06e353e34433fe1748f7fa1c9 0.0s done
+2026-11-20T09:13:21.1521929Z #14 extracting sha256:e791de9d2dbf8a97f4d157b48e25ba067c66415e4b0ebc15f4655f157ecc1242 done
+2026-11-20T09:13:21.2530508Z #14 sha256:b523f471e7d0ce311a44f6562475cddaa782f6d4e828a81c12c933cf3fd3b060 2.18MB / 2.18MB 0.1s done
+2026-11-20T09:13:21.3561257Z #14 extracting sha256:b523f471e7d0ce311a44f6562475cddaa782f6d4e828a81c12c933cf3fd3b060 0.1s done
+2026-11-20T09:13:21.6302881Z #14 DONE 2.6s
+2026-11-20T09:13:21.6320133Z 
+2026-11-20T09:13:21.6351485Z #15 [deps 4/4] RUN npm ci
+2026-11-20T09:13:31.2501236Z #15 9.612 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2026-11-20T09:13:31.9483349Z #15 10.31 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-11-20T09:13:32.5092494Z #15 10.87 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2026-11-20T09:13:34.6893040Z #15 13.05 npm warn deprecated abab@2.0.6: Use your platform's native atob() and btoa() methods instead
+2026-11-20T09:13:35.0794661Z #15 13.44 npm warn deprecated domexception@4.0.0: Use your platform's native DOMException instead
+2026-11-20T09:13:37.5601804Z #15 15.92 npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2026-11-20T09:14:14.1172851Z #15 52.48 
+2026-11-20T09:14:14.1180868Z #15 52.48 added 1287 packages, and audited 1288 packages in 52s
+2026-11-20T09:14:14.1186432Z #15 52.48 
+2026-11-20T09:14:14.1191029Z #15 52.48 241 packages are looking for funding
+2026-11-20T09:14:14.1197654Z #15 52.48   run `npm fund` for details
+2026-11-20T09:14:14.2472067Z #15 52.61 
+2026-11-20T09:14:14.2478752Z #15 52.61 4 moderate severity vulnerabilities
+2026-11-20T09:14:14.2483814Z #15 52.61 
+2026-11-20T09:14:14.2489042Z #15 52.61 To address all issues (including breaking changes), run:
+2026-11-20T09:14:14.2494604Z #15 52.61   npm audit fix --force
+2026-11-20T09:14:14.2499045Z #15 52.61 
+2026-11-20T09:14:14.2505207Z #15 52.61 Run `npm audit` for details.
+2026-11-20T09:14:15.9402560Z #15 DONE 54.3s
+2026-11-20T09:14:15.9420009Z 
+2026-11-20T09:14:15.9455773Z #16 [builder 2/4] COPY --from=deps /app/node_modules ./node_modules
+2026-11-20T09:14:27.3502928Z #16 DONE 11.4s
+2026-11-20T09:14:27.3520943Z 
+2026-11-20T09:14:27.3561031Z #17 [builder 3/4] COPY . .
+2026-11-20T09:14:27.7603752Z #17 DONE 0.4s
+2026-11-20T09:14:27.7621629Z 
+2026-11-20T09:14:27.7650514Z #18 [builder 4/4] RUN npm run build
+2026-11-20T09:14:28.1602547Z #18 0.391 
+2026-11-20T09:14:28.1610215Z #18 0.391 > analytics-dashboard@0.14.0 build
+2026-11-20T09:14:28.1615876Z #18 0.391 > next build
+2026-11-20T09:14:28.1619772Z #18 0.391 
+2026-11-20T09:14:29.3722460Z #18 1.604    ▲ Next.js 15.5.6
+2026-11-20T09:14:29.3731028Z #18 1.605 
+2026-11-20T09:14:29.4561151Z #18 1.688    Creating an optimized production build ...
+2026-11-20T09:15:05.2902432Z #18 37.52 Browserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+2026-11-20T09:15:05.2908321Z #18 37.52   npx update-browserslist-db@latest
+2026-11-20T09:15:05.2913159Z #18 37.52   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2026-11-20T09:16:49.4703291Z #18 141.7 
+2026-11-20T09:16:49.4706172Z #18 141.7 <--- Last few GCs --->
+2026-11-20T09:16:49.4711180Z #18 141.7 
+2026-11-20T09:16:49.4714619Z #18 141.7 [43:0x2a1f6000]   135191 ms: Mark-Compact (reduce) 4043.1 (4144.6) -> 4040.2 (4143.9) MB, pooled: 0 MB, 2287.66 / 0.00 ms  (average mu = 0.112, current mu = 0.014) allocation failure; scavenge might not succeed
+2026-11-20T09:16:49.4720337Z #18 141.7 [43:0x2a1f6000]   137579 ms: Mark-Compact (reduce) 4041.9 (4143.9) -> 4041.0 (4144.2) MB, pooled: 0 MB, 2371.04 / 0.00 ms  (average mu = 0.058, current mu = 0.006) allocation failure; scavenge might not succeed
+2026-11-20T09:16:49.4726150Z #18 141.7 
+2026-11-20T09:16:49.4735079Z #18 141.7 
+2026-11-20T09:16:49.4739635Z #18 141.7 <--- JS stacktrace --->
+2026-11-20T09:16:49.4749832Z #18 141.7 
+2026-11-20T09:16:49.4760461Z #18 141.7 FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
+2026-11-20T09:16:49.4763254Z #18 141.7 ----- Native stack trace -----
+2026-11-20T09:16:49.4768482Z #18 141.7 
+2026-11-20T09:16:49.4777543Z #18 141.7  1: 0xe3a52c node::OOMErrorHandler(char const*, v8::OOMDetails const&) [/usr/local/bin/node]
+2026-11-20T09:16:49.4786078Z #18 141.7  2: 0x1239c50 v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, v8::OOMDetails const&) [/usr/local/bin/node]
+2026-11-20T09:16:49.4791625Z #18 141.7  3: 0x1239f27 v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, v8::OOMDetails const&) [/usr/local/bin/node]
+2026-11-20T09:16:49.4799758Z #18 141.7  4: 0x14a7a35  [/usr/local/bin/node]
+2026-11-20T09:16:49.4801893Z #18 141.7  5: 0x14c12a9 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/usr/local/bin/node]
+2026-11-20T09:16:49.4807266Z #18 141.7  6: 0x1495788 v8::internal::HeapAllocator::AllocateRawWithLightRetrySlowPath(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/usr/local/bin/node]
+2026-11-20T09:16:49.4815549Z #18 141.7  7: 0x14966b5 v8::internal::HeapAllocator::AllocateRawWithRetryOrFailSlowPath(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/usr/local/bin/node]
+2026-11-20T09:16:49.4825980Z #18 141.7  8: 0x146ec3e v8::internal::Factory::NewFillerObject(int, v8::internal::AllocationAlignment, v8::internal::AllocationType, v8::internal::AllocationOrigin) [/usr/local/bin/node]
+2026-11-20T09:16:49.4833855Z #18 141.7  9: 0x18a59fc v8::internal::Runtime_AllocateInYoungGeneration(int, unsigned long*, v8::internal::Isolate*) [/usr/local/bin/node]
+2026-11-20T09:16:49.4837534Z #18 141.7 10: 0x7f3a3be76ef6
+2026-11-20T09:16:50.1123605Z #18 ERROR: process "/bin/sh -c npm run build" did not complete successfully: exit code: 137
+2026-11-20T09:16:50.1131631Z ------
+2026-11-20T09:16:50.1141396Z  > [builder 4/4] RUN npm run build:
+2026-11-20T09:16:50.1145373Z 141.7  1: 0xe3a52c node::OOMErrorHandler(char const*, v8::OOMDetails const&) [/usr/local/bin/node]
+2026-11-20T09:16:50.1153651Z 141.7  2: 0x1239c50 v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, v8::OOMDetails const&) [/usr/local/bin/node]
+2026-11-20T09:16:50.1155479Z 141.7  3: 0x1239f27 v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, v8::OOMDetails const&) [/usr/local/bin/node]
+2026-11-20T09:16:50.1157401Z 141.7  4: 0x14a7a35  [/usr/local/bin/node]
+2026-11-20T09:16:50.1162645Z 141.7  5: 0x14c12a9 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/usr/local/bin/node]
+2026-11-20T09:16:50.1165237Z 141.7  6: 0x1495788 v8::internal::HeapAllocator::AllocateRawWithLightRetrySlowPath(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/usr/local/bin/node]
+2026-11-20T09:16:50.1168815Z 141.7  7: 0x14966b5 v8::internal::HeapAllocator::AllocateRawWithRetryOrFailSlowPath(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/usr/local/bin/node]
+2026-11-20T09:16:50.1179409Z 141.7  8: 0x146ec3e v8::internal::Factory::NewFillerObject(int, v8::internal::AllocationAlignment, v8::internal::AllocationType, v8::internal::AllocationOrigin) [/usr/local/bin/node]
+2026-11-20T09:16:50.1187757Z 141.7  9: 0x18a59fc v8::internal::Runtime_AllocateInYoungGeneration(int, unsigned long*, v8::internal::Isolate*) [/usr/local/bin/node]
+2026-11-20T09:16:50.1196883Z 141.7 10: 0x7f3a3be76ef6
+2026-11-20T09:16:50.1203211Z ------
+2026-11-20T09:16:50.1212354Z Dockerfile:19
+2026-11-20T09:16:50.1217320Z --------------------
+2026-11-20T09:16:50.1224943Z   17 |     ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+2026-11-20T09:16:50.1229094Z   18 |     ENV NODE_OPTIONS=--max-old-space-size=4096
+2026-11-20T09:16:50.1234131Z   19 | >>> RUN npm run build
+2026-11-20T09:16:50.1240135Z   20 |     
+2026-11-20T09:16:50.1243631Z   21 |     FROM base AS runner
+2026-11-20T09:16:50.1251607Z --------------------
+2026-11-20T09:16:50.1412878Z ERROR: failed to solve: process "/bin/sh -c npm run build" did not complete successfully: exit code: 137
+2026-11-20T09:16:50.1552444Z ##[group]Reference
+2026-11-20T09:16:50.1903381Z builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e998/builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e9980/wc0akeuamkgskokyu4q2uemqw
+2026-11-20T09:16:50.1906986Z ##[endgroup]
+2026-11-20T09:16:50.1912341Z ##[group]Check build summary support
+2026-11-20T09:16:50.3011044Z Build summary supported!
+2026-11-20T09:16:50.3013318Z ##[endgroup]
+2026-11-20T09:16:50.3047405Z ##[error]buildx failed with: ERROR: failed to solve: process "/bin/sh -c npm run build" did not complete successfully: exit code: 137
+2026-11-20T09:16:52.2181618Z Post job cleanup.
+2026-11-20T09:16:53.5308512Z ##[group]Generating build summary
+2026-11-20T09:16:53.5360324Z [command]/usr/bin/docker buildx history export --builder builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e998 --finalize --output /home/runner/work/_temp/docker-actions-toolkit-deb11b/export/example-org~analytics-dashboard~P3KC1V.dockerbuild wc0akeuamkgskokyu4q2uemqw
+2026-11-20T09:16:53.5411870Z Build record written to /home/runner/work/_temp/docker-actions-toolkit-deb11b/export/example-org~analytics-dashboard~P3KC1V.dockerbuild (52.31KB)
+2026-11-20T09:16:54.0139909Z Artifact example-org~analytics-dashboard~P3KC1V.dockerbuild has been successfully uploaded! Final size is 53566 bytes. Artifact ID is 4781203317
+2026-11-20T09:16:54.2153718Z Build summary added
+2026-11-20T09:16:54.2401098Z ##[endgroup]
+2026-11-20T09:16:54.9121537Z ##[group]Removing temp folder /home/runner/work/_temp/docker-actions-toolkit-21b0fd
+2026-11-20T09:16:54.9151982Z ##[endgroup]
+2026-11-20T09:16:56.0352399Z Post job cleanup.
+2026-11-20T09:16:56.0415710Z ##[group]Removing builder
+2026-11-20T09:16:56.0417908Z [command]/usr/bin/docker buildx rm builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e998
+2026-11-20T09:16:56.0419460Z builder-475bd8a6-52b5-4504-9eb5-eafdc7c0e998 removed
+2026-11-20T09:16:56.1900448Z ##[endgroup]
+2026-11-20T09:16:56.2020126Z ##[group]Cleaning up certificates
+2026-11-20T09:16:56.2022096Z ##[endgroup]
+2026-11-20T09:16:56.2148681Z ##[group]Post cache
+2026-11-20T09:16:56.2150261Z State not set
+2026-11-20T09:16:56.7045972Z ##[endgroup]
+2026-11-20T09:16:58.1509379Z Post job cleanup.
+2026-11-20T09:16:58.1532034Z [command]/usr/bin/git version
+2026-11-20T09:16:58.1535077Z git version 2.51.2
+2026-11-20T09:16:58.3730388Z Temporarily overriding HOME='/home/runner/work/_temp/6c770b2c-b03c-4d98-8cc7-60f449fd1ad6' before making global git config changes
+2026-11-20T09:16:58.4573898Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-20T09:16:58.6066265Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/analytics-dashboard/analytics-dashboard
+2026-11-20T09:16:58.6073908Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-20T09:16:58.6075840Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-20T09:16:58.7163557Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-20T09:16:58.7193298Z http.https://github.com/.extraheader
+2026-11-20T09:16:58.7542267Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-20T09:16:58.7552310Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-20T09:17:00.2430371Z Cleaning up orphan processes

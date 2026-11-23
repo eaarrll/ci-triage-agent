@@ -1,0 +1,13 @@
+:root {
+  --border-subtle: #e4e4e7;
+  --text-success: #15803d;
+  font-family: system-ui, sans-serif;
+}
+
+.cart-page {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  max-width: 72rem;
+  margin: 0 auto;
+}

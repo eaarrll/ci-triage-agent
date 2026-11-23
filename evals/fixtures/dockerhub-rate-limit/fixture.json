@@ -1,0 +1,379 @@
+{
+  "id": "dockerhub-rate-limit",
+  "title": "Service container postgres:16 hits the Docker Hub unauthenticated pull rate limit",
+  "description": "A PR to example-org/orders-api adds cursor pagination (handler, repository, a new migration and tests). The test job never reaches checkout: in 'Initialize containers' redis:7 pulls fine, then every attempt to pull the postgres:16 service image is refused by Docker Hub with 'toomanyrequests: You have reached your unauthenticated pull rate limit', the runner retries twice and gives up. No repository code ran, so the diff is irrelevant. The expected answer is infrastructure (rate limit), with a rerun now and a durable fix of authenticating the pull (services.postgres.credentials / docker login with a Docker Hub token) or pulling from a mirror such as mirror.gcr.io, public.ecr.aws or ghcr. 'flaky' is accepted since the limit is transient; 'code' is wrong.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "orders-api"
+  },
+  "run": {
+    "id": 19588014526,
+    "attempt": 1,
+    "workflowId": 78305129,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/orders-cursor-pagination",
+    "headSha": "3e9b06d2a4c81f75e0b3d6a9c2f84e17b5d0a3c6",
+    "headRepoFullName": "example-org/orders-api",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19588014526",
+    "displayTitle": "Add cursor pagination to GET /customers/{id}/orders",
+    "pullRequestNumbers": [
+      233
+    ],
+    "createdAt": "2026-11-22T10:01:44Z"
+  },
+  "jobs": [
+    {
+      "id": 56071233908,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-22T10:01:51Z",
+      "completedAt": "2026-11-22T10:02:50Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19588014526/job/56071233908",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:01:51Z",
+          "completedAt": "2026-11-22T10:01:52Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:01:53Z",
+          "completedAt": "2026-11-22T10:01:54Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:01:55Z",
+          "completedAt": "2026-11-22T10:02:01Z"
+        },
+        {
+          "number": 4,
+          "name": "Run golangci/golangci-lint-action@v8",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:02:02Z",
+          "completedAt": "2026-11-22T10:02:40Z"
+        },
+        {
+          "number": 5,
+          "name": "Post Run golangci/golangci-lint-action@v8",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:02:41Z",
+          "completedAt": "2026-11-22T10:02:43Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:02:44Z",
+          "completedAt": "2026-11-22T10:02:48Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:02:49Z",
+          "completedAt": "2026-11-22T10:02:49Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:02:50Z",
+          "completedAt": "2026-11-22T10:02:50Z"
+        }
+      ]
+    },
+    {
+      "id": 56071233915,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-22T10:01:52Z",
+      "completedAt": "2026-11-22T10:02:13Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19588014526/job/56071233915",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:01:52Z",
+          "completedAt": "2026-11-22T10:01:53Z"
+        },
+        {
+          "number": 2,
+          "name": "Initialize containers",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-22T10:01:54Z",
+          "completedAt": "2026-11-22T10:02:09Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 4,
+          "name": "Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 5,
+          "name": "Run migrations",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 6,
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 7,
+          "name": "Stop containers",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:02:10Z",
+          "completedAt": "2026-11-22T10:02:11Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-22T10:02:12Z",
+          "completedAt": "2026-11-22T10:02:13Z"
+        }
+      ]
+    },
+    {
+      "id": 56071270466,
+      "name": "build-image",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-22T10:02:51Z",
+      "completedAt": "2026-11-22T10:02:51Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19588014526/job/56071270466",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "internal/orders/handler.go",
+      "status": "modified",
+      "additions": 10,
+      "deletions": 2,
+      "patch": "@@ -30,11 +30,19 @@\n \t\t}\n \t\tlimit = n\n \t}\n-\torders, err := h.repo.ListByCustomer(r.Context(), chi.URLParam(r, \"customerID\"), limit)\n+\tafter, err := DecodeCursor(r.URL.Query().Get(\"cursor\"))\n \tif err != nil {\n+\t\thttp.Error(w, \"invalid cursor\", http.StatusBadRequest)\n+\t\treturn\n+\t}\n+\torders, err := h.repo.ListByCustomer(r.Context(), chi.URLParam(r, \"customerID\"), after, limit)\n+\tif err != nil {\n \t\thttp.Error(w, \"internal error\", http.StatusInternalServerError)\n \t\treturn\n \t}\n \tw.Header().Set(\"Content-Type\", \"application/json\")\n-\t_ = json.NewEncoder(w).Encode(map[string]any{\"orders\": orders})\n+\t_ = json.NewEncoder(w).Encode(map[string]any{\n+\t\t\"orders\":      orders,\n+\t\t\"next_cursor\": NextCursor(orders, limit),\n+\t})\n }",
+      "previousPath": null
+    },
+    {
+      "path": "internal/orders/repository.go",
+      "status": "modified",
+      "additions": 10,
+      "deletions": 3,
+      "patch": "@@ -26,13 +26,20 @@\n \treturn &Repository{db: db}\n }\n \n-func (r *Repository) ListByCustomer(ctx context.Context, customerID string, limit int) ([]Order, error) {\n+// ListByCustomer returns up to limit orders, newest first, strictly after the cursor when one is given.\n+func (r *Repository) ListByCustomer(ctx context.Context, customerID string, after *Cursor, limit int) ([]Order, error) {\n+\twhere := \"customer_id = $1\"\n+\targs := []any{customerID, limit}\n+\tif after != nil {\n+\t\twhere += \" AND (created_at, id) < ($3, $4)\"\n+\t\targs = append(args, after.CreatedAt, after.ID)\n+\t}\n \trows, err := r.db.Query(ctx, `\n \t\tSELECT id, customer_id, status, total_cents, currency, created_at\n \t\tFROM orders\n-\t\tWHERE customer_id = $1\n+\t\tWHERE `+where+`\n \t\tORDER BY created_at DESC, id DESC\n-\t\tLIMIT $2`, customerID, limit)\n+\t\tLIMIT $2`, args...)\n \tif err != nil {\n \t\treturn nil, fmt.Errorf(\"list orders: %w\", err)\n \t}",
+      "previousPath": null
+    },
+    {
+      "path": "internal/orders/pagination.go",
+      "status": "added",
+      "additions": 46,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,46 @@\n+package orders\n+\n+import (\n+\t\"encoding/base64\"\n+\t\"encoding/json\"\n+\t\"errors\"\n+\t\"time\"\n+)\n+\n+var ErrInvalidCursor = errors.New(\"invalid cursor\")\n+\n+// Cursor is the keyset position of the last order on a page.\n+type Cursor struct {\n+\tCreatedAt time.Time `json:\"t\"`\n+\tID        int64     `json:\"i\"`\n+}\n+\n+func (c Cursor) Encode() string {\n+\tb, _ := json.Marshal(c)\n+\treturn base64.RawURLEncoding.EncodeToString(b)\n+}\n+\n+// DecodeCursor parses an opaque cursor; an empty string means \"first page\".\n+func DecodeCursor(s string) (*Cursor, error) {\n+\tif s == \"\" {\n+\t\treturn nil, nil\n+\t}\n+\tb, err := base64.RawURLEncoding.DecodeString(s)\n+\tif err != nil {\n+\t\treturn nil, ErrInvalidCursor\n+\t}\n+\tvar c Cursor\n+\tif err := json.Unmarshal(b, &c); err != nil || c.ID <= 0 || c.CreatedAt.IsZero() {\n+\t\treturn nil, ErrInvalidCursor\n+\t}\n+\treturn &c, nil\n+}\n+\n+// NextCursor returns the cursor for the page after this one, or \"\" when this is the last page.\n+func NextCursor(page []Order, limit int) string {\n+\tif len(page) < limit {\n+\t\treturn \"\"\n+\t}\n+\tlast := page[len(page)-1]\n+\treturn Cursor{CreatedAt: last.CreatedAt, ID: last.ID}.Encode()\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "internal/orders/pagination_test.go",
+      "status": "added",
+      "additions": 32,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,32 @@\n+package orders\n+\n+import (\n+\t\"testing\"\n+\t\"time\"\n+\n+\t\"github.com/stretchr/testify/assert\"\n+\t\"github.com/stretchr/testify/require\"\n+)\n+\n+func TestCursorRoundTrip(t *testing.T) {\n+\tin := Cursor{CreatedAt: time.Date(2026, 11, 3, 14, 5, 0, 123000, time.UTC), ID: 4812}\n+\tout, err := DecodeCursor(in.Encode())\n+\trequire.NoError(t, err)\n+\tassert.True(t, in.CreatedAt.Equal(out.CreatedAt))\n+\tassert.Equal(t, in.ID, out.ID)\n+}\n+\n+func TestDecodeCursorRejectsGarbage(t *testing.T) {\n+\tfor _, s := range []string{\"%%%\", \"e30\", \"eyJpIjowfQ\"} {\n+\t\t_, err := DecodeCursor(s)\n+\t\tassert.ErrorIs(t, err, ErrInvalidCursor, s)\n+\t}\n+}\n+\n+func TestNextCursor(t *testing.T) {\n+\tpage := []Order{{ID: 3, CreatedAt: time.Unix(300, 0)}, {ID: 2, CreatedAt: time.Unix(200, 0)}}\n+\tassert.Empty(t, NextCursor(page, 3))\n+\tnext, err := DecodeCursor(NextCursor(page, 2))\n+\trequire.NoError(t, err)\n+\tassert.Equal(t, int64(2), next.ID)\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "internal/orders/repository_test.go",
+      "status": "added",
+      "additions": 48,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,48 @@\n+package orders\n+\n+import (\n+\t\"context\"\n+\t\"os\"\n+\t\"testing\"\n+\t\"time\"\n+\n+\t\"github.com/jackc/pgx/v5/pgxpool\"\n+\t\"github.com/stretchr/testify/require\"\n+)\n+\n+func newTestRepo(t *testing.T) *Repository {\n+\tt.Helper()\n+\turl := os.Getenv(\"DATABASE_URL\")\n+\tif url == \"\" {\n+\t\tt.Skip(\"DATABASE_URL not set\")\n+\t}\n+\tpool, err := pgxpool.New(context.Background(), url)\n+\trequire.NoError(t, err)\n+\tt.Cleanup(pool.Close)\n+\t_, err = pool.Exec(context.Background(), \"TRUNCATE orders RESTART IDENTITY\")\n+\trequire.NoError(t, err)\n+\treturn NewRepository(pool)\n+}\n+\n+func TestListByCustomerPaginates(t *testing.T) {\n+\trepo := newTestRepo(t)\n+\tctx := context.Background()\n+\tbase := time.Date(2026, 11, 1, 0, 0, 0, 0, time.UTC)\n+\tfor i := range 5 {\n+\t\t_, err := repo.db.Exec(ctx,\n+\t\t\t`INSERT INTO orders (customer_id, total_cents, currency, created_at) VALUES ('c-1', $1, 'EUR', $2)`,\n+\t\t\t1000+i, base.Add(time.Duration(i)*time.Hour))\n+\t\trequire.NoError(t, err)\n+\t}\n+\n+\tfirst, err := repo.ListByCustomer(ctx, \"c-1\", nil, 2)\n+\trequire.NoError(t, err)\n+\trequire.Len(t, first, 2)\n+\trequire.Equal(t, int64(5), first[0].ID)\n+\n+\tcursor, err := DecodeCursor(NextCursor(first, 2))\n+\trequire.NoError(t, err)\n+\tsecond, err := repo.ListByCustomer(ctx, \"c-1\", cursor, 2)\n+\trequire.NoError(t, err)\n+\trequire.Equal(t, []int64{3, 2}, []int64{second[0].ID, second[1].ID})\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "migrations/0007_orders_customer_created_at_idx.up.sql",
+      "status": "added",
+      "additions": 2,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,2 @@\n+CREATE INDEX IF NOT EXISTS orders_customer_created_at_id_idx\n+    ON orders (customer_id, created_at DESC, id DESC);",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test": [
+      {
+        "runId": 19577120934,
+        "attempt": 1,
+        "headSha": "8c2f5a0e3d7b16c94a0e8d3b5f21c7a6e9d40b18",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T17:36:12Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19577120934"
+      },
+      {
+        "runId": 19569483301,
+        "attempt": 1,
+        "headSha": "d4a07e9c1b5f38e26a0d4c9b7e15f3a8c2d60e94",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T11:02:47Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19569483301"
+      },
+      {
+        "runId": 19551270658,
+        "attempt": 1,
+        "headSha": "1b6e3f8a0c4d92e57b1a6f0c3e98d2b5a7f41c03",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T16:44:20Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19551270658"
+      },
+      {
+        "runId": 19537822419,
+        "attempt": 1,
+        "headSha": "f9c2d5a8e1b047f36c9d2e5a0b84f7c1d3e69a25",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T10:13:55Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19537822419"
+      },
+      {
+        "runId": 19512964780,
+        "attempt": 1,
+        "headSha": "6e0a3c7f2d9b51e48c6a0f3d7b29e5c1a4d80f67",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T14:58:31Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19512964780"
+      },
+      {
+        "runId": 19486335127,
+        "attempt": 1,
+        "headSha": "a2d8f1c6e0b437a95d2c8f1e6a03b7d4c9e52f80",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T09:27:06Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19486335127"
+      },
+      {
+        "runId": 19459017742,
+        "attempt": 1,
+        "headSha": "3c7e0b5d9a2f64c18e3b7d0a5f92c6e1b4d83a59",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T13:41:18Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19459017742"
+      },
+      {
+        "runId": 19432688905,
+        "attempt": 1,
+        "headSha": "e5b9a2d6f0c348e71b5d9a2c6f03e8b4a7c15d92",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-14T15:09:44Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19432688905"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "infrastructure",
+      "flaky"
+    ],
+    "keywords": [
+      [
+        "rate limit",
+        "rate-limit",
+        "ratelimit",
+        "toomanyrequests",
+        "too many requests",
+        "pull limit"
+      ],
+      [
+        "login",
+        "log in",
+        "logged in",
+        "logging in",
+        "sign in",
+        "credential",
+        "access token",
+        "dockerhub_token",
+        "dockerhub_username",
+        "docker hub token",
+        "authenticate ",
+        "authenticate.",
+        "authenticate,",
+        "authenticating",
+        "authentication",
+        "mirror",
+        "pull-through",
+        "ghcr",
+        "public.ecr.aws"
+      ]
+    ]
+  }
+}

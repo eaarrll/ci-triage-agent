@@ -1,0 +1,417 @@
+{
+  "id": "disk-full-docker",
+  "title": "CUDA image build runs out of disk on ubuntu-latest after adding TensorRT and onnxruntime-gpu",
+  "description": "PR #211 adds a TensorRT backend: requirements-gpu.txt gains onnxruntime-gpu and tensorrt-cu12 (which pulls the ~2 GB tensorrt_cu12_libs wheel). The requirements change invalidates the gha layer cache, so the build pulls and extracts the multi-GB nvidia/cuda cudnn-devel and cudnn-runtime bases and reinstalls torch + nvidia-* + TensorRT into /opt/venv. 'Runner resources' earlier in the log shows /dev/root at 80% with 15G free (/mnt has 66G free). The build dies copying the venv into the runtime stage: 'ERROR: failed to solve: failed to copy files: userspace copy failed: write .../libnvinfer_builder_resource.so.10.13.3: no space left on device'. build (cpu) passes and main history is green. Root cause is the hosted runner's disk, not the Python code: free space before building (remove preinstalled SDKs, prune), move Docker/buildkit data to /mnt, skip --load on PRs, slim the image, or use a larger runner. Distractor: apt's 'additional disk space will be used' line is normal output.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "vision-models"
+  },
+  "run": {
+    "id": 19602217744,
+    "attempt": 1,
+    "workflowId": 70334412,
+    "workflowName": "Images",
+    "workflowPath": ".github/workflows/images.yml",
+    "event": "pull_request",
+    "headBranch": "feat/tensorrt-backend",
+    "headSha": "f5a5c705d31ce5b32737e6873de62d48c3ff8919",
+    "headRepoFullName": "example-org/vision-models",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/vision-models/actions/runs/19602217744",
+    "displayTitle": "TensorRT backend for detector-s",
+    "pullRequestNumbers": [
+      211
+    ],
+    "createdAt": "2026-11-23T08:41:15Z"
+  },
+  "jobs": [
+    {
+      "id": 55702213301,
+      "name": "Lint Dockerfiles",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-23T08:41:21Z",
+      "completedAt": "2026-11-23T08:41:35Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/vision-models/actions/runs/19602217744/job/55702213301",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:21Z",
+          "completedAt": "2026-11-23T08:41:30Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:30Z",
+          "completedAt": "2026-11-23T08:41:31Z"
+        },
+        {
+          "number": 3,
+          "name": "Run hadolint/hadolint-action@v3.1.0",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:31Z",
+          "completedAt": "2026-11-23T08:41:33Z"
+        },
+        {
+          "number": 4,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:33Z",
+          "completedAt": "2026-11-23T08:41:34Z"
+        },
+        {
+          "number": 5,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:34Z",
+          "completedAt": "2026-11-23T08:41:35Z"
+        }
+      ]
+    },
+    {
+      "id": 55702213318,
+      "name": "build (cpu)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-23T08:41:23Z",
+      "completedAt": "2026-11-23T08:45:42Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/vision-models/actions/runs/19602217744/job/55702213318",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:23Z",
+          "completedAt": "2026-11-23T08:41:25Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:25Z",
+          "completedAt": "2026-11-23T08:41:27Z"
+        },
+        {
+          "number": 3,
+          "name": "Runner resources",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:27Z",
+          "completedAt": "2026-11-23T08:41:28Z"
+        },
+        {
+          "number": 4,
+          "name": "Run docker/setup-buildx-action@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:28Z",
+          "completedAt": "2026-11-23T08:41:35Z"
+        },
+        {
+          "number": 5,
+          "name": "Log in to GHCR",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-23T08:41:35Z",
+          "completedAt": "2026-11-23T08:41:35Z"
+        },
+        {
+          "number": 6,
+          "name": "Build cpu image",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:35Z",
+          "completedAt": "2026-11-23T08:45:33Z"
+        },
+        {
+          "number": 7,
+          "name": "Image size report",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:45:33Z",
+          "completedAt": "2026-11-23T08:45:35Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Build cpu image",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:45:35Z",
+          "completedAt": "2026-11-23T08:45:38Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run docker/setup-buildx-action@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:45:38Z",
+          "completedAt": "2026-11-23T08:45:40Z"
+        },
+        {
+          "number": 10,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:45:40Z",
+          "completedAt": "2026-11-23T08:45:41Z"
+        },
+        {
+          "number": 11,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:45:41Z",
+          "completedAt": "2026-11-23T08:45:42Z"
+        }
+      ]
+    },
+    {
+      "id": 55702213326,
+      "name": "build (cuda)",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-23T08:41:22Z",
+      "completedAt": "2026-11-23T08:49:37Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/vision-models/actions/runs/19602217744/job/55702213326",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:22Z",
+          "completedAt": "2026-11-23T08:41:24Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:24Z",
+          "completedAt": "2026-11-23T08:41:27Z"
+        },
+        {
+          "number": 3,
+          "name": "Runner resources",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:27Z",
+          "completedAt": "2026-11-23T08:41:29Z"
+        },
+        {
+          "number": 4,
+          "name": "Run docker/setup-buildx-action@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:41:29Z",
+          "completedAt": "2026-11-23T08:41:36Z"
+        },
+        {
+          "number": 5,
+          "name": "Log in to GHCR",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-23T08:41:36Z",
+          "completedAt": "2026-11-23T08:41:36Z"
+        },
+        {
+          "number": 6,
+          "name": "Build cuda image",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-23T08:41:36Z",
+          "completedAt": "2026-11-23T08:49:26Z"
+        },
+        {
+          "number": 7,
+          "name": "Image size report",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-23T08:49:26Z",
+          "completedAt": "2026-11-23T08:49:26Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Build cuda image",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:49:26Z",
+          "completedAt": "2026-11-23T08:49:30Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run docker/setup-buildx-action@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:49:30Z",
+          "completedAt": "2026-11-23T08:49:33Z"
+        },
+        {
+          "number": 10,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:49:33Z",
+          "completedAt": "2026-11-23T08:49:35Z"
+        },
+        {
+          "number": 11,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T08:49:35Z",
+          "completedAt": "2026-11-23T08:49:37Z"
+        }
+      ]
+    },
+    {
+      "id": 55702890014,
+      "name": "Publish manifest",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-23T08:49:37Z",
+      "completedAt": "2026-11-23T08:49:37Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/vision-models/actions/runs/19602217744/job/55702890014",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "configs/serve.yaml",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 1,
+      "patch": "@@ -4,9 +4,12 @@\n   input_size: [640, 640]\n   score_threshold: 0.35\n runtime:\n-  backend: torch\n+  backend: tensorrt\n   device: cuda\n   batch_size: 8\n+  tensorrt:\n+    precision: fp16\n+    engine_cache: /var/cache/vision-models/engines\n server:\n   host: 0.0.0.0\n   port: 8000",
+      "previousPath": null
+    },
+    {
+      "path": "requirements-gpu.txt",
+      "status": "modified",
+      "additions": 3,
+      "deletions": 0,
+      "patch": "@@ -2,3 +2,6 @@\n --extra-index-url https://download.pytorch.org/whl/cu126\n torch==2.9.1+cu126\n torchvision==0.24.1+cu126\n+onnx==1.19.1\n+onnxruntime-gpu==1.23.2\n+tensorrt-cu12==10.13.3.9",
+      "previousPath": null
+    },
+    {
+      "path": "src/vision_models/export/__init__.py",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 0,
+      "patch": "@@ -19,4 +19,8 @@\n         from .onnx import OnnxBackend\n \n         return OnnxBackend(model, runtime)\n+    if kind == \"tensorrt\":\n+        from .tensorrt import TensorRTBackend\n+\n+        return TensorRTBackend(model, runtime)\n     raise ValueError(f\"unknown backend {kind!r}\")",
+      "previousPath": null
+    },
+    {
+      "path": "src/vision_models/export/tensorrt.py",
+      "status": "added",
+      "additions": 29,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,29 @@\n+from __future__ import annotations\n+\n+import hashlib\n+from pathlib import Path\n+\n+import tensorrt as trt\n+\n+from .onnx import OnnxBackend\n+\n+_LOGGER = trt.Logger(trt.Logger.WARNING)\n+\n+\n+class TensorRTBackend(OnnxBackend):\n+    \"\"\"Runs the ONNX graph through onnxruntime's TensorRT execution provider, caching engines on disk.\"\"\"\n+\n+    name = \"tensorrt\"\n+\n+    def __init__(self, model: dict, runtime: dict) -> None:\n+        opts = runtime.get(\"tensorrt\", {})\n+        cache = Path(opts.get(\"engine_cache\", \"/tmp/trt-engines\"))\n+        cache.mkdir(parents=True, exist_ok=True)\n+        key = hashlib.sha256(f\"{model['name']}:{trt.__version__}:{opts.get('precision')}\".encode()).hexdigest()[:16]\n+        self.engine_path = cache / f\"{key}.engine\"\n+        runtime = {**runtime, \"providers\": [(\"TensorrtExecutionProvider\", {\n+            \"trt_fp16_enable\": opts.get(\"precision\") == \"fp16\",\n+            \"trt_engine_cache_enable\": True,\n+            \"trt_engine_cache_path\": str(cache),\n+        })]}\n+        super().__init__(model, runtime)",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "build (cuda)": [
+      {
+        "runId": 19544109371,
+        "attempt": 1,
+        "headSha": "c1c5af982ff676524cb3a893faaddecc6ed66e18",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T17:02:44Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/vision-models/actions/runs/19544109371/job/55581230184"
+      },
+      {
+        "runId": 19480021658,
+        "attempt": 1,
+        "headSha": "eff0d85000220c141059c5e6f80fafbb4e97d373",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T10:26:09Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/vision-models/actions/runs/19480021658/job/55389770213"
+      },
+      {
+        "runId": 19421536604,
+        "attempt": 1,
+        "headSha": "5bf62e7d7df8ef6d9562e812c51850f31bd6b8ab",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-14T14:51:37Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/vision-models/actions/runs/19421536604/job/55213944062"
+      },
+      {
+        "runId": 19337702915,
+        "attempt": 1,
+        "headSha": "3ca52905bfaeee7b3307f58477f3f12562a28fe6",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-10T09:13:26Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/vision-models/actions/runs/19337702915/job/54947302518"
+      },
+      {
+        "runId": 19289115463,
+        "attempt": 1,
+        "headSha": "3a1bede2396f0a3c3ff6da8b499b482bb0252aca",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-06T16:38:50Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/vision-models/actions/runs/19289115463/job/54791865540"
+      },
+      {
+        "runId": 19190452278,
+        "attempt": 1,
+        "headSha": "3177dfa63c4cfd1925f41699bce15b1d4121bbb4",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-10-31T11:44:12Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/vision-models/actions/runs/19190452278/job/54476012395"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "infrastructure"
+    ],
+    "keywords": [
+      [
+        "space",
+        "disk"
+      ]
+    ]
+  }
+}

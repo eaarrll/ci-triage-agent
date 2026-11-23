@@ -21,13 +21,7 @@
  * - unknown        not enough evidence
  */
 export type Category =
-  | "code"
-  | "flaky"
-  | "dependency"
-  | "infrastructure"
-  | "cloud_auth"
-  | "configuration"
-  | "unknown";
+  "code" | "flaky" | "dependency" | "infrastructure" | "cloud_auth" | "configuration" | "unknown";
 
 export const CATEGORIES: readonly Category[] = [
   "code",
@@ -151,7 +145,11 @@ export interface CommentPort {
   findPullRequest(run: RunInfo): Promise<number | null>;
   findComment(pr: number, marker: string): Promise<ExistingComment | null>;
   /** Creates the comment, or edits the existing one carrying `marker`. */
-  upsertComment(pr: number, marker: string, body: string): Promise<{ id: number; htmlUrl: string; created: boolean }>;
+  upsertComment(
+    pr: number,
+    marker: string,
+    body: string,
+  ): Promise<{ id: number; htmlUrl: string; created: boolean }>;
 }
 
 export interface ExistingComment {

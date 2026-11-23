@@ -1,0 +1,327 @@
+2026-11-20T09:11:46.3105401Z Current runner version: '2.330.0'
+2026-11-20T09:11:46.3117024Z Runner name: 'GitHub Actions 23'
+2026-11-20T09:11:46.3130895Z Runner group name: 'GitHub Actions'
+2026-11-20T09:11:46.3139282Z Machine name: 'fv-az2193-845'
+2026-11-20T09:11:46.3148620Z ##[group]Runner Image Provisioner
+2026-11-20T09:11:46.3164865Z Hosted Compute Agent
+2026-11-20T09:11:46.3165436Z Version: 20261103.418
+2026-11-20T09:11:46.3168650Z Commit: d896ec817cded6a40dc4fba1d7cc7119fb6aff62
+2026-11-20T09:11:46.3186675Z Build Date: 2026-11-03T21:14:52Z
+2026-11-20T09:11:46.3194668Z Worker ID: {d2084e28-effe-4965-ac2e-ca89707a8033}
+2026-11-20T09:11:46.3210427Z Azure Region: westus3
+2026-11-20T09:11:46.3213866Z ##[endgroup]
+2026-11-20T09:11:46.3219382Z ##[group]Operating System
+2026-11-20T09:11:46.3223554Z Ubuntu
+2026-11-20T09:11:46.3228651Z 24.04.3
+2026-11-20T09:11:46.3234774Z LTS
+2026-11-20T09:11:46.3251774Z ##[endgroup]
+2026-11-20T09:11:46.3259908Z ##[group]Runner Image
+2026-11-20T09:11:46.3275933Z Image: ubuntu-24.04
+2026-11-20T09:11:46.3284817Z Version: 20261116.58.1
+2026-11-20T09:11:46.3295755Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.58/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-20T09:11:46.3309890Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.58
+2026-11-20T09:11:46.3318238Z ##[endgroup]
+2026-11-20T09:11:46.3324351Z ##[group]GITHUB_TOKEN Permissions
+2026-11-20T09:11:46.3327180Z Contents: read
+2026-11-20T09:11:46.3337629Z IdToken: write
+2026-11-20T09:11:46.3348816Z Metadata: read
+2026-11-20T09:11:46.3363912Z PullRequests: write
+2026-11-20T09:11:46.3376587Z ##[endgroup]
+2026-11-20T09:11:46.3390242Z Secret source: Actions
+2026-11-20T09:11:46.3400337Z Prepare workflow directory
+2026-11-20T09:11:46.3405522Z Prepare all required actions
+2026-11-20T09:11:46.3408712Z Getting action download info
+2026-11-20T09:11:46.7218201Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-20T09:11:46.9332814Z Download action repository 'azure/login@v2' (SHA:a457da9ea143d694b1b9c7c869ebb04ebe844ef5)
+2026-11-20T09:11:47.1436499Z Download action repository 'hashicorp/setup-terraform@v3' (SHA:b9cd54a3c349d3f38e8881555d616ced269862dd)
+2026-11-20T09:11:47.3554773Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-20T09:11:47.5658950Z Download action repository 'actions/github-script@v7' (SHA:60a0d83039c74a4aee543508d2ffcb1c3799cdea)
+2026-11-20T09:11:47.7763990Z Complete job name: Plan (prod)
+2026-11-20T09:11:49.1320588Z ##[group]Run actions/checkout@v4
+2026-11-20T09:11:49.1337245Z with:
+2026-11-20T09:11:49.1338958Z   repository: example-org/platform-infra
+2026-11-20T09:11:49.1347939Z   token: ***
+2026-11-20T09:11:49.1357052Z   ssh-strict: true
+2026-11-20T09:11:49.1365637Z   ssh-user: git
+2026-11-20T09:11:49.1366204Z   persist-credentials: true
+2026-11-20T09:11:49.1369956Z   clean: true
+2026-11-20T09:11:49.1372664Z   sparse-checkout-cone-mode: true
+2026-11-20T09:11:49.1378208Z   fetch-depth: 1
+2026-11-20T09:11:49.1387463Z   fetch-tags: false
+2026-11-20T09:11:49.1392614Z   show-progress: true
+2026-11-20T09:11:49.1395482Z   lfs: false
+2026-11-20T09:11:49.1396834Z   submodules: false
+2026-11-20T09:11:49.1405457Z   set-safe-directory: true
+2026-11-20T09:11:49.1421910Z env:
+2026-11-20T09:11:49.1433963Z   TF_IN_AUTOMATION: true
+2026-11-20T09:11:49.1449847Z   TF_INPUT: false
+2026-11-20T09:11:49.1460651Z   ARM_USE_OIDC: true
+2026-11-20T09:11:49.1475585Z   ARM_CLIENT_ID: 6c1f0e2a-4b7d-4a93-8e15-2d9c7b3f0a61
+2026-11-20T09:11:49.1484698Z   ARM_TENANT_ID: 0b4e8f2c-91d7-4e3a-a6c2-5f1e9d0b7c34
+2026-11-20T09:11:49.1500004Z   ARM_SUBSCRIPTION_ID: 9a2d6e10-3c5f-4b8e-b7a1-e4c0f2d9a853
+2026-11-20T09:11:49.1511726Z ##[endgroup]
+2026-11-20T09:11:49.1522847Z Syncing repository: example-org/platform-infra
+2026-11-20T09:11:49.1535354Z ##[group]Getting Git version info
+2026-11-20T09:11:49.1537489Z Working directory is '/home/runner/work/platform-infra/platform-infra'
+2026-11-20T09:11:49.1555780Z [command]/usr/bin/git version
+2026-11-20T09:11:49.1563788Z git version 2.51.2
+2026-11-20T09:11:49.1567831Z ##[endgroup]
+2026-11-20T09:11:49.1578856Z Temporarily overriding HOME='/home/runner/work/_temp/68f9631e-de19-4912-b2e6-849be20a6893' before making global git config changes
+2026-11-20T09:11:49.1589931Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-20T09:11:49.1602322Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/platform-infra/platform-infra
+2026-11-20T09:11:49.1619487Z Deleting the contents of '/home/runner/work/platform-infra/platform-infra'
+2026-11-20T09:11:49.1622176Z ##[group]Initializing the repository
+2026-11-20T09:11:49.1635882Z [command]/usr/bin/git init /home/runner/work/platform-infra/platform-infra
+2026-11-20T09:11:49.1638858Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-20T09:11:49.1653177Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-20T09:11:49.1666036Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-20T09:11:49.1678875Z hint:
+2026-11-20T09:11:49.1695300Z hint: 	git config --global init.defaultBranch <name>
+2026-11-20T09:11:49.1705736Z hint:
+2026-11-20T09:11:49.1723436Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-20T09:11:49.1740345Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-20T09:11:49.1753325Z hint:
+2026-11-20T09:11:49.1757370Z hint: 	git branch -m <name>
+2026-11-20T09:11:49.1764941Z hint:
+2026-11-20T09:11:49.1771442Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-20T09:11:49.1787282Z Initialized empty Git repository in /home/runner/work/platform-infra/platform-infra/.git/
+2026-11-20T09:11:49.1789360Z [command]/usr/bin/git remote add origin https://github.com/example-org/platform-infra
+2026-11-20T09:11:49.1798906Z ##[endgroup]
+2026-11-20T09:11:49.1800483Z ##[group]Disabling automatic garbage collection
+2026-11-20T09:11:49.1815420Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-20T09:11:49.1830282Z ##[endgroup]
+2026-11-20T09:11:49.1831890Z ##[group]Setting up auth
+2026-11-20T09:11:49.1839271Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-20T09:11:49.1851531Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-20T09:11:49.1861890Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-20T09:11:49.1869797Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-20T09:11:49.1871063Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-20T09:11:49.1885470Z ##[endgroup]
+2026-11-20T09:11:49.1886640Z ##[group]Fetching the repository
+2026-11-20T09:11:49.1889638Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9e3d2a1f6c8b47d0a5e2913f7b6c0d4e8a1f2b39:refs/remotes/pull/418/merge
+2026-11-20T09:11:49.6090896Z remote: Enumerating objects: 214, done.        
+2026-11-20T09:11:49.6107385Z remote: Counting objects:   0% (1/214)        
+2026-11-20T09:11:49.6117724Z remote: Counting objects:   4% (10/214)        
+2026-11-20T09:11:49.6131196Z remote: Counting objects:   9% (21/214)        
+2026-11-20T09:11:49.6140802Z remote: Counting objects:  18% (40/214)        
+2026-11-20T09:11:49.6148878Z remote: Counting objects:  26% (57/214)        
+2026-11-20T09:11:49.6157360Z remote: Counting objects:  37% (81/214)        
+2026-11-20T09:11:49.6175225Z remote: Counting objects:  41% (89/214)        
+2026-11-20T09:11:49.6182353Z remote: Counting objects:  50% (107/214)        
+2026-11-20T09:11:49.6182665Z remote: Counting objects:  53% (115/214)        
+2026-11-20T09:11:49.6191949Z remote: Counting objects:  63% (136/214)        
+2026-11-20T09:11:49.6198224Z remote: Counting objects:  65% (141/214)        
+2026-11-20T09:11:49.6214839Z remote: Counting objects:  76% (164/214)        
+2026-11-20T09:11:49.6220713Z remote: Counting objects:  84% (181/214)        
+2026-11-20T09:11:49.6231600Z remote: Counting objects:  96% (207/214)        
+2026-11-20T09:11:49.6239177Z remote: Counting objects: 100% (214/214), done.        
+2026-11-20T09:11:49.6245257Z remote: Compressing objects:   0% (1/171)        
+2026-11-20T09:11:49.6261181Z remote: Compressing objects:   8% (15/171)        
+2026-11-20T09:11:49.6276379Z remote: Compressing objects:  15% (27/171)        
+2026-11-20T09:11:49.6281027Z remote: Compressing objects:  23% (41/171)        
+2026-11-20T09:11:49.6282168Z remote: Compressing objects:  31% (54/171)        
+2026-11-20T09:11:49.6286878Z remote: Compressing objects:  37% (64/171)        
+2026-11-20T09:11:49.6288535Z remote: Compressing objects:  51% (88/171)        
+2026-11-20T09:11:49.6293048Z remote: Compressing objects:  62% (107/171)        
+2026-11-20T09:11:49.6299349Z remote: Compressing objects:  75% (129/171)        
+2026-11-20T09:11:49.6314326Z remote: Compressing objects:  77% (133/171)        
+2026-11-20T09:11:49.6320812Z remote: Compressing objects:  88% (152/171)        
+2026-11-20T09:11:49.6333616Z remote: Compressing objects:  90% (155/171)        
+2026-11-20T09:11:49.6339044Z remote: Compressing objects:  95% (164/171)        
+2026-11-20T09:11:49.6342880Z remote: Compressing objects:  98% (169/171)        
+2026-11-20T09:11:49.6355843Z remote: Compressing objects: 100% (171/171), done.        
+2026-11-20T09:11:49.6364303Z remote: Total 214 (delta 23), reused 87 (delta 6), pack-reused 0 (from 0)        
+2026-11-20T09:11:49.6374506Z Receiving objects:   0% (1/214)
+2026-11-20T09:11:49.6389764Z Receiving objects:  11% (25/214)
+2026-11-20T09:11:49.6400501Z Receiving objects:  21% (47/214)
+2026-11-20T09:11:49.6401548Z Receiving objects:  30% (66/214)
+2026-11-20T09:11:49.6405359Z Receiving objects:  44% (96/214)
+2026-11-20T09:11:49.6413196Z Receiving objects:  53% (115/214)
+2026-11-20T09:11:49.6423923Z Receiving objects:  55% (119/214)
+2026-11-20T09:11:49.6429555Z Receiving objects:  64% (139/214)
+2026-11-20T09:11:49.6439237Z Receiving objects:  74% (160/214)
+2026-11-20T09:11:49.6442227Z Receiving objects:  83% (179/214)
+2026-11-20T09:11:49.6446861Z Receiving objects:  91% (196/214)
+2026-11-20T09:11:49.6455459Z Receiving objects:  95% (205/214)
+2026-11-20T09:11:49.9570986Z Receiving objects: 100% (214/214), 96.42 KiB | 5.36 MiB/s, done.
+2026-11-20T09:11:49.9588228Z Resolving deltas:   4% (1/23)
+2026-11-20T09:11:49.9594819Z Resolving deltas:   8% (2/23)
+2026-11-20T09:11:49.9597131Z Resolving deltas:  17% (4/23)
+2026-11-20T09:11:49.9606621Z Resolving deltas:  26% (6/23)
+2026-11-20T09:11:49.9609377Z Resolving deltas:  34% (8/23)
+2026-11-20T09:11:49.9622368Z Resolving deltas:  47% (11/23)
+2026-11-20T09:11:49.9631425Z Resolving deltas:  47% (11/23)
+2026-11-20T09:11:49.9643083Z Resolving deltas:  60% (14/23)
+2026-11-20T09:11:49.9649846Z Resolving deltas:  69% (16/23)
+2026-11-20T09:11:49.9658863Z Resolving deltas:  73% (17/23)
+2026-11-20T09:11:49.9659989Z Resolving deltas:  82% (19/23)
+2026-11-20T09:11:49.9666733Z Resolving deltas: 100% (23/23), done.
+2026-11-20T09:11:49.9675784Z From https://github.com/example-org/platform-infra
+2026-11-20T09:11:49.9686695Z  * [new ref]         9e3d2a1f6c8b47d0a5e2913f7b6c0d4e8a1f2b39 -> pull/418/merge
+2026-11-20T09:11:49.9693181Z ##[endgroup]
+2026-11-20T09:11:49.9705381Z ##[group]Determining the checkout info
+2026-11-20T09:11:49.9722541Z ##[endgroup]
+2026-11-20T09:11:49.9734051Z [command]/usr/bin/git sparse-checkout disable
+2026-11-20T09:11:49.9743983Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-20T09:11:49.9760538Z ##[group]Checking out the ref
+2026-11-20T09:11:49.9773994Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/418/merge
+2026-11-20T09:11:49.9781069Z Note: switching to 'refs/remotes/pull/418/merge'.
+2026-11-20T09:11:49.9783179Z 
+2026-11-20T09:11:49.9796431Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-20T09:11:49.9797156Z changes and commit them, and you can discard any commits you make in this
+2026-11-20T09:11:49.9815119Z state without impacting any branches by switching back to a branch.
+2026-11-20T09:11:49.9826463Z 
+2026-11-20T09:11:49.9844239Z If you want to create a new branch to retain commits you create, you may
+2026-11-20T09:11:49.9845683Z do so (now or later) by using -c with the switch command. Example:
+2026-11-20T09:11:49.9847830Z 
+2026-11-20T09:11:49.9859484Z   git switch -c <new-branch-name>
+2026-11-20T09:11:49.9873818Z 
+2026-11-20T09:11:49.9888219Z Or undo this operation with:
+2026-11-20T09:11:49.9903354Z 
+2026-11-20T09:11:49.9904230Z   git switch -
+2026-11-20T09:11:49.9921120Z 
+2026-11-20T09:11:49.9929918Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-20T09:11:49.9932230Z 
+2026-11-20T09:11:49.9939529Z HEAD is now at 9e3d2a1 Merge c41e9b07d2f5a8813e6b0c92d7f4a1e5b3c8d260 into 7d0e5f3a2c91b8e4f6a0d3c7b5e9f1a2c4d6e801
+2026-11-20T09:11:49.9941354Z ##[endgroup]
+2026-11-20T09:11:49.9945869Z [command]/usr/bin/git log -1 --format=%H
+2026-11-20T09:11:49.9964109Z 9e3d2a1f6c8b47d0a5e2913f7b6c0d4e8a1f2b39
+2026-11-20T09:11:51.0637682Z ##[group]Run azure/login@v2
+2026-11-20T09:11:51.0641351Z with:
+2026-11-20T09:11:51.0657288Z   client-id: 6c1f0e2a-4b7d-4a93-8e15-2d9c7b3f0a61
+2026-11-20T09:11:51.0675553Z   tenant-id: 0b4e8f2c-91d7-4e3a-a6c2-5f1e9d0b7c34
+2026-11-20T09:11:51.0690087Z   subscription-id: 9a2d6e10-3c5f-4b8e-b7a1-e4c0f2d9a853
+2026-11-20T09:11:51.0701233Z   enable-AzPSSession: false
+2026-11-20T09:11:51.0710912Z   environment: azurecloud
+2026-11-20T09:11:51.0727002Z   allow-no-subscriptions: false
+2026-11-20T09:11:51.0741991Z   audience: api://AzureADTokenExchange
+2026-11-20T09:11:51.0750238Z   auth-type: SERVICE_PRINCIPAL
+2026-11-20T09:11:51.0765591Z env:
+2026-11-20T09:11:51.0777604Z   TF_IN_AUTOMATION: true
+2026-11-20T09:11:51.0780994Z   TF_INPUT: false
+2026-11-20T09:11:51.0799103Z   ARM_USE_OIDC: true
+2026-11-20T09:11:51.0803984Z   ARM_CLIENT_ID: 6c1f0e2a-4b7d-4a93-8e15-2d9c7b3f0a61
+2026-11-20T09:11:51.0819327Z   ARM_TENANT_ID: 0b4e8f2c-91d7-4e3a-a6c2-5f1e9d0b7c34
+2026-11-20T09:11:51.0837048Z   ARM_SUBSCRIPTION_ID: 9a2d6e10-3c5f-4b8e-b7a1-e4c0f2d9a853
+2026-11-20T09:11:51.0847111Z ##[endgroup]
+2026-11-20T09:11:51.0854879Z Running Azure CLI Login.
+2026-11-20T09:11:51.0860964Z [command]/usr/bin/az cloud set -n azurecloud
+2026-11-20T09:11:52.0268218Z Done setting cloud: "azurecloud"
+2026-11-20T09:11:52.0274789Z Federated token details:
+2026-11-20T09:11:52.0286068Z  issuer - https://token.actions.githubusercontent.com
+2026-11-20T09:11:52.0288592Z  subject claim - repo:example-org/platform-infra:pull_request
+2026-11-20T09:11:52.0297064Z  audience - api://AzureADTokenExchange
+2026-11-20T09:11:52.0301981Z  job_workflow_ref - example-org/platform-infra/.github/workflows/terraform.yml@refs/pull/418/merge
+2026-11-20T09:11:52.0319284Z Attempting Azure CLI login by using OIDC...
+2026-11-20T09:11:54.6433839Z Subscription is set successfully.
+2026-11-20T09:11:54.6448708Z Azure CLI login succeeds by using OIDC.
+2026-11-20T09:11:56.2099348Z ##[group]Run hashicorp/setup-terraform@v3
+2026-11-20T09:11:56.2105033Z with:
+2026-11-20T09:11:56.2109440Z   terraform_version: 1.13.5
+2026-11-20T09:11:56.2118865Z   cli_config_credentials_hostname: app.terraform.io
+2026-11-20T09:11:56.2133012Z   terraform_wrapper: true
+2026-11-20T09:11:56.2142123Z env:
+2026-11-20T09:11:56.2159039Z   TF_IN_AUTOMATION: true
+2026-11-20T09:11:56.2161509Z   TF_INPUT: false
+2026-11-20T09:11:56.2168631Z   ARM_USE_OIDC: true
+2026-11-20T09:11:56.2176399Z   ARM_CLIENT_ID: 6c1f0e2a-4b7d-4a93-8e15-2d9c7b3f0a61
+2026-11-20T09:11:56.2192612Z   ARM_TENANT_ID: 0b4e8f2c-91d7-4e3a-a6c2-5f1e9d0b7c34
+2026-11-20T09:11:56.2199811Z   ARM_SUBSCRIPTION_ID: 9a2d6e10-3c5f-4b8e-b7a1-e4c0f2d9a853
+2026-11-20T09:11:56.2206659Z ##[endgroup]
+2026-11-20T09:11:57.0509426Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/972ed413-287f-4b9a-83ef-6a6809a07e4c
+2026-11-20T09:11:59.2099163Z ##[group]Run terraform init -input=false
+2026-11-20T09:11:59.2113114Z [36;1mterraform init -input=false[0m
+2026-11-20T09:11:59.2128240Z shell: /usr/bin/bash -e {0}
+2026-11-20T09:11:59.2131096Z env:
+2026-11-20T09:11:59.2139739Z   TF_IN_AUTOMATION: true
+2026-11-20T09:11:59.2149460Z   TF_INPUT: false
+2026-11-20T09:11:59.2153651Z   ARM_USE_OIDC: true
+2026-11-20T09:11:59.2171690Z   ARM_CLIENT_ID: 6c1f0e2a-4b7d-4a93-8e15-2d9c7b3f0a61
+2026-11-20T09:11:59.2180572Z   ARM_TENANT_ID: 0b4e8f2c-91d7-4e3a-a6c2-5f1e9d0b7c34
+2026-11-20T09:11:59.2191138Z   ARM_SUBSCRIPTION_ID: 9a2d6e10-3c5f-4b8e-b7a1-e4c0f2d9a853
+2026-11-20T09:11:59.2205806Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/4e2b8a61-93c7-4f0d-b1a2-7c5e9d3f0a84
+2026-11-20T09:11:59.2222266Z ##[endgroup]
+2026-11-20T09:11:59.2230650Z [command]/home/runner/work/_temp/4e2b8a61-93c7-4f0d-b1a2-7c5e9d3f0a84/terraform-bin init -input=false
+2026-11-20T09:11:59.6342031Z [0m[1mInitializing the backend...[0m
+2026-11-20T09:12:01.2546692Z [0m[32m
+2026-11-20T09:12:01.2553239Z Successfully configured the backend "azurerm"! Terraform will automatically
+2026-11-20T09:12:01.2566552Z use this backend unless the backend configuration changes.[0m
+2026-11-20T09:12:01.2566932Z [0m[1mInitializing modules...[0m
+2026-11-20T09:12:01.2584559Z - aks in ../../modules/aks
+2026-11-20T09:12:01.2599865Z - network in ../../modules/network
+2026-11-20T09:12:01.2602183Z - storage in ../../modules/storage
+2026-11-20T09:12:01.2618590Z [0m[1mInitializing provider plugins...[0m
+2026-11-20T09:12:01.2634241Z - Reusing previous version of hashicorp/azuread from the dependency lock file
+2026-11-20T09:12:01.2651602Z - Reusing previous version of hashicorp/azurerm from the dependency lock file
+2026-11-20T09:12:01.2665316Z - Reusing previous version of hashicorp/random from the dependency lock file
+2026-11-20T09:12:01.7873586Z - Installing hashicorp/azuread v3.7.0...
+2026-11-20T09:12:02.9683542Z - Installed hashicorp/azuread v3.7.0 (signed by HashiCorp)
+2026-11-20T09:12:02.9694507Z - Installing hashicorp/azurerm v4.57.0...
+2026-11-20T09:12:07.2404796Z - Installed hashicorp/azurerm v4.57.0 (signed by HashiCorp)
+2026-11-20T09:12:07.2420919Z - Installing hashicorp/random v3.7.2...
+2026-11-20T09:12:07.8733955Z - Installed hashicorp/random v3.7.2 (signed by HashiCorp)
+2026-11-20T09:12:07.8750211Z 
+2026-11-20T09:12:07.8752591Z [33m╷[0m[0m
+2026-11-20T09:12:07.8764016Z [33m│[0m [0m[1m[33mWarning: [0m[0m[1mVersion constraints inside provider configuration blocks are deprecated[0m
+2026-11-20T09:12:07.8771362Z [33m│[0m [0m
+2026-11-20T09:12:07.8780915Z [33m│[0m [0m[0m  on providers.tf line 20, in provider "azuread":
+2026-11-20T09:12:07.8795302Z [33m│[0m [0m  20:   [4mversion  = "~> 3.0"[0m[0m
+2026-11-20T09:12:07.8809815Z [33m│[0m [0m
+2026-11-20T09:12:07.8813739Z [33m│[0m [0mTerraform 0.13 and earlier allowed provider version constraints inside the
+2026-11-20T09:12:07.8823708Z [33m│[0m [0mprovider configuration block, but that is now deprecated and will be
+2026-11-20T09:12:07.8830075Z [33m│[0m [0mremoved in a future version of Terraform. To silence this warning, move the
+2026-11-20T09:12:07.8845392Z [33m│[0m [0mprovider version constraint into the required_providers block.
+2026-11-20T09:12:07.8862266Z [33m╵[0m[0m
+2026-11-20T09:12:07.8879373Z 
+2026-11-20T09:12:07.8890252Z [0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+2026-11-20T09:12:09.0300169Z ##[group]Run terraform plan -input=false -out=tfplan
+2026-11-20T09:12:09.0307317Z [36;1mterraform plan -input=false -out=tfplan[0m
+2026-11-20T09:12:09.0319042Z shell: /usr/bin/bash -e {0}
+2026-11-20T09:12:09.0323843Z env:
+2026-11-20T09:12:09.0337109Z   TF_IN_AUTOMATION: true
+2026-11-20T09:12:09.0338198Z   TF_INPUT: false
+2026-11-20T09:12:09.0351951Z   ARM_USE_OIDC: true
+2026-11-20T09:12:09.0367815Z   ARM_CLIENT_ID: 6c1f0e2a-4b7d-4a93-8e15-2d9c7b3f0a61
+2026-11-20T09:12:09.0373982Z   ARM_TENANT_ID: 0b4e8f2c-91d7-4e3a-a6c2-5f1e9d0b7c34
+2026-11-20T09:12:09.0381399Z   ARM_SUBSCRIPTION_ID: 9a2d6e10-3c5f-4b8e-b7a1-e4c0f2d9a853
+2026-11-20T09:12:09.0382763Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/4e2b8a61-93c7-4f0d-b1a2-7c5e9d3f0a84
+2026-11-20T09:12:09.0387100Z ##[endgroup]
+2026-11-20T09:12:09.0388898Z [command]/home/runner/work/_temp/4e2b8a61-93c7-4f0d-b1a2-7c5e9d3f0a84/terraform-bin plan -input=false -out=tfplan
+2026-11-20T09:12:09.5094914Z Acquiring state lock. This may take a few moments...
+2026-11-20T09:12:10.8704812Z [31m╷[0m[0m
+2026-11-20T09:12:10.8719831Z [31m│[0m [0m[1m[31mError: [0m[0m[1mError acquiring the state lock[0m
+2026-11-20T09:12:10.8723973Z [31m│[0m [0m
+2026-11-20T09:12:10.8724536Z [31m│[0m [0m[0mError message: state blob is already locked
+2026-11-20T09:12:10.8741075Z [31m│[0m [0mLock Info:
+2026-11-20T09:12:10.8754412Z [31m│[0m [0m  ID:        b7e2f1c4-5a93-4d06-9e1f-2c4a7b3d6e58
+2026-11-20T09:12:10.8760226Z [31m│[0m [0m  Path:      tfstate/prod/platform.tfstate
+2026-11-20T09:12:10.8769440Z [31m│[0m [0m  Operation: OperationTypeApply
+2026-11-20T09:12:10.8779344Z [31m│[0m [0m  Who:       runner@fv-az1784-312
+2026-11-20T09:12:10.8790274Z [31m│[0m [0m  Version:   1.13.5
+2026-11-20T09:12:10.8797169Z [31m│[0m [0m  Created:   2026-11-20 09:08:14.502193117 +0000 UTC
+2026-11-20T09:12:10.8809026Z [31m│[0m [0m  Info:      
+2026-11-20T09:12:10.8816994Z [31m│[0m [0m
+2026-11-20T09:12:10.8831630Z [31m│[0m [0m
+2026-11-20T09:12:10.8846496Z [31m│[0m [0mTerraform acquires a state lock to protect the state from being written
+2026-11-20T09:12:10.8849195Z [31m│[0m [0mby multiple users at the same time. Please resolve the issue above and try
+2026-11-20T09:12:10.8863682Z [31m│[0m [0magain. For most commands, you can disable locking with the "-lock=false"
+2026-11-20T09:12:10.8876574Z [31m│[0m [0mflag, but this is not recommended.
+2026-11-20T09:12:10.8894628Z [31m╵[0m[0m
+2026-11-20T09:12:10.8908122Z ##[error]Terraform exited with code 1.
+2026-11-20T09:12:10.8924689Z ##[error]Process completed with exit code 1.
+2026-11-20T09:12:12.0400809Z Post job cleanup.
+2026-11-20T09:12:12.0413983Z Clearing azure cli accounts from the local cache.
+2026-11-20T09:12:12.0418525Z [command]/usr/bin/az account clear
+2026-11-20T09:12:14.0940823Z Post job cleanup.
+2026-11-20T09:12:14.0948984Z [command]/usr/bin/git version
+2026-11-20T09:12:14.0966798Z git version 2.51.2
+2026-11-20T09:12:14.0976115Z Temporarily overriding HOME='/home/runner/work/_temp/41dfd3d9-cb0f-416f-9303-268d893e5ff0' before making global git config changes
+2026-11-20T09:12:14.0982713Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-20T09:12:14.0988878Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/platform-infra/platform-infra
+2026-11-20T09:12:14.0997693Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-20T09:12:14.1000353Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-20T09:12:14.1004415Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-20T09:12:14.1019138Z http.https://github.com/.extraheader
+2026-11-20T09:12:14.1024876Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-20T09:12:14.1038377Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-20T09:12:16.0887857Z Cleaning up orphan processes

@@ -1,0 +1,489 @@
+{
+  "id": "terraform-state-lock",
+  "title": "Terraform plan blocked by a state lock held by a concurrent apply",
+  "description": "PR #418 adds a diagnostic setting for the prod storage account. Its `Plan (prod)` job fails at `terraform plan` with \"Error acquiring the state lock\" (azurerm backend: \"state blob is already locked\"). The Lock Info shows Operation: OperationTypeApply, Who: runner@fv-az1784-312 (a different runner from this job's fv-az2193-845) and a Created time four minutes before this plan: an `Apply (prod)` job from a push-to-main run of the same workflow was still applying (a 1.33 AKS upgrade takes 35-50 minutes per docs/runbooks/aks-upgrades.md). terraform.yml has no `concurrency:` group, so PR plans and main-branch applies of the same state run in parallel, and the plan uses the default lock timeout of 0s. `Plan (staging)` (different state) passed, and the PR diff is unrelated. The right answer is infrastructure (a state lock / concurrency collision, not the code): wait for the apply and re-run, and serialize runs per state with a `concurrency` group in .github/workflows/terraform.yml (or give plans a `-lock-timeout`). configuration is accepted too because the durable fix is a workflow change. No fixPath: \"wait for the apply to finish and re-run\" is a complete answer on its own, so naming the workflow file is not required. The yellow provider-version deprecation warning in `terraform init` is a red herring, and force-unlock would be wrong advice while the apply is running.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "platform-infra"
+  },
+  "run": {
+    "id": 19447281736,
+    "attempt": 1,
+    "workflowId": 118204551,
+    "workflowName": "terraform",
+    "workflowPath": ".github/workflows/terraform.yml",
+    "event": "pull_request",
+    "headBranch": "feat/prod-storage-diagnostics",
+    "headSha": "c41e9b07d2f5a8813e6b0c92d7f4a1e5b3c8d260",
+    "headRepoFullName": "example-org/platform-infra",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19447281736",
+    "displayTitle": "Send prod storage diagnostics to Log Analytics",
+    "pullRequestNumbers": [
+      418
+    ],
+    "createdAt": "2026-11-20T09:10:52Z"
+  },
+  "jobs": [
+    {
+      "id": 55512384901,
+      "name": "Validate",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-20T09:10:58Z",
+      "completedAt": "2026-11-20T09:11:39Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19447281736/job/55512384901",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:10:58Z",
+          "completedAt": "2026-11-20T09:11:00Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:01Z",
+          "completedAt": "2026-11-20T09:11:02Z"
+        },
+        {
+          "number": 3,
+          "name": "Run hashicorp/setup-terraform@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:03Z",
+          "completedAt": "2026-11-20T09:11:05Z"
+        },
+        {
+          "number": 4,
+          "name": "terraform fmt",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:06Z",
+          "completedAt": "2026-11-20T09:11:07Z"
+        },
+        {
+          "number": 5,
+          "name": "terraform validate",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:08Z",
+          "completedAt": "2026-11-20T09:11:37Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:38Z",
+          "completedAt": "2026-11-20T09:11:38Z"
+        },
+        {
+          "number": 7,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:39Z",
+          "completedAt": "2026-11-20T09:11:39Z"
+        }
+      ]
+    },
+    {
+      "id": 55512431277,
+      "name": "Plan (staging)",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-20T09:11:45Z",
+      "completedAt": "2026-11-20T09:12:55Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19447281736/job/55512431277",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:45Z",
+          "completedAt": "2026-11-20T09:11:47Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:48Z",
+          "completedAt": "2026-11-20T09:11:49Z"
+        },
+        {
+          "number": 3,
+          "name": "Run azure/login@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:50Z",
+          "completedAt": "2026-11-20T09:11:55Z"
+        },
+        {
+          "number": 4,
+          "name": "Run hashicorp/setup-terraform@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:56Z",
+          "completedAt": "2026-11-20T09:11:57Z"
+        },
+        {
+          "number": 5,
+          "name": "terraform init",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:58Z",
+          "completedAt": "2026-11-20T09:12:09Z"
+        },
+        {
+          "number": 6,
+          "name": "terraform plan",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:10Z",
+          "completedAt": "2026-11-20T09:12:48Z"
+        },
+        {
+          "number": 7,
+          "name": "Upload plan",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:49Z",
+          "completedAt": "2026-11-20T09:12:50Z"
+        },
+        {
+          "number": 8,
+          "name": "Comment plan on PR",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:51Z",
+          "completedAt": "2026-11-20T09:12:52Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run azure/login@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:53Z",
+          "completedAt": "2026-11-20T09:12:53Z"
+        },
+        {
+          "number": 10,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:54Z",
+          "completedAt": "2026-11-20T09:12:54Z"
+        },
+        {
+          "number": 11,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:55Z",
+          "completedAt": "2026-11-20T09:12:55Z"
+        }
+      ]
+    },
+    {
+      "id": 55512431302,
+      "name": "Plan (prod)",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-20T09:11:46Z",
+      "completedAt": "2026-11-20T09:12:17Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19447281736/job/55512431302",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:46Z",
+          "completedAt": "2026-11-20T09:11:48Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:49Z",
+          "completedAt": "2026-11-20T09:11:50Z"
+        },
+        {
+          "number": 3,
+          "name": "Run azure/login@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:51Z",
+          "completedAt": "2026-11-20T09:11:55Z"
+        },
+        {
+          "number": 4,
+          "name": "Run hashicorp/setup-terraform@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:56Z",
+          "completedAt": "2026-11-20T09:11:58Z"
+        },
+        {
+          "number": 5,
+          "name": "terraform init",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:11:59Z",
+          "completedAt": "2026-11-20T09:12:08Z"
+        },
+        {
+          "number": 6,
+          "name": "terraform plan",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-20T09:12:09Z",
+          "completedAt": "2026-11-20T09:12:11Z"
+        },
+        {
+          "number": 7,
+          "name": "Upload plan",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-20T09:12:11Z",
+          "completedAt": "2026-11-20T09:12:11Z"
+        },
+        {
+          "number": 8,
+          "name": "Comment plan on PR",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-20T09:12:11Z",
+          "completedAt": "2026-11-20T09:12:11Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run azure/login@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:12Z",
+          "completedAt": "2026-11-20T09:12:13Z"
+        },
+        {
+          "number": 10,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:14Z",
+          "completedAt": "2026-11-20T09:12:15Z"
+        },
+        {
+          "number": 11,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:12:16Z",
+          "completedAt": "2026-11-20T09:12:17Z"
+        }
+      ]
+    },
+    {
+      "id": 55512431355,
+      "name": "Apply (staging)",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-20T09:12:57Z",
+      "completedAt": "2026-11-20T09:12:57Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19447281736/job/55512431355",
+      "steps": []
+    },
+    {
+      "id": 55512431401,
+      "name": "Apply (prod)",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-20T09:12:57Z",
+      "completedAt": "2026-11-20T09:12:57Z",
+      "runnerLabels": [
+        "ubuntu-24.04"
+      ],
+      "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19447281736/job/55512431401",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "docs/runbooks/storage.md",
+      "status": "modified",
+      "additions": 13,
+      "deletions": 0,
+      "patch": "@@ -16,3 +16,16 @@ Blobs under `exports/` move to the cool tier after 30 days and are deleted after\n \n Access is through Entra ID only; shared keys are disabled. Request the\n `Storage Blob Data Reader` role through the access portal for read access.\n+\n+## Diagnostics\n+\n+Read, write and delete logs for the prod blob service go to the shared\n+`log-platform-prod` Log Analytics workspace (table `StorageBlobLogs`). Failed\n+requests from the last day:\n+\n+```kusto\n+StorageBlobLogs\n+| where TimeGenerated > ago(1d)\n+| where AccountName == \"stexorgplatformprod\" and StatusCode >= 400\n+| summarize count() by OperationName, StatusText, CallerIpAddress\n+```",
+      "previousPath": null
+    },
+    {
+      "path": "envs/prod/storage.tf",
+      "status": "modified",
+      "additions": 20,
+      "deletions": 0,
+      "patch": "@@ -22,3 +22,23 @@ resource \"azurerm_storage_management_policy\" \"exports\" {\n     }\n   }\n }\n+\n+resource \"azurerm_monitor_diagnostic_setting\" \"storage_blob\" {\n+  name                       = \"diag-blob-to-law\"\n+  target_resource_id         = \"${module.storage.id}/blobServices/default\"\n+  log_analytics_workspace_id = var.log_analytics_workspace_id\n+\n+  enabled_log {\n+    category = \"StorageRead\"\n+  }\n+  enabled_log {\n+    category = \"StorageWrite\"\n+  }\n+  enabled_log {\n+    category = \"StorageDelete\"\n+  }\n+\n+  enabled_metric {\n+    category = \"Transaction\"\n+  }\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "envs/prod/terraform.tfvars",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0,
+      "patch": "@@ -13,3 +13,5 @@ user_node_pools = {\n     node_taints = [\"workload=batch:NoSchedule\"]\n   }\n }\n+\n+log_analytics_workspace_id = \"/subscriptions/9a2d6e10-3c5f-4b8e-b7a1-e4c0f2d9a853/resourceGroups/rg-observability-prod/providers/Microsoft.OperationalInsights/workspaces/log-platform-prod\"",
+      "previousPath": null
+    },
+    {
+      "path": "envs/prod/variables.tf",
+      "status": "modified",
+      "additions": 5,
+      "deletions": 0,
+      "patch": "@@ -12,3 +12,8 @@ variable \"user_node_pools\" {\n   }))\n   default = {}\n }\n+\n+variable \"log_analytics_workspace_id\" {\n+  type        = string\n+  description = \"Resource ID of the shared Log Analytics workspace that receives diagnostics.\"\n+}",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "Plan (prod)": [
+      {
+        "runId": 19420133817,
+        "attempt": 1,
+        "headSha": "d93d17e8af31c779cc5d4b5ea6992cc660fb2e0b",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T15:22:10Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19420133817/job/55433902145"
+      },
+      {
+        "runId": 19417233805,
+        "attempt": 1,
+        "headSha": "2c619dc9cb401713ace036c4adab075d014e8d8a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T13:05:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19417233805/job/55421087732"
+      },
+      {
+        "runId": 19388412769,
+        "attempt": 1,
+        "headSha": "0f899ccbc9ef12df332d81c195b9b6ef388bfc7e",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T11:47:02Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19388412769/job/55318841290"
+      },
+      {
+        "runId": 19361190357,
+        "attempt": 1,
+        "headSha": "794fb48428ffe5091e8959555c2821f6239d118a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T16:18:27Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19361190357/job/55214470618"
+      },
+      {
+        "runId": 19358803112,
+        "attempt": 1,
+        "headSha": "d8eef67e8d8ac77692df5bbde95e4cd2e0543c37",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T14:02:55Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19358803112/job/55205236904"
+      },
+      {
+        "runId": 19297745620,
+        "attempt": 1,
+        "headSha": "bd817124994eb6e3ca0c8bb865fbabf05926b66a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-14T10:31:40Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19297745620/job/54968120377"
+      },
+      {
+        "runId": 19271003318,
+        "attempt": 1,
+        "headSha": "51c1b28691281371cd29db57d61a3a6100138b0a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-13T09:12:16Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19271003318/job/54866395021"
+      },
+      {
+        "runId": 19244470096,
+        "attempt": 1,
+        "headSha": "f7f95aad8575f07995029c99305dc3c47feb9426",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-12T17:55:03Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/platform-infra/actions/runs/19244470096/job/54761148853"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "infrastructure",
+      "configuration"
+    ],
+    "keywords": [
+      [
+        "lock"
+      ],
+      [
+        "concurren",
+        "another run",
+        "other run",
+        "other job",
+        "other workflow",
+        "in progress",
+        "still running",
+        "still applying",
+        "held by",
+        "wait for",
+        "force-unlock",
+        "serialize",
+        "at the same time",
+        "simultaneous",
+        "parallel",
+        "overlap",
+        "another apply",
+        "running apply",
+        "lock-timeout"
+      ]
+    ]
+  }
+}

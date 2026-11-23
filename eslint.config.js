@@ -1,7 +1,16 @@
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist/**", "node_modules/**", "evals/results/**", "evals/fixtures/**"] },
+  {
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "evals/results/**",
+      "evals/fixtures/**",
+      "test/fixtures/**",
+      ".vitest/**",
+    ],
+  },
   ...tseslint.configs.recommended,
   {
     rules: {

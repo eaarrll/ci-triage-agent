@@ -1,0 +1,5 @@
+boto3==1.40.70
+pydantic==2.12.4
+structlog==25.5.0
+tenacity==9.1.2
+billing-common @ git+https://${GH_PACKAGES_TOKEN}@github.com/example-org/billing-common.git@v2.3.1

@@ -1,0 +1,33 @@
+# Alternative: triage from inside the workflow that failed, as a last job.
+# Simpler, but for fork PRs the API key secret is not available (the action then
+# falls back to heuristic mode) and the token may not be allowed to comment.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm test
+
+  triage:
+    needs: [test]
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: eaarrll/ci-triage-agent@v1
+        with:
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}

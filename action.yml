@@ -1,0 +1,99 @@
+name: CI Triage Agent
+description: AI agent that investigates failed CI runs and posts the root cause, evidence and fix on the pull request.
+author: eaarrll
+branding:
+  icon: search
+  color: red
+
+inputs:
+  anthropic-api-key:
+    description: >-
+      Anthropic API key for the triage agent. When empty, the action falls back to heuristic mode:
+      known failure signatures only, no AI and no API cost.
+    required: false
+    default: ""
+  github-token:
+    description: >-
+      Token used to read the run, its job logs, repository files and the pull request, and to post the comment.
+      Needs actions: read, contents: read and pull-requests: write.
+    required: true
+    default: ${{ github.token }}
+  model:
+    description: Claude model ID the agent uses.
+    required: false
+    default: claude-opus-5-5
+  effort:
+    description: "How hard the model thinks: low, medium, high, xhigh or max."
+    required: false
+    default: medium
+  run-id:
+    description: >-
+      ID of the workflow run to triage. Defaults to the triggering run for workflow_run events,
+      otherwise to the run executing this action.
+    required: false
+    default: ""
+  comment:
+    description: Post a triage comment on the pull request, or update the earlier one for the same workflow.
+    required: false
+    default: "true"
+  resolve-on-success:
+    description: When the workflow passes again, mark its earlier triage comment on the pull request as resolved.
+    required: false
+    default: "true"
+  max-turns:
+    description: Maximum number of agent turns, from 1 to 50.
+    required: false
+    default: "12"
+  max-cost-usd:
+    description: Stop the agent once its estimated API spend reaches this many US dollars (greater than 0, at most 20).
+    required: false
+    default: "0.50"
+  timeout-seconds:
+    description: Time budget for the investigation in seconds, from 30 to 1800.
+    required: false
+    default: "300"
+  max-failed-jobs:
+    description: How many failed jobs to collect logs for and investigate, from 1 to 10.
+    required: false
+    default: "4"
+  fail-on-error:
+    description: >-
+      Fail this step when the action itself hits an error. By default it fails open: problems are logged as
+      warnings and the build result is never changed.
+    required: false
+    default: "false"
+  extra-instructions:
+    description: >-
+      Repository-specific hints for the agent, such as where tests live or which jobs are known to be flaky.
+      Up to 4000 characters.
+    required: false
+    default: ""
+
+outputs:
+  category:
+    description: "Failure category: code, flaky, dependency, infrastructure, cloud_auth, configuration or unknown."
+  confidence:
+    description: "Confidence in the diagnosis: high, medium or low."
+  title:
+    description: One-line headline of the root cause.
+  root-cause:
+    description: What failed and why.
+  suggested-fix:
+    description: Concrete next steps, as markdown.
+  flaky-suspected:
+    description: '"true" when the failure looks nondeterministic, otherwise "false".'
+  mode:
+    description: >-
+      What the action did: agent (Claude investigated), heuristic (known failure signatures only),
+      resolved (the run passed and an earlier comment was marked resolved), skipped (nothing to triage)
+      or error (the action itself failed).
+  cost-usd:
+    description: Estimated API cost of the investigation in US dollars; empty when unknown.
+  comment-url:
+    description: URL of the pull request comment that was posted or updated; empty when none was.
+  result-json:
+    description: The complete triage result as JSON.
+
+runs:
+  using: node24
+  main: dist/index.js

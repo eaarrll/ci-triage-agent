@@ -1,0 +1,8 @@
+.git
+.github
+**/__pycache__
+*.pt
+*.onnx
+*.engine
+notebooks/
+data/

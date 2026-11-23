@@ -1,0 +1,453 @@
+{
+  "id": "pip-resolution-impossible",
+  "title": "pip ResolutionImpossible: pydantic 2 pin conflicts with internal acme-feature-store",
+  "description": "A PR migrating example-org/ml-features to pydantic v2 bumps requirements.txt from pydantic==1.10.18 to pydantic==2.9.2 (and adds pydantic-settings), but the internal package acme-feature-store==3.2.0, still pinned in the same file, declares pydantic<2.0,>=1.10.13. pip stops in 'Install dependencies' with ResolutionImpossible before any test runs; test (3.12) is only cancelled by fail-fast and build-wheel is skipped. The code changes in the diff are a red herring: nothing was imported. The correct answer names pydantic and the conflict with acme-feature-store, and the fix belongs in requirements.txt (keep pydantic<2 until acme-feature-store ships a pydantic-2 compatible release, or upgrade acme-feature-store together with the bump).",
+  "repo": {
+    "owner": "example-org",
+    "repo": "ml-features"
+  },
+  "run": {
+    "id": 19534217806,
+    "attempt": 1,
+    "workflowId": 98412237,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "chore/pydantic-v2",
+    "headSha": "9d2e4a17c3b85f60e1a7d4c29b0f83e5a6c1d742",
+    "headRepoFullName": "example-org/ml-features",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19534217806",
+    "displayTitle": "Migrate feature schemas and settings to pydantic v2",
+    "pullRequestNumbers": [
+      412
+    ],
+    "createdAt": "2026-11-20T09:13:41Z"
+  },
+  "jobs": [
+    {
+      "id": 55912384410,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-20T09:13:48Z",
+      "completedAt": "2026-11-20T09:14:04Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19534217806/job/55912384410",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:48Z",
+          "completedAt": "2026-11-20T09:13:50Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:51Z",
+          "completedAt": "2026-11-20T09:13:52Z"
+        },
+        {
+          "number": 3,
+          "name": "Set up Python",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:53Z",
+          "completedAt": "2026-11-20T09:13:54Z"
+        },
+        {
+          "number": 4,
+          "name": "Install ruff",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:55Z",
+          "completedAt": "2026-11-20T09:13:58Z"
+        },
+        {
+          "number": 5,
+          "name": "Ruff check",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:59Z",
+          "completedAt": "2026-11-20T09:14:00Z"
+        },
+        {
+          "number": 6,
+          "name": "Ruff format",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:01Z",
+          "completedAt": "2026-11-20T09:14:01Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Set up Python",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:02Z",
+          "completedAt": "2026-11-20T09:14:02Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:03Z",
+          "completedAt": "2026-11-20T09:14:03Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:04Z",
+          "completedAt": "2026-11-20T09:14:04Z"
+        }
+      ]
+    },
+    {
+      "id": 55912384421,
+      "name": "test (3.11)",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-20T09:13:49Z",
+      "completedAt": "2026-11-20T09:14:17Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19534217806/job/55912384421",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:49Z",
+          "completedAt": "2026-11-20T09:13:50Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:51Z",
+          "completedAt": "2026-11-20T09:13:53Z"
+        },
+        {
+          "number": 3,
+          "name": "Set up Python 3.11",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:13:54Z",
+          "completedAt": "2026-11-20T09:13:56Z"
+        },
+        {
+          "number": 4,
+          "name": "Install dependencies",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-20T09:13:57Z",
+          "completedAt": "2026-11-20T09:14:09Z"
+        },
+        {
+          "number": 5,
+          "name": "Run tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 6,
+          "name": "Upload coverage",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 7,
+          "name": "Post Set up Python 3.11",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:14Z",
+          "completedAt": "2026-11-20T09:14:15Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:16Z",
+          "completedAt": "2026-11-20T09:14:17Z"
+        }
+      ]
+    },
+    {
+      "id": 55912384437,
+      "name": "test (3.12)",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "startedAt": "2026-11-20T09:14:03Z",
+      "completedAt": "2026-11-20T09:14:20Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19534217806/job/55912384437",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:03Z",
+          "completedAt": "2026-11-20T09:14:05Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:06Z",
+          "completedAt": "2026-11-20T09:14:07Z"
+        },
+        {
+          "number": 3,
+          "name": "Set up Python 3.12",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:08Z",
+          "completedAt": "2026-11-20T09:14:10Z"
+        },
+        {
+          "number": 4,
+          "name": "Install dependencies",
+          "status": "completed",
+          "conclusion": "cancelled",
+          "startedAt": "2026-11-20T09:14:11Z",
+          "completedAt": "2026-11-20T09:14:18Z"
+        },
+        {
+          "number": 5,
+          "name": "Run tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 6,
+          "name": "Upload coverage",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 7,
+          "name": "Post Set up Python 3.12",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": null,
+          "completedAt": null
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:20Z",
+          "completedAt": "2026-11-20T09:14:20Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-20T09:14:20Z",
+          "completedAt": "2026-11-20T09:14:20Z"
+        }
+      ]
+    },
+    {
+      "id": 55912410563,
+      "name": "build-wheel",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-20T09:14:21Z",
+      "completedAt": "2026-11-20T09:14:21Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19534217806/job/55912410563",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "requirements.txt",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 1,
+      "patch": "@@ -3,7 +3,8 @@\n pandas==2.2.3\n pyarrow==18.1.0\n scikit-learn==1.5.2\n-pydantic==1.10.18\n+pydantic==2.9.2\n+pydantic-settings==2.6.1\n httpx==0.28.1\n tenacity==9.0.0\n structlog==24.4.0",
+      "previousPath": null
+    },
+    {
+      "path": "src/ml_features/schemas.py",
+      "status": "modified",
+      "additions": 6,
+      "deletions": 7,
+      "patch": "@@ -5,7 +5,7 @@\n from datetime import datetime\n from enum import Enum\n \n-from pydantic import BaseModel, Field, validator\n+from pydantic import BaseModel, ConfigDict, Field, field_validator\n \n \n class EntityType(str, Enum):\n@@ -15,22 +15,21 @@\n \n \n class FeatureValue(BaseModel):\n+    model_config = ConfigDict(from_attributes=True, frozen=True)\n+\n     name: str = Field(..., min_length=1, max_length=128)\n     value: float | int | str | None\n     computed_at: datetime\n \n-    class Config:\n-        orm_mode = True\n-        frozen = True\n \n-\n class FeatureVector(BaseModel):\n     entity_type: EntityType\n     entity_id: str\n     features: list[FeatureValue]\n     version: int = 1\n \n-    @validator(\"entity_id\")\n+    @field_validator(\"entity_id\")\n+    @classmethod\n     def _strip_entity_id(cls, v: str) -> str:\n         v = v.strip()\n         if not v:\n@@ -39,5 +38,5 @@\n \n     def as_row(self) -> dict[str, object]:\n         row: dict[str, object] = {f.name: f.value for f in self.features}\n-        row.update(self.dict(include={\"entity_type\", \"entity_id\", \"version\"}))\n+        row.update(self.model_dump(include={\"entity_type\", \"entity_id\", \"version\"}))\n         return row",
+      "previousPath": null
+    },
+    {
+      "path": "src/ml_features/settings.py",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 5,
+      "patch": "@@ -4,20 +4,19 @@\n \n from functools import lru_cache\n \n-from pydantic import BaseSettings, Field, HttpUrl\n+from pydantic import Field, HttpUrl\n+from pydantic_settings import BaseSettings, SettingsConfigDict\n \n \n class Settings(BaseSettings):\n+    model_config = SettingsConfigDict(env_prefix=\"ML_FEATURES_\", env_file=\".env\")\n+\n     feature_store_url: HttpUrl\n     feature_store_namespace: str = \"scoring\"\n     batch_size: int = Field(5_000, gt=0)\n     request_timeout_s: float = 10.0\n \n-    class Config:\n-        env_prefix = \"ML_FEATURES_\"\n-        env_file = \".env\"\n \n-\n @lru_cache(maxsize=1)\n def get_settings() -> Settings:\n     return Settings()",
+      "previousPath": null
+    },
+    {
+      "path": "tests/test_schemas.py",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "patch": "@@ -13,7 +13,7 @@\n         \"features\": [{\"name\": \"txn_count_1h\", \"value\": 3, \"computed_at\": datetime.now(UTC)}],\n     }\n     data.update(overrides)\n-    return FeatureVector.parse_obj(data)\n+    return FeatureVector.model_validate(data)\n \n \n def test_entity_id_is_stripped() -> None:\n@@ -34,5 +34,5 @@\n \n def test_feature_value_is_immutable() -> None:\n     value = FeatureValue(name=\"x\", value=1, computed_at=datetime.now(UTC))\n-    with pytest.raises(TypeError):\n+    with pytest.raises(ValidationError):\n         value.value = 2  # type: ignore[misc]",
+      "previousPath": null
+    },
+    {
+      "path": "CHANGELOG.md",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 0,
+      "patch": "@@ -1,5 +1,9 @@\n # Changelog\n \n+## Unreleased\n+\n+- Migrate schemas and settings to pydantic v2 (`pydantic-settings` replaces `BaseSettings`).\n+\n ## 0.14.0\n \n - Add device-level velocity features (`txn_count_1h`, `txn_count_24h`).",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test (3.11)": [
+      {
+        "runId": 19518840211,
+        "attempt": 1,
+        "headSha": "5a7c3e90b1d24f86a0e9c7b35d18f2a64e0b9c13",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T16:42:08Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19518840211"
+      },
+      {
+        "runId": 19511275930,
+        "attempt": 1,
+        "headSha": "c81f0d2e6a4b93e7f5d1028c3a9b6e4f70d2c815",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T10:05:51Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19511275930"
+      },
+      {
+        "runId": 19497732164,
+        "attempt": 1,
+        "headSha": "2e6d9a0c4f1b85e3d7a29c06b4f1e8d3a5c70b92",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T14:27:33Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19497732164"
+      },
+      {
+        "runId": 19480119587,
+        "attempt": 1,
+        "headSha": "f04b7e2a91c6d35e8b0a4f17c2d9e6b3a8f51c07",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T17:58:12Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19480119587"
+      },
+      {
+        "runId": 19472966031,
+        "attempt": 1,
+        "headSha": "7a3c1e8f0b6d24a9e5c17f3b0d8a2e6c4f91b5d0",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "failure",
+        "createdAt": "2026-11-17T11:31:46Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19472966031"
+      },
+      {
+        "runId": 19469001478,
+        "attempt": 1,
+        "headSha": "b6e2f9d4a0c38e71f5b2d06a9c4e1f7b3d8a20e5",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-17T08:12:09Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19469001478"
+      },
+      {
+        "runId": 19431587720,
+        "attempt": 1,
+        "headSha": "0d9a4c7e2f1b63e8a5d0c94f7b2e1a6d3c8f05b4",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-14T15:44:27Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19431587720"
+      },
+      {
+        "runId": 19420045319,
+        "attempt": 1,
+        "headSha": "e3b1f6a9d2c07e4b8a5f13d6c0e9b2a7f4d18c63",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-14T09:20:55Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/ml-features/actions/runs/19420045319"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "dependency"
+    ],
+    "keywords": [
+      [
+        "pydantic"
+      ],
+      [
+        "acme-feature-store",
+        "acme_feature_store",
+        "conflict",
+        "incompatible"
+      ]
+    ],
+    "fixPath": "requirements.txt"
+  }
+}

@@ -17,5 +17,6 @@
     "verbatimModuleSyntax": true,
     "noEmit": true
   },
-  "include": ["src", "test", "evals", "scripts"]
+  "include": ["src", "test", "evals", "scripts"],
+  "exclude": ["evals/fixtures", "test/fixtures", "node_modules", "dist"]
 }

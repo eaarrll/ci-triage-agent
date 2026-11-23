@@ -1,0 +1,287 @@
+2026-11-20T09:13:58.7739402Z Current runner version: '2.330.0'
+2026-11-20T09:13:58.7741006Z ##[group]Runner Image Provisioner
+2026-11-20T09:13:58.7741099Z Hosted Compute Agent
+2026-11-20T09:13:58.7741165Z Version: 20261104.502
+2026-11-20T09:13:58.7741307Z Commit: d881a35a5ed26f49739d886248d35f121eea067d
+2026-11-20T09:13:58.7741685Z Build Date: 2026-11-04T18:22:51Z
+2026-11-20T09:13:58.7742247Z Worker ID: {778fa30a-9c74-4482-ac20-85e4d3abec10}
+2026-11-20T09:13:58.7743090Z Azure Region: westus
+2026-11-20T09:13:58.7743740Z ##[endgroup]
+2026-11-20T09:13:58.7744483Z ##[group]Operating System
+2026-11-20T09:13:58.7744805Z Ubuntu
+2026-11-20T09:13:58.7745014Z 24.04.3
+2026-11-20T09:13:58.7745578Z LTS
+2026-11-20T09:13:58.7745966Z ##[endgroup]
+2026-11-20T09:13:58.7746545Z ##[group]Runner Image
+2026-11-20T09:13:58.7747158Z Image: ubuntu-24.04
+2026-11-20T09:13:58.7747328Z Version: 20261116.38.1
+2026-11-20T09:13:58.7747969Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.38/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-20T09:13:58.7748419Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.38
+2026-11-20T09:13:58.7749069Z ##[endgroup]
+2026-11-20T09:13:58.7749434Z ##[group]GITHUB_TOKEN Permissions
+2026-11-20T09:13:58.7749586Z Contents: read
+2026-11-20T09:13:58.7750317Z Metadata: read
+2026-11-20T09:13:58.7750740Z ##[endgroup]
+2026-11-20T09:13:58.7750880Z Secret source: Actions
+2026-11-20T09:13:58.7751223Z Prepare workflow directory
+2026-11-20T09:13:58.7751319Z Prepare all required actions
+2026-11-20T09:13:58.7751434Z Getting action download info
+2026-11-20T09:13:59.1774700Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-20T09:13:59.1793221Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-20T09:13:59.1802754Z Complete job name: test
+2026-11-20T09:14:00.0921516Z ##[group]Run actions/checkout@v4
+2026-11-20T09:14:00.0922052Z with:
+2026-11-20T09:14:00.0922186Z   repository: example-org/shop-api
+2026-11-20T09:14:00.0922417Z   token: ***
+2026-11-20T09:14:00.0922849Z   ssh-strict: true
+2026-11-20T09:14:00.0923015Z   ssh-user: git
+2026-11-20T09:14:00.0923229Z   persist-credentials: true
+2026-11-20T09:14:00.0923524Z   clean: true
+2026-11-20T09:14:00.0924415Z   sparse-checkout-cone-mode: true
+2026-11-20T09:14:00.0924579Z   fetch-depth: 1
+2026-11-20T09:14:00.0924791Z   fetch-tags: false
+2026-11-20T09:14:00.0925534Z   show-progress: true
+2026-11-20T09:14:00.0925738Z   lfs: false
+2026-11-20T09:14:00.0925893Z   submodules: false
+2026-11-20T09:14:00.0926189Z   set-safe-directory: true
+2026-11-20T09:14:00.0927059Z ##[endgroup]
+2026-11-20T09:14:00.4591725Z Syncing repository: example-org/shop-api
+2026-11-20T09:14:00.4601546Z ##[group]Getting Git version info
+2026-11-20T09:14:00.4601647Z Working directory is '/home/runner/work/shop-api/shop-api'
+2026-11-20T09:14:00.4602407Z [command]/usr/bin/git version
+2026-11-20T09:14:00.4602601Z git version 2.51.2
+2026-11-20T09:14:00.4602879Z ##[endgroup]
+2026-11-20T09:14:00.4620679Z Temporarily overriding HOME='/home/runner/work/_temp/bae1c433-69a7-4be1-adad-1ac9f85b883c' before making global git config changes
+2026-11-20T09:14:00.5226215Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-20T09:14:00.5236716Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/shop-api/shop-api
+2026-11-20T09:14:00.5259725Z Deleting the contents of '/home/runner/work/shop-api/shop-api'
+2026-11-20T09:14:00.5277667Z ##[group]Initializing the repository
+2026-11-20T09:14:00.5278372Z [command]/usr/bin/git init /home/runner/work/shop-api/shop-api
+2026-11-20T09:14:00.5279262Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-20T09:14:00.5279805Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-20T09:14:00.5280563Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-20T09:14:00.5281103Z hint:
+2026-11-20T09:14:00.5281925Z hint: 	git config --global init.defaultBranch <name>
+2026-11-20T09:14:00.5282228Z hint:
+2026-11-20T09:14:00.5282870Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-20T09:14:00.5283117Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-20T09:14:00.5283454Z hint:
+2026-11-20T09:14:00.5284076Z hint: 	git branch -m <name>
+2026-11-20T09:14:00.5284499Z Initialized empty Git repository in /home/runner/work/shop-api/shop-api/.git/
+2026-11-20T09:14:00.5284660Z [command]/usr/bin/git remote add origin https://github.com/example-org/shop-api
+2026-11-20T09:14:00.5284785Z ##[endgroup]
+2026-11-20T09:14:00.5285542Z ##[group]Disabling automatic garbage collection
+2026-11-20T09:14:00.5285708Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-20T09:14:00.5286601Z ##[endgroup]
+2026-11-20T09:14:00.5287370Z ##[group]Setting up auth
+2026-11-20T09:14:00.5287753Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-20T09:14:00.5288632Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-20T09:14:00.5289504Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-20T09:14:00.5289696Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-20T09:14:00.5290068Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-20T09:14:00.5290250Z ##[endgroup]
+2026-11-20T09:14:00.5290754Z ##[group]Fetching the repository
+2026-11-20T09:14:00.5291113Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +fffcc8662f5a57af08d578d4bef92ba486ea851f:refs/remotes/pull/418/merge
+2026-11-20T09:14:01.1295868Z From https://github.com/example-org/shop-api
+2026-11-20T09:14:01.1296491Z  * [new ref]         fffcc8662f5a57af08d578d4bef92ba486ea851f -> pull/418/merge
+2026-11-20T09:14:01.1297231Z ##[endgroup]
+2026-11-20T09:14:01.1297581Z ##[group]Determining the checkout info
+2026-11-20T09:14:01.1298399Z ##[endgroup]
+2026-11-20T09:14:01.1299322Z [command]/usr/bin/git sparse-checkout disable
+2026-11-20T09:14:01.1299898Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-20T09:14:01.1299993Z ##[group]Checking out the ref
+2026-11-20T09:14:01.1300137Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/418/merge
+2026-11-20T09:14:01.1300652Z Note: switching to 'refs/remotes/pull/418/merge'.
+2026-11-20T09:14:01.1300894Z 
+2026-11-20T09:14:01.1301712Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-20T09:14:01.1302294Z changes and commit them, and you can discard any commits you make in this
+2026-11-20T09:14:01.1303133Z state without impacting any branches by switching back to a branch.
+2026-11-20T09:14:01.1303870Z 
+2026-11-20T09:14:01.1304722Z If you want to create a new branch to retain commits you create, you may
+2026-11-20T09:14:01.1305573Z do so (now or later) by using -c with the switch command. Example:
+2026-11-20T09:14:01.1305662Z 
+2026-11-20T09:14:01.1306509Z   git switch -c <new-branch-name>
+2026-11-20T09:14:01.1307239Z 
+2026-11-20T09:14:01.1307356Z Or undo this operation with:
+2026-11-20T09:14:01.1307521Z 
+2026-11-20T09:14:01.1307606Z   git switch -
+2026-11-20T09:14:01.1308394Z 
+2026-11-20T09:14:01.1308589Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-20T09:14:01.1308954Z 
+2026-11-20T09:14:01.1309148Z HEAD is now at fffcc86 Merge b455f6ed50f4ed9d2973ecd2fdd3738e68c76a02 into 731e59b8ed839700b3df968552eff86ed7e00742
+2026-11-20T09:14:01.1309549Z ##[endgroup]
+2026-11-20T09:14:01.1309693Z [command]/usr/bin/git log -1 --format=%H
+2026-11-20T09:14:01.1310211Z fffcc8662f5a57af08d578d4bef92ba486ea851f
+2026-11-20T09:14:02.6938621Z ##[group]Run actions/setup-node@v4
+2026-11-20T09:14:02.6939222Z with:
+2026-11-20T09:14:02.6940029Z   node-version-file: .nvmrc
+2026-11-20T09:14:02.6940098Z   cache: npm
+2026-11-20T09:14:02.6940360Z   always-auth: false
+2026-11-20T09:14:02.6941032Z   check-latest: false
+2026-11-20T09:14:02.6941795Z   token: ***
+2026-11-20T09:14:02.6941970Z ##[endgroup]
+2026-11-20T09:14:02.6957979Z Resolved .nvmrc as 24
+2026-11-20T09:14:02.7083073Z Found in cache @ /opt/hostedtoolcache/node/24.11.1/x64
+2026-11-20T09:14:02.7559546Z ##[group]Environment details
+2026-11-20T09:14:02.7559987Z node: v24.11.1
+2026-11-20T09:14:02.7560934Z npm: 11.6.2
+2026-11-20T09:14:02.7561467Z yarn: 1.22.22
+2026-11-20T09:14:02.7561651Z ##[endgroup]
+2026-11-20T09:14:02.7581385Z [command]/opt/hostedtoolcache/node/24.11.1/x64/bin/npm config get cache
+2026-11-20T09:14:02.7602560Z /home/runner/.npm
+2026-11-20T09:14:03.0617294Z Cache hit for: node-cache-Linux-x64-npm-33da613273a76f2dfbdf78048743a42f47a308042cfc1e67612f7166ba21f1dc
+2026-11-20T09:14:03.9636215Z Received 70495764 of 84934656 (83.0%), 61.1 MBs/sec
+2026-11-20T09:14:04.0965310Z Received 84934656 of 84934656 (100.0%), 62.3 MBs/sec
+2026-11-20T09:14:04.1423812Z Cache Size: ~81 MB (84934656 B)
+2026-11-20T09:14:04.1819103Z [command]/usr/bin/tar -xf /home/runner/work/_temp/45bc8e7c-9c9c-43fe-acc2-0b07de50fa93/cache.tzst -P -C /home/runner/work/shop-api/shop-api --use-compress-program unzstd
+2026-11-20T09:14:05.2822849Z Cache restored successfully
+2026-11-20T09:14:05.2839590Z Cache restored from key: node-cache-Linux-x64-npm-33da613273a76f2dfbdf78048743a42f47a308042cfc1e67612f7166ba21f1dc
+2026-11-20T09:14:06.0509861Z ##[group]Run npm ci
+2026-11-20T09:14:06.0510700Z npm ci
+2026-11-20T09:14:06.0511542Z shell: /usr/bin/bash -e {0}
+2026-11-20T09:14:06.0512116Z ##[endgroup]
+2026-11-20T09:14:09.8516267Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2026-11-20T09:14:09.9080611Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-11-20T09:14:12.5465006Z 
+2026-11-20T09:14:12.5477979Z added 214 packages, and audited 215 packages in 6s
+2026-11-20T09:14:12.5493945Z 
+2026-11-20T09:14:12.5497210Z 54 packages are looking for funding
+2026-11-20T09:14:12.5521928Z   run `npm fund` for details
+2026-11-20T09:14:12.5544443Z 
+2026-11-20T09:14:12.5556174Z found 0 vulnerabilities
+2026-11-20T09:14:13.1921885Z ##[group]Run npm test
+2026-11-20T09:14:13.1922131Z npm test
+2026-11-20T09:14:13.1922720Z shell: /usr/bin/bash -e {0}
+2026-11-20T09:14:13.1923097Z env:
+2026-11-20T09:14:13.1923332Z   FORCE_COLOR: 1
+2026-11-20T09:14:13.1924275Z   TZ: UTC
+2026-11-20T09:14:13.1924771Z ##[endgroup]
+2026-11-20T09:14:13.2407339Z 
+2026-11-20T09:14:13.2429414Z > shop-api@1.14.0 test
+2026-11-20T09:14:13.2473401Z > vitest run
+2026-11-20T09:14:13.2488354Z 
+2026-11-20T09:14:15.1507272Z 
+2026-11-20T09:14:15.1507355Z [1m[30m[46m RUN [49m[39m[22m [36mv5.1.1 [39m[90m/home/runner/work/shop-api/shop-api[39m
+2026-11-20T09:14:15.9508480Z 
+2026-11-20T09:14:15.9508749Z  [32m✓[39m test/pricing/tax.test.ts[2m > [22msalesTaxRate[2m > [22mknows the US-CA rate[32m 1[2mms[22m[39m
+2026-11-20T09:14:15.9509325Z  [32m✓[39m test/pricing/tax.test.ts[2m > [22msalesTaxRate[2m > [22mknows the US-NY rate[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9509650Z  [32m✓[39m test/pricing/tax.test.ts[2m > [22msalesTaxRate[2m > [22mknows the US-TX rate[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9509831Z  [32m✓[39m test/pricing/tax.test.ts[2m > [22msalesTaxRate[2m > [22mknows the US-OR rate[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9510474Z  [32m✓[39m test/pricing/tax.test.ts[2m > [22msalesTaxRate[2m > [22mthrows for unknown regions[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9510854Z  [32m✓[39m test/pricing/tax.test.ts[2m > [22msalesTax[2m > [22mrounds to cents[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9511102Z  [32m✓[39m test/pricing/tax.test.ts[2m > [22msalesTax[2m > [22mtaxes California orders[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9511572Z  [32m✓[39m test/pricing/tax.test.ts[2m > [22msalesTax[2m > [22mis zero for zero amounts[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9511887Z  [32m✓[39m test/pricing/money.test.ts[2m > [22mroundMoney[2m > [22mrounds half-cent values up[32m 1[2mms[22m[39m
+2026-11-20T09:14:15.9512012Z  [32m✓[39m test/pricing/money.test.ts[2m > [22mroundMoney[2m > [22mleaves whole amounts alone[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9512302Z  [32m✓[39m test/pricing/money.test.ts[2m > [22msumMoney[2m > [22mhides floating point noise[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9513097Z  [32m✓[39m test/pricing/money.test.ts[2m > [22msumMoney[2m > [22mreturns 0 for no amounts[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9513942Z  [32m✓[39m test/pricing/money.test.ts[2m > [22mformatMoney[2m > [22mformats USD with grouping[32m 10[2mms[22m[39m
+2026-11-20T09:14:15.9514865Z  [32m✓[39m test/pricing/money.test.ts[2m > [22mformatMoney[2m > [22mformats EUR[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9515790Z  [32m✓[39m test/config.test.ts[2m > [22mconfig[2m > [22mdefaults the volume discount settings[32m 1[2mms[22m[39m
+2026-11-20T09:14:15.9516658Z  [32m✓[39m test/config.test.ts[2m > [22mconfig[2m > [22mdefaults the port[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9517479Z [90mstdout[2m | test/orders/order-service.test.ts[2m > [22m[2mOrderService.quote[2m > [22m[2mprices a single line
+2026-11-20T09:14:15.9517633Z [22m[39m[orders] quoted ord_1: 1 line(s), total 24
+2026-11-20T09:14:15.9518025Z 
+2026-11-20T09:14:15.9518178Z [90mstdout[2m | test/orders/order-service.test.ts[2m > [22m[2mOrderService.quote[2m > [22m[2mmultiplies unit price by quantity
+2026-11-20T09:14:15.9518368Z [22m[39m[orders] quoted ord_2: 1 line(s), total 42.75
+2026-11-20T09:14:15.9518752Z 
+2026-11-20T09:14:15.9519027Z  [32m✓[39m test/orders/order-schema.test.ts[2m > [22mcreateOrderSchema[2m > [22maccepts a well-formed request[32m 2[2mms[22m[39m
+2026-11-20T09:14:15.9519184Z  [32m✓[39m test/orders/order-schema.test.ts[2m > [22mcreateOrderSchema[2m > [22mrejects an order without lines[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9520074Z  [32m✓[39m test/orders/order-schema.test.ts[2m > [22mcreateOrderSchema[2m > [22mrejects lowercase skus[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9520978Z  [32m✓[39m test/orders/order-schema.test.ts[2m > [22mcreateOrderSchema[2m > [22mrejects a zero quantity[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9521772Z  [32m✓[39m test/orders/order-schema.test.ts[2m > [22mcreateOrderSchema[2m > [22mrejects unsupported currencies[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9522703Z  [32m✓[39m test/orders/order-schema.test.ts[2m > [22mcreateOrderSchema[2m > [22mrejects malformed regions[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9522840Z  [32m✓[39m test/orders/order-schema.test.ts[2m > [22mcreateOrderSchema[2m > [22mcaps an order at 50 lines[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9523282Z [90mstdout[2m | test/orders/order-service.test.ts[2m > [22m[2mOrderService.quote[2m > [22m[2mapplies sales tax after the discount
+2026-11-20T09:14:15.9523395Z [22m[39m[orders] quoted ord_3: 1 line(s), total 107.1
+2026-11-20T09:14:15.9524259Z 
+2026-11-20T09:14:15.9525191Z [90mstdout[2m | test/orders/order-service.test.ts[2m > [22m[2mOrderService.quote[2m > [22m[2madds tax for the order region
+2026-11-20T09:14:15.9525736Z [22m[39m[orders] quoted ord_4: 1 line(s), total 48
+2026-11-20T09:14:15.9526574Z 
+2026-11-20T09:14:15.9527213Z [90mstdout[2m | test/orders/order-service.test.ts[2m > [22m[2mOrderService.quote[2m > [22m[2mleaves small orders undiscounted
+2026-11-20T09:14:15.9527321Z [22m[39m[orders] quoted ord_5: 1 line(s), total 57
+2026-11-20T09:14:15.9528031Z 
+2026-11-20T09:14:15.9528390Z [90mstdout[2m | test/orders/order-service.test.ts[2m > [22m[2mOrderService.quote[2m > [22m[2msums several lines
+2026-11-20T09:14:15.9529066Z [22m[39m[orders] quoted ord_6: 3 line(s), total 100.8
+2026-11-20T09:14:15.9529315Z 
+2026-11-20T09:14:15.9530165Z [90mstderr[2m | test/orders/order-service.test.ts[2m > [22m[2mOrderService.quote[2m > [22m[2mrejects unknown skus
+2026-11-20T09:14:15.9530723Z [22m[39m[orders] rejected ord_7: unknown or inactive sku NOPE-404
+2026-11-20T09:14:15.9531252Z 
+2026-11-20T09:14:15.9532024Z [90mstderr[2m | test/orders/order-service.test.ts[2m > [22m[2mOrderService.quote[2m > [22m[2mrejects inactive skus
+2026-11-20T09:14:15.9532305Z [22m[39m[orders] rejected ord_8: unknown or inactive sku CAP-RETRO
+2026-11-20T09:14:15.9532720Z 
+2026-11-20T09:14:15.9533333Z [90mstdout[2m | test/orders/order-service.test.ts[2m > [22m[2mOrderService.quote[2m > [22m[2mechoes the order id
+2026-11-20T09:14:15.9534199Z [22m[39m[orders] quoted ord_10: 1 line(s), total 24
+2026-11-20T09:14:15.9534367Z 
+2026-11-20T09:14:15.9534645Z  [32m✓[39m test/pricing/discount.test.ts[2m > [22mapplyDiscount[2m > [22mnever discounts an empty cart[32m 1[2mms[22m[39m
+2026-11-20T09:14:15.9535202Z  [32m✓[39m test/pricing/discount.test.ts[2m > [22mapplyDiscount[2m > [22mcharges 20 for a 20 subtotal[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9535364Z  [32m✓[39m test/pricing/discount.test.ts[2m > [22mapplyDiscount[2m > [22mcharges 99.99 for a 99.99 subtotal[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9536287Z  [31m×[39m test/pricing/discount.test.ts[2m > [22mapplyDiscount[2m > [22mcharges 90 for a 100 subtotal[32m 2[2mms[22m[39m
+2026-11-20T09:14:15.9536901Z [31m   → expected 100 to be 90 // Object.is equality[39m
+2026-11-20T09:14:15.9537377Z  [32m✓[39m test/pricing/discount.test.ts[2m > [22mapplyDiscount[2m > [22mcharges 90.01 for a 100.01 subtotal[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9537454Z  [32m✓[39m test/pricing/discount.test.ts[2m > [22mapplyDiscount[2m > [22mcharges 225 for a 250 subtotal[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9537655Z  [32m✓[39m test/pricing/discount.test.ts[2m > [22mapplyDiscount[2m > [22mmultiplies quantities before discounting[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9538497Z  [32m✓[39m test/pricing/discount.test.ts[2m > [22mqualifiesForVolumeDiscount[2m > [22mis false for small orders[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9538790Z  [32m✓[39m test/pricing/discount.test.ts[2m > [22mqualifiesForVolumeDiscount[2m > [22mis true for large orders[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9539706Z  [32m✓[39m test/orders/order-service.test.ts[2m > [22mOrderService.quote[2m > [22mprices a single line[32m 2[2mms[22m[39m
+2026-11-20T09:14:15.9540205Z  [32m✓[39m test/orders/order-service.test.ts[2m > [22mOrderService.quote[2m > [22mmultiplies unit price by quantity[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9540544Z  [32m✓[39m test/orders/order-service.test.ts[2m > [22mOrderService.quote[2m > [22mapplies sales tax after the discount[32m 1[2mms[22m[39m
+2026-11-20T09:14:15.9540932Z  [32m✓[39m test/orders/order-service.test.ts[2m > [22mOrderService.quote[2m > [22madds tax for the order region[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9541229Z  [32m✓[39m test/orders/order-service.test.ts[2m > [22mOrderService.quote[2m > [22mleaves small orders undiscounted[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9541705Z  [32m✓[39m test/orders/order-service.test.ts[2m > [22mOrderService.quote[2m > [22msums several lines[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9542503Z  [32m✓[39m test/orders/order-service.test.ts[2m > [22mOrderService.quote[2m > [22mrejects unknown skus[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9543455Z  [32m✓[39m test/orders/order-service.test.ts[2m > [22mOrderService.quote[2m > [22mrejects inactive skus[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9543911Z  [32m✓[39m test/orders/order-service.test.ts[2m > [22mOrderService.quote[2m > [22mthrows for regions without a tax rate[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9544108Z  [32m✓[39m test/orders/order-service.test.ts[2m > [22mOrderService.quote[2m > [22mechoes the order id[32m 0[2mms[22m[39m
+2026-11-20T09:14:15.9544427Z 
+2026-11-20T09:14:15.9544807Z [31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+2026-11-20T09:14:15.9544935Z 
+2026-11-20T09:14:15.9545841Z [41m[1m FAIL [22m[49m test/pricing/discount.test.ts[2m > [22mapplyDiscount[2m > [22mcharges 90 for a 100 subtotal
+2026-11-20T09:14:15.9546533Z [31m[1mAssertionError[22m: expected 100 to be 90 // Object.is equality[39m
+2026-11-20T09:14:15.9546989Z 
+2026-11-20T09:14:15.9547712Z [32m- Expected[39m
+2026-11-20T09:14:15.9548470Z [31m+ Received[39m
+2026-11-20T09:14:15.9548969Z 
+2026-11-20T09:14:15.9549344Z [32m- 90[39m
+2026-11-20T09:14:15.9549598Z [31m+ 100[39m
+2026-11-20T09:14:15.9549790Z 
+2026-11-20T09:14:15.9549913Z [36m [2m❯[22m test/pricing/discount.test.ts:[2m25:57[22m[39m
+2026-11-20T09:14:15.9550340Z     [90m 23|[39m     { subtotal[33m:[39m [34m250[39m[33m,[39m total[33m:[39m [34m225[39m }[33m,[39m
+2026-11-20T09:14:15.9551065Z     [90m 24|[39m   ])("charges $total for a $subtotal subtotal", ({ subtotal, total }) …
+2026-11-20T09:14:15.9551523Z     [90m 25|[39m     [34mexpect[39m([34mapplyDiscount[39m([34mcartOf[39m([34mitem[39m(subtotal)))[33m.[39mtotal)[33m.[39m[34mtoBe[39m(total)[33m;[39m
+2026-11-20T09:14:15.9551629Z     [90m   |[39m                                                         [31m^[39m
+2026-11-20T09:14:15.9551696Z     [90m 26|[39m   })[33m;[39m
+2026-11-20T09:14:15.9552571Z     [90m 27|[39m
+2026-11-20T09:14:15.9553023Z 
+2026-11-20T09:14:15.9553857Z [31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+2026-11-20T09:14:15.9554233Z 
+2026-11-20T09:14:15.9554750Z 
+2026-11-20T09:14:15.9555183Z [2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (6)[39m
+2026-11-20T09:14:15.9555637Z [2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m41 passed[39m[22m[90m (42)[39m
+2026-11-20T09:14:15.9556322Z [2m   Start at [22m 09:14:14
+2026-11-20T09:14:15.9556543Z [2m   Duration [22m 1.21s[2m (import 50%, transform 38%, tests 9%, worker 4%)[22m
+2026-11-20T09:14:15.9556850Z 
+2026-11-20T09:14:15.9557497Z 
+2026-11-20T09:14:16.0137647Z ##[error]AssertionError: expected 100 to be 90 // Object.is equality
+2026-11-20T09:14:16.0234605Z 
+2026-11-20T09:14:16.0235549Z - Expected
+2026-11-20T09:14:16.0235922Z + Received
+2026-11-20T09:14:16.0236415Z 
+2026-11-20T09:14:16.0236919Z - 90
+2026-11-20T09:14:16.0237667Z + 100
+2026-11-20T09:14:16.0238613Z 
+2026-11-20T09:14:16.0239163Z  ❯ test/pricing/discount.test.ts:25:57
+2026-11-20T09:14:16.0253194Z ##[error]Process completed with exit code 1.
+2026-11-20T09:14:17.1583788Z Post job cleanup.
+2026-11-20T09:14:17.1593323Z [command]/usr/bin/git version
+2026-11-20T09:14:17.1604790Z git version 2.51.2
+2026-11-20T09:14:17.1612750Z Temporarily overriding HOME='/home/runner/work/_temp/4ca47726-c46c-4ce1-a754-bc2589c45658' before making global git config changes
+2026-11-20T09:14:17.1625783Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-20T09:14:17.1627930Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/shop-api/shop-api
+2026-11-20T09:14:17.1636417Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-20T09:14:17.3701226Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-20T09:14:17.4206094Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-20T09:14:17.4210577Z http.https://github.com/.extraheader
+2026-11-20T09:14:17.4671118Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-20T09:14:17.4672983Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-20T09:14:18.0539144Z Cleaning up orphan processes

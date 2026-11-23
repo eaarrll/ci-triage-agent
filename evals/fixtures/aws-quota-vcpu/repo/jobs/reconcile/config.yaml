@@ -1,0 +1,11 @@
+queue: batch-reconcile
+visibility_timeout_seconds: 900
+batch_size: 10
+# Ledger partitions processed per run; one worker instance claims partitions until none are left.
+partitions: 64
+month_end:
+  backfill_days: 35
+  max_parallel_partitions: 48
+retry:
+  max_attempts: 5
+  backoff_seconds: 30

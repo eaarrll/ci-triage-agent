@@ -1,0 +1,413 @@
+{
+  "id": "aws-quota-vcpu",
+  "title": "Auto Scaling group cannot launch: account vCPU quota exceeded",
+  "description": "Squash-merged PR #87 prepares the month-end backfill: infra/asg.tf moves the reconcile workers from c6i.xlarge (4 vCPU) to c6i.4xlarge (16 vCPU) and raises desired_capacity from 4 to 12 (max_size 8 to 16); alarms.tf and the job config change too. The `Apply` job applies the saved plan: the alarm and launch template update fine, then Terraform waits for the Auto Scaling group's capacity and fails on a scaling activity: \"VcpuLimitExceeded - You have requested more vCPU capacity than your current vCPU limit of 32 allows\". The fleet goes from 16 vCPU to 12 x 16 = 192 vCPU against a Running On-Demand Standard instances quota of 32 in us-east-1. The right answer is cloud_auth (a cloud quota): request a Service Quotas increase for on-demand standard vCPUs (or shrink the instance size / count, or move part of the fleet to Spot) and re-apply. configuration is accepted too because the PR's capacity numbers are what crossed the limit. A rerun cannot succeed until the quota or the capacity changes, so flaky must be false; this guards against confusing a hard quota with transient InsufficientInstanceCapacity.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "batch-jobs"
+  },
+  "run": {
+    "id": 19588042317,
+    "attempt": 1,
+    "workflowId": 102944870,
+    "workflowName": "infra",
+    "workflowPath": ".github/workflows/infra.yml",
+    "event": "push",
+    "headBranch": "main",
+    "headSha": "b39f06d2e8a417c5f0b2d9e6a3c8147f5e2d0a6b",
+    "headRepoFullName": "example-org/batch-jobs",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/batch-jobs/actions/runs/19588042317",
+    "displayTitle": "Scale reconcile workers for the month-end backfill (#87)",
+    "pullRequestNumbers": [],
+    "createdAt": "2026-11-23T10:05:44Z"
+  },
+  "jobs": [
+    {
+      "id": 55981234560,
+      "name": "Lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-23T10:05:50Z",
+      "completedAt": "2026-11-23T10:06:12Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/batch-jobs/actions/runs/19588042317/job/55981234560",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:05:50Z",
+          "completedAt": "2026-11-23T10:05:52Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:05:53Z",
+          "completedAt": "2026-11-23T10:05:54Z"
+        },
+        {
+          "number": 3,
+          "name": "Run hashicorp/setup-terraform@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:05:55Z",
+          "completedAt": "2026-11-23T10:05:57Z"
+        },
+        {
+          "number": 4,
+          "name": "Run terraform-linters/setup-tflint@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:05:58Z",
+          "completedAt": "2026-11-23T10:06:01Z"
+        },
+        {
+          "number": 5,
+          "name": "Run terraform fmt -check -recursive infra",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:06:02Z",
+          "completedAt": "2026-11-23T10:06:03Z"
+        },
+        {
+          "number": 6,
+          "name": "Run tflint --chdir=infra --format=compact",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:06:04Z",
+          "completedAt": "2026-11-23T10:06:10Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:06:11Z",
+          "completedAt": "2026-11-23T10:06:11Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:06:12Z",
+          "completedAt": "2026-11-23T10:06:12Z"
+        }
+      ]
+    },
+    {
+      "id": 55981290113,
+      "name": "Plan",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-23T10:06:16Z",
+      "completedAt": "2026-11-23T10:07:03Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/batch-jobs/actions/runs/19588042317/job/55981290113",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:06:16Z",
+          "completedAt": "2026-11-23T10:06:18Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:06:19Z",
+          "completedAt": "2026-11-23T10:06:20Z"
+        },
+        {
+          "number": 3,
+          "name": "Run aws-actions/configure-aws-credentials@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:06:21Z",
+          "completedAt": "2026-11-23T10:06:22Z"
+        },
+        {
+          "number": 4,
+          "name": "Run hashicorp/setup-terraform@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:06:23Z",
+          "completedAt": "2026-11-23T10:06:25Z"
+        },
+        {
+          "number": 5,
+          "name": "terraform init",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:06:26Z",
+          "completedAt": "2026-11-23T10:06:35Z"
+        },
+        {
+          "number": 6,
+          "name": "terraform plan",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:06:36Z",
+          "completedAt": "2026-11-23T10:06:57Z"
+        },
+        {
+          "number": 7,
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:06:58Z",
+          "completedAt": "2026-11-23T10:07:00Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run aws-actions/configure-aws-credentials@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:07:01Z",
+          "completedAt": "2026-11-23T10:07:01Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:07:02Z",
+          "completedAt": "2026-11-23T10:07:02Z"
+        },
+        {
+          "number": 10,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:07:03Z",
+          "completedAt": "2026-11-23T10:07:03Z"
+        }
+      ]
+    },
+    {
+      "id": 55981377842,
+      "name": "Apply",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-23T10:09:14Z",
+      "completedAt": "2026-11-23T10:10:34Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/batch-jobs/actions/runs/19588042317/job/55981377842",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:09:14Z",
+          "completedAt": "2026-11-23T10:09:16Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:09:17Z",
+          "completedAt": "2026-11-23T10:09:18Z"
+        },
+        {
+          "number": 3,
+          "name": "Run aws-actions/configure-aws-credentials@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:09:19Z",
+          "completedAt": "2026-11-23T10:09:21Z"
+        },
+        {
+          "number": 4,
+          "name": "Run hashicorp/setup-terraform@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:09:22Z",
+          "completedAt": "2026-11-23T10:09:23Z"
+        },
+        {
+          "number": 5,
+          "name": "Run actions/download-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:09:24Z",
+          "completedAt": "2026-11-23T10:09:26Z"
+        },
+        {
+          "number": 6,
+          "name": "terraform init",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:09:27Z",
+          "completedAt": "2026-11-23T10:09:34Z"
+        },
+        {
+          "number": 7,
+          "name": "Show plan",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:09:35Z",
+          "completedAt": "2026-11-23T10:09:37Z"
+        },
+        {
+          "number": 8,
+          "name": "terraform apply",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-23T10:09:38Z",
+          "completedAt": "2026-11-23T10:10:28Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run aws-actions/configure-aws-credentials@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:10:29Z",
+          "completedAt": "2026-11-23T10:10:30Z"
+        },
+        {
+          "number": 10,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:10:31Z",
+          "completedAt": "2026-11-23T10:10:32Z"
+        },
+        {
+          "number": 11,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T10:10:33Z",
+          "completedAt": "2026-11-23T10:10:34Z"
+        }
+      ]
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "infra/alarms.tf",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "patch": "@@ -5,8 +5,8 @@ resource \"aws_cloudwatch_metric_alarm\" \"queue_backlog\" {\n   metric_name         = \"ApproximateNumberOfMessagesVisible\"\n   statistic           = \"Maximum\"\n   period              = 300\n-  evaluation_periods  = 3\n-  threshold           = 5000\n+  evaluation_periods  = 6\n+  threshold           = 20000\n   comparison_operator = \"GreaterThanThreshold\"\n   treat_missing_data  = \"notBreaching\"\n   alarm_actions       = [data.aws_sns_topic.oncall.arn]",
+      "previousPath": null
+    },
+    {
+      "path": "infra/asg.tf",
+      "status": "modified",
+      "additions": 3,
+      "deletions": 3,
+      "patch": "@@ -1,7 +1,7 @@\n resource \"aws_launch_template\" \"workers\" {\n   name                   = \"batch-reconcile-workers\"\n   image_id               = data.aws_ssm_parameter.al2023_ami.value\n-  instance_type          = \"c6i.xlarge\"\n+  instance_type          = \"c6i.4xlarge\"\n   update_default_version = true\n \n   iam_instance_profile {\n@@ -43,8 +43,8 @@ resource \"aws_autoscaling_group\" \"workers\" {\n   name                      = \"batch-reconcile-workers\"\n   vpc_zone_identifier       = data.aws_subnets.private.ids\n   min_size                  = 0\n-  max_size                  = 8\n-  desired_capacity          = 4\n+  max_size                  = 16\n+  desired_capacity          = 12\n   health_check_type         = \"EC2\"\n   health_check_grace_period = 120\n   default_instance_warmup   = 120",
+      "previousPath": null
+    },
+    {
+      "path": "jobs/reconcile/config.yaml",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "patch": "@@ -4,8 +4,8 @@ batch_size: 10\n # Ledger partitions processed per run; one worker instance claims partitions until none are left.\n partitions: 64\n month_end:\n-  backfill_days: 3\n-  max_parallel_partitions: 16\n+  backfill_days: 35\n+  max_parallel_partitions: 48\n retry:\n   max_attempts: 5\n   backoff_seconds: 30",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "Apply": [
+      {
+        "runId": 19529961704,
+        "attempt": 1,
+        "headSha": "5dc9cae8912a88cc5c37908e6ca62a8b702f4bc0",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T09:14:27Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/batch-jobs/actions/runs/19529961704/job/55752218839"
+      },
+      {
+        "runId": 19470283351,
+        "attempt": 1,
+        "headSha": "db42007d2a26871b76eb66d8a20db7622a7039d5",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-19T15:51:08Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/batch-jobs/actions/runs/19470283351/job/55541376902"
+      },
+      {
+        "runId": 19390478826,
+        "attempt": 1,
+        "headSha": "ffab641b2506cf6a44c17ca29d3ae73331d968ca",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-18T10:23:46Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/batch-jobs/actions/runs/19390478826/job/55322691437"
+      },
+      {
+        "runId": 19273815260,
+        "attempt": 1,
+        "headSha": "cf6b363b54cbc8dd7c648ab62ed995de21073ff9",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-13T11:39:52Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/batch-jobs/actions/runs/19273815260/job/54877240115"
+      },
+      {
+        "runId": 19189624037,
+        "attempt": 1,
+        "headSha": "bd54474a70523912c3aa4de86a2adbe424bb588b",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-10T14:06:31Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/batch-jobs/actions/runs/19189624037/job/54553108864"
+      },
+      {
+        "runId": 19051172498,
+        "attempt": 1,
+        "headSha": "98f483bd0843c3e3d0afb01f3b25a97b267abfcd",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-04T08:57:14Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/batch-jobs/actions/runs/19051172498/job/54004827693"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "cloud_auth",
+      "configuration"
+    ],
+    "keywords": [
+      [
+        "vCPU",
+        "quota",
+        "limit"
+      ]
+    ],
+    "flaky": false
+  }
+}

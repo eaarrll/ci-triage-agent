@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tax-engine"
+version = "1.6.0"
+description = "Invoice VAT and FX calculations shared by billing and the ledger export"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest>=8.3", "pytest-cov>=6.0"]
+dev = ["tax-engine[test]", "ruff>=0.13", "mypy>=1.18"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.coverage.run]
+source = ["tax_engine"]
+
+[tool.ruff]
+line-length = 100
