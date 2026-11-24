@@ -24,6 +24,8 @@ import type {
   TriageOutcome,
   UsageTotals,
 } from "../src/types.js";
+import { countVerdicts, gradeEvidence, loadEvidenceSources } from "./evidence.js";
+import type { EvidenceCheck, EvidenceCounts, EvidenceGrade } from "./evidence.js";
 import { createFixtureBackend, loadFixtures } from "./fixture.js";
 import type { FixtureFile, LoadedFixture } from "./fixture.js";
 import { grade } from "./grade.js";
@@ -200,14 +202,19 @@ export interface CaseRecord {
   error: string | null;
   title: string | null;
   rootCause: string | null;
+  /** Do the cited quotes exist where the agent could see them? Never affects `pass`; null without a result. */
+  evidence: EvidenceCounts | null;
+  /** One verdict per evidence item, for digging into the JSON report. */
+  evidenceItems: EvidenceCheck[];
 }
 
-/** Grades one outcome and flattens it into a report row. */
+/** Grades one outcome and flattens it into a report row. `evidence` comes from gradeEvidence (async). */
 export function toCaseRecord(
   fixture: FixtureFile,
   repeat: number,
   outcome: TriageOutcome,
   latencyMs: number,
+  evidence: EvidenceGrade | null = null,
 ): CaseRecord {
   const result = outcome.status === "ok" ? outcome.result : null;
   const graded = grade(result, fixture.expected);
@@ -236,6 +243,8 @@ export function toCaseRecord(
     error: outcome.status === "ok" ? null : outcome.message,
     title: result?.title ?? null,
     rootCause: result?.root_cause ?? null,
+    evidence: evidence === null ? null : countVerdicts(evidence.items),
+    evidenceItems: evidence?.items ?? [],
   };
 }
 
@@ -285,6 +294,14 @@ export interface EvalSummary {
   };
   meanTurns: number;
   latencyMs: { p50: number; p95: number };
+  evidence: EvidenceSummary;
+}
+
+export interface EvidenceSummary extends EvidenceCounts {
+  /** Cases whose evidence was checked (they produced a result). */
+  cases: number;
+  /** Checked cases that cited at least one item and every item was verified. */
+  casesAllVerified: number;
 }
 
 export function summarize(records: readonly CaseRecord[]): EvalSummary {
@@ -313,7 +330,30 @@ export function summarize(records: readonly CaseRecord[]): EvalSummary {
     },
     meanTurns: records.length === 0 ? 0 : sum(records.map((r) => r.turns)) / records.length,
     latencyMs: { p50: percentile(latencies, 50), p95: percentile(latencies, 95) },
+    evidence: summarizeEvidence(records),
   };
+}
+
+function summarizeEvidence(records: readonly CaseRecord[]): EvidenceSummary {
+  const checked = records.flatMap((r) => (r.evidence === null ? [] : [r.evidence]));
+  return {
+    cases: checked.length,
+    casesAllVerified: checked.filter((e) => e.total > 0 && e.verified === e.total).length,
+    total: sum(checked.map((e) => e.total)),
+    verified: sum(checked.map((e) => e.verified)),
+    misplaced: sum(checked.map((e) => e.misplaced)),
+    notFound: sum(checked.map((e) => e.notFound)),
+  };
+}
+
+/** "3/3", "2/3 (1 misplaced)", "1/3 (1 misplaced, 1 not found)"; "–" when nothing was checked. */
+export function formatEvidence(evidence: EvidenceCounts | null): string {
+  if (evidence === null) return "–";
+  const problems = [
+    evidence.misplaced > 0 ? `${evidence.misplaced} misplaced` : "",
+    evidence.notFound > 0 ? `${evidence.notFound} not found` : "",
+  ].filter((p) => p !== "");
+  return `${evidence.verified}/${evidence.total}${problems.length > 0 ? ` (${problems.join(", ")})` : ""}`;
 }
 
 /** Nearest-rank percentile (always an observed value); 0 for an empty list. */
@@ -394,6 +434,7 @@ export function renderMarkdownReport(
     `| Total cost | ${formatUsd(summary.cost.total)}${unpriced} |`,
     `| Mean turns | ${summary.meanTurns.toFixed(1)} |`,
     `| Latency | p50 ${formatDuration(summary.latencyMs.p50)}, p95 ${formatDuration(summary.latencyMs.p95)} |`,
+    ...(summary.evidence.cases > 0 ? [`| Evidence | ${evidenceMetric(summary.evidence)} |`] : []),
     "",
     "## By expected category",
     "",
@@ -406,8 +447,8 @@ export function renderMarkdownReport(
     "",
     "## Cases",
     "",
-    "| | Fixture | Expected | Got | Cost | Turns | Tools | Failure reasons |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- |",
+    "| | Fixture | Expected | Got | Cost | Turns | Tools | Evidence | Failure reasons |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ...records.map((r) => {
       const cells = [
         r.pass ? "✅" : "❌",
@@ -417,6 +458,7 @@ export function renderMarkdownReport(
         formatUsd(r.costUsd),
         String(r.turns),
         summarizeTools(r.tools) || "none",
+        formatEvidence(r.evidence),
         failureReasons(r).join("; "),
       ];
       return `| ${cells.map(markdownCell).join(" | ")} |`;
@@ -424,6 +466,17 @@ export function renderMarkdownReport(
     "",
   ];
   return lines.join("\n");
+}
+
+/** "61/64 quotes verified (95%) · 2 misplaced · 1 not found · all verified in 21/24 cases" */
+function evidenceMetric(e: EvidenceSummary): string {
+  const rate = e.total === 0 ? "" : ` (${formatPercent(e.verified / e.total)})`;
+  return [
+    `${e.verified}/${e.total} quotes verified${rate}`,
+    `${e.misplaced} misplaced`,
+    `${e.notFound} not found`,
+    `all verified in ${e.casesAllVerified}/${e.cases} cases`,
+  ].join(" · ");
 }
 
 /** "search_log ×3, read_file" in first-use order. */
@@ -469,6 +522,7 @@ export function formatProgressLine(done: number, total: number, record: CaseReco
     `${record.turns} turns`,
     `${record.toolCalls} tools`,
     formatDuration(record.latencyMs),
+    ...(record.evidence === null ? [] : [`evidence ${formatEvidence(record.evidence)}`]),
   ];
   const reasons = failureReasons(record);
   return parts.join("  ") + (reasons.length > 0 ? `  -- ${reasons.join("; ")}` : "");
@@ -545,7 +599,9 @@ async function runCase(
           apiKey,
           logger,
         });
-    return toCaseRecord(fixture.file, repeat, outcome, performance.now() - started);
+    const latencyMs = performance.now() - started;
+    const evidence = await checkCaseEvidence(outcome, backend, logger);
+    return toCaseRecord(fixture.file, repeat, outcome, latencyMs, evidence);
   } catch (err) {
     // A crash in the code under test is a failed case, not a harness error.
     const crashed: TriageOutcome = {
@@ -556,6 +612,21 @@ async function runCase(
       message: errorMessage(err),
     };
     return toCaseRecord(fixture.file, repeat, crashed, performance.now() - started);
+  }
+}
+
+/** Evidence grading is a side metric: if it breaks, the case keeps its grade and the problem is logged. */
+async function checkCaseEvidence(
+  outcome: TriageOutcome,
+  backend: Parameters<typeof loadEvidenceSources>[0],
+  logger: AgentLogger,
+): Promise<EvidenceGrade | null> {
+  if (outcome.status !== "ok") return null;
+  try {
+    return await gradeEvidence(outcome.result, await loadEvidenceSources(backend));
+  } catch (err) {
+    logger.warning(`evidence check failed: ${errorMessage(err)}`);
+    return null;
   }
 }
 
@@ -652,6 +723,7 @@ export async function main(
       `total ${formatUsd(summary.cost.total)} · mean ${summary.meanTurns.toFixed(1)} turns · ` +
       `p50 ${formatDuration(summary.latencyMs.p50)}, p95 ${formatDuration(summary.latencyMs.p95)}`,
   );
+  if (summary.evidence.cases > 0) console.log(`Evidence: ${evidenceMetric(summary.evidence)}`);
 
   const jsonPath = join(options.outDir, `${options.label}.json`);
   const mdPath = join(options.outDir, `${options.label}.md`);

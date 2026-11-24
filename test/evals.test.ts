@@ -10,6 +10,7 @@ import {
   DEFAULT_OUT_DIR,
   UsageError,
   failureReasons,
+  formatEvidence,
   formatProgressLine,
   main,
   mapWithConcurrency,
@@ -714,7 +715,32 @@ describe("toCaseRecord", () => {
       error: null,
       title: "apply_discount() now rounds to 10 cents",
       rootCause: triage().root_cause,
+      evidence: null,
+      evidenceItems: [],
     });
+  });
+
+  it("keeps evidence counts and items apart from the pass decision", () => {
+    const items = [
+      {
+        job: "test",
+        line: 12,
+        excerpt: "E assert 1800 == 1799",
+        verdict: "verified" as const,
+        foundAt: "log test:12",
+      },
+      { job: "test", line: 3, excerpt: "invented", verdict: "not_found" as const, foundAt: null },
+    ];
+    const r = toCaseRecord(MINI_FILE(), 1, okOutcome(triage()), 10, {
+      total: 2,
+      verified: 1,
+      misplaced: 0,
+      notFound: 1,
+      items,
+    });
+    expect(r.pass).toBe(true);
+    expect(r.evidence).toEqual({ total: 2, verified: 1, misplaced: 0, notFound: 1 });
+    expect(r.evidenceItems).toEqual(items);
   });
 
   it("records refusals and errors as failed cases", () => {
@@ -829,6 +855,7 @@ describe("summary statistics", () => {
       },
       meanTurns: 3,
       latencyMs: { p50: 1000, p95: 3000 },
+      evidence: { cases: 0, casesAllVerified: 0, total: 0, verified: 0, misplaced: 0, notFound: 0 },
     });
   });
 
@@ -892,12 +919,38 @@ describe("renderMarkdownReport", () => {
     expect(md).toContain("| Mean turns | 5.5 |");
     expect(md).toContain("| Latency | p50 1.5 s, p95 1.5 s |");
     expect(md).toContain("| code | 1/2 | 50% |");
-    expect(md).toContain("| ✅ | mini | code | code (high) | $0.0421 | 4 | search_log ×2, read_file |  |");
     expect(md).toContain(
-      "| ❌ | pipes | code / dependency | flaky (low) | n/a | 7 | none | " +
+      "| ✅ | mini | code | code (high) | $0.0421 | 4 | search_log ×2, read_file | – |  |",
+    );
+    expect(md).toContain(
+      "| ❌ | pipes | code / dependency | flaky (low) | n/a | 7 | none | – | " +
         "category flaky, expected code or dependency; missing keywords: a\\|b |",
     );
+    expect(md).not.toMatch(/^\| Evidence \|/m);
     expect(md.endsWith("\n")).toBe(true);
+  });
+
+  it("adds an evidence metric and per-case evidence when evidence was checked", () => {
+    const checked = [
+      record({ evidence: { total: 3, verified: 3, misplaced: 0, notFound: 0 } }),
+      record({ id: "other", evidence: { total: 2, verified: 0, misplaced: 1, notFound: 1 } }),
+      record({ id: "none" }),
+    ];
+    const summary = summarize(checked);
+    expect(summary.evidence).toEqual({
+      cases: 2,
+      casesAllVerified: 1,
+      total: 5,
+      verified: 3,
+      misplaced: 1,
+      notFound: 1,
+    });
+    const md = renderMarkdownReport(reportHeader(options, 3, "2026-11-24"), summary, checked);
+    expect(md).toContain(
+      "| Evidence | 3/5 quotes verified (60%) · 1 misplaced · 1 not found · all verified in 1/2 cases |",
+    );
+    expect(md).toContain("| search_log ×2, read_file | 3/3 |");
+    expect(md).toContain("| search_log ×2, read_file | 0/2 (1 misplaced, 1 not found) |");
   });
 
   it("suffixes the repeat number when fixtures ran more than once", () => {
@@ -934,6 +987,18 @@ describe("console output", () => {
     expect(
       formatProgressLine(1, 2, record({ pass: false, status: "error", error: "timeout", gotCategory: null })),
     ).toBe("[1/2]  FAIL  mini #1  error  $0.0421  4 turns  3 tools  1.5 s  -- error: timeout");
+    expect(
+      formatProgressLine(1, 1, record({ evidence: { total: 2, verified: 2, misplaced: 0, notFound: 0 } })),
+    ).toBe("[1/1]  PASS  mini #1  code/high  $0.0421  4 turns  3 tools  1.5 s  evidence 2/2");
+  });
+
+  it("formats evidence counts compactly", () => {
+    expect(formatEvidence(null)).toBe("–");
+    expect(formatEvidence({ total: 3, verified: 3, misplaced: 0, notFound: 0 })).toBe("3/3");
+    expect(formatEvidence({ total: 3, verified: 1, misplaced: 1, notFound: 1 })).toBe(
+      "1/3 (1 misplaced, 1 not found)",
+    );
+    expect(formatEvidence({ total: 0, verified: 0, misplaced: 0, notFound: 0 })).toBe("0/0");
   });
 
   it("aligns the final table", () => {
@@ -1134,7 +1199,7 @@ describe("CLI and reports under adversarial input", () => {
     );
     const row = md.split(/\r\n?|\n/).find((line) => line.startsWith("| ❌"));
     expect(row).toBe(
-      "| ❌ | mini | code | error | $0.0421 | 4 | search_log ×2, read_file | " +
+      "| ❌ | mini | code | error | $0.0421 | 4 | search_log ×2, read_file | – | " +
         "error: line one line two three \\| four |",
     );
   });

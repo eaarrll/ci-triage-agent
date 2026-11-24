@@ -142,16 +142,19 @@ leaked secret) appears in the answer.
   outside the excerpt. A job timeout caused by a leaked timer. A failure inside the PR's own function that an
   unpinned dependency's new major release caused.
 
-| Mode                      | Original set (17 × 3 runs) | Hard set (8 × 3 runs) | Cost per triage       | Median time    | Model turns |
-| ------------------------- | -------------------------- | --------------------- | --------------------- | -------------- | ----------- |
-| Heuristic only, no AI     | 4 / 17                     | 0 / 8                 | $0                    | 6 ms           | –           |
-| Claude Haiku 5.5          | **51 / 51**                | **24 / 24**           | **$0.0010 / $0.0015** | 6.3 s / 9.6 s  | 2.2 / 2.9   |
-| Claude Sonnet 5.5         | **51 / 51**                | **24 / 24**           | $0.024 / $0.025       | 9.9 s / 11.0 s | 6.0 / 5.8   |
-| Claude Opus 5.5 (default) | **51 / 51**                | **24 / 24**           | $0.033 / $0.043       | 8.9 s / 10.5 s | 2.4 / 2.8   |
+| Mode                      | Original set (17 × 3 runs) | Hard set (8 × 3 runs) | Evidence verified (hard set) | Cost per triage       | Median time    | Model turns |
+| ------------------------- | -------------------------- | --------------------- | ---------------------------- | --------------------- | -------------- | ----------- |
+| Heuristic only, no AI     | 4 / 17                     | 0 / 8                 | 23 / 23                      | $0                    | 6 ms           | –           |
+| Claude Haiku 5.5          | **51 / 51**                | **24 / 24**           | 76 / 79                      | **$0.0010 / $0.0016** | 6.3 s / 8.5 s  | 2.2 / 3.0   |
+| Claude Sonnet 5.5         | **51 / 51**                | **24 / 24**           | 92 / 92                      | $0.024 / $0.025       | 9.9 s / 9.5 s  | 6.0 / 5.4   |
+| Claude Opus 5.5 (default) | **51 / 51**                | **24 / 24**           | **98 / 98**                  | $0.033 / $0.043       | 8.9 s / 10.1 s | 2.4 / 2.9   |
 
 Cost, time and turns are original set / hard set. All at `effort: medium`, measured 2026-11-24
 ([per-case results](evals/results/); the hard set's reports end in `-medium-hard`, and a second run at
-`effort: low` in `-low-hard`).
+`effort: low` in `-low-hard`). The hard-set figures come from the run that added the evidence check; an earlier
+run of the same set also scored 24/24 on every model. "Evidence verified" counts cited quotes found where the
+agent could have seen them, at the line they name ([how](evals/README.md#evidence-check)); it doesn't affect
+whether a case passes.
 
 What the numbers do and don't say:
 
@@ -163,7 +166,7 @@ What the numbers do and don't say:
   output, the `time.Second` unit, the missing `kms:GenerateDataKey`, the unpinned major release), gets the
   flaky flag right, and the two-failure answers also account for the flaky job. Both sets now work as
   regression suites for the harness, tools, redaction and injection resistance, not as a ranking.
-- **Where the models differ is effort, not accuracy.** Sonnet investigated the most (5.8 turns on the hard
+- **Where the models differ is effort, not accuracy.** Sonnet investigated the most (5.4 turns on the hard
   set, up to 12 on one case) without being more accurate. Haiku and Opus settled most hard cases in 2 to 4
   turns, and Opus reported high confidence on all 24.
 - **Lowering effort didn't separate them either.** On the hard set at `effort: low`, Haiku scored 23/24,
@@ -171,10 +174,13 @@ What the numbers do and don't say:
   place to fix it. Opus got cheaper and faster ($0.035 a case, 2.1 turns, 7.9 s median). Sonnet went the
   other way: 7.9 turns, hitting the 12-turn cap on 9 of 24 cases (it still answered correctly), so low effort
   cost it more than medium ($0.030 against $0.025 a case).
-- **What could separate them next.** The grader checks the diagnosis, not the evidence: it doesn't verify that
-  cited line numbers and quotes match the log, or that confidence is calibrated. Scoring evidence, adding
-  cases the logs genuinely can't settle (where the right answer is `unknown` with low confidence), and
-  tighter turn and cost caps are the next things to try.
+- **Evidence is the first measure where they differ, and only slightly.** Opus cited 98 quotes and every one
+  is where it says; Sonnet's 92 all check out too (some cite a file by path and line, which counts). Haiku
+  verified 76 of 79: in 3 of its 24 answers it cited a source line as a line of the job's log, or "quoted" a
+  diff with its own annotations mixed in. Its diagnoses were still right, but a reader following those
+  citations would land in the wrong place.
+- **What could separate them next.** Cases the logs genuinely can't settle (where the right answer is
+  `unknown` with low confidence, which tests calibration), and tighter turn and cost caps.
 - **The first run was not perfect.** It scored 15–16 of 17. Every miss was the same disagreement: for an OOM
   and a full disk triggered by the PR's new dependencies, the models said `code` where the key said
   `infrastructure`. The models were right that a rerun would not help, so the key now accepts both but

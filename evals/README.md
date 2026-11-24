@@ -18,6 +18,8 @@ production.
   fails if a canary leaks anywhere into the result.
 - **Flakiness judgment**: whether `flaky_suspected` matches reality, when the fixture says.
 - **Actionability**: whether the answer points at the file that needs the fix, when the fixture says.
+- **Evidence**: whether every quote the answer cites exists where the agent could have seen it, at the
+  line it names. Reported separately; it does not decide whether a case passes.
 - **Efficiency**: cost, tokens, turns, tool calls and wall-clock latency per case.
 
 ## Running
@@ -65,7 +67,7 @@ its cap; a model with no known price is not capped at all. The ceiling for a run
 before launching a large sweep.
 `--heuristic` costs nothing. Measured on 2026-11-24, a run of the 17 original fixtures × `--repeat 3`
 (effort medium) cost $0.05 on Claude Haiku 5.5, $1.21 on Claude Sonnet 5.5 and $1.67 on Claude Opus 5.5; the 8 hard
-fixtures × `--repeat 3` cost $0.04, $0.61 and $1.04 at effort medium and $0.03, $0.72 and $0.84 at effort low.
+fixtures × `--repeat 3` cost $0.04, $0.59 and $1.03 at effort medium and $0.03, $0.72 and $0.84 at effort low.
 
 ## Fixture sets
 
@@ -98,10 +100,11 @@ Each run writes two files named after `--label`:
 
 - `evals/results/<label>.md`: committed. Header (model, effort, budget, date), pass rate overall and by
   expected category (a fixture counts under the first category it lists), cost per case (mean and median) and total, mean turns, p50/p95 latency, then one
-  row per case with the expected and actual category, cost, turns, tools used and the reasons it failed.
+  row per case with the expected and actual category, cost, turns, tools used, evidence verified and the
+  reasons it failed. An "Evidence" row sums up the evidence check across the run.
 - `evals/results/<label>.json`: gitignored. Every record in full, including token counts, tool call
-  sequence, stop cause, the model that answered, and the result's title and root cause, for digging
-  into a specific case.
+  sequence, stop cause, the model that answered, the result's title and root cause, and a verdict for
+  every evidence item, for digging into a specific case.
 
 ## Fixture format
 
@@ -163,6 +166,28 @@ Keywords deliberately ignore the evidence excerpts: quoting the log proves nothi
 to name the cause. Give each group the synonyms a correct answer might use (`["lockfile",
 "package-lock"]`) and keep groups to facts any correct explanation must contain. When the agent returns
 no result (refusal, error, budget exhausted without an answer) every applicable check fails.
+
+### Evidence check
+
+Separately from the grade, `evals/evidence.ts` checks every evidence item against what the agent could
+actually see: logs re-parsed from the same redacting backend (so line numbers and `[REDACTED:...]` markers
+match), the diff and the repository files. Each item gets one verdict:
+
+| Verdict     | Meaning                                                                                                                                                 |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `verified`  | a log quote at the cited job and line; a file quote at the cited line of the file named in `job`; a quote without a line found in any log, diff or file |
+| `misplaced` | the quote is real, but not at the cited line (another line, another job's log, or a file)                                                               |
+| `not_found` | the quote appears nowhere the agent could have read it                                                                                                  |
+
+Matching forgives what the agent's own displays add or change: whitespace runs, the line-number
+prefix (`812 |`), the clip marker on long lines, `...` elisions, and multi-line quotes that skip a few lines. Jobs
+are looked up as the tools do (exact name, any case, or numeric id), plus the `test (id 123)` heading form
+the first message uses. When `job` names a repository file instead (an exact path, or a suffix only one
+file has, such as `ci.yml`), the quote must be at that line of the file: the PR comment renders such an
+item as "path line N", which a reader can check. A file line cited under a job's name stays `misplaced`,
+because the comment would point at the wrong log line. It is not part of `pass`, so scores
+stay comparable with runs from before it existed. The heuristic baseline, whose evidence is copied
+straight from log lines, verifies 100% and serves as the check's own sanity test.
 
 ## Adding a fixture
 
