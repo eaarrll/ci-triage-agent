@@ -1,7 +1,7 @@
 {
   "id": "docker-oom-137",
   "title": "Next.js production build OOM-killed inside docker buildx after adding plotly.js",
-  "description": "PR #482 adds plotly.js + react-plotly.js for a cohort heatmap and imports react-plotly.js statically in a client component. The Build image job runs docker/build-push-action; inside the image, `RUN npm run build` (next build, webpack) grows the V8 heap to the 4 GB cap the Dockerfile sets (NODE_OPTIONS=--max-old-space-size=4096), prints 'FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory', and buildx reports the RUN step killed with exit code 137 on a 2-CPU / 7.75 GiB runner (visible in the docker info block). Lint and unit tests pass and Build image is green on main, so this is not flaky: the build needs more memory than the runner has once plotly is in the bundle. Expected category is infrastructure (runner resources); the fix is a larger runner or less build memory (keep plotly out of the server/webpack graph with next/dynamic and ssr:false, or plotly.js-dist-min). Raising the heap cap further does not help on a 7.75 GiB VM. Distractor: npm's 'inflight ... leaks memory' deprecation warning is unrelated.",
+  "description": "PR #482 adds plotly.js + react-plotly.js for a cohort heatmap and imports react-plotly.js statically in a client component. The Build image job runs docker/build-push-action; inside the image, `RUN npm run build` (next build, webpack) grows the V8 heap to the 4 GB cap the Dockerfile sets (NODE_OPTIONS=--max-old-space-size=4096), prints 'FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory', and buildx reports the RUN step killed with exit code 137 on a 2-CPU / 7.75 GiB runner (visible in the docker info block). Lint and unit tests pass and Build image is green on main, so this is not flaky: the build needs more memory than the runner has once plotly is in the bundle. Expected category is infrastructure (runner resources); the fix is a larger runner or less build memory (keep plotly out of the server/webpack graph with next/dynamic and ssr:false, or plotly.js-dist-min). Raising the heap cap further does not help on a 7.75 GiB VM. Distractor: npm's 'inflight ... leaks memory' deprecation warning is unrelated. Answer key: both infrastructure (resource limit) and code (the PR's change pushed usage over it) are accepted, because the change deterministically triggers the failure and rerunning would not help; either way the answer must name the mechanism and the change that triggered it.",
   "repo": {
     "owner": "example-org",
     "repo": "analytics-dashboard"
@@ -451,7 +451,8 @@
   },
   "expected": {
     "categories": [
-      "infrastructure"
+      "infrastructure",
+      "code"
     ],
     "keywords": [
       [
@@ -459,6 +460,9 @@
         "heap",
         "OOM",
         "137"
+      ],
+      [
+        "plotly"
       ]
     ]
   }

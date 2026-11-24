@@ -1,7 +1,7 @@
 {
   "id": "disk-full-docker",
   "title": "CUDA image build runs out of disk on ubuntu-latest after adding TensorRT and onnxruntime-gpu",
-  "description": "PR #211 adds a TensorRT backend: requirements-gpu.txt gains onnxruntime-gpu and tensorrt-cu12 (which pulls the ~2 GB tensorrt_cu12_libs wheel). The requirements change invalidates the gha layer cache, so the build pulls and extracts the multi-GB nvidia/cuda cudnn-devel and cudnn-runtime bases and reinstalls torch + nvidia-* + TensorRT into /opt/venv. 'Runner resources' earlier in the log shows /dev/root at 80% with 15G free (/mnt has 66G free). The build dies copying the venv into the runtime stage: 'ERROR: failed to solve: failed to copy files: userspace copy failed: write .../libnvinfer_builder_resource.so.10.13.3: no space left on device'. build (cpu) passes and main history is green. Root cause is the hosted runner's disk, not the Python code: free space before building (remove preinstalled SDKs, prune), move Docker/buildkit data to /mnt, skip --load on PRs, slim the image, or use a larger runner. Distractor: apt's 'additional disk space will be used' line is normal output.",
+  "description": "PR #211 adds a TensorRT backend: requirements-gpu.txt gains onnxruntime-gpu and tensorrt-cu12 (which pulls the ~2 GB tensorrt_cu12_libs wheel). The requirements change invalidates the gha layer cache, so the build pulls and extracts the multi-GB nvidia/cuda cudnn-devel and cudnn-runtime bases and reinstalls torch + nvidia-* + TensorRT into /opt/venv. 'Runner resources' earlier in the log shows /dev/root at 80% with 15G free (/mnt has 66G free). The build dies copying the venv into the runtime stage: 'ERROR: failed to solve: failed to copy files: userspace copy failed: write .../libnvinfer_builder_resource.so.10.13.3: no space left on device'. build (cpu) passes and main history is green. Root cause is the hosted runner's disk, not the Python code: free space before building (remove preinstalled SDKs, prune), move Docker/buildkit data to /mnt, skip --load on PRs, slim the image, or use a larger runner. Distractor: apt's 'additional disk space will be used' line is normal output. Answer key: both infrastructure (resource limit) and code (the PR's change pushed usage over it) are accepted, because the change deterministically triggers the failure and rerunning would not help; either way the answer must name the mechanism and the change that triggered it.",
   "repo": {
     "owner": "example-org",
     "repo": "vision-models"
@@ -405,12 +405,18 @@
   },
   "expected": {
     "categories": [
-      "infrastructure"
+      "infrastructure",
+      "code"
     ],
     "keywords": [
       [
         "space",
         "disk"
+      ],
+      [
+        "tensorrt",
+        "onnx",
+        "requirements-gpu"
       ]
     ]
   }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addUsage, emptyUsage, normalizeModelId, priceFor } from "../src/agent/pricing.js";
+import { addResponseUsage, addUsage, emptyUsage, normalizeModelId, priceFor } from "../src/agent/pricing.js";
 
 describe("priceFor", () => {
   it("returns list prices per million tokens", () => {
@@ -21,7 +21,7 @@ describe("priceFor", () => {
   });
 
   it("returns null for unknown or inexact ids", () => {
-    expect(priceFor("claude-opus-5-5-20260401")).toBeNull();
+    expect(priceFor("claude-opus-5-5-preview")).toBeNull();
     expect(priceFor("gpt-example")).toBeNull();
     expect(priceFor("")).toBeNull();
   });
@@ -92,7 +92,7 @@ describe("price table", () => {
     ["claude-haiku-5-5", 0.1, 0.5, 0.01, 0.125],
     ["claude-haiku-4-5", 1, 5, 0.1, 1.25],
     ["claude-fable-5-2", 8, 40, 0.2, 10],
-    ["claude-fable-5-1", 10, 50, 1, 12.5],
+    ["claude-fable-5-1", 10, 50, 0.25, 12.5],
     ["claude-fable-5", 10, 50, 1, 12.5],
   ])("prices %s at the list rate", (model, input, output, cacheRead, cacheWrite) => {
     expect(priceFor(model)).toEqual({ input, output, cacheRead, cacheWrite });
@@ -103,5 +103,32 @@ describe("price table", () => {
     expect(priceFor("bedrock/claude-opus-5-5")).toBeNull();
     expect(priceFor("anthropic.claude-opus-5-5-v1:0")).toBeNull();
     expect(priceFor("CLAUDE-OPUS-5-5")).toBeNull();
+  });
+});
+
+describe("pricing fixes from review", () => {
+  it("prices dated snapshot ids by their base model", () => {
+    expect(priceFor("claude-haiku-4-5-20251001")).toEqual(priceFor("claude-haiku-4-5"));
+    expect(priceFor("claude-haiku-4-5-20251001")).not.toBeNull();
+  });
+
+  it("prices Fable 5.1 cache reads at $0.25 and knows the Mythos models", () => {
+    expect(priceFor("claude-fable-5-1")?.cacheRead).toBe(0.25);
+    expect(priceFor("claude-mythos-5-2")).toEqual(priceFor("claude-fable-5-2"));
+  });
+
+  it("prices every attempt in usage.iterations by its own model, as one request", () => {
+    const totals = addResponseUsage(emptyUsage(), "claude-opus-4-8", {
+      input_tokens: 100,
+      output_tokens: 10,
+      iterations: [
+        { type: "message", model: "claude-opus-5-5", input_tokens: 1000, output_tokens: 50 },
+        { type: "fallback_message", model: "claude-opus-4-8", input_tokens: 100, output_tokens: 10 },
+      ],
+    });
+    expect(totals.requests).toBe(1);
+    expect(totals.inputTokens).toBe(1100);
+    const expected = (1000 * 4 + 50 * 20) / 1e6 + (100 * 5 + 10 * 25) / 1e6;
+    expect(totals.costUsd).toBeCloseTo(expected, 10);
   });
 });

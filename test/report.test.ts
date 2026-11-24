@@ -5,7 +5,10 @@ import {
   renderComment,
   renderResolved,
   renderSummary,
+  runStamp,
   sanitizeModelText,
+  isWrittenByNewerRun,
+  parseRunStamp,
 } from "../src/report.js";
 import type {
   Category,
@@ -368,7 +371,8 @@ describe("renderComment structure", () => {
     const body = renderComment(makeResult(), makeMeta());
     const lines = body.split("\n");
     expect(lines[0]).toBe("<!-- ci-triage-agent:workflow=77 -->");
-    expect(lines[1]).toBe("### 🧑‍💻 CI triage: applyDiscount() now rounds before subtracting");
+    expect(lines[1]).toBe("<!-- ci-triage-agent:run=4242.2 -->");
+    expect(lines[2]).toBe("### 🧑‍💻 CI triage: applyDiscount() now rounds before subtracting");
     expect(body).toContain(`[CI](${RUN_URL}) · attempt 2 · 🧑‍💻 Code · confidence: high\n`);
     expect(body).not.toContain("rerun recommended");
     expect(body).toContain("**Root cause**\n\nThe change in src/pricing/discount.ts rounds");
@@ -384,6 +388,7 @@ describe("renderComment structure", () => {
     );
     expect(rawHtml(body).filter((tag) => !/^<\/?(details|summary|sub)>$/.test(tag))).toEqual([
       "<!-- ci-triage-agent:workflow=77 -->",
+      "<!-- ci-triage-agent:run=4242.2 -->",
     ]);
   });
 
@@ -420,7 +425,8 @@ describe("renderComment structure", () => {
     expect(body).toContain("See this (`https://evil.example`)");
     expect(body).toContain(`x (image removed) @${ZWSP}example-org/admins`);
     expect(body).toContain(`**build &lt;b&gt;@${ZWSP}octocat&lt;/b&gt;** line 3`);
-    expect(countOf(body, "<!-- ci-triage-agent")).toBe(1);
+    // The marker and the run stamp; nothing the model wrote survives as one.
+    expect(countOf(body, "<!-- ci-triage-agent")).toBe(2);
     expect(body).not.toContain("](https://evil");
   });
 
@@ -444,7 +450,7 @@ describe("renderComment structure", () => {
 
   it("keeps one-line titles on the heading line", () => {
     const body = renderComment(makeResult({ title: "```\nline two\n# three" }), makeMeta());
-    expect(body.split("\n")[1]).toBe("### 🧑‍💻 CI triage: \\`\\`\\` line two # three");
+    expect(body.split("\n")[2]).toBe("### 🧑‍💻 CI triage: \\`\\`\\` line two # three");
   });
 
   it("falls back when model fields are empty", () => {
@@ -624,7 +630,7 @@ describe("renderSummary", () => {
     const comment = renderComment(makeResult(), makeMeta());
     expect(summary.startsWith("### 🧑‍💻 CI triage:")).toBe(true);
     expect(summary).not.toContain("<!-- ci-triage-agent");
-    expect(summary).toContain(comment.slice(comment.indexOf("\n") + 1).trimEnd());
+    expect(summary).toContain(comment.split("\n").slice(2).join("\n").trimEnd());
   });
 
   it("adds a usage table, stop cause and redaction count", () => {
@@ -720,14 +726,15 @@ describe("renderResolved", () => {
     );
     const lines = body.split("\n");
     expect(lines[0]).toBe(commentMarker(passing));
-    expect(lines[1]).toBe("### ✅ Resolved: CI passed on fedcba9");
+    expect(lines[1]).toBe(runStamp(passing));
+    expect(lines[2]).toBe("### ✅ Resolved: CI passed on fedcba9");
     expect(body).toContain(
       "[View the passing run](https://github.com/example-org/widgets/actions/runs/5000) · attempt 1",
     );
     expect(body).toContain(
       "<details><summary>Previous triage</summary>\n\n### 🧑‍💻 CI triage: applyDiscount()",
     );
-    expect(countOf(body, "<!-- ci-triage-agent")).toBe(1);
+    expect(countOf(body, "<!-- ci-triage-agent")).toBe(2);
     expect(body.trimEnd().endsWith("</details>")).toBe(true);
   });
 
@@ -735,7 +742,7 @@ describe("renderResolved", () => {
     const first = renderResolved({ id: 1, body: triage, htmlUrl: "" }, passing);
     const later = makeRun({ id: 6000, headSha: "abcdef0123456789abcdef0123456789abcdef01" });
     const second = renderResolved({ id: 1, body: first, htmlUrl: "" }, later);
-    expect(second.split("\n")[1]).toBe("### ✅ Resolved: CI passed on abcdef0");
+    expect(second.split("\n")[2]).toBe("### ✅ Resolved: CI passed on abcdef0");
     expect(countOf(second, "<details><summary>Previous triage</summary>")).toBe(1);
     expect(countOf(second, "### ✅ Resolved")).toBe(1);
     expect(second).toContain("### 🧑‍💻 CI triage: applyDiscount()");
@@ -747,7 +754,23 @@ describe("renderResolved", () => {
       { id: 1, body: triage.replace(/\n/g, "\r\n"), htmlUrl: "" },
       makeRun({ workflowName: "Deploy <prod> @ops" }),
     );
-    expect(body.split("\n")[1]).toBe(`### ✅ Resolved: Deploy &lt;prod&gt; @${ZWSP}ops passed on 0123456`);
+    expect(body.split("\n")[2]).toBe(`### ✅ Resolved: Deploy &lt;prod&gt; @${ZWSP}ops passed on 0123456`);
     expect(body).not.toContain("\r");
+  });
+});
+
+describe("run stamps", () => {
+  it("round-trips the run attempt that wrote a comment", () => {
+    const body = renderComment(makeResult(), makeMeta());
+    expect(parseRunStamp(body)).toEqual({ runId: 4242, attempt: 2 });
+  });
+
+  it("flags comments written by a later run or attempt", () => {
+    const body = `<!-- ci-triage-agent:workflow=77 -->\n${runStamp({ id: 5000, attempt: 1 })}\nbody`;
+    const existing = { id: 1, body, htmlUrl: "" };
+    expect(isWrittenByNewerRun(existing, { id: 4999, attempt: 3 })).toBe(true);
+    expect(isWrittenByNewerRun(existing, { id: 5000, attempt: 1 })).toBe(false);
+    expect(isWrittenByNewerRun(existing, { id: 5000, attempt: 2 })).toBe(false);
+    expect(isWrittenByNewerRun({ id: 1, body: "no stamp", htmlUrl: "" }, { id: 1, attempt: 1 })).toBe(false);
   });
 });

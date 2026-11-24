@@ -362,6 +362,11 @@ export interface Config {
   effort: Effort;
   repo: RepoRef;
   runId: number;
+  /**
+   * Attempt to triage. Set from the workflow_run payload so a re-run that is already in progress
+   * does not replace the attempt that actually failed; null = the run's latest attempt.
+   */
+  runAttempt: { attempt: number; conclusion: string | null } | null;
   /** Post/update a PR comment. */
   comment: boolean;
   /** When the run succeeded, mark an earlier triage comment on the PR as resolved. */

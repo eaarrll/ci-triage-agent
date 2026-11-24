@@ -323,15 +323,8 @@ describe("runTriage", () => {
       "get_job_history",
     ]);
     expect(tools[0]).not.toHaveProperty("run");
-    for (const forbidden of [
-      "thinking",
-      "temperature",
-      "top_p",
-      "top_k",
-      "tool_choice",
-      "thread",
-      "max_iterations",
-    ]) {
+    expect(first?.body.thinking).toEqual({ type: "adaptive" });
+    for (const forbidden of ["temperature", "top_p", "top_k", "tool_choice", "thread", "max_iterations"]) {
       expect(first?.body).not.toHaveProperty(forbidden);
     }
     expect(first?.headers.get("anthropic-beta")).toContain("server-side-fallback-2026-07-01");
@@ -599,17 +592,26 @@ describe("runTriage", () => {
     expect(requests).toHaveLength(2);
   });
 
-  it("answers a tool call cut off at max_tokens before asking for the repair", async () => {
+  it("never runs a tool call cut off at max_tokens and lets the agent retry it", async () => {
+    const readFile = vi.fn(async () => "export const x = 1;\n");
     const { client, requests } = scriptedClient([
       reply([toolUse("toolu_9", "read_file", { path: "src/discount.ts" })], "max_tokens"),
       reply([finalAnswer()], "end_turn"),
     ]);
 
-    expectOk(await runTriage(context(), backend(), options(client)));
+    const outcome = expectOk(await runTriage(context(), backend({ readFile }), options(client)));
 
-    const content = lastMessage(requests[1]).content as Array<{ type: string; tool_use_id?: string }>;
-    expect(content.map((block) => block.type)).toEqual(["tool_result", "text"]);
-    expect(content[0]?.tool_use_id).toBe("toolu_9");
+    expect(readFile).not.toHaveBeenCalled();
+    const content = lastMessage(requests[1]).content as Array<{
+      type: string;
+      tool_use_id?: string;
+      is_error?: boolean;
+    }>;
+    expect(content).toEqual([
+      expect.objectContaining({ type: "tool_result", tool_use_id: "toolu_9", is_error: true }),
+    ]);
+    expect(requests[1]?.body.tool_choice).toBeUndefined();
+    expect(outcome.stopCause).toBe("complete");
   });
 
   it("reports a failing tool to the model as an error result and keeps going", async () => {
@@ -775,9 +777,9 @@ describe("runTriage edge cases", () => {
     expect(outcome.stopCause).toBe("complete");
     expect(outcome.usage.costUsd).toBeNull();
     expect(requests.map((request) => request.body.tool_choice)).toEqual([undefined, undefined, undefined]);
-    expect(lines.warning).toEqual([
+    expect(lines.warning).toContain(
       "No price is known for claude-custom-preview; the cost budget cannot be enforced.",
-    ]);
+    );
   });
 
   it("repairs an invalid answer to a budget-forced final request and keeps the budget stop cause", async () => {
@@ -840,7 +842,7 @@ describe("runTriage edge cases", () => {
     [
       "a rate limit",
       () => jsonResponse({ type: "error", error: { type: "rate_limit_error", message: "slow down" } }, 429),
-      "Anthropic API rate limit exceeded (429), even after retries",
+      "Anthropic API rate or spend limit reached (429), even after retries: slow down",
     ],
     [
       "a server error",
@@ -883,5 +885,33 @@ describe("runTriage edge cases", () => {
 
     expect(LONE_SURROGATE.test(JSON.stringify(requests[0]?.body.messages))).toBe(false);
     expect(String(requests[0]?.body.messages[0]?.content)).toContain(`${"x".repeat(499)} [... `);
+  });
+});
+
+describe("model controls from review", () => {
+  it.each([
+    ["claude-opus-4-8", { type: "adaptive" }],
+    ["claude-sonnet-4-6", { type: "adaptive" }],
+    ["claude-haiku-5-5", { type: "adaptive" }],
+    ["claude-haiku-4-5", undefined],
+  ])("sends the right thinking config for %s", async (model, expected) => {
+    const { client, requests } = scriptedClient([reply([finalAnswer()], "end_turn", undefined, { model })]);
+
+    expectOk(await runTriage(context(), backend(), options(client, { model })));
+
+    expect(requests[0]?.body.thinking).toEqual(expected);
+  });
+
+  it("warns when the model has no effort control", async () => {
+    const { client } = scriptedClient([
+      reply([finalAnswer()], "end_turn", undefined, { model: "claude-haiku-4-5" }),
+    ]);
+    const { log, lines } = logger();
+
+    expectOk(
+      await runTriage(context(), backend(), options(client, { model: "claude-haiku-4-5", logger: log })),
+    );
+
+    expect(lines.warning.join("\n")).toContain("no effort control");
   });
 });

@@ -155,3 +155,12 @@ no result (refusal, error, budget exhausted without an answer) every applicable 
    `npm run eval -- --heuristic --only <id>`.
 5. Run the agent on it a few times (`--only <id> --repeat 3`). If it fails, read the JSON record before
    touching `expected`: a fixture should be fair, not easy.
+
+## Answer-key changes
+
+Answer keys are only changed with a written reason, so a better score cannot come from quietly
+loosening them.
+
+| Date       | Fixture                              | Change                                                                                                                                         | Why                                                                                                                                                                                                                                                                                                                                                          |
+| ---------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2026-11-24 | `docker-oom-137`, `disk-full-docker` | Accept `code` as well as `infrastructure`, and require the triggering change to be named (`plotly`; `tensorrt` / `onnx` / `requirements-gpu`). | In the first full run, all three models said the PR pushed the build over its heap or disk limit. That is correct, and arguably more useful than `infrastructure` alone, because a rerun would fail the same way. The fixture review had already flagged the single-category key as debatable. The added keyword group makes the case stricter on substance. |

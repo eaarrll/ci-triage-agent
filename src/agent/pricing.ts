@@ -26,12 +26,19 @@ const PRICES: Readonly<Record<string, ModelPrice>> = {
   "claude-haiku-5-5": { input: 0.1, output: 0.5, cacheRead: 0.01, cacheWrite: 0.125 },
   "claude-haiku-4-5": { input: 1, output: 5, cacheRead: 0.1, cacheWrite: 1.25 },
   "claude-fable-5-2": { input: 8, output: 40, cacheRead: 0.2, cacheWrite: 10 },
-  "claude-fable-5-1": { input: 10, output: 50, cacheRead: 1, cacheWrite: 12.5 },
+  "claude-fable-5-1": { input: 10, output: 50, cacheRead: 0.25, cacheWrite: 12.5 },
   "claude-fable-5": { input: 10, output: 50, cacheRead: 1, cacheWrite: 12.5 },
+  // Mythos models share their Fable counterparts' per-token prices.
+  "claude-mythos-5-2": { input: 8, output: 40, cacheRead: 0.2, cacheWrite: 10 },
+  "claude-mythos-5-1": { input: 10, output: 50, cacheRead: 0.25, cacheWrite: 12.5 },
+  "claude-mythos-5": { input: 10, output: 50, cacheRead: 1, cacheWrite: 12.5 },
 };
 
 /** Cloud provider prefixes such as "anthropic." or "us.anthropic." (Amazon Bedrock style). */
 const PROVIDER_PREFIX = /^(?:[a-z]{2,6}\.)?anthropic\./;
+
+/** Snapshot suffixes: responses can name "claude-haiku-4-5-20251001" for a "claude-haiku-4-5" request. */
+const DATE_SUFFIX = /-\d{8}$/;
 
 /** The first-party model id without a provider prefix; everything else is kept as is. */
 export function normalizeModelId(model: string): string {
@@ -39,7 +46,8 @@ export function normalizeModelId(model: string): string {
 }
 
 export function priceFor(model: string): ModelPrice | null {
-  return PRICES[normalizeModelId(model)] ?? null;
+  const id = normalizeModelId(model);
+  return PRICES[id] ?? PRICES[id.replace(DATE_SUFFIX, "")] ?? null;
 }
 
 export function emptyUsage(): UsageTotals {
@@ -83,4 +91,30 @@ export function addUsage(totals: UsageTotals, model: string, usage: ApiUsage): U
     // One unpriced response makes the whole total unknown; a partial sum would look authoritative.
     costUsd: totals.costUsd === null || responseCost === null ? null : totals.costUsd + responseCost,
   };
+}
+
+/** One sampling attempt inside a response, as reported in `usage.iterations`. */
+export interface ApiIterationUsage extends ApiUsage {
+  type: string;
+  model?: string | null;
+}
+
+/**
+ * Adds one API response. When the response carries `usage.iterations` (for example a refusal
+ * that a fallback model rescued), each attempt is priced by the model that ran it, so the
+ * declined attempt is not silently dropped; otherwise the top-level usage is used.
+ */
+export function addResponseUsage(
+  totals: UsageTotals,
+  responseModel: string,
+  usage: ApiUsage & { iterations?: readonly ApiIterationUsage[] | null },
+): UsageTotals {
+  const iterations = usage.iterations ?? [];
+  if (iterations.length === 0) return addUsage(totals, responseModel, usage);
+  const summed = iterations.reduce((acc, it) => addUsage(acc, it.model ?? responseModel, it), {
+    ...totals,
+    requests: totals.requests,
+  });
+  // Several attempts, one HTTP request.
+  return { ...summed, requests: totals.requests + 1 };
 }

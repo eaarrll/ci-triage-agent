@@ -5,9 +5,15 @@ import { readConfig } from "./config.js";
 import { buildContext } from "./context.js";
 import { createGitHubBackend } from "./github/gateway.js";
 import { withRedaction } from "./redact.js";
-import { commentMarker, renderComment, renderResolved, renderSummary } from "./report.js";
+import {
+  commentMarker,
+  isWrittenByNewerRun,
+  renderComment,
+  renderResolved,
+  renderSummary,
+} from "./report.js";
 import { heuristicTriage } from "./signatures.js";
-import type { AgentLogger, Config, ReportMeta, TriageResult } from "./types.js";
+import type { AgentLogger, CommentPort, Config, ReportMeta, RunInfo, TriageResult } from "./types.js";
 import { VERSION } from "./version.js";
 
 const TRIAGE_CONCLUSIONS = new Set(["failure", "timed_out"]);
@@ -32,6 +38,7 @@ export async function run(): Promise<void> {
     );
   } catch (err) {
     // Bad inputs are the workflow author's to fix, so this is the one place we fail loudly.
+    core.setOutput("mode", "error");
     core.setFailed(`ci-triage-agent: ${errorMessage(err)}`);
     return;
   }
@@ -49,7 +56,7 @@ export async function run(): Promise<void> {
 
 async function triage(config: Config): Promise<void> {
   const octokit = github.getOctokit(config.githubToken);
-  const gateway = createGitHubBackend(octokit, config.repo, config.runId);
+  const gateway = createGitHubBackend(octokit, config.repo, config.runId, { attempt: config.runAttempt });
   const backend = withRedaction(gateway);
   const run = await backend.getRun();
   core.info(
@@ -57,8 +64,7 @@ async function triage(config: Config): Promise<void> {
   );
 
   if (run.conclusion === "success") {
-    await resolveEarlierComment(config, gateway, run);
-    core.setOutput("mode", "resolved");
+    core.setOutput("mode", (await resolveEarlierComment(config, gateway, run)) ? "resolved" : "skipped");
     return;
   }
   if (run.conclusion !== null && !TRIAGE_CONCLUSIONS.has(run.conclusion)) {
@@ -69,8 +75,11 @@ async function triage(config: Config): Promise<void> {
 
   const ctx = await buildContext(backend, { maxFailedJobs: config.maxFailedJobs, logger });
   if (ctx.failedJobs.length === 0) {
-    core.info("No failed jobs found in this run; nothing to triage.");
-    core.setOutput("mode", "skipped");
+    // In same-workflow mode (`if: always()`) the run is still in progress; no failed job so far
+    // means the jobs this one depends on passed, which resolves an earlier triage.
+    const resolved = run.conclusion === null && (await resolveEarlierComment(config, gateway, run));
+    if (!resolved) core.info("No failed jobs found in this run; nothing to triage.");
+    core.setOutput("mode", resolved ? "resolved" : "skipped");
     return;
   }
 
@@ -119,21 +128,26 @@ async function triage(config: Config): Promise<void> {
   }
   meta.redactions = backend.redactionCount;
 
+  // Outputs and the summary come first: they must survive a comment that cannot be posted.
+  setResultOutputs(result, meta);
   await core.summary.addRaw(renderSummary(result, meta), true).write();
 
-  let commentUrl = "";
-  if (config.comment) {
+  if (!config.comment) return;
+  try {
     const pr = await gateway.findPullRequest(ctx.run);
     if (pr === null) {
       core.info("Run is not associated with an open pull request; results are in the job summary.");
-    } else {
-      const marker = commentMarker(ctx.run);
-      const posted = await gateway.upsertComment(pr, marker, renderComment(result, meta));
-      commentUrl = posted.htmlUrl;
-      core.info(`${posted.created ? "Posted" : "Updated"} triage comment: ${commentUrl}`);
+      return;
     }
+    const url = await writeComment(gateway, pr, ctx.run, renderComment(result, meta));
+    if (url) core.setOutput("comment-url", url);
+  } catch (err) {
+    // Typical cause: a read-only token (pull_request from a fork, or no pull-requests: write).
+    core.warning(`Could not post the PR comment (results are in the job summary): ${errorMessage(err)}`);
   }
+}
 
+function setResultOutputs(result: TriageResult, meta: ReportMeta): void {
   core.setOutput("category", result.category);
   core.setOutput("confidence", result.confidence);
   core.setOutput("title", result.title);
@@ -142,35 +156,57 @@ async function triage(config: Config): Promise<void> {
   core.setOutput("flaky-suspected", String(result.flaky_suspected));
   core.setOutput("mode", meta.mode);
   core.setOutput("cost-usd", meta.usage?.costUsd != null ? meta.usage.costUsd.toFixed(4) : "");
-  core.setOutput("comment-url", commentUrl);
+  core.setOutput("comment-url", "");
   core.setOutput("result-json", JSON.stringify(result));
 }
 
-async function resolveEarlierComment(
-  config: Config,
-  gateway: ReturnType<typeof createGitHubBackend>,
-  run: Awaited<ReturnType<ReturnType<typeof createGitHubBackend>["getRun"]>>,
-): Promise<void> {
-  if (!config.comment || !config.resolveOnSuccess) {
-    core.info("Run succeeded; nothing to triage.");
-    return;
-  }
-  const pr = await gateway.findPullRequest(run);
-  if (pr === null) {
-    core.info("Run succeeded and is not associated with an open pull request.");
-    return;
-  }
+/**
+ * Create or update this workflow's comment, unless a later run already wrote it (a slow
+ * triage of an older run must not replace a newer result or a "Resolved" note).
+ */
+async function writeComment(
+  gateway: CommentPort,
+  pr: number,
+  run: RunInfo,
+  body: string,
+): Promise<string | null> {
   const marker = commentMarker(run);
   const existing = await gateway.findComment(pr, marker);
-  if (existing === null) {
-    core.info("Run succeeded and there is no earlier triage comment to resolve.");
-    return;
+  if (existing && isWrittenByNewerRun(existing, run)) {
+    core.info(`A newer run already updated the triage comment (${existing.htmlUrl}); leaving it as is.`);
+    return null;
   }
-  const body = renderResolved(existing, run);
-  if (body === existing.body) return;
-  const updated = await gateway.upsertComment(pr, marker, body);
-  core.info(`Marked earlier triage comment as resolved: ${updated.htmlUrl}`);
-  core.setOutput("comment-url", updated.htmlUrl);
+  if (existing && existing.body === body) return existing.htmlUrl;
+  const posted = await gateway.upsertComment(pr, marker, body);
+  core.info(`${posted.created ? "Posted" : "Updated"} triage comment: ${posted.htmlUrl}`);
+  return posted.htmlUrl;
+}
+
+/** Returns true when an earlier triage comment was marked resolved. Never throws. */
+async function resolveEarlierComment(config: Config, gateway: CommentPort, run: RunInfo): Promise<boolean> {
+  if (!config.comment || !config.resolveOnSuccess) {
+    core.info("Run succeeded; nothing to triage.");
+    return false;
+  }
+  try {
+    const pr = await gateway.findPullRequest(run);
+    if (pr === null) {
+      core.info("Run succeeded and is not associated with an open pull request.");
+      return false;
+    }
+    const existing = await gateway.findComment(pr, commentMarker(run));
+    if (existing === null) {
+      core.info("Run succeeded and there is no earlier triage comment to resolve.");
+      return false;
+    }
+    const url = await writeComment(gateway, pr, run, renderResolved(existing, run));
+    if (url === null) return false;
+    core.setOutput("comment-url", url);
+    return true;
+  } catch (err) {
+    core.warning(`Could not update the earlier triage comment: ${errorMessage(err)}`);
+    return false;
+  }
 }
 
 function errorMessage(err: unknown): string {

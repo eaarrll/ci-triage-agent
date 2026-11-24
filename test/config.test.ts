@@ -44,6 +44,7 @@ describe("readConfig defaults", () => {
       effort: "medium",
       repo: { owner: "example-org", repo: "widgets" },
       runId: 1001,
+      runAttempt: null,
       comment: true,
       resolveOnSuccess: true,
       maxTurns: 12,
@@ -411,5 +412,26 @@ describe("action.yml", () => {
     expect(metadata.top.get("branding.color")).toBe("red");
     expect(metadata.top.get("runs.using")).toBe("node24");
     expect(metadata.top.get("runs.main")).toBe("dist/index.js");
+  });
+});
+
+describe("run attempt pinning (workflow_run)", () => {
+  const wfRun = (workflowRun: Record<string, unknown>): GitHubEventContext => ({
+    ...gh(),
+    eventName: "workflow_run",
+    payload: { workflow_run: workflowRun },
+  });
+
+  it("pins the triggering attempt and its conclusion", () => {
+    const config = readConfig(withToken(), wfRun({ id: 77, run_attempt: 2, conclusion: "failure" }));
+    expect(config.runId).toBe(77);
+    expect(config.runAttempt).toEqual({ attempt: 2, conclusion: "failure" });
+  });
+
+  it("does not pin when run-id is given explicitly or the event is not workflow_run", () => {
+    expect(
+      readConfig(withToken({ "run-id": "77" }), wfRun({ id: 77, run_attempt: 2 })).runAttempt,
+    ).toBeNull();
+    expect(readConfig(withToken(), gh()).runAttempt).toBeNull();
   });
 });

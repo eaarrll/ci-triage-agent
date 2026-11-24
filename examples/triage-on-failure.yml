@@ -13,6 +13,11 @@ permissions:
   contents: read # read files at the failing commit
   pull-requests: write # post / update the triage comment
 
+# One triage at a time per watched workflow and branch, so two runs of the same commit
+# (say, push and pull_request) cannot race to create duplicate comments.
+concurrency:
+  group: ci-triage-${{ github.event.workflow_run.workflow_id }}-${{ github.event.workflow_run.head_repository.full_name }}-${{ github.event.workflow_run.head_branch }}
+
 jobs:
   triage:
     # Failures get triaged; successes mark an earlier triage comment as resolved.

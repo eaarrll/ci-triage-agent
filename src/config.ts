@@ -46,13 +46,15 @@ interface IntegerRange {
 /** Validate inputs and resolve which run to triage. Throws Error with a user-facing message on bad input. */
 export function readConfig(inputs: InputSource, gh: GitHubEventContext): Config {
   const read = (name: string): string => inputs.getInput(name).trim();
+  const runIdInput = read("run-id");
   return {
     apiKey: read("anthropic-api-key") || null,
     githubToken: requireToken(read("github-token")),
     model: parseModel(read("model")),
     effort: parseEffort(read("effort")),
     repo: { owner: gh.repo.owner, repo: gh.repo.repo },
-    runId: resolveRunId(read("run-id"), gh),
+    runId: resolveRunId(runIdInput, gh),
+    runAttempt: resolveRunAttempt(runIdInput, gh),
     comment: parseBoolean("comment", read("comment"), true),
     resolveOnSuccess: parseBoolean("resolve-on-success", read("resolve-on-success"), true),
     maxTurns: parseInteger("max-turns", read("max-turns"), { fallback: 12, min: 1, max: 50 }),
@@ -141,6 +143,17 @@ function resolveRunId(value: string, gh: GitHubEventContext): number {
   }
   if (isPositiveInteger(gh.runId)) return gh.runId;
   throw new ConfigError("Could not determine which workflow run to triage; set the run-id input.");
+}
+
+/** The triggering attempt for workflow_run events; an explicit run-id means "latest attempt". */
+function resolveRunAttempt(runIdInput: string, gh: GitHubEventContext): Config["runAttempt"] {
+  if (runIdInput || gh.eventName !== "workflow_run") return null;
+  const triggeringRun = gh.payload["workflow_run"];
+  if (!isRecord(triggeringRun)) return null;
+  const attempt = triggeringRun["run_attempt"];
+  const conclusion = triggeringRun["conclusion"];
+  if (!isPositiveInteger(attempt)) return null;
+  return { attempt, conclusion: typeof conclusion === "string" ? conclusion : null };
 }
 
 function isPositiveInteger(value: unknown): value is number {

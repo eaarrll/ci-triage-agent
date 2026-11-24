@@ -65,6 +65,37 @@ export function commentMarker(run: RunInfo): string {
   return `<!-- ci-triage-agent:workflow=${run.workflowId} -->`;
 }
 
+export interface RunStamp {
+  runId: number;
+  attempt: number;
+}
+
+/** Hidden second line recording which run attempt last wrote the comment. */
+export function runStamp(run: Pick<RunInfo, "id" | "attempt">): string {
+  return `<!-- ci-triage-agent:run=${run.id}.${run.attempt} -->`;
+}
+
+const RUN_STAMP = /^[ \t]*<!-- ci-triage-agent:run=(\d+)\.(\d+) -->[ \t]*$/m;
+
+/** The run attempt that last wrote a comment, or null for comments without a stamp. */
+export function parseRunStamp(body: string): RunStamp | null {
+  const match = RUN_STAMP.exec(body);
+  return match ? { runId: Number(match[1]), attempt: Number(match[2]) } : null;
+}
+
+/**
+ * True when `existing` was written by a later run than `run`. Run ids grow monotonically per
+ * repository, so a slow triage of an older run must not overwrite a newer result.
+ */
+export function isWrittenByNewerRun(
+  existing: ExistingComment,
+  run: Pick<RunInfo, "id" | "attempt">,
+): boolean {
+  const stamp = parseRunStamp(existing.body);
+  if (stamp === null) return false;
+  return stamp.runId > run.id || (stamp.runId === run.id && stamp.attempt > run.attempt);
+}
+
 /**
  * Make model-written text safe to embed in a GitHub comment.
  *
@@ -102,8 +133,8 @@ export function sanitizeModelText(text: string): string {
 
 /** PR comment body (starts with commentMarker(meta.run)). */
 export function renderComment(result: TriageResult, meta: ReportMeta): string {
-  const marker = commentMarker(meta.run);
-  return `${marker}\n${renderTriage(result, meta, MAX_BODY_CHARS - marker.length - 2)}\n`;
+  const header = `${commentMarker(meta.run)}\n${runStamp(meta.run)}`;
+  return `${header}\n${renderTriage(result, meta, MAX_BODY_CHARS - header.length - 2)}\n`;
 }
 
 /** Job summary markdown: the comment content plus usage, cost and the agent's tool trace. */
@@ -118,6 +149,7 @@ export function renderResolved(previous: ExistingComment, run: RunInfo): string 
   const runUrl = safeUrl(run.htmlUrl);
   const lines = [
     commentMarker(run),
+    runStamp(run),
     `${RESOLVED_HEADING} ${workflow} passed on ${shortSha(run.headSha)}`,
     "",
     runUrl ? `[View the passing run](${runUrl}) · attempt ${run.attempt}` : `Attempt ${run.attempt}`,

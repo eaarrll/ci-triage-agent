@@ -26,7 +26,7 @@ import type {
   TriageOutcome,
   UsageTotals,
 } from "../types.js";
-import { addUsage, emptyUsage, normalizeModelId } from "./pricing.js";
+import { addResponseUsage, emptyUsage, normalizeModelId } from "./pricing.js";
 import { buildSystemPrompt, renderContext } from "./prompt.js";
 import { TRIAGE_OUTPUT_FORMAT, parseTriageResult } from "./result-schema.js";
 import { createTools } from "./tools.js";
@@ -46,10 +46,15 @@ export interface AgentOptions {
 
 /** Non-streaming requests stay well under the SDK's HTTP timeout at this size. */
 const MAX_TOKENS = 16_000;
-const REQUEST_TIMEOUT_MS = 120_000;
-const MAX_RETRIES = 3;
-/** Past this share of the time budget the next request is the final one. */
-const FINALIZE_AT_TIME_SHARE = 0.8;
+/**
+ * Retries cover 429/5xx/connection drops. A slow turn is not retried on a short per-request
+ * timeout (that would bill the same turn several times); the investigation deadline bounds it.
+ */
+const MAX_RETRIES = 2;
+/** The final answer gets at least this share of the time budget... */
+const FINAL_RESERVE_SHARE = 0.2;
+/** ...or this multiple of the slowest turn so far, whichever is larger. */
+const FINAL_RESERVE_TURNS = 1.5;
 
 const FALLBACK_BETA = "server-side-fallback-2026-07-01";
 /**
@@ -62,6 +67,7 @@ const FALLBACK_MODELS = new Set([
   "claude-sonnet-5-5",
   "claude-fable-5-2",
   "claude-fable-5-1",
+  "claude-fable-5",
 ]);
 /** Models that accept a `role: "system"` message inside `messages`. */
 const SYSTEM_MESSAGE_MODELS = new Set([
@@ -139,8 +145,8 @@ async function investigate(
   const started = performance.now();
   const { logger } = opts;
   const client =
-    opts.client ??
-    new Anthropic({ apiKey: opts.apiKey, maxRetries: MAX_RETRIES, timeout: REQUEST_TIMEOUT_MS });
+    opts.client ?? new Anthropic({ apiKey: opts.apiKey, maxRetries: MAX_RETRIES, timeout: opts.timeoutMs });
+  warnAboutModelControls(opts, logger);
   const tools = createTools({
     ctx,
     backend,
@@ -156,28 +162,41 @@ async function investigate(
   let finalRequested = startFinal;
   let repairRequested = false;
   let warnedUnpriced = false;
+  let turnStarted = started;
+  let slowestTurnMs = 0;
 
   for await (const message of runner) {
+    const now = performance.now();
+    slowestTurnMs = Math.max(slowestTurnMs, now - turnStarted);
     state.turns += 1;
-    state.usage = addUsage(state.usage, message.model, message.usage);
+    state.usage = addResponseUsage(state.usage, message.model, message.usage);
     logTurn(logger, state, message);
 
     if (message.stop_reason === "refusal") return refusal(state, message);
     // Only server tools pause a turn; the runner resumes it by itself.
     if (message.stop_reason === "pause_turn") continue;
 
+    // A tool call cut off at max_tokens may carry a silently truncated input: never run it.
+    if (message.stop_reason === "max_tokens" && hasToolUse(message) && !finalRequested) {
+      logger?.warning(`Turn ${state.turns} hit max_tokens inside a tool call; asking the agent to retry it.`);
+      continueWith(runner, message, [{ role: "user", content: truncatedToolResults(message) }], false);
+      turnStarted = performance.now();
+      continue;
+    }
+
     if (message.stop_reason === "tool_use" && !finalRequested) {
       if (state.usage.costUsd === null && !warnedUnpriced) {
         warnedUnpriced = true;
         logger?.warning(`No price is known for ${message.model}; the cost budget cannot be enforced.`);
       }
-      const cause = budgetCause(state, opts, performance.now() - started);
+      const cause = budgetCause(state, opts, now - started, slowestTurnMs);
       if (cause) {
         stopCause = cause;
         finalRequested = true;
         logger?.info(`${FINAL_INSTRUCTIONS[cause]} Asking for the final answer.`);
         await requestFinalAnswer(runner, message, cause);
       }
+      turnStarted = performance.now();
       continue;
     }
 
@@ -204,6 +223,7 @@ async function investigate(
       `The final answer was not valid triage JSON (stop reason ${message.stop_reason}); asking once more.`,
     );
     await requestRepair(runner, message);
+    turnStarted = performance.now();
   }
 
   return failure(state, `the agent stopped after ${state.turns} turns without a final answer`);
@@ -239,7 +259,9 @@ function buildParams(
     ],
     tools,
     ...(startFinal && { tool_choice: { type: "none" } }),
-    // Thinking is left at the model default (adaptive where supported); effort is the only dial.
+    // Adaptive thinking is the default on the 5.x models but must be asked for on Opus 4.6-4.8
+    // and Sonnet 4.6, which otherwise run without thinking. Older models get no thinking param.
+    ...(supportsAdaptiveThinking(opts.model) && { thinking: { type: "adaptive" } }),
     output_config: { ...(effort && { effort }), format: TRIAGE_OUTPUT_FORMAT },
     ...(FALLBACK_MODELS.has(opts.model) && {
       betas: [FALLBACK_BETA],
@@ -253,10 +275,17 @@ function buildParams(
   };
 }
 
-function budgetCause(state: RunState, opts: AgentOptions, elapsedMs: number): BudgetCause | null {
+function budgetCause(
+  state: RunState,
+  opts: AgentOptions,
+  elapsedMs: number,
+  slowestTurnMs: number,
+): BudgetCause | null {
   if (state.usage.costUsd !== null && state.usage.costUsd >= opts.maxCostUsd) return "budget";
   if (state.turns >= opts.maxTurns - 1) return "max_turns";
-  if (elapsedMs >= opts.timeoutMs * FINALIZE_AT_TIME_SHARE) return "timeout";
+  // Leave room for the tool calls already requested plus one more model turn.
+  const reserveMs = Math.max(opts.timeoutMs * FINAL_RESERVE_SHARE, slowestTurnMs * FINAL_RESERVE_TURNS);
+  if (elapsedMs + reserveMs >= opts.timeoutMs) return "timeout";
   return null;
 }
 
@@ -297,18 +326,55 @@ function continueWith(
   runner: BetaToolRunner<false>,
   message: BetaMessage,
   followUp: BetaMessageParam[],
+  final = true,
 ): void {
   runner.setMessagesParams((params) => ({
     ...params,
-    tool_choice: { type: "none" },
+    ...(final && { tool_choice: { type: "none" as const } }),
     // While the loop body runs, params.messages does not hold the reply yet; it goes back unchanged.
     messages: [...params.messages, { role: "assistant", content: message.content }, ...followUp],
   }));
 }
 
+function hasToolUse(message: BetaMessage): boolean {
+  return message.content.some((block) => block.type === "tool_use");
+}
+
+function truncatedToolResults(message: BetaMessage): BetaContentBlockParam[] {
+  return message.content.flatMap((block) =>
+    block.type === "tool_use"
+      ? [
+          {
+            type: "tool_result" as const,
+            tool_use_id: block.id,
+            is_error: true,
+            content: "This tool call was cut off by the output token limit and was not run. Call it again.",
+          },
+        ]
+      : [],
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Model capabilities
 // ---------------------------------------------------------------------------
+
+/** Opus/Sonnet 4.6 and later, every 5.x model, Fable and Mythos. Haiku 4.5 and 4.5-era models are excluded. */
+function supportsAdaptiveThinking(model: string): boolean {
+  const id = normalizeModelId(model);
+  if (/^claude-(fable|mythos)-/.test(id)) return true;
+  if (/^claude-(opus|sonnet|haiku)-([5-9]|\d{2,})(-|$)/.test(id)) return true;
+  return /^claude-(opus|sonnet)-4-([6-9])(-|$)/.test(id);
+}
+
+function warnAboutModelControls(opts: AgentOptions, logger: AgentLogger | undefined): void {
+  const effort = effortFor(opts.model, opts.effort);
+  if (effort === null) {
+    logger?.warning(`${opts.model} has no effort control; the effort input (${opts.effort}) is ignored.`);
+  } else if (effort !== opts.effort) {
+    logger?.warning(`${opts.model} does not support effort ${opts.effort}; using ${effort}.`);
+  }
+}
 
 function supportedEfforts(model: string): readonly Effort[] {
   const id = normalizeModelId(model);
@@ -399,7 +465,8 @@ function errorReason(error: unknown, timeoutMs: number): string {
     return "Anthropic API key rejected (401); check the API key secret";
   if (error instanceof PermissionDeniedError)
     return `Anthropic API permission denied (403): ${apiDetail(error)}`;
-  if (error instanceof RateLimitError) return "Anthropic API rate limit exceeded (429), even after retries";
+  if (error instanceof RateLimitError)
+    return `Anthropic API rate or spend limit reached (429), even after retries: ${apiDetail(error)}`;
   if (error instanceof NotFoundError)
     return `Anthropic API returned 404, often an unknown model id: ${apiDetail(error)}`;
   if (error instanceof BadRequestError)

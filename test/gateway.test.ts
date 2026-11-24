@@ -25,10 +25,11 @@ function createMockOctokit() {
       get: vi.fn(),
       getContent: vi.fn(),
       getCommit: vi.fn(),
+      compareCommitsWithBasehead: vi.fn(),
       listPullRequestsAssociatedWithCommit: vi.fn(),
     },
     git: { getBlob: vi.fn() },
-    pulls: { list: vi.fn(), listFiles: vi.fn() },
+    pulls: { list: vi.fn(), listFiles: vi.fn(), get: vi.fn() },
     issues: { listComments: vi.fn(), createComment: vi.fn(), updateComment: vi.fn() },
   };
 
@@ -154,6 +155,8 @@ beforeEach(() => {
   mock = createMockOctokit();
   sleep = vi.fn(async () => {});
   mock.rest.actions.getWorkflowRun.mockResolvedValue(ok(workflowRun()));
+  // By default the PR's head is still the failing commit.
+  mock.rest.pulls.get.mockResolvedValue(ok({ head: { sha: HEAD_SHA }, base: { sha: "b".repeat(40) } }));
 });
 
 // ---------------------------------------------------------------------------
@@ -1340,5 +1343,38 @@ describe("edge cases", () => {
       });
       expect(mock.rest.issues.updateComment).toHaveBeenCalledTimes(2);
     });
+  });
+});
+
+describe("review fixes", () => {
+  it("diffs the PR as of the failing commit when newer commits were pushed since", async () => {
+    mock.rest.pulls.get.mockResolvedValue(
+      ok({ head: { sha: "f".repeat(40) }, base: { sha: "b".repeat(40) } }),
+    );
+    mock.rest.repos.compareCommitsWithBasehead.mockResolvedValue(
+      ok({
+        files: [
+          { filename: "src/a.ts", status: "modified", additions: 1, deletions: 1, patch: "@@ -1 +1 @@" },
+        ],
+      }),
+    );
+
+    const files = await backend().getChangedFiles();
+
+    expect(files.map((f) => f.path)).toEqual(["src/a.ts"]);
+    expect(mock.rest.repos.compareCommitsWithBasehead).toHaveBeenCalledWith(
+      expect.objectContaining({ basehead: `${"b".repeat(40)}...${HEAD_SHA}` }),
+    );
+    expect(mock.rest.pulls.listFiles).not.toHaveBeenCalled();
+  });
+
+  it("reports the pinned triggering attempt and its own conclusion", async () => {
+    mock.rest.actions.getWorkflowRun.mockResolvedValue(ok(workflowRun({ run_attempt: 3, conclusion: null })));
+    const run = await createGitHubBackend(mock as unknown as Octokit, REPO, RUN_ID, {
+      sleep,
+      attempt: { attempt: 1, conclusion: "failure" },
+    }).getRun();
+
+    expect(run).toMatchObject({ attempt: 1, conclusion: "failure" });
   });
 });

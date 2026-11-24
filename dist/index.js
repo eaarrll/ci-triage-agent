@@ -56440,15 +56440,21 @@ var PRICES = {
   "claude-haiku-5-5": { input: 0.1, output: 0.5, cacheRead: 0.01, cacheWrite: 0.125 },
   "claude-haiku-4-5": { input: 1, output: 5, cacheRead: 0.1, cacheWrite: 1.25 },
   "claude-fable-5-2": { input: 8, output: 40, cacheRead: 0.2, cacheWrite: 10 },
-  "claude-fable-5-1": { input: 10, output: 50, cacheRead: 1, cacheWrite: 12.5 },
-  "claude-fable-5": { input: 10, output: 50, cacheRead: 1, cacheWrite: 12.5 }
+  "claude-fable-5-1": { input: 10, output: 50, cacheRead: 0.25, cacheWrite: 12.5 },
+  "claude-fable-5": { input: 10, output: 50, cacheRead: 1, cacheWrite: 12.5 },
+  // Mythos models share their Fable counterparts' per-token prices.
+  "claude-mythos-5-2": { input: 8, output: 40, cacheRead: 0.2, cacheWrite: 10 },
+  "claude-mythos-5-1": { input: 10, output: 50, cacheRead: 0.25, cacheWrite: 12.5 },
+  "claude-mythos-5": { input: 10, output: 50, cacheRead: 1, cacheWrite: 12.5 }
 };
 var PROVIDER_PREFIX = /^(?:[a-z]{2,6}\.)?anthropic\./;
+var DATE_SUFFIX = /-\d{8}$/;
 function normalizeModelId(model) {
   return model.trim().replace(PROVIDER_PREFIX, "");
 }
 function priceFor(model) {
-  return PRICES[normalizeModelId(model)] ?? null;
+  const id = normalizeModelId(model);
+  return PRICES[id] ?? PRICES[id.replace(DATE_SUFFIX, "")] ?? null;
 }
 function emptyUsage() {
   return {
@@ -56474,6 +56480,15 @@ function addUsage(totals, model, usage) {
     // One unpriced response makes the whole total unknown; a partial sum would look authoritative.
     costUsd: totals.costUsd === null || responseCost === null ? null : totals.costUsd + responseCost
   };
+}
+function addResponseUsage(totals, responseModel, usage) {
+  const iterations = usage.iterations ?? [];
+  if (iterations.length === 0) return addUsage(totals, responseModel, usage);
+  const summed = iterations.reduce((acc, it) => addUsage(acc, it.model ?? responseModel, it), {
+    ...totals,
+    requests: totals.requests
+  });
+  return { ...summed, requests: totals.requests + 1 };
 }
 
 // src/agent/prompt.ts
@@ -77308,16 +77323,17 @@ function tally(entries) {
 
 // src/agent/agent.ts
 var MAX_TOKENS = 16e3;
-var REQUEST_TIMEOUT_MS = 12e4;
-var MAX_RETRIES = 3;
-var FINALIZE_AT_TIME_SHARE = 0.8;
+var MAX_RETRIES = 2;
+var FINAL_RESERVE_SHARE = 0.2;
+var FINAL_RESERVE_TURNS = 1.5;
 var FALLBACK_BETA = "server-side-fallback-2026-07-01";
 var FALLBACK_MODELS = /* @__PURE__ */ new Set([
   "claude-opus-5-5",
   "claude-opus-5",
   "claude-sonnet-5-5",
   "claude-fable-5-2",
-  "claude-fable-5-1"
+  "claude-fable-5-1",
+  "claude-fable-5"
 ]);
 var SYSTEM_MESSAGE_MODELS = /* @__PURE__ */ new Set([
   "claude-opus-5-5",
@@ -77355,7 +77371,8 @@ async function runTriage(ctx, backend, opts) {
 async function investigate(ctx, backend, opts, state, signal) {
   const started = performance.now();
   const { logger: logger2 } = opts;
-  const client = opts.client ?? new Anthropic({ apiKey: opts.apiKey, maxRetries: MAX_RETRIES, timeout: REQUEST_TIMEOUT_MS });
+  const client = opts.client ?? new Anthropic({ apiKey: opts.apiKey, maxRetries: MAX_RETRIES, timeout: opts.timeoutMs });
+  warnAboutModelControls(opts, logger2);
   const tools = createTools({
     ctx,
     backend,
@@ -77369,24 +77386,35 @@ async function investigate(ctx, backend, opts, state, signal) {
   let finalRequested = startFinal;
   let repairRequested = false;
   let warnedUnpriced = false;
+  let turnStarted = started;
+  let slowestTurnMs = 0;
   for await (const message of runner) {
+    const now = performance.now();
+    slowestTurnMs = Math.max(slowestTurnMs, now - turnStarted);
     state.turns += 1;
-    state.usage = addUsage(state.usage, message.model, message.usage);
+    state.usage = addResponseUsage(state.usage, message.model, message.usage);
     logTurn(logger2, state, message);
     if (message.stop_reason === "refusal") return refusal(state, message);
     if (message.stop_reason === "pause_turn") continue;
+    if (message.stop_reason === "max_tokens" && hasToolUse2(message) && !finalRequested) {
+      logger2?.warning(`Turn ${state.turns} hit max_tokens inside a tool call; asking the agent to retry it.`);
+      continueWith(runner, message, [{ role: "user", content: truncatedToolResults(message) }], false);
+      turnStarted = performance.now();
+      continue;
+    }
     if (message.stop_reason === "tool_use" && !finalRequested) {
       if (state.usage.costUsd === null && !warnedUnpriced) {
         warnedUnpriced = true;
         logger2?.warning(`No price is known for ${message.model}; the cost budget cannot be enforced.`);
       }
-      const cause = budgetCause(state, opts, performance.now() - started);
+      const cause = budgetCause(state, opts, now - started, slowestTurnMs);
       if (cause) {
         stopCause = cause;
         finalRequested = true;
         logger2?.info(`${FINAL_INSTRUCTIONS[cause]} Asking for the final answer.`);
         await requestFinalAnswer(runner, message, cause);
       }
+      turnStarted = performance.now();
       continue;
     }
     const result = parseTriageResult(finalText(message));
@@ -77412,6 +77440,7 @@ async function investigate(ctx, backend, opts, state, signal) {
       `The final answer was not valid triage JSON (stop reason ${message.stop_reason}); asking once more.`
     );
     await requestRepair(runner, message);
+    turnStarted = performance.now();
   }
   return failure2(state, `the agent stopped after ${state.turns} turns without a final answer`);
 }
@@ -77438,7 +77467,9 @@ function buildParams(ctx, opts, tools, startFinal) {
     ],
     tools,
     ...startFinal && { tool_choice: { type: "none" } },
-    // Thinking is left at the model default (adaptive where supported); effort is the only dial.
+    // Adaptive thinking is the default on the 5.x models but must be asked for on Opus 4.6-4.8
+    // and Sonnet 4.6, which otherwise run without thinking. Older models get no thinking param.
+    ...supportsAdaptiveThinking(opts.model) && { thinking: { type: "adaptive" } },
     output_config: { ...effort && { effort }, format: TRIAGE_OUTPUT_FORMAT },
     ...FALLBACK_MODELS.has(opts.model) && {
       betas: [FALLBACK_BETA],
@@ -77451,10 +77482,11 @@ function buildParams(ctx, opts, tools, startFinal) {
     thread: false
   };
 }
-function budgetCause(state, opts, elapsedMs) {
+function budgetCause(state, opts, elapsedMs, slowestTurnMs) {
   if (state.usage.costUsd !== null && state.usage.costUsd >= opts.maxCostUsd) return "budget";
   if (state.turns >= opts.maxTurns - 1) return "max_turns";
-  if (elapsedMs >= opts.timeoutMs * FINALIZE_AT_TIME_SHARE) return "timeout";
+  const reserveMs = Math.max(opts.timeoutMs * FINAL_RESERVE_SHARE, slowestTurnMs * FINAL_RESERVE_TURNS);
+  if (elapsedMs + reserveMs >= opts.timeoutMs) return "timeout";
   return null;
 }
 async function requestFinalAnswer(runner, message, cause) {
@@ -77477,13 +77509,42 @@ async function toolResults(runner) {
   if (!response) return [];
   return typeof response.content === "string" ? [{ type: "text", text: response.content }] : response.content;
 }
-function continueWith(runner, message, followUp) {
+function continueWith(runner, message, followUp, final = true) {
   runner.setMessagesParams((params) => ({
     ...params,
-    tool_choice: { type: "none" },
+    ...final && { tool_choice: { type: "none" } },
     // While the loop body runs, params.messages does not hold the reply yet; it goes back unchanged.
     messages: [...params.messages, { role: "assistant", content: message.content }, ...followUp]
   }));
+}
+function hasToolUse2(message) {
+  return message.content.some((block) => block.type === "tool_use");
+}
+function truncatedToolResults(message) {
+  return message.content.flatMap(
+    (block) => block.type === "tool_use" ? [
+      {
+        type: "tool_result",
+        tool_use_id: block.id,
+        is_error: true,
+        content: "This tool call was cut off by the output token limit and was not run. Call it again."
+      }
+    ] : []
+  );
+}
+function supportsAdaptiveThinking(model) {
+  const id = normalizeModelId(model);
+  if (/^claude-(fable|mythos)-/.test(id)) return true;
+  if (/^claude-(opus|sonnet|haiku)-([5-9]|\d{2,})(-|$)/.test(id)) return true;
+  return /^claude-(opus|sonnet)-4-([6-9])(-|$)/.test(id);
+}
+function warnAboutModelControls(opts, logger2) {
+  const effort = effortFor(opts.model, opts.effort);
+  if (effort === null) {
+    logger2?.warning(`${opts.model} has no effort control; the effort input (${opts.effort}) is ignored.`);
+  } else if (effort !== opts.effort) {
+    logger2?.warning(`${opts.model} does not support effort ${opts.effort}; using ${effort}.`);
+  }
 }
 function supportedEfforts(model) {
   const id = normalizeModelId(model);
@@ -77550,7 +77611,8 @@ function errorReason(error63, timeoutMs) {
     return "Anthropic API key rejected (401); check the API key secret";
   if (error63 instanceof PermissionDeniedError)
     return `Anthropic API permission denied (403): ${apiDetail(error63)}`;
-  if (error63 instanceof RateLimitError) return "Anthropic API rate limit exceeded (429), even after retries";
+  if (error63 instanceof RateLimitError)
+    return `Anthropic API rate or spend limit reached (429), even after retries: ${apiDetail(error63)}`;
   if (error63 instanceof NotFoundError)
     return `Anthropic API returned 404, often an unknown model id: ${apiDetail(error63)}`;
   if (error63 instanceof BadRequestError)
@@ -77589,13 +77651,15 @@ var BOOLEAN_WORDS = /* @__PURE__ */ new Map([
 ]);
 function readConfig(inputs, gh) {
   const read = (name) => inputs.getInput(name).trim();
+  const runIdInput = read("run-id");
   return {
     apiKey: read("anthropic-api-key") || null,
     githubToken: requireToken(read("github-token")),
     model: parseModel(read("model")),
     effort: parseEffort(read("effort")),
     repo: { owner: gh.repo.owner, repo: gh.repo.repo },
-    runId: resolveRunId(read("run-id"), gh),
+    runId: resolveRunId(runIdInput, gh),
+    runAttempt: resolveRunAttempt(runIdInput, gh),
     comment: parseBoolean("comment", read("comment"), true),
     resolveOnSuccess: parseBoolean("resolve-on-success", read("resolve-on-success"), true),
     maxTurns: parseInteger("max-turns", read("max-turns"), { fallback: 12, min: 1, max: 50 }),
@@ -77668,6 +77732,15 @@ function resolveRunId(value, gh) {
   }
   if (isPositiveInteger(gh.runId)) return gh.runId;
   throw new ConfigError("Could not determine which workflow run to triage; set the run-id input.");
+}
+function resolveRunAttempt(runIdInput, gh) {
+  if (runIdInput || gh.eventName !== "workflow_run") return null;
+  const triggeringRun = gh.payload["workflow_run"];
+  if (!isRecord(triggeringRun)) return null;
+  const attempt = triggeringRun["run_attempt"];
+  const conclusion = triggeringRun["conclusion"];
+  if (!isPositiveInteger(attempt)) return null;
+  return { attempt, conclusion: typeof conclusion === "string" ? conclusion : null };
 }
 function isPositiveInteger(value) {
   return typeof value === "number" && Number.isSafeInteger(value) && value > 0;
@@ -78119,7 +78192,12 @@ function createGitHubBackend(octokit, repo, runId, options = {}) {
   }
   async function fetchRun() {
     const { data } = await call(() => rest.actions.getWorkflowRun({ ...base, run_id: runId }));
-    return toRunInfo(data, await resolveDefaultBranch(data));
+    const run2 = toRunInfo(data, await resolveDefaultBranch(data));
+    const pinned = options.attempt;
+    if (pinned && pinned.attempt < run2.attempt) {
+      return { ...run2, attempt: pinned.attempt, conclusion: pinned.conclusion };
+    }
+    return run2;
   }
   async function resolveDefaultBranch(run2) {
     if (run2.repository.default_branch) return run2.repository.default_branch;
@@ -78178,8 +78256,20 @@ function createGitHubBackend(octokit, repo, runId, options = {}) {
   async function getChangedFiles() {
     const run2 = await getRun();
     const pr = run2.pullRequestNumbers[0] ?? await findPullRequest(run2);
-    const files = pr === null ? await listCommitFiles(run2.headSha) : await listPullRequestFiles(pr);
+    const files = pr === null ? await listCommitFiles(run2.headSha) : await listPullRequestFilesAt(pr, run2.headSha);
     return files.slice(0, MAX_CHANGED_FILES2).map(toChangedFile);
+  }
+  async function listPullRequestFilesAt(pr, sha) {
+    const { data: pull } = await call(() => rest.pulls.get({ ...base, pull_number: pr }));
+    if (pull.head.sha === sha) return listPullRequestFiles(pr);
+    const { data } = await call(
+      () => rest.repos.compareCommitsWithBasehead({
+        ...base,
+        basehead: `${pull.base.sha}...${sha}`,
+        per_page: 100
+      })
+    );
+    return data.files ?? [];
   }
   function listPullRequestFiles(pr) {
     return call(() => {
@@ -78769,6 +78859,19 @@ var PREVIOUS_TRIAGE_OPEN = "<details><summary>Previous triage</summary>";
 function commentMarker(run2) {
   return `<!-- ci-triage-agent:workflow=${run2.workflowId} -->`;
 }
+function runStamp(run2) {
+  return `<!-- ci-triage-agent:run=${run2.id}.${run2.attempt} -->`;
+}
+var RUN_STAMP = /^[ \t]*<!-- ci-triage-agent:run=(\d+)\.(\d+) -->[ \t]*$/m;
+function parseRunStamp(body) {
+  const match = RUN_STAMP.exec(body);
+  return match ? { runId: Number(match[1]), attempt: Number(match[2]) } : null;
+}
+function isWrittenByNewerRun(existing, run2) {
+  const stamp = parseRunStamp(existing.body);
+  if (stamp === null) return false;
+  return stamp.runId > run2.id || stamp.runId === run2.id && stamp.attempt > run2.attempt;
+}
 function sanitizeModelText(text) {
   const lines = normalize(text).split("\n");
   const out = [];
@@ -78794,9 +78897,10 @@ function sanitizeModelText(text) {
   return out.join("\n");
 }
 function renderComment(result, meta3) {
-  const marker = commentMarker(meta3.run);
-  return `${marker}
-${renderTriage(result, meta3, MAX_BODY_CHARS - marker.length - 2)}
+  const header = `${commentMarker(meta3.run)}
+${runStamp(meta3.run)}`;
+  return `${header}
+${renderTriage(result, meta3, MAX_BODY_CHARS - header.length - 2)}
 `;
 }
 function renderSummary(result, meta3) {
@@ -78809,6 +78913,7 @@ function renderResolved(previous, run2) {
   const runUrl = safeUrl(run2.htmlUrl);
   const lines = [
     commentMarker(run2),
+    runStamp(run2),
     `${RESOLVED_HEADING} ${workflow} passed on ${shortSha(run2.headSha)}`,
     "",
     runUrl ? `[View the passing run](${runUrl}) \xB7 attempt ${run2.attempt}` : `Attempt ${run2.attempt}`,
@@ -79301,6 +79406,7 @@ async function run() {
       }
     );
   } catch (err) {
+    setOutput("mode", "error");
     setFailed(`ci-triage-agent: ${errorMessage4(err)}`);
     return;
   }
@@ -79316,15 +79422,14 @@ async function run() {
 }
 async function triage(config2) {
   const octokit = getOctokit(config2.githubToken);
-  const gateway = createGitHubBackend(octokit, config2.repo, config2.runId);
+  const gateway = createGitHubBackend(octokit, config2.repo, config2.runId, { attempt: config2.runAttempt });
   const backend = withRedaction(gateway);
   const run2 = await backend.getRun();
   info(
     `Triaging ${run2.workflowName} run ${run2.id} (attempt ${run2.attempt}, ${run2.conclusion ?? "in progress"})`
   );
   if (run2.conclusion === "success") {
-    await resolveEarlierComment(config2, gateway, run2);
-    setOutput("mode", "resolved");
+    setOutput("mode", await resolveEarlierComment(config2, gateway, run2) ? "resolved" : "skipped");
     return;
   }
   if (run2.conclusion !== null && !TRIAGE_CONCLUSIONS.has(run2.conclusion)) {
@@ -79334,8 +79439,9 @@ async function triage(config2) {
   }
   const ctx = await buildContext(backend, { maxFailedJobs: config2.maxFailedJobs, logger });
   if (ctx.failedJobs.length === 0) {
-    info("No failed jobs found in this run; nothing to triage.");
-    setOutput("mode", "skipped");
+    const resolved = run2.conclusion === null && await resolveEarlierComment(config2, gateway, run2);
+    if (!resolved) info("No failed jobs found in this run; nothing to triage.");
+    setOutput("mode", resolved ? "resolved" : "skipped");
     return;
   }
   const meta3 = {
@@ -79381,19 +79487,22 @@ async function triage(config2) {
     meta3.note = "no anthropic-api-key was provided";
   }
   meta3.redactions = backend.redactionCount;
+  setResultOutputs(result, meta3);
   await summary.addRaw(renderSummary(result, meta3), true).write();
-  let commentUrl = "";
-  if (config2.comment) {
+  if (!config2.comment) return;
+  try {
     const pr = await gateway.findPullRequest(ctx.run);
     if (pr === null) {
       info("Run is not associated with an open pull request; results are in the job summary.");
-    } else {
-      const marker = commentMarker(ctx.run);
-      const posted = await gateway.upsertComment(pr, marker, renderComment(result, meta3));
-      commentUrl = posted.htmlUrl;
-      info(`${posted.created ? "Posted" : "Updated"} triage comment: ${commentUrl}`);
+      return;
     }
+    const url2 = await writeComment(gateway, pr, ctx.run, renderComment(result, meta3));
+    if (url2) setOutput("comment-url", url2);
+  } catch (err) {
+    warning(`Could not post the PR comment (results are in the job summary): ${errorMessage4(err)}`);
   }
+}
+function setResultOutputs(result, meta3) {
   setOutput("category", result.category);
   setOutput("confidence", result.confidence);
   setOutput("title", result.title);
@@ -79402,30 +79511,45 @@ async function triage(config2) {
   setOutput("flaky-suspected", String(result.flaky_suspected));
   setOutput("mode", meta3.mode);
   setOutput("cost-usd", meta3.usage?.costUsd != null ? meta3.usage.costUsd.toFixed(4) : "");
-  setOutput("comment-url", commentUrl);
+  setOutput("comment-url", "");
   setOutput("result-json", JSON.stringify(result));
+}
+async function writeComment(gateway, pr, run2, body) {
+  const marker = commentMarker(run2);
+  const existing = await gateway.findComment(pr, marker);
+  if (existing && isWrittenByNewerRun(existing, run2)) {
+    info(`A newer run already updated the triage comment (${existing.htmlUrl}); leaving it as is.`);
+    return null;
+  }
+  if (existing && existing.body === body) return existing.htmlUrl;
+  const posted = await gateway.upsertComment(pr, marker, body);
+  info(`${posted.created ? "Posted" : "Updated"} triage comment: ${posted.htmlUrl}`);
+  return posted.htmlUrl;
 }
 async function resolveEarlierComment(config2, gateway, run2) {
   if (!config2.comment || !config2.resolveOnSuccess) {
     info("Run succeeded; nothing to triage.");
-    return;
+    return false;
   }
-  const pr = await gateway.findPullRequest(run2);
-  if (pr === null) {
-    info("Run succeeded and is not associated with an open pull request.");
-    return;
+  try {
+    const pr = await gateway.findPullRequest(run2);
+    if (pr === null) {
+      info("Run succeeded and is not associated with an open pull request.");
+      return false;
+    }
+    const existing = await gateway.findComment(pr, commentMarker(run2));
+    if (existing === null) {
+      info("Run succeeded and there is no earlier triage comment to resolve.");
+      return false;
+    }
+    const url2 = await writeComment(gateway, pr, run2, renderResolved(existing, run2));
+    if (url2 === null) return false;
+    setOutput("comment-url", url2);
+    return true;
+  } catch (err) {
+    warning(`Could not update the earlier triage comment: ${errorMessage4(err)}`);
+    return false;
   }
-  const marker = commentMarker(run2);
-  const existing = await gateway.findComment(pr, marker);
-  if (existing === null) {
-    info("Run succeeded and there is no earlier triage comment to resolve.");
-    return;
-  }
-  const body = renderResolved(existing, run2);
-  if (body === existing.body) return;
-  const updated = await gateway.upsertComment(pr, marker, body);
-  info(`Marked earlier triage comment as resolved: ${updated.htmlUrl}`);
-  setOutput("comment-url", updated.htmlUrl);
 }
 function errorMessage4(err) {
   return err instanceof Error ? err.message : String(err);

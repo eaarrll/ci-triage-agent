@@ -21,7 +21,9 @@ jobs:
 
   triage:
     needs: [test]
-    if: failure()
+    # always(), not failure(): on a green run the action marks an earlier triage comment resolved
+    # (and makes no API call to Claude).
+    if: always()
     runs-on: ubuntu-latest
     permissions:
       actions: read

@@ -24,6 +24,8 @@ export type Sleep = (ms: number) => Promise<void>;
 export interface GitHubBackendOptions {
   /** Waits between retries. Defaults to a real timer; tests pass an instant one. */
   sleep?: Sleep;
+  /** Triage this attempt (with its own conclusion) instead of the run's latest one. */
+  attempt?: { attempt: number; conclusion: string | null } | null;
 }
 
 type Rest = Octokit["rest"];
@@ -68,7 +70,14 @@ export function createGitHubBackend(
 
   async function fetchRun(): Promise<RunInfo> {
     const { data } = await call(() => rest.actions.getWorkflowRun({ ...base, run_id: runId }));
-    return toRunInfo(data, await resolveDefaultBranch(data));
+    const run = toRunInfo(data, await resolveDefaultBranch(data));
+    const pinned = options.attempt;
+    // An older attempt than the latest (a re-run started meanwhile): list that attempt's own
+    // jobs and report its own conclusion, not the newer attempt's.
+    if (pinned && pinned.attempt < run.attempt) {
+      return { ...run, attempt: pinned.attempt, conclusion: pinned.conclusion };
+    }
+    return run;
   }
 
   async function resolveDefaultBranch(run: WorkflowRun): Promise<string> {
@@ -137,8 +146,26 @@ export function createGitHubBackend(
   async function getChangedFiles(): Promise<ChangedFile[]> {
     const run = await getRun();
     const pr = run.pullRequestNumbers[0] ?? (await findPullRequest(run));
-    const files = pr === null ? await listCommitFiles(run.headSha) : await listPullRequestFiles(pr);
+    const files =
+      pr === null ? await listCommitFiles(run.headSha) : await listPullRequestFilesAt(pr, run.headSha);
     return files.slice(0, MAX_CHANGED_FILES).map(toChangedFile);
+  }
+
+  /**
+   * The PR's diff as of the failing commit. pulls.listFiles is the PR's *current* diff, which is
+   * wrong once more commits were pushed after the failing run; then compare base...failing SHA.
+   */
+  async function listPullRequestFilesAt(pr: number, sha: string): Promise<DiffEntry[]> {
+    const { data: pull } = await call(() => rest.pulls.get({ ...base, pull_number: pr }));
+    if (pull.head.sha === sha) return listPullRequestFiles(pr);
+    const { data } = await call(() =>
+      rest.repos.compareCommitsWithBasehead({
+        ...base,
+        basehead: `${pull.base.sha}...${sha}`,
+        per_page: 100,
+      }),
+    );
+    return data.files ?? [];
   }
 
   function listPullRequestFiles(pr: number): Promise<DiffEntry[]> {
