@@ -63,7 +63,8 @@ its cap; a model with no known price is not capped at all. The ceiling for a run
 `--repeat 3` at the default cap. That is a ceiling, not an estimate; the committed reports in
 `evals/results/` show the measured mean and median per case for each configuration, so check them
 before launching a large sweep.
-`--heuristic` costs nothing.
+`--heuristic` costs nothing. Measured on 2026-11-24, a full run (17 fixtures × `--repeat 3`, effort
+medium) cost $0.05 on Claude Haiku 5.5, $1.21 on Claude Sonnet 5.5 and $1.67 on Claude Opus 5.5.
 
 ## Output
 

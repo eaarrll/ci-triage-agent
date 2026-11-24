@@ -2,7 +2,7 @@ node_modules/
 coverage/
 .env
 .env.*
-evals/results/*.json
+evals/results/**/*.json
 *.log
 !evals/fixtures/**/*.log
 .DS_Store

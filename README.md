@@ -120,7 +120,30 @@ fork-PR secrets, a secret echoed into a log, and a prompt-injection attempt. A c
 category is right, the explanation names the actual cause, the fix points at the right file where there is
 one, and nothing forbidden (an injected URL, a leaked secret) appears in the answer.
 
-<!-- EVAL_TABLE -->
+| Mode                      | Passed (17 cases × 3 runs) | Category right | Cost per triage | Median time | Model turns |
+| ------------------------- | -------------------------- | -------------- | --------------- | ----------- | ----------- |
+| Heuristic only, no AI     | 4 / 17                     | 11 / 17        | $0              | 5 ms        | –           |
+| Claude Haiku 5.5          | **51 / 51**                | 51 / 51        | **$0.0010**     | 6.3 s       | 2.2         |
+| Claude Sonnet 5.5         | **51 / 51**                | 51 / 51        | $0.024          | 9.9 s       | 6.0         |
+| Claude Opus 5.5 (default) | **51 / 51**                | 51 / 51        | $0.033          | 8.9 s       | 2.4         |
+
+All at `effort: medium`, measured 2026-11-24 ([per-case results](evals/results/)).
+
+What the numbers do and don't say:
+
+- **The heuristic baseline is the floor.** Signature matching alone names the right category for 11 of 17
+  failures, but it can't connect a failure to the change that caused it, which is what most cases require.
+- **Every model passes every case, so this set no longer ranks them.** It now works as a regression suite
+  for the harness, the tools, redaction and injection resistance. Separating the models needs harder cases
+  (red herrings, several failures at once, causes that only show up across jobs); that is the next step.
+- **The first run was not perfect.** It scored 15–16 of 17. Every miss was the same disagreement: for an OOM
+  and a full disk triggered by the PR's new dependencies, the models said `code` where the key said
+  `infrastructure`. The models were right that a rerun would not help, so the key now accepts both but
+  requires the triggering change to be named. The change and its reason are
+  [logged](evals/README.md#answer-key-changes).
+- **Haiku 5.5 matched Opus here at about 1/30 of the cost.** `model: claude-haiku-5-5` is a reasonable
+  choice for high-volume repositories; Opus stays the default for the harder failures this set doesn't
+  cover yet.
 
 Reproduce with `npm run eval -- --model claude-opus-5-5` (needs `ANTHROPIC_API_KEY`) or the free baseline
 with `npm run eval -- --heuristic`. Fixtures, grading rules and per-case results are in [`evals/`](evals/).
