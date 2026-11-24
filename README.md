@@ -6,7 +6,20 @@
 ![node24](https://img.shields.io/badge/runtime-node24-339933)
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue)
 
-<!-- SCREENSHOT -->
+<p align="center">
+  <a href="https://github.com/eaarrll/ci-triage-agent-demo/pull/1"><img src="docs/demo-comment.png" alt="A triage comment from ci-triage-agent on a pull request: isDiscountEligible uses > not >=, with root cause, fix and the file and line to change" width="760"></a>
+</p>
+
+**See it on real failures.** Each pull request in the
+[demo repository](https://github.com/eaarrll/ci-triage-agent-demo/pulls) breaks CI on purpose, on
+GitHub-hosted runners, and carries the agent's comment:
+
+| PR                                                           | What broke                                       | What the agent said                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------ | -------------------------------------------------------------------------------- |
+| [#1](https://github.com/eaarrll/ci-triage-agent-demo/pull/1) | a refactor turned `>=` into `>`                  | `code`: names the helper and the line, and the 100 → 90 and 109 → 98.1 mismatch  |
+| [#2](https://github.com/eaarrll/ci-triage-agent-demo/pull/2) | `zod` added without updating the lockfile        | `dependency`: `npm ci` EUSAGE, regenerate the lockfile                           |
+| [#3](https://github.com/eaarrll/ci-triage-agent-demo/pull/3) | the report job now runs out of heap              | `configuration`: `REPORT_ORDERS` ×10 against a 128 MB heap cap, with three fixes |
+| [#4](https://github.com/eaarrll/ci-triage-agent-demo/pull/4) | image tag `1.28-apline` on a real `kind` cluster | `code`: the typo, from the kubelet's `ImagePullBackOff` events                   |
 
 Most red builds come down to a handful of causes: the change broke a test, a test is flaky, a lockfile
 drifted, the runner ran out of memory or disk, a cloud credential or permission is wrong, or the workflow
