@@ -65,12 +65,12 @@ its cap; a model with no known price is not capped at all. The ceiling for a run
 before launching a large sweep.
 `--heuristic` costs nothing. Measured on 2026-11-24, a run of the 17 original fixtures × `--repeat 3`
 (effort medium) cost $0.05 on Claude Haiku 5.5, $1.21 on Claude Sonnet 5.5 and $1.67 on Claude Opus 5.5; the 8 hard
-fixtures × `--repeat 3` cost $0.04, $0.61 and $1.04.
+fixtures × `--repeat 3` cost $0.04, $0.61 and $1.04 at effort medium and $0.03, $0.72 and $0.84 at effort low.
 
 ## Fixture sets
 
 The 17 original fixtures each cover one failure type. The 8 hard fixtures (added 2026-11-24) are built so that
-the loudest signal, or the first failed job, points the wrong way; their committed reports end in `-hard`. To run
+the loudest signal, or the first failed job, points the wrong way; their committed reports end in `-medium-hard` and `-low-hard` (effort low). To run
 only them:
 
 ```sh

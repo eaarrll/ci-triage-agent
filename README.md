@@ -150,7 +150,8 @@ leaked secret) appears in the answer.
 | Claude Opus 5.5 (default) | **51 / 51**                | **24 / 24**           | $0.033 / $0.043       | 8.9 s / 10.5 s | 2.4 / 2.8   |
 
 Cost, time and turns are original set / hard set. All at `effort: medium`, measured 2026-11-24
-([per-case results](evals/results/); the hard set's reports end in `-hard`).
+([per-case results](evals/results/); the hard set's reports end in `-medium-hard`, and a second run at
+`effort: low` in `-low-hard`).
 
 What the numbers do and don't say:
 
@@ -165,10 +166,15 @@ What the numbers do and don't say:
 - **Where the models differ is effort, not accuracy.** Sonnet investigated the most (5.8 turns on the hard
   set, up to 12 on one case) without being more accurate. Haiku and Opus settled most hard cases in 2 to 4
   turns, and Opus reported high confidence on all 24.
+- **Lowering effort didn't separate them either.** On the hard set at `effort: low`, Haiku scored 23/24,
+  Sonnet and Opus 24/24. Haiku's one miss had the right diagnosis but didn't name the workflow file as the
+  place to fix it. Opus got cheaper and faster ($0.035 a case, 2.1 turns, 7.9 s median). Sonnet went the
+  other way: 7.9 turns, hitting the 12-turn cap on 9 of 24 cases (it still answered correctly), so low effort
+  cost it more than medium ($0.030 against $0.025 a case).
 - **What could separate them next.** The grader checks the diagnosis, not the evidence: it doesn't verify that
   cited line numbers and quotes match the log, or that confidence is calibrated. Scoring evidence, adding
   cases the logs genuinely can't settle (where the right answer is `unknown` with low confidence), and
-  running at `effort: low` or with tighter turn and cost caps are the next things to try.
+  tighter turn and cost caps are the next things to try.
 - **The first run was not perfect.** It scored 15–16 of 17. Every miss was the same disagreement: for an OOM
   and a full disk triggered by the PR's new dependencies, the models said `code` where the key said
   `infrastructure`. The models were right that a rerun would not help, so the key now accepts both but
