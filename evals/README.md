@@ -63,8 +63,34 @@ its cap; a model with no known price is not capped at all. The ceiling for a run
 `--repeat 3` at the default cap. That is a ceiling, not an estimate; the committed reports in
 `evals/results/` show the measured mean and median per case for each configuration, so check them
 before launching a large sweep.
-`--heuristic` costs nothing. Measured on 2026-11-24, a full run (17 fixtures × `--repeat 3`, effort
-medium) cost $0.05 on Claude Haiku 5.5, $1.21 on Claude Sonnet 5.5 and $1.67 on Claude Opus 5.5.
+`--heuristic` costs nothing. Measured on 2026-11-24, a run of the 17 original fixtures × `--repeat 3`
+(effort medium) cost $0.05 on Claude Haiku 5.5, $1.21 on Claude Sonnet 5.5 and $1.67 on Claude Opus 5.5; the 8 hard
+fixtures × `--repeat 3` cost $0.04, $0.61 and $1.04.
+
+## Fixture sets
+
+The 17 original fixtures each cover one failure type. The 8 hard fixtures (added 2026-11-24) are built so that
+the loudest signal, or the first failed job, points the wrong way; their committed reports end in `-hard`. To run
+only them:
+
+```sh
+npm run eval -- --repeat 3 --label claude-opus-5-5-medium-hard --only \
+  red-herring-proration-rounding,two-failures-flake-and-type-error,deploy-missing-entrypoint-tsconfig-include,known-flaky-test-real-regression,s3-access-denied-kms-key,long-log-flags-file-renamed,job-timeout-leaked-interval,upstream-major-release-not-the-pr
+```
+
+| Fixture                                      | What misleads                                                     | Actual cause                                                   |
+| -------------------------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------- |
+| `red-herring-proration-rounding`             | Docker rate limit, cache ETIMEDOUT, ERESOLVE in steps that passed | `Math.floor` whole-day proration                               |
+| `two-failures-flake-and-type-error`          | a flaky sandbox ECONNRESET job that fails first                   | `User.email` made optional breaks typecheck in untouched files |
+| `deploy-missing-entrypoint-tsconfig-include` | the deploy job's `Cannot find module` and curl resets             | `include` change in `tsconfig.build.json` moved the output     |
+| `known-flaky-test-real-regression`           | the test is listed as known-flaky, same symptom                   | a `_MS` setting scaled by `time.Second`                        |
+| `s3-access-denied-kms-key`                   | `PutObject` AccessDenied names S3                                 | the role lacks KMS permissions on the bucket's new key         |
+| `long-log-flags-file-renamed`                | dozens of 404s in a 4,400-line log                                | workflow env still points at a renamed flags file              |
+| `job-timeout-leaked-interval`                | the job-timeout signature (infrastructure)                        | a module-level `setInterval` keeps Jest alive                  |
+| `upstream-major-release-not-the-pr`          | the traceback points into the PR's function                       | an unpinned dependency's new major release                     |
+
+`long-log-flags-file-renamed` stands in for a log over the 20 MB size cap, which would be impractical to
+commit: the skill it tests is the same, finding a decisive line that the excerpt leaves out with `search_log`.
 
 ## Output
 

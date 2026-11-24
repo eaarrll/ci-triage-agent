@@ -127,36 +127,56 @@ diff, or check history when the failure looks unrelated to the change.
 
 ## Evals
 
-The agent is scored on 17 recorded failures: realistic GitHub Actions logs, repository files, diffs and job
-history for code regressions, dependency conflicts, a flaky test, Terraform, AWS, Azure, Kubernetes, Docker,
-fork-PR secrets, a secret echoed into a log, and a prompt-injection attempt. A case passes only when the
-category is right, the explanation names the actual cause, the fix points at the right file where there is
-one, and nothing forbidden (an injected URL, a leaked secret) appears in the answer.
+The agent is scored on 25 recorded failures: realistic GitHub Actions logs, repository files, diffs and job
+history, each with a known right answer. A case passes only when the category is right, the explanation names
+the actual cause, the fix points at the right file where there is one, and nothing forbidden (an injected URL, a
+leaked secret) appears in the answer.
 
-| Mode                      | Passed (17 cases × 3 runs) | Category right | Cost per triage | Median time | Model turns |
-| ------------------------- | -------------------------- | -------------- | --------------- | ----------- | ----------- |
-| Heuristic only, no AI     | 4 / 17                     | 11 / 17        | $0              | 5 ms        | –           |
-| Claude Haiku 5.5          | **51 / 51**                | 51 / 51        | **$0.0010**     | 6.3 s       | 2.2         |
-| Claude Sonnet 5.5         | **51 / 51**                | 51 / 51        | $0.024          | 9.9 s       | 6.0         |
-| Claude Opus 5.5 (default) | **51 / 51**                | 51 / 51        | $0.033          | 8.9 s       | 2.4         |
+- **Original set (17):** code regressions, dependency conflicts, a flaky test, Terraform, AWS, Azure,
+  Kubernetes, Docker, fork-PR secrets, a secret echoed into a log, and a prompt-injection attempt.
+- **Hard set (8, added 2026-11-24):** cases built so that a shallow read gives the wrong answer. A Docker rate
+  limit and a cache timeout in steps that succeeded, while the real failure is a rounding regression. An
+  unrelated flaky job that fails first, next to a type error the PR caused. A deploy that fails because of a
+  tsconfig change that only shows in the build job. A test listed as known-flaky that now fails every time. An
+  S3 `AccessDenied` whose real cause is a missing KMS permission. A 4,400-line log whose decisive line is
+  outside the excerpt. A job timeout caused by a leaked timer. A failure inside the PR's own function that an
+  unpinned dependency's new major release caused.
 
-All at `effort: medium`, measured 2026-11-24 ([per-case results](evals/results/)).
+| Mode                      | Original set (17 × 3 runs) | Hard set (8 × 3 runs) | Cost per triage       | Median time    | Model turns |
+| ------------------------- | -------------------------- | --------------------- | --------------------- | -------------- | ----------- |
+| Heuristic only, no AI     | 4 / 17                     | 0 / 8                 | $0                    | 6 ms           | –           |
+| Claude Haiku 5.5          | **51 / 51**                | **24 / 24**           | **$0.0010 / $0.0015** | 6.3 s / 9.6 s  | 2.2 / 2.9   |
+| Claude Sonnet 5.5         | **51 / 51**                | **24 / 24**           | $0.024 / $0.025       | 9.9 s / 11.0 s | 6.0 / 5.8   |
+| Claude Opus 5.5 (default) | **51 / 51**                | **24 / 24**           | $0.033 / $0.043       | 8.9 s / 10.5 s | 2.4 / 2.8   |
+
+Cost, time and turns are original set / hard set. All at `effort: medium`, measured 2026-11-24
+([per-case results](evals/results/); the hard set's reports end in `-hard`).
 
 What the numbers do and don't say:
 
-- **The heuristic baseline is the floor.** Signature matching alone names the right category for 11 of 17
-  failures, but it can't connect a failure to the change that caused it, which is what most cases require.
-- **Every model passes every case, so this set no longer ranks them.** It now works as a regression suite
-  for the harness, the tools, redaction and injection resistance. Separating the models needs harder cases
-  (red herrings, several failures at once, causes that only show up across jobs); that is the next step.
+- **The heuristic baseline is the floor.** Signature matching names the right category for 11 of the 17
+  original failures but only 1 of the 8 hard ones, and passes none of the hard set: there, the signature
+  hints point the wrong way by design. It can't connect a failure to the change that caused it.
+- **The hard set did not separate the models either.** All three passed all 24 hard runs, and not by keyword
+  luck: reading the 72 answers, each one names the real mechanism (the floored day count, the moved build
+  output, the `time.Second` unit, the missing `kms:GenerateDataKey`, the unpinned major release), gets the
+  flaky flag right, and the two-failure answers also account for the flaky job. Both sets now work as
+  regression suites for the harness, tools, redaction and injection resistance, not as a ranking.
+- **Where the models differ is effort, not accuracy.** Sonnet investigated the most (5.8 turns on the hard
+  set, up to 12 on one case) without being more accurate. Haiku and Opus settled most hard cases in 2 to 4
+  turns, and Opus reported high confidence on all 24.
+- **What could separate them next.** The grader checks the diagnosis, not the evidence: it doesn't verify that
+  cited line numbers and quotes match the log, or that confidence is calibrated. Scoring evidence, adding
+  cases the logs genuinely can't settle (where the right answer is `unknown` with low confidence), and
+  running at `effort: low` or with tighter turn and cost caps are the next things to try.
 - **The first run was not perfect.** It scored 15–16 of 17. Every miss was the same disagreement: for an OOM
   and a full disk triggered by the PR's new dependencies, the models said `code` where the key said
   `infrastructure`. The models were right that a rerun would not help, so the key now accepts both but
   requires the triggering change to be named. The change and its reason are
   [logged](evals/README.md#answer-key-changes).
-- **Haiku 5.5 matched Opus here at about 1/30 of the cost.** `model: claude-haiku-5-5` is a reasonable
-  choice for high-volume repositories; Opus stays the default for the harder failures this set doesn't
-  cover yet.
+- **Haiku 5.5 matched Opus on both sets at about 1/30 of the cost.** `model: claude-haiku-5-5` is a reasonable
+  choice for high-volume repositories. Opus stays the default, but these fixtures show no accuracy gap that
+  would justify its cost; the case for it rests on failures they don't cover.
 
 Reproduce with `npm run eval -- --model claude-opus-5-5` (needs `ANTHROPIC_API_KEY`) or the free baseline
 with `npm run eval -- --heuristic`. Fixtures, grading rules and per-case results are in [`evals/`](evals/).
