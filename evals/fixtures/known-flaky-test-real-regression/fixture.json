@@ -1,0 +1,485 @@
+{
+  "id": "known-flaky-test-real-regression",
+  "title": "Known-flaky TestClientReconnect fails for real: reconnect base delay read as seconds",
+  "description": "PR #431 makes the websocket reconnect backoff configurable. internal/ws/config.go now reads WS_RECONNECT_BASE_MS with envDuration(..., 250, time.Second) instead of time.Millisecond, so the default base delay is 250s; Backoff caps it at ReconnectMax (30s), and TestClientReconnect fails with 'client did not reconnect within 2s (state=backoff, next attempt in 30s)'. That test is listed in .github/flaky-tests.txt and docs/flaky-tests.md with exactly that symptom, and scripts/test-ci.sh announces it as 'a known flaky test' before retrying, which invites a 'flaky, rerun' answer. But it failed 3 of 3 times in this run, this is attempt 2 and attempt 1 of the same commit also failed, main is green on 9 of the last 10 runs (one old flake), docs/flaky-tests.md says a test that fails again on a rerun is a real failure, and the 'next attempt in 30s' detail (the cap, against an expected 250ms) points at the backoff config the PR changed. The PR's own new tests only cover WS_RECONNECT_MAX_MS. Correct answer: code, flaky=false, fix the unit in internal/ws/config.go.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "realtime-gateway"
+  },
+  "run": {
+    "id": 19609917450,
+    "attempt": 2,
+    "workflowId": 66105283,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/configurable-backoff",
+    "headSha": "b6e2a9d04f7c1358e0a2d6b9f4c7e1a35d8b0f26",
+    "headRepoFullName": "example-org/realtime-gateway",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19609917450",
+    "displayTitle": "Make websocket reconnect backoff configurable",
+    "pullRequestNumbers": [
+      431
+    ],
+    "createdAt": "2026-11-23T20:58:07Z"
+  },
+  "jobs": [
+    {
+      "id": 56233470902,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-23T20:58:12Z",
+      "completedAt": "2026-11-23T20:59:31Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19609917450/job/56233470902",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T20:58:12Z",
+          "completedAt": "2026-11-23T20:58:14Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T20:58:14Z",
+          "completedAt": "2026-11-23T20:58:15Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T20:58:15Z",
+          "completedAt": "2026-11-23T20:58:19Z"
+        },
+        {
+          "number": 4,
+          "name": "Run golangci/golangci-lint-action@v8",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T20:58:19Z",
+          "completedAt": "2026-11-23T20:59:27Z"
+        },
+        {
+          "number": 5,
+          "name": "Post Run golangci/golangci-lint-action@v8",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T20:59:27Z",
+          "completedAt": "2026-11-23T20:59:29Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T20:59:29Z",
+          "completedAt": "2026-11-23T20:59:30Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T20:59:30Z",
+          "completedAt": "2026-11-23T20:59:31Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T20:59:31Z",
+          "completedAt": "2026-11-23T20:59:31Z"
+        }
+      ]
+    },
+    {
+      "id": 56233470915,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-23T21:07:44Z",
+      "completedAt": "2026-11-23T21:08:17Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19609917450/job/56233470915",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T21:07:44Z",
+          "completedAt": "2026-11-23T21:07:46Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T21:07:46Z",
+          "completedAt": "2026-11-23T21:07:47Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T21:07:47Z",
+          "completedAt": "2026-11-23T21:07:50Z"
+        },
+        {
+          "number": 4,
+          "name": "Run go mod download",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T21:07:50Z",
+          "completedAt": "2026-11-23T21:07:52Z"
+        },
+        {
+          "number": 5,
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-23T21:07:52Z",
+          "completedAt": "2026-11-23T21:08:15Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-23T21:08:15Z",
+          "completedAt": "2026-11-23T21:08:15Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T21:08:15Z",
+          "completedAt": "2026-11-23T21:08:16Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T21:08:16Z",
+          "completedAt": "2026-11-23T21:08:17Z"
+        }
+      ]
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "internal/ws/config.go",
+      "status": "modified",
+      "additions": 21,
+      "deletions": 4,
+      "patch": "@@ -1,6 +1,10 @@\n package ws\n \n-import \"time\"\n+import (\n+\t\"os\"\n+\t\"strconv\"\n+\t\"time\"\n+)\n \n // Config controls how a Client connects to the upstream hub.\n type Config struct {\n@@ -10,12 +14,25 @@\n \tPingInterval  time.Duration\n }\n \n-// DefaultConfig returns the settings used in production.\n+// DefaultConfig returns the settings used in production. The reconnect backoff can be tuned\n+// per deployment with WS_RECONNECT_BASE_MS and WS_RECONNECT_MAX_MS.\n func DefaultConfig(url string) Config {\n \treturn Config{\n \t\tURL:           url,\n-\t\tReconnectBase: 250 * time.Millisecond,\n-\t\tReconnectMax:  30 * time.Second,\n+\t\tReconnectBase: envDuration(\"WS_RECONNECT_BASE_MS\", 250, time.Second),\n+\t\tReconnectMax:  envDuration(\"WS_RECONNECT_MAX_MS\", 30_000, time.Millisecond),\n \t\tPingInterval:  20 * time.Second,\n \t}\n }\n+\n+// envDuration reads a positive integer from the environment (def when unset or invalid) and\n+// scales it by unit.\n+func envDuration(key string, def int64, unit time.Duration) time.Duration {\n+\tn := def\n+\tif raw, ok := os.LookupEnv(key); ok {\n+\t\tif parsed, err := strconv.ParseInt(raw, 10, 64); err == nil && parsed > 0 {\n+\t\t\tn = parsed\n+\t\t}\n+\t}\n+\treturn time.Duration(n) * unit\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "internal/ws/config_test.go",
+      "status": "added",
+      "additions": 20,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,20 @@\n+package ws\n+\n+import (\n+\t\"testing\"\n+\t\"time\"\n+)\n+\n+func TestDefaultConfigReadsMaxFromEnv(t *testing.T) {\n+\tt.Setenv(\"WS_RECONNECT_MAX_MS\", \"5000\")\n+\tif got := DefaultConfig(\"ws://hub\").ReconnectMax; got != 5*time.Second {\n+\t\tt.Fatalf(\"ReconnectMax = %s, want 5s\", got)\n+\t}\n+}\n+\n+func TestDefaultConfigIgnoresInvalidValues(t *testing.T) {\n+\tt.Setenv(\"WS_RECONNECT_MAX_MS\", \"soon\")\n+\tif got := DefaultConfig(\"ws://hub\").ReconnectMax; got != 30*time.Second {\n+\t\tt.Fatalf(\"ReconnectMax = %s, want 30s\", got)\n+\t}\n+}",
+      "previousPath": null
+    },
+    {
+      "path": ".env.example",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 0,
+      "patch": "@@ -1,2 +1,6 @@\n HUB_URL=ws://localhost:9000/ws\n LISTEN_ADDR=:8080\n+\n+# Reconnect backoff towards the hub (milliseconds)\n+WS_RECONNECT_BASE_MS=250\n+WS_RECONNECT_MAX_MS=30000",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test": [
+      {
+        "runId": 19609917450,
+        "attempt": 1,
+        "headSha": "b6e2a9d04f7c1358e0a2d6b9f4c7e1a35d8b0f26",
+        "branch": "feat/configurable-backoff",
+        "event": "pull_request",
+        "conclusion": "failure",
+        "createdAt": "2026-11-23T20:58:07Z",
+        "sameSha": true,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19609917450/attempts/1"
+      },
+      {
+        "runId": 19607731842,
+        "attempt": 1,
+        "headSha": "4eefe86285db2a00daf9ece82f0c3e89a7c69b91",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T16:20:05Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607731842"
+      },
+      {
+        "runId": 19607718710,
+        "attempt": 1,
+        "headSha": "2d88673bce6c8d040641071fd9bce8874acc7f46",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T09:25:04Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607718710"
+      },
+      {
+        "runId": 19607705263,
+        "attempt": 1,
+        "headSha": "c25183b0067539f6eaba7fae7f22c55a977fb551",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T03:53:34Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607705263"
+      },
+      {
+        "runId": 19607697886,
+        "attempt": 1,
+        "headSha": "af1fcd6321fbf5daa81284df24a10f8e1671c9b7",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T00:15:19Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607697886"
+      },
+      {
+        "runId": 19607683610,
+        "attempt": 1,
+        "headSha": "ae483ca9b49b6dfef1f3c4fe3a3b6a643bdb9f7f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T19:22:31Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607683610"
+      },
+      {
+        "runId": 19607671845,
+        "attempt": 1,
+        "headSha": "a3879904782e11dfc77e8eb00691cc13bc33b8e0",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T11:36:10Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607671845"
+      },
+      {
+        "runId": 19607657673,
+        "attempt": 1,
+        "headSha": "58bd706d194d536da41496f506587aca1a695d1a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "failure",
+        "createdAt": "2026-11-22T04:28:28Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607657673"
+      },
+      {
+        "runId": 19607646165,
+        "attempt": 1,
+        "headSha": "422014ef1498dca648798f17e3264b3d84147432",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T18:55:05Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607646165"
+      },
+      {
+        "runId": 19607633316,
+        "attempt": 1,
+        "headSha": "88b6c99389fd0eecec9bdc1c948cf3f8f437e80e",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T12:59:29Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607633316"
+      },
+      {
+        "runId": 19607622494,
+        "attempt": 1,
+        "headSha": "a53292809fe58307ab9deb12508af873598d434d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T03:22:11Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607622494"
+      }
+    ],
+    "lint": [
+      {
+        "runId": 19609917450,
+        "attempt": 1,
+        "headSha": "b6e2a9d04f7c1358e0a2d6b9f4c7e1a35d8b0f26",
+        "branch": "feat/configurable-backoff",
+        "event": "pull_request",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T20:58:07Z",
+        "sameSha": true,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19609917450/attempts/1"
+      },
+      {
+        "runId": 19607731842,
+        "attempt": 1,
+        "headSha": "4eefe86285db2a00daf9ece82f0c3e89a7c69b91",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T16:20:05Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607731842"
+      },
+      {
+        "runId": 19607718710,
+        "attempt": 1,
+        "headSha": "2d88673bce6c8d040641071fd9bce8874acc7f46",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T09:25:04Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607718710"
+      },
+      {
+        "runId": 19607705263,
+        "attempt": 1,
+        "headSha": "c25183b0067539f6eaba7fae7f22c55a977fb551",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T03:53:34Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607705263"
+      },
+      {
+        "runId": 19607697886,
+        "attempt": 1,
+        "headSha": "af1fcd6321fbf5daa81284df24a10f8e1671c9b7",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T00:15:19Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607697886"
+      },
+      {
+        "runId": 19607683610,
+        "attempt": 1,
+        "headSha": "ae483ca9b49b6dfef1f3c4fe3a3b6a643bdb9f7f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T19:22:31Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607683610"
+      },
+      {
+        "runId": 19607671845,
+        "attempt": 1,
+        "headSha": "a3879904782e11dfc77e8eb00691cc13bc33b8e0",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T11:36:10Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607671845"
+      },
+      {
+        "runId": 19607657673,
+        "attempt": 1,
+        "headSha": "58bd706d194d536da41496f506587aca1a695d1a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T04:28:28Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607657673"
+      },
+      {
+        "runId": 19607646165,
+        "attempt": 1,
+        "headSha": "422014ef1498dca648798f17e3264b3d84147432",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T18:55:05Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607646165"
+      },
+      {
+        "runId": 19607633316,
+        "attempt": 1,
+        "headSha": "88b6c99389fd0eecec9bdc1c948cf3f8f437e80e",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T12:59:29Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607633316"
+      },
+      {
+        "runId": 19607622494,
+        "attempt": 1,
+        "headSha": "a53292809fe58307ab9deb12508af873598d434d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T03:22:11Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/realtime-gateway/actions/runs/19607622494"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "code"
+    ],
+    "keywords": [
+      [
+        "reconnect",
+        "backoff",
+        "ReconnectBase",
+        "WS_RECONNECT_BASE_MS",
+        "envDuration"
+      ],
+      [
+        "time.Second",
+        "Millisecond",
+        "milliseconds",
+        "250s",
+        "250 seconds",
+        "seconds instead"
+      ]
+    ],
+    "flaky": false,
+    "fixPath": "internal/ws/config.go"
+  }
+}

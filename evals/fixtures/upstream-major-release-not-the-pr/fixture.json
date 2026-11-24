@@ -1,0 +1,425 @@
+{
+  "id": "upstream-major-release-not-the-pr",
+  "title": "CSV export tests fail inside the PR's function, but the cause is csvforge 3.0.0 (unpinned)",
+  "description": "PR #77 adds a --since filter: it edits write_report() in src/reportcli/export.py (new filter_since() helper, new 'since' parameter) and adds tests. Four CSV tests fail, including the PR's new one, all with \"TypeError: write_rows() got an unexpected keyword argument 'header'\", and pytest's traceback points into write_report(), the function the PR changed, which invites blaming the PR. But the failing call, csvforge.write_rows(..., header=COLUMNS, ...), is unchanged (it sits outside the PR's hunk and is identical on main); pyproject.toml pins csvforge only as '>=2.4' and there is no lock file, so this install resolved the new major release csvforge 3.0.0 (shown in the pip output); and the test job on main has failed on its last two runs, on commits without this PR, after passing before. JSON tests pass. Correct answer: dependency (upstream breaking release), flaky=false: pin csvforge<3 in pyproject.toml or migrate the call to the 3.x API, independently of this PR.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "report-cli"
+  },
+  "run": {
+    "id": 19628415530,
+    "attempt": 1,
+    "workflowId": 52219004,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/export-since",
+    "headSha": "9e5c1a7f3b0d26e84a9c5e1f7b3d0a62c8e4f1b5",
+    "headRepoFullName": "example-org/report-cli",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19628415530",
+    "displayTitle": "Add --since filter to export",
+    "pullRequestNumbers": [
+      77
+    ],
+    "createdAt": "2026-11-24T09:20:41Z"
+  },
+  "jobs": [
+    {
+      "id": 56281903361,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-24T09:20:45Z",
+      "completedAt": "2026-11-24T09:21:03Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19628415530/job/56281903361",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:20:45Z",
+          "completedAt": "2026-11-24T09:20:47Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:20:47Z",
+          "completedAt": "2026-11-24T09:20:48Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:20:48Z",
+          "completedAt": "2026-11-24T09:20:50Z"
+        },
+        {
+          "number": 4,
+          "name": "Run pip install ruff",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:20:50Z",
+          "completedAt": "2026-11-24T09:20:57Z"
+        },
+        {
+          "number": 5,
+          "name": "Run ruff check .",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:20:57Z",
+          "completedAt": "2026-11-24T09:20:58Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:20:58Z",
+          "completedAt": "2026-11-24T09:21:01Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:21:01Z",
+          "completedAt": "2026-11-24T09:21:02Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:21:02Z",
+          "completedAt": "2026-11-24T09:21:03Z"
+        }
+      ]
+    },
+    {
+      "id": 56281903377,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-24T09:20:46Z",
+      "completedAt": "2026-11-24T09:21:01Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19628415530/job/56281903377",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:20:46Z",
+          "completedAt": "2026-11-24T09:20:48Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:20:48Z",
+          "completedAt": "2026-11-24T09:20:49Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:20:49Z",
+          "completedAt": "2026-11-24T09:20:51Z"
+        },
+        {
+          "number": 4,
+          "name": "Install",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:20:51Z",
+          "completedAt": "2026-11-24T09:20:57Z"
+        },
+        {
+          "number": 5,
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-24T09:20:57Z",
+          "completedAt": "2026-11-24T09:20:59Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-24T09:20:59Z",
+          "completedAt": "2026-11-24T09:20:59Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:20:59Z",
+          "completedAt": "2026-11-24T09:21:00Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T09:21:00Z",
+          "completedAt": "2026-11-24T09:21:01Z"
+        }
+      ]
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "src/reportcli/export.py",
+      "status": "modified",
+      "additions": 11,
+      "deletions": 3,
+      "patch": "@@ -3,7 +3,8 @@\n from __future__ import annotations\n \n import json\n-from collections.abc import Iterable\n+from collections.abc import Iterable, Iterator\n+from datetime import date\n from typing import IO\n \n import csvforge\n@@ -13,9 +14,16 @@\n COLUMNS = [\"date\", \"account\", \"category\", \"amount\", \"currency\"]\n \n \n-def write_report(rows: Iterable[Row], out: IO[str], fmt: str = \"csv\") -> int:\n+def filter_since(rows: Iterable[Row], since: date | None) -> Iterator[Row]:\n+    \"\"\"Rows dated on or after `since`; every row when it is None.\"\"\"\n+    for row in rows:\n+        if since is None or row.date >= since:\n+            yield row\n+\n+\n+def write_report(rows: Iterable[Row], out: IO[str], fmt: str = \"csv\", since: date | None = None) -> int:\n     \"\"\"Writes rows to out and returns how many were written.\"\"\"\n-    rows = list(rows)\n+    rows = list(filter_since(rows, since))\n     if fmt == \"json\":\n         json.dump([row.as_dict() for row in rows], out, indent=2, default=str)\n     elif fmt == \"csv\":",
+      "previousPath": null
+    },
+    {
+      "path": "src/reportcli/cli.py",
+      "status": "modified",
+      "additions": 3,
+      "deletions": 2,
+      "patch": "@@ -17,9 +17,10 @@\n @click.argument(\"report\")\n @click.option(\"--format\", \"fmt\", type=click.Choice([\"csv\", \"json\"]), default=\"csv\", show_default=True)\n @click.option(\"--output\", \"-o\", type=click.File(\"w\"), default=\"-\")\n-def export(report: str, fmt: str, output) -> None:\n+@click.option(\"--since\", type=click.DateTime([\"%Y-%m-%d\"]), default=None, help=\"Only rows on or after this date.\")\n+def export(report: str, fmt: str, output, since) -> None:\n     \"\"\"Export REPORT (e.g. monthly-spend) to a file or stdout.\"\"\"\n-    count = write_report(fetch_rows(report), output, fmt)\n+    count = write_report(fetch_rows(report), output, fmt, since.date() if since else None)\n     click.echo(f\"wrote {count} rows\", err=True)\n \n ",
+      "previousPath": null
+    },
+    {
+      "path": "tests/test_export.py",
+      "status": "modified",
+      "additions": 11,
+      "deletions": 0,
+      "patch": "@@ -39,3 +39,14 @@\n def test_unknown_format(sample_rows):\n     with pytest.raises(ValueError):\n         write_report(sample_rows, io.StringIO(), fmt=\"xml\")\n+\n+\n+def test_since_filters_rows(sample_rows):\n+    out = io.StringIO()\n+    assert write_report(sample_rows, out, fmt=\"csv\", since=date(2026, 11, 9)) == 2\n+    assert \"2026-11-02\" not in out.getvalue()\n+\n+\n+def test_since_none_keeps_everything(sample_rows):\n+    out = io.StringIO()\n+    assert write_report(sample_rows, out, fmt=\"json\", since=None) == 3",
+      "previousPath": null
+    },
+    {
+      "path": "README.md",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "patch": "@@ -3,4 +3,5 @@\n ```sh\n pip install -e .\n report export monthly-spend --format csv -o spend.csv\n+report export monthly-spend --since 2026-11-01   # only rows from November on\n ```",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test": [
+      {
+        "runId": 19621907715,
+        "attempt": 1,
+        "headSha": "01e6fb89f04af92a8330f2ff71eb62ab7cf5dabe",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "failure",
+        "createdAt": "2026-11-23T16:40:12Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621907715"
+      },
+      {
+        "runId": 19621903507,
+        "attempt": 1,
+        "headSha": "1183415f3695fbdc6a3a5f64d4d0974f975e8825",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "failure",
+        "createdAt": "2026-11-23T08:06:17Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621903507"
+      },
+      {
+        "runId": 19621895795,
+        "attempt": 1,
+        "headSha": "bb62369bb90cd13ce769cc1a7f5236c4d4a4cad4",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T23:10:25Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621895795"
+      },
+      {
+        "runId": 19621886231,
+        "attempt": 1,
+        "headSha": "d628aab5b1ac5862cf42e9f3dc04850b414cdd36",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T10:42:02Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621886231"
+      },
+      {
+        "runId": 19621880960,
+        "attempt": 1,
+        "headSha": "26e6f5516235212723ec05b229cd1a75780e8862",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T03:50:07Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621880960"
+      },
+      {
+        "runId": 19621875557,
+        "attempt": 1,
+        "headSha": "3387eda63f7211ea16ea79bddc7f6ca0aeff6835",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T20:12:53Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621875557"
+      },
+      {
+        "runId": 19621861158,
+        "attempt": 1,
+        "headSha": "7403e00a30fab8498d1c8ce5a325358b3d3114b7",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T07:46:37Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621861158"
+      },
+      {
+        "runId": 19621846644,
+        "attempt": 1,
+        "headSha": "ef249ef447b7cd3110b024f2cf797f6933a8cff6",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T17:02:23Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621846644"
+      }
+    ],
+    "lint": [
+      {
+        "runId": 19621907715,
+        "attempt": 1,
+        "headSha": "01e6fb89f04af92a8330f2ff71eb62ab7cf5dabe",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T16:40:12Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621907715"
+      },
+      {
+        "runId": 19621903507,
+        "attempt": 1,
+        "headSha": "1183415f3695fbdc6a3a5f64d4d0974f975e8825",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T08:06:17Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621903507"
+      },
+      {
+        "runId": 19621895795,
+        "attempt": 1,
+        "headSha": "bb62369bb90cd13ce769cc1a7f5236c4d4a4cad4",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T23:10:25Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621895795"
+      },
+      {
+        "runId": 19621886231,
+        "attempt": 1,
+        "headSha": "d628aab5b1ac5862cf42e9f3dc04850b414cdd36",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T10:42:02Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621886231"
+      },
+      {
+        "runId": 19621880960,
+        "attempt": 1,
+        "headSha": "26e6f5516235212723ec05b229cd1a75780e8862",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T03:50:07Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621880960"
+      },
+      {
+        "runId": 19621875557,
+        "attempt": 1,
+        "headSha": "3387eda63f7211ea16ea79bddc7f6ca0aeff6835",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T20:12:53Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621875557"
+      },
+      {
+        "runId": 19621861158,
+        "attempt": 1,
+        "headSha": "7403e00a30fab8498d1c8ce5a325358b3d3114b7",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T07:46:37Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621861158"
+      },
+      {
+        "runId": 19621846644,
+        "attempt": 1,
+        "headSha": "ef249ef447b7cd3110b024f2cf797f6933a8cff6",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T17:02:23Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/report-cli/actions/runs/19621846644"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "dependency"
+    ],
+    "keywords": [
+      [
+        "csvforge"
+      ],
+      [
+        "3.0",
+        "unpinned",
+        "pin",
+        "upper bound",
+        "<3",
+        "release",
+        "major version",
+        "new version",
+        "newer version"
+      ]
+    ],
+    "flaky": false
+  }
+}

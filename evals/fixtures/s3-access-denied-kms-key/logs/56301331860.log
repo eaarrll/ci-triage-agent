@@ -1,0 +1,169 @@
+2026-11-24T10:31:40.6490000Z Current runner version: '2.330.0'
+2026-11-24T10:31:40.6493424Z ##[group]Runner Image Provisioner
+2026-11-24T10:31:40.6504231Z Hosted Compute Agent
+2026-11-24T10:31:40.6521862Z Version: 20261104.502
+2026-11-24T10:31:40.6533993Z Commit: d881a35a5ed26f49739d886248d35f121eea067d
+2026-11-24T10:31:40.6550479Z Build Date: 2026-11-04T18:22:51Z
+2026-11-24T10:31:40.6556231Z Worker ID: {49a89683-c8bf-13fb-732a-1bb270743ce7}
+2026-11-24T10:31:40.6557900Z Azure Region: eastus2
+2026-11-24T10:31:40.6568131Z ##[endgroup]
+2026-11-24T10:31:40.6583324Z ##[group]Operating System
+2026-11-24T10:31:40.6588355Z Ubuntu
+2026-11-24T10:31:40.6604055Z 24.04.3
+2026-11-24T10:31:40.6610462Z LTS
+2026-11-24T10:31:40.6620662Z ##[endgroup]
+2026-11-24T10:31:40.6623779Z ##[group]Runner Image
+2026-11-24T10:31:40.6637624Z Image: ubuntu-24.04
+2026-11-24T10:31:40.6640224Z Version: 20261116.38.1
+2026-11-24T10:31:40.6654179Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.38/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-24T10:31:40.6664562Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.38
+2026-11-24T10:31:40.6666279Z ##[endgroup]
+2026-11-24T10:31:40.6673824Z ##[group]GITHUB_TOKEN Permissions
+2026-11-24T10:31:40.6679393Z Contents: read
+2026-11-24T10:31:40.6689979Z IdToken: write
+2026-11-24T10:31:40.6693555Z Metadata: read
+2026-11-24T10:31:40.6702586Z ##[endgroup]
+2026-11-24T10:31:40.6717900Z Secret source: Actions
+2026-11-24T10:31:40.6722662Z Prepare workflow directory
+2026-11-24T10:31:40.6726731Z Prepare all required actions
+2026-11-24T10:31:40.6728193Z Getting action download info
+2026-11-24T10:31:40.6739500Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-24T10:31:40.6744055Z Download action repository 'aws-actions/configure-aws-credentials@v4' (SHA:7474bc4690e29a8392af63c5b98e7449536d5c3a)
+2026-11-24T10:31:40.6755624Z Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+2026-11-24T10:31:40.6762179Z Complete job name: publish-assets
+2026-11-24T10:31:41.3550001Z ##[group]Run actions/checkout@v4
+2026-11-24T10:31:41.3556556Z with:
+2026-11-24T10:31:41.3567832Z   repository: example-org/storefront-web
+2026-11-24T10:31:41.3570801Z   token: ***
+2026-11-24T10:31:41.3586018Z   ssh-strict: true
+2026-11-24T10:31:41.3589563Z   ssh-user: git
+2026-11-24T10:31:41.3591763Z   persist-credentials: true
+2026-11-24T10:31:41.3598318Z   clean: true
+2026-11-24T10:31:41.3600018Z   sparse-checkout-cone-mode: true
+2026-11-24T10:31:41.3615263Z   fetch-depth: 1
+2026-11-24T10:31:41.3631901Z   fetch-tags: false
+2026-11-24T10:31:41.3643394Z   show-progress: true
+2026-11-24T10:31:41.3656201Z   lfs: false
+2026-11-24T10:31:41.3658556Z   submodules: false
+2026-11-24T10:31:41.3673987Z   set-safe-directory: true
+2026-11-24T10:31:41.3679956Z env:
+2026-11-24T10:31:41.3696801Z   AWS_REGION: eu-west-1
+2026-11-24T10:31:41.3706549Z ##[endgroup]
+2026-11-24T10:31:41.3723487Z Syncing repository: example-org/storefront-web
+2026-11-24T10:31:41.3739770Z ##[group]Getting Git version info
+2026-11-24T10:31:41.3748701Z Working directory is '/home/runner/work/storefront-web/storefront-web'
+2026-11-24T10:31:41.3756294Z [command]/usr/bin/git version
+2026-11-24T10:31:41.3765670Z git version 2.51.2
+2026-11-24T10:31:41.3769425Z ##[endgroup]
+2026-11-24T10:31:41.3782818Z Temporarily overriding HOME='/home/runner/work/_temp/2d095bae-ceea-fc77-59a1-f43497857250' before making global git config changes
+2026-11-24T10:31:41.3792070Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T10:31:41.3792932Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-11-24T10:31:41.3806863Z Deleting the contents of '/home/runner/work/storefront-web/storefront-web'
+2026-11-24T10:31:41.3813632Z ##[group]Initializing the repository
+2026-11-24T10:31:41.3815225Z [command]/usr/bin/git init /home/runner/work/storefront-web/storefront-web
+2026-11-24T10:31:41.3819725Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-24T10:31:41.3824663Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-24T10:31:41.3825932Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-24T10:31:41.3831432Z hint:
+2026-11-24T10:31:41.3843601Z hint: 	git config --global init.defaultBranch <name>
+2026-11-24T10:31:41.3859649Z hint:
+2026-11-24T10:31:41.3870201Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-24T10:31:41.3885832Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-24T10:31:41.3901618Z hint:
+2026-11-24T10:31:41.3918549Z hint: 	git branch -m <name>
+2026-11-24T10:31:41.3932256Z Initialized empty Git repository in /home/runner/work/storefront-web/storefront-web/.git/
+2026-11-24T10:31:41.3945718Z [command]/usr/bin/git remote add origin https://github.com/example-org/storefront-web
+2026-11-24T10:31:41.3956887Z ##[endgroup]
+2026-11-24T10:31:41.3973118Z ##[group]Disabling automatic garbage collection
+2026-11-24T10:31:41.3983470Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-24T10:31:41.3999332Z ##[endgroup]
+2026-11-24T10:31:41.4016163Z ##[group]Setting up auth
+2026-11-24T10:31:41.4027370Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T10:31:41.4028849Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T10:31:41.4037818Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T10:31:41.4045232Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-24T10:31:41.4048732Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-24T10:31:41.4064656Z ##[endgroup]
+2026-11-24T10:31:41.4079749Z ##[group]Fetching the repository
+2026-11-24T10:31:41.4097525Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f1a7c3e9b5d20486e2c8a4f6b0d9e13c7a5f2b48:refs/remotes/origin/main
+2026-11-24T10:31:41.4109849Z From https://github.com/example-org/storefront-web
+2026-11-24T10:31:41.4124649Z  * [new ref]         f1a7c3e9b5d20486e2c8a4f6b0d9e13c7a5f2b48 -> origin/main
+2026-11-24T10:31:41.4125863Z ##[endgroup]
+2026-11-24T10:31:41.4143318Z ##[group]Determining the checkout info
+2026-11-24T10:31:41.4158718Z ##[endgroup]
+2026-11-24T10:31:41.4165470Z [command]/usr/bin/git sparse-checkout disable
+2026-11-24T10:31:41.4179787Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-24T10:31:41.4196587Z ##[group]Checking out the ref
+2026-11-24T10:31:41.4202132Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-24T10:31:41.4219218Z Switched to a new branch 'main'
+2026-11-24T10:31:41.4236901Z branch 'main' set up to track 'origin/main'.
+2026-11-24T10:31:41.4249532Z ##[endgroup]
+2026-11-24T10:31:41.4250956Z [command]/usr/bin/git log -1 --format=%H
+2026-11-24T10:31:41.4259787Z f1a7c3e9b5d20486e2c8a4f6b0d9e13c7a5f2b48
+2026-11-24T10:31:42.1980002Z ##[group]Run aws-actions/configure-aws-credentials@v4
+2026-11-24T10:31:42.1992371Z with:
+2026-11-24T10:31:42.2006264Z   role-to-assume: arn:aws:iam::123456789012:role/storefront-deploy-staging
+2026-11-24T10:31:42.2015619Z   aws-region: eu-west-1
+2026-11-24T10:31:42.2021633Z   audience: sts.amazonaws.com
+2026-11-24T10:31:42.2027988Z env:
+2026-11-24T10:31:42.2038457Z   AWS_REGION: eu-west-1
+2026-11-24T10:31:42.2041840Z ##[endgroup]
+2026-11-24T10:31:42.2057519Z Assuming role with OIDC
+2026-11-24T10:31:43.3070696Z Authenticated as assumedRoleId AROA9233AC555635F708A:GitHubActions
+2026-11-24T10:31:44.2450004Z ##[group]Run actions/download-artifact@v4
+2026-11-24T10:31:44.2466659Z with:
+2026-11-24T10:31:44.2470611Z   name: web-dist
+2026-11-24T10:31:44.2485880Z   path: dist/
+2026-11-24T10:31:44.2488035Z   merge-multiple: false
+2026-11-24T10:31:44.2501773Z   repository: example-org/storefront-web
+2026-11-24T10:31:44.2504242Z   run-id: 19627715093
+2026-11-24T10:31:44.2511504Z env:
+2026-11-24T10:31:44.2519528Z   AWS_REGION: eu-west-1
+2026-11-24T10:31:44.2532535Z   AWS_DEFAULT_REGION: eu-west-1
+2026-11-24T10:31:44.2542280Z   AWS_ACCESS_KEY_ID: ***
+2026-11-24T10:31:44.2557635Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-24T10:31:44.2574704Z   AWS_SESSION_TOKEN: ***
+2026-11-24T10:31:44.2582466Z ##[endgroup]
+2026-11-24T10:31:44.2592928Z Downloading single artifact
+2026-11-24T10:31:44.2598666Z Preparing to download the following artifacts:
+2026-11-24T10:31:44.2609180Z - web-dist (ID: 4791035527, Size: 318442, Expected Digest: sha256:af4873ab8ea8e4b8e4688db0b81188d2206fb8dc4fdc668580a16f2450430fd9)
+2026-11-24T10:31:44.2626473Z Starting download of artifact to: /home/runner/work/storefront-web/storefront-web/dist
+2026-11-24T10:31:44.8630873Z Artifact download completed successfully.
+2026-11-24T10:31:44.8632180Z Total of 1 artifact(s) downloaded
+2026-11-24T10:31:44.8636266Z Download artifact has finished successfully
+2026-11-24T10:31:46.2320006Z ##[group]Run aws s3 sync dist/ "s3://acme-storefront-assets-staging/" --delete --exclude index.html --cache-control "public,max-age=31536000,immutable"
+2026-11-24T10:31:46.2334775Z [36;1maws s3 sync dist/ "s3://acme-storefront-assets-staging/" --delete --exclude index.html --cache-control "public,max-age=31536000,immutable"[0m
+2026-11-24T10:31:46.2335499Z [36;1maws s3 cp dist/index.html "s3://acme-storefront-assets-staging/index.html" --cache-control "no-cache"[0m
+2026-11-24T10:31:46.2341768Z shell: /usr/bin/bash -e {0}
+2026-11-24T10:31:46.2355875Z env:
+2026-11-24T10:31:46.2360413Z   AWS_REGION: eu-west-1
+2026-11-24T10:31:46.2369244Z   AWS_DEFAULT_REGION: eu-west-1
+2026-11-24T10:31:46.2370475Z   AWS_ACCESS_KEY_ID: ***
+2026-11-24T10:31:46.2372306Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-24T10:31:46.2388020Z   AWS_SESSION_TOKEN: ***
+2026-11-24T10:31:46.2405806Z ##[endgroup]
+2026-11-24T10:31:47.7912007Z delete: s3://acme-storefront-assets-staging/assets/index-0b6e41d2.js
+2026-11-24T10:31:47.9414121Z upload failed: dist/assets/index-4f2a1c9e.js to s3://acme-storefront-assets-staging/assets/index-4f2a1c9e.js An error occurred (AccessDenied) when calling the PutObject operation: Access Denied
+2026-11-24T10:31:48.0928953Z upload failed: dist/assets/index-e7d0b913.css to s3://acme-storefront-assets-staging/assets/index-e7d0b913.css An error occurred (AccessDenied) when calling the PutObject operation: Access Denied
+2026-11-24T10:31:48.2432539Z delete: s3://acme-storefront-assets-staging/assets/index-9c3f7a58.css
+2026-11-24T10:31:48.3943353Z upload failed: dist/assets/vendor-react-2a8b6c4d.js to s3://acme-storefront-assets-staging/assets/vendor-react-2a8b6c4d.js An error occurred (AccessDenied) when calling the PutObject operation: Access Denied
+2026-11-24T10:31:48.5446784Z upload failed: dist/assets/checkout-7b1e5d02.js to s3://acme-storefront-assets-staging/assets/checkout-7b1e5d02.js An error occurred (AccessDenied) when calling the PutObject operation: Access Denied
+2026-11-24T10:31:48.6947891Z delete: s3://acme-storefront-assets-staging/assets/checkout-1f4d7a33.js
+2026-11-24T10:31:48.8455822Z upload failed: dist/assets/product-gallery-c93f0a61.js to s3://acme-storefront-assets-staging/assets/product-gallery-c93f0a61.js An error occurred (AccessDenied) when calling the PutObject operation: Access Denied
+2026-11-24T10:31:48.9958515Z upload failed: dist/assets/fonts/inter-latin-400-3d8f1b2e.woff2 to s3://acme-storefront-assets-staging/assets/fonts/inter-latin-400-3d8f1b2e.woff2 An error occurred (AccessDenied) when calling the PutObject operation: Access Denied
+2026-11-24T10:31:49.1467347Z upload failed: dist/assets/fonts/inter-latin-600-9a0c4e7d.woff2 to s3://acme-storefront-assets-staging/assets/fonts/inter-latin-600-9a0c4e7d.woff2 An error occurred (AccessDenied) when calling the PutObject operation: Access Denied
+2026-11-24T10:31:49.2983261Z upload failed: dist/assets/icons-5e2b8c90.svg to s3://acme-storefront-assets-staging/assets/icons-5e2b8c90.svg An error occurred (AccessDenied) when calling the PutObject operation: Access Denied
+2026-11-24T10:31:49.2986061Z ##[error]Process completed with exit code 1.
+2026-11-24T10:31:50.1190000Z Post job cleanup.
+2026-11-24T10:31:50.1190831Z [command]/usr/bin/git version
+2026-11-24T10:31:50.1201700Z git version 2.51.2
+2026-11-24T10:31:50.1216493Z Temporarily overriding HOME='/home/runner/work/_temp/de2d918c-fbd1-1527-8f4c-7399382e4bc0' before making global git config changes
+2026-11-24T10:31:50.1219155Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T10:31:50.1223748Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-11-24T10:31:50.1225155Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T10:31:50.1237193Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T10:31:50.1242755Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T10:31:50.1247793Z http.https://github.com/.extraheader
+2026-11-24T10:31:50.1258200Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-24T10:31:50.1258800Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-24T10:31:51.0490001Z Cleaning up orphan processes

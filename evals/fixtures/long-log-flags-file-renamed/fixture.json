@@ -1,0 +1,676 @@
+{
+  "id": "long-log-flags-file-renamed",
+  "title": "Integration tests 404 on flag-gated routes: CI still points FEATURE_FLAGS_FILE at the renamed file",
+  "description": "PR #518 renames config/flags.yaml and config/flags.test.yaml to config/feature-flags.yaml and config/feature-flags.test.yaml and updates DefaultPath in internal/flags/load.go, but the integration job in .github/workflows/ci.yml still sets FEATURE_FLAGS_FILE: config/flags.test.yaml. flags.Load treats a missing file as 'every flag off', so the API test server never registers the checkout_v2, saved_carts and gift_cards routes and promotions never stack: 26 subtests fail with 'expected status 200, got 404' or 'expected 2 promotions applied, got 1'. The log is a ~4,000-line 'go test -v' run; the 160-line excerpt is filled with the earliest '--- FAIL' windows and the step's tail, and the only line that explains them, 'level=WARN msg=\"feature flags file not found; every flag defaults to off\" path=config/flags.test.yaml', appears once at the top of each failing package's output, far from every error signal. The agent has to search the log (or connect the renamed files in the diff to the workflow env) to find it. A real over-the-size-cap log (20 MB) is not committed; this exercises the same skill. Correct answer: configuration (or code), update FEATURE_FLAGS_FILE in .github/workflows/ci.yml to config/feature-flags.test.yaml. Removing the variable would not work: the production defaults keep checkout_v2 and promo_stacking off.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "checkout-svc"
+  },
+  "run": {
+    "id": 19631190862,
+    "attempt": 1,
+    "workflowId": 70913385,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "chore/rename-flag-files",
+    "headSha": "e8b3d1f7a2c94056b1e7d3a9f5c20b84e6a1d7c3",
+    "headRepoFullName": "example-org/checkout-svc",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19631190862",
+    "displayTitle": "Rename feature flag files",
+    "pullRequestNumbers": [
+      518
+    ],
+    "createdAt": "2026-11-24T11:03:14Z"
+  },
+  "jobs": [
+    {
+      "id": 56305518251,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-24T11:03:19Z",
+      "completedAt": "2026-11-24T11:04:31Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19631190862/job/56305518251",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:19Z",
+          "completedAt": "2026-11-24T11:03:21Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:21Z",
+          "completedAt": "2026-11-24T11:03:22Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:22Z",
+          "completedAt": "2026-11-24T11:03:26Z"
+        },
+        {
+          "number": 4,
+          "name": "Run golangci/golangci-lint-action@v8",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:26Z",
+          "completedAt": "2026-11-24T11:04:27Z"
+        },
+        {
+          "number": 5,
+          "name": "Post Run golangci/golangci-lint-action@v8",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:04:27Z",
+          "completedAt": "2026-11-24T11:04:29Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:04:29Z",
+          "completedAt": "2026-11-24T11:04:30Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:04:30Z",
+          "completedAt": "2026-11-24T11:04:31Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:04:31Z",
+          "completedAt": "2026-11-24T11:04:31Z"
+        }
+      ]
+    },
+    {
+      "id": 56305518263,
+      "name": "unit",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-24T11:03:20Z",
+      "completedAt": "2026-11-24T11:04:17Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19631190862/job/56305518263",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:20Z",
+          "completedAt": "2026-11-24T11:03:22Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:22Z",
+          "completedAt": "2026-11-24T11:03:23Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:23Z",
+          "completedAt": "2026-11-24T11:03:27Z"
+        },
+        {
+          "number": 4,
+          "name": "Run go test -short -race ./...",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:27Z",
+          "completedAt": "2026-11-24T11:04:15Z"
+        },
+        {
+          "number": 5,
+          "name": "Post Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:04:15Z",
+          "completedAt": "2026-11-24T11:04:16Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:04:16Z",
+          "completedAt": "2026-11-24T11:04:17Z"
+        },
+        {
+          "number": 7,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:04:17Z",
+          "completedAt": "2026-11-24T11:04:17Z"
+        }
+      ]
+    },
+    {
+      "id": 56305518274,
+      "name": "integration",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-24T11:03:21Z",
+      "completedAt": "2026-11-24T11:04:35Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19631190862/job/56305518274",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:21Z",
+          "completedAt": "2026-11-24T11:03:23Z"
+        },
+        {
+          "number": 2,
+          "name": "Initialize containers",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:23Z",
+          "completedAt": "2026-11-24T11:03:29Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:29Z",
+          "completedAt": "2026-11-24T11:03:30Z"
+        },
+        {
+          "number": 4,
+          "name": "Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:30Z",
+          "completedAt": "2026-11-24T11:03:33Z"
+        },
+        {
+          "number": 5,
+          "name": "Migrate",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:03:33Z",
+          "completedAt": "2026-11-24T11:03:40Z"
+        },
+        {
+          "number": 6,
+          "name": "Integration tests",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-24T11:03:40Z",
+          "completedAt": "2026-11-24T11:04:32Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-24T11:04:32Z",
+          "completedAt": "2026-11-24T11:04:32Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:04:32Z",
+          "completedAt": "2026-11-24T11:04:33Z"
+        },
+        {
+          "number": 9,
+          "name": "Stop containers",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:04:33Z",
+          "completedAt": "2026-11-24T11:04:34Z"
+        },
+        {
+          "number": 10,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T11:04:34Z",
+          "completedAt": "2026-11-24T11:04:35Z"
+        }
+      ]
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "config/feature-flags.yaml",
+      "status": "renamed",
+      "additions": 0,
+      "deletions": 0,
+      "patch": null,
+      "previousPath": "config/flags.yaml"
+    },
+    {
+      "path": "config/feature-flags.test.yaml",
+      "status": "renamed",
+      "additions": 0,
+      "deletions": 0,
+      "patch": null,
+      "previousPath": "config/flags.test.yaml"
+    },
+    {
+      "path": "internal/flags/load.go",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -11,7 +11,7 @@\n )\n \n // DefaultPath is used when FEATURE_FLAGS_FILE is not set.\n-const DefaultPath = \"config/flags.yaml\"\n+const DefaultPath = \"config/feature-flags.yaml\"\n \n // Set is an immutable set of feature flags.\n type Set struct {",
+      "previousPath": null
+    },
+    {
+      "path": "README.md",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2,
+      "patch": "@@ -4,5 +4,5 @@\n \n ## Feature flags\n \n-Flags live in `config/flags.yaml`; set `FEATURE_FLAGS_FILE` to load another file (CI uses\n-`config/flags.test.yaml`). A missing file turns every flag off.\n+Flags live in `config/feature-flags.yaml`; set `FEATURE_FLAGS_FILE` to load another file (CI uses\n+`config/feature-flags.test.yaml`). A missing file turns every flag off.",
+      "previousPath": null
+    },
+    {
+      "path": "docs/feature-flags.md",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -7,4 +7,4 @@\n | `saved_carts` | `/v1/carts/saved` |\n | `gift_cards` | `/v1/gift-cards` and gift card tenders at checkout |\n \n-Files: `config/flags.yaml` (production defaults) and `config/flags.test.yaml` (integration tests).\n+Files: `config/feature-flags.yaml` (production defaults) and `config/feature-flags.test.yaml` (integration tests).",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "integration": [
+      {
+        "runId": 19628804419,
+        "attempt": 1,
+        "headSha": "adac72aa2a0176f9d5b67f90ee121fbbd9c3714c",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T09:12:51Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628804419"
+      },
+      {
+        "runId": 19628793309,
+        "attempt": 1,
+        "headSha": "c1548d5c6138c20482346eb7f31d364c7fba7893",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T00:28:05Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628793309"
+      },
+      {
+        "runId": 19628788108,
+        "attempt": 1,
+        "headSha": "44124e7aa25961f5eed6e3a165c0c1f3eb407e1f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T15:42:57Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628788108"
+      },
+      {
+        "runId": 19628783818,
+        "attempt": 1,
+        "headSha": "d603baeeca2d088e51097dcd01df37ff7968512f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T10:41:03Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628783818"
+      },
+      {
+        "runId": 19628777220,
+        "attempt": 1,
+        "headSha": "af0984b413cb1379af1d8f84c8d40e9fcca4935f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T04:59:49Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628777220"
+      },
+      {
+        "runId": 19628769016,
+        "attempt": 1,
+        "headSha": "71a2a26d9e574f8fc865bc807729695492285f05",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T20:30:16Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628769016"
+      },
+      {
+        "runId": 19628756261,
+        "attempt": 1,
+        "headSha": "f2a70ee8253992c1f6cc349ee843c16b73f6bd26",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T11:17:08Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628756261"
+      },
+      {
+        "runId": 19628744998,
+        "attempt": 1,
+        "headSha": "fe301e89b36ac20b03e93783f64fd3d634332428",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T03:23:40Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628744998"
+      },
+      {
+        "runId": 19628734371,
+        "attempt": 1,
+        "headSha": "0822a0670cdf14e2eb43e3add22c11580b3412d3",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T18:04:14Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628734371"
+      },
+      {
+        "runId": 19628728462,
+        "attempt": 1,
+        "headSha": "676525a71a30de075c9442a462cb94f9ee14ee6f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T10:09:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628728462"
+      }
+    ],
+    "unit": [
+      {
+        "runId": 19628804419,
+        "attempt": 1,
+        "headSha": "adac72aa2a0176f9d5b67f90ee121fbbd9c3714c",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T09:12:51Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628804419"
+      },
+      {
+        "runId": 19628793309,
+        "attempt": 1,
+        "headSha": "c1548d5c6138c20482346eb7f31d364c7fba7893",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T00:28:05Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628793309"
+      },
+      {
+        "runId": 19628788108,
+        "attempt": 1,
+        "headSha": "44124e7aa25961f5eed6e3a165c0c1f3eb407e1f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T15:42:57Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628788108"
+      },
+      {
+        "runId": 19628783818,
+        "attempt": 1,
+        "headSha": "d603baeeca2d088e51097dcd01df37ff7968512f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T10:41:03Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628783818"
+      },
+      {
+        "runId": 19628777220,
+        "attempt": 1,
+        "headSha": "af0984b413cb1379af1d8f84c8d40e9fcca4935f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T04:59:49Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628777220"
+      },
+      {
+        "runId": 19628769016,
+        "attempt": 1,
+        "headSha": "71a2a26d9e574f8fc865bc807729695492285f05",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T20:30:16Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628769016"
+      },
+      {
+        "runId": 19628756261,
+        "attempt": 1,
+        "headSha": "f2a70ee8253992c1f6cc349ee843c16b73f6bd26",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T11:17:08Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628756261"
+      },
+      {
+        "runId": 19628744998,
+        "attempt": 1,
+        "headSha": "fe301e89b36ac20b03e93783f64fd3d634332428",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T03:23:40Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628744998"
+      },
+      {
+        "runId": 19628734371,
+        "attempt": 1,
+        "headSha": "0822a0670cdf14e2eb43e3add22c11580b3412d3",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T18:04:14Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628734371"
+      },
+      {
+        "runId": 19628728462,
+        "attempt": 1,
+        "headSha": "676525a71a30de075c9442a462cb94f9ee14ee6f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T10:09:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628728462"
+      }
+    ],
+    "lint": [
+      {
+        "runId": 19628804419,
+        "attempt": 1,
+        "headSha": "adac72aa2a0176f9d5b67f90ee121fbbd9c3714c",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T09:12:51Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628804419"
+      },
+      {
+        "runId": 19628793309,
+        "attempt": 1,
+        "headSha": "c1548d5c6138c20482346eb7f31d364c7fba7893",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T00:28:05Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628793309"
+      },
+      {
+        "runId": 19628788108,
+        "attempt": 1,
+        "headSha": "44124e7aa25961f5eed6e3a165c0c1f3eb407e1f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T15:42:57Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628788108"
+      },
+      {
+        "runId": 19628783818,
+        "attempt": 1,
+        "headSha": "d603baeeca2d088e51097dcd01df37ff7968512f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T10:41:03Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628783818"
+      },
+      {
+        "runId": 19628777220,
+        "attempt": 1,
+        "headSha": "af0984b413cb1379af1d8f84c8d40e9fcca4935f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T04:59:49Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628777220"
+      },
+      {
+        "runId": 19628769016,
+        "attempt": 1,
+        "headSha": "71a2a26d9e574f8fc865bc807729695492285f05",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T20:30:16Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628769016"
+      },
+      {
+        "runId": 19628756261,
+        "attempt": 1,
+        "headSha": "f2a70ee8253992c1f6cc349ee843c16b73f6bd26",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T11:17:08Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628756261"
+      },
+      {
+        "runId": 19628744998,
+        "attempt": 1,
+        "headSha": "fe301e89b36ac20b03e93783f64fd3d634332428",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T03:23:40Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628744998"
+      },
+      {
+        "runId": 19628734371,
+        "attempt": 1,
+        "headSha": "0822a0670cdf14e2eb43e3add22c11580b3412d3",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T18:04:14Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628734371"
+      },
+      {
+        "runId": 19628728462,
+        "attempt": 1,
+        "headSha": "676525a71a30de075c9442a462cb94f9ee14ee6f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T10:09:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/checkout-svc/actions/runs/19628728462"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "configuration",
+      "code"
+    ],
+    "keywords": [
+      [
+        "FEATURE_FLAGS_FILE",
+        "flags.test.yaml"
+      ],
+      [
+        "renam",
+        "not found",
+        "no longer exist",
+        "does not exist",
+        "doesn't exist",
+        "missing",
+        "moved"
+      ]
+    ],
+    "flaky": false,
+    "fixPath": ".github/workflows/ci.yml"
+  }
+}

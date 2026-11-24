@@ -1,0 +1,483 @@
+{
+  "id": "red-herring-proration-rounding",
+  "title": "Proration regression hidden behind rate-limit, cache-timeout and ERESOLVE noise",
+  "description": "PR #612 refactors src/billing/proration.ts to prorate by remainingDays() (Math.floor of the remaining time in days) instead of the exact remaining milliseconds, so a mid-day plan change loses the partial day: two unchanged tests in test/billing/proration.test.ts fail with 'expected 1700 to be 1750' (17 instead of 17.5 of 30 days). The log is full of loud, signature-matching noise in steps that SUCCEEDED: Docker Hub 'toomanyrequests' twice while pulling the postgres service image (the third pull worked and the service became healthy), a cache restore that failed with ETIMEDOUT, an npm ERESOLVE peer-dependency warning, and ETIMEDOUT/ECONNREFUSED lines printed by passing retry tests. None of it affected the result: migrations ran against the database and 33 tests passed. The signature hints all point at infrastructure or dependency, none at the real cause. Correct answer: code, flaky=false, fix the Math.floor whole-day proration in src/billing/proration.ts (docs/billing.md and the unchanged doc comment both say proration uses the exact time left).",
+  "repo": {
+    "owner": "example-org",
+    "repo": "billing-service"
+  },
+  "run": {
+    "id": 19604418273,
+    "attempt": 1,
+    "workflowId": 98231457,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/invoice-days-remaining",
+    "headSha": "7c3e91a0b5d24f68e1a9c07b3d5f28e4a6b1c903",
+    "headRepoFullName": "example-org/billing-service",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19604418273",
+    "displayTitle": "Show days remaining on plan change invoice lines",
+    "pullRequestNumbers": [
+      612
+    ],
+    "createdAt": "2026-11-23T15:41:02Z"
+  },
+  "jobs": [
+    {
+      "id": 56211873391,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-23T15:41:06Z",
+      "completedAt": "2026-11-23T15:42:02Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19604418273/job/56211873391",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:06Z",
+          "completedAt": "2026-11-23T15:41:08Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:08Z",
+          "completedAt": "2026-11-23T15:41:09Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:09Z",
+          "completedAt": "2026-11-23T15:41:13Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:13Z",
+          "completedAt": "2026-11-23T15:41:21Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm run lint",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:21Z",
+          "completedAt": "2026-11-23T15:41:38Z"
+        },
+        {
+          "number": 6,
+          "name": "Run npm run typecheck",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:38Z",
+          "completedAt": "2026-11-23T15:41:58Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:58Z",
+          "completedAt": "2026-11-23T15:41:59Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:59Z",
+          "completedAt": "2026-11-23T15:42:00Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:42:00Z",
+          "completedAt": "2026-11-23T15:42:02Z"
+        }
+      ]
+    },
+    {
+      "id": 56211873405,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-23T15:41:07Z",
+      "completedAt": "2026-11-23T15:42:43Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19604418273/job/56211873405",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:07Z",
+          "completedAt": "2026-11-23T15:41:08Z"
+        },
+        {
+          "number": 2,
+          "name": "Initialize containers",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:08Z",
+          "completedAt": "2026-11-23T15:41:33Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:33Z",
+          "completedAt": "2026-11-23T15:41:34Z"
+        },
+        {
+          "number": 4,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:41:34Z",
+          "completedAt": "2026-11-23T15:42:05Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:42:05Z",
+          "completedAt": "2026-11-23T15:42:34Z"
+        },
+        {
+          "number": 6,
+          "name": "Run migrations",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:42:34Z",
+          "completedAt": "2026-11-23T15:42:36Z"
+        },
+        {
+          "number": 7,
+          "name": "Run tests",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-23T15:42:36Z",
+          "completedAt": "2026-11-23T15:42:40Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-23T15:42:40Z",
+          "completedAt": "2026-11-23T15:42:40Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:42:40Z",
+          "completedAt": "2026-11-23T15:42:41Z"
+        },
+        {
+          "number": 10,
+          "name": "Stop containers",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:42:41Z",
+          "completedAt": "2026-11-23T15:42:42Z"
+        },
+        {
+          "number": 11,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T15:42:42Z",
+          "completedAt": "2026-11-23T15:42:43Z"
+        }
+      ]
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "src/billing/proration.ts",
+      "status": "modified",
+      "additions": 11,
+      "deletions": 6,
+      "patch": "@@ -1,3 +1,4 @@\n+import { DAY_MS } from \"../time.js\";\n import type { Plan, Subscription } from \"./types.js\";\n \n /**\n@@ -6,19 +7,23 @@\n  * the period, rounded half-up to the cent (see docs/billing.md).\n  */\n export function unusedCredit(sub: Subscription, changeAt: Date): number {\n-  return Math.round((sub.plan.priceCents * remainingMs(sub, changeAt)) / periodMs(sub));\n+  return Math.round((sub.plan.priceCents * remainingDays(sub, changeAt)) / periodDays(sub));\n }\n \n /** What the customer pays now when moving to `next` at `changeAt`, in cents. */\n export function upgradeCharge(sub: Subscription, next: Plan, changeAt: Date): number {\n-  const newCost = Math.round((next.priceCents * remainingMs(sub, changeAt)) / periodMs(sub));\n+  const newCost = Math.round((next.priceCents * remainingDays(sub, changeAt)) / periodDays(sub));\n   return Math.max(0, newCost - unusedCredit(sub, changeAt));\n }\n \n-function periodMs(sub: Subscription): number {\n-  return sub.periodEnd.getTime() - sub.periodStart.getTime();\n+/** Length of the billing period in days. */\n+export function periodDays(sub: Subscription): number {\n+  return Math.round((sub.periodEnd.getTime() - sub.periodStart.getTime()) / DAY_MS);\n }\n \n-function remainingMs(sub: Subscription, at: Date): number {\n-  return Math.min(periodMs(sub), Math.max(0, sub.periodEnd.getTime() - at.getTime()));\n+/** Days left in the period, for the invoice line (\"17 days remaining\"). */\n+export function remainingDays(sub: Subscription, at: Date): number {\n+  const periodMs = sub.periodEnd.getTime() - sub.periodStart.getTime();\n+  const remainingMs = Math.min(periodMs, Math.max(0, sub.periodEnd.getTime() - at.getTime()));\n+  return Math.floor(remainingMs / DAY_MS);\n }",
+      "previousPath": null
+    },
+    {
+      "path": "src/billing/invoice.ts",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 3,
+      "patch": "@@ -1,13 +1,14 @@\n import type { InvoiceLine, Plan, Subscription } from \"./types.js\";\n-import { unusedCredit, upgradeCharge } from \"./proration.js\";\n+import { remainingDays, unusedCredit, upgradeCharge } from \"./proration.js\";\n \n /** Invoice lines for a plan change at `changeAt`. */\n export function planChangeLines(sub: Subscription, next: Plan, changeAt: Date): InvoiceLine[] {\n   const credit = unusedCredit(sub, changeAt);\n   const charge = upgradeCharge(sub, next, changeAt) + credit;\n+  const days = remainingDays(sub, changeAt);\n   return [\n-    { description: `Unused time on ${sub.plan.id}`, amountCents: -credit },\n-    { description: `Remaining time on ${next.id}`, amountCents: charge },\n+    { description: `Unused time on ${sub.plan.id} (${days} days remaining)`, amountCents: -credit },\n+    { description: `Remaining time on ${next.id} (${days} days remaining)`, amountCents: charge },\n   ];\n }\n ",
+      "previousPath": null
+    },
+    {
+      "path": "test/billing/invoice.test.ts",
+      "status": "modified",
+      "additions": 10,
+      "deletions": 2,
+      "patch": "@@ -13,9 +13,17 @@\n   it(\"credits the old plan and charges the new one\", () => {\n     const lines = planChangeLines(sub, { id: \"business\", priceCents: 6000 }, new Date(\"2026-11-16T00:00:00Z\"));\n     expect(lines).toEqual([\n-      { description: \"Unused time on team\", amountCents: -1500 },\n-      { description: \"Remaining time on business\", amountCents: 3000 },\n+      { description: \"Unused time on team (15 days remaining)\", amountCents: -1500 },\n+      { description: \"Remaining time on business (15 days remaining)\", amountCents: 3000 },\n     ]);\n     expect(totalCents(lines)).toBe(1500);\n   });\n+\n+  it(\"shows whole days remaining on both lines\", () => {\n+    const lines = planChangeLines(sub, { id: \"business\", priceCents: 6000 }, new Date(\"2026-11-29T18:00:00Z\"));\n+    expect(lines.map((line) => line.description)).toEqual([\n+      \"Unused time on team (1 days remaining)\",\n+      \"Remaining time on business (1 days remaining)\",\n+    ]);\n+  });\n });",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test": [
+      {
+        "runId": 19601127734,
+        "attempt": 1,
+        "headSha": "e7c3f6f652a0acc992521dd4e2245b9befb8bd12",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T11:02:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601127734"
+      },
+      {
+        "runId": 19601121026,
+        "attempt": 1,
+        "headSha": "7c97e9c4980d9f1cf0ff5c40ef5d7bfaec2fdd50",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T04:28:33Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601121026"
+      },
+      {
+        "runId": 19601109404,
+        "attempt": 1,
+        "headSha": "8af80797b2d2bd7cf0868d01452c27db82a9dcb3",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T22:02:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601109404"
+      },
+      {
+        "runId": 19601099091,
+        "attempt": 1,
+        "headSha": "6dc3b6e1602db0c657c095a6d247aec18fe3a14b",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T17:36:28Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601099091"
+      },
+      {
+        "runId": 19601094018,
+        "attempt": 1,
+        "headSha": "3e56e60043c61c2c157590bf0d1a78f3562d5146",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T11:21:19Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601094018"
+      },
+      {
+        "runId": 19601088114,
+        "attempt": 1,
+        "headSha": "fceab965c8fc35ed5e8a536cdbb4da1aed7fa8e9",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T04:50:05Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601088114"
+      },
+      {
+        "runId": 19601076087,
+        "attempt": 1,
+        "headSha": "3c12745cb06355b9a7f372950b3eed186e299c2b",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T21:10:19Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601076087"
+      },
+      {
+        "runId": 19601070986,
+        "attempt": 1,
+        "headSha": "751ca2b6da4e45ecce30b846619bbad23626ffd0",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T16:17:02Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601070986"
+      },
+      {
+        "runId": 19601060854,
+        "attempt": 1,
+        "headSha": "18cf2b6a3e223274876229ecd8bed368308782eb",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T06:59:15Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601060854"
+      }
+    ],
+    "lint": [
+      {
+        "runId": 19601127734,
+        "attempt": 1,
+        "headSha": "e7c3f6f652a0acc992521dd4e2245b9befb8bd12",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T11:02:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601127734"
+      },
+      {
+        "runId": 19601121026,
+        "attempt": 1,
+        "headSha": "7c97e9c4980d9f1cf0ff5c40ef5d7bfaec2fdd50",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T04:28:33Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601121026"
+      },
+      {
+        "runId": 19601109404,
+        "attempt": 1,
+        "headSha": "8af80797b2d2bd7cf0868d01452c27db82a9dcb3",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T22:02:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601109404"
+      },
+      {
+        "runId": 19601099091,
+        "attempt": 1,
+        "headSha": "6dc3b6e1602db0c657c095a6d247aec18fe3a14b",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T17:36:28Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601099091"
+      },
+      {
+        "runId": 19601094018,
+        "attempt": 1,
+        "headSha": "3e56e60043c61c2c157590bf0d1a78f3562d5146",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T11:21:19Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601094018"
+      },
+      {
+        "runId": 19601088114,
+        "attempt": 1,
+        "headSha": "fceab965c8fc35ed5e8a536cdbb4da1aed7fa8e9",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T04:50:05Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601088114"
+      },
+      {
+        "runId": 19601076087,
+        "attempt": 1,
+        "headSha": "3c12745cb06355b9a7f372950b3eed186e299c2b",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T21:10:19Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601076087"
+      },
+      {
+        "runId": 19601070986,
+        "attempt": 1,
+        "headSha": "751ca2b6da4e45ecce30b846619bbad23626ffd0",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T16:17:02Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601070986"
+      },
+      {
+        "runId": 19601060854,
+        "attempt": 1,
+        "headSha": "18cf2b6a3e223274876229ecd8bed368308782eb",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T06:59:15Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/billing-service/actions/runs/19601060854"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "code"
+    ],
+    "keywords": [
+      [
+        "proration",
+        "prorate",
+        "unusedCredit",
+        "upgradeCharge",
+        "remainingDays"
+      ],
+      [
+        "floor",
+        "whole day",
+        "whole-day",
+        "partial day",
+        "half day",
+        "half-day",
+        "fractional",
+        "integer day",
+        "integer number of days",
+        "day granularity",
+        "exact time",
+        "remainingMs",
+        "milliseconds",
+        "rounds down",
+        "rounded down",
+        "truncat"
+      ]
+    ],
+    "flaky": false,
+    "fixPath": "src/billing/proration.ts"
+  }
+}

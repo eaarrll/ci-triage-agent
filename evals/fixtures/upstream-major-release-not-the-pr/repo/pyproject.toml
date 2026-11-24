@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "report-cli"
+version = "0.9.0"
+description = "Exports finance reports from the ledger API as CSV or JSON."
+requires-python = ">=3.11"
+dependencies = [
+    "click>=8.1",
+    "csvforge>=2.4",
+    "python-dateutil>=2.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.14"]
+
+[project.scripts]
+report = "reportcli.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110

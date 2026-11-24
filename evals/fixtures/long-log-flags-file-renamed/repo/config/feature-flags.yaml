@@ -1,0 +1,5 @@
+# Production defaults. Overridden per environment through FEATURE_FLAGS_FILE.
+checkout_v2: false
+promo_stacking: false
+saved_carts: true
+gift_cards: true

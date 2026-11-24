@@ -1,0 +1,289 @@
+2026-11-24T10:31:18.5120008Z Current runner version: '2.330.0'
+2026-11-24T10:31:18.5129591Z ##[group]Runner Image Provisioner
+2026-11-24T10:31:18.5143922Z Hosted Compute Agent
+2026-11-24T10:31:18.5149646Z Version: 20261104.502
+2026-11-24T10:31:18.5166060Z Commit: d881a35a5ed26f49739d886248d35f121eea067d
+2026-11-24T10:31:18.5179677Z Build Date: 2026-11-04T18:22:51Z
+2026-11-24T10:31:18.5186553Z Worker ID: {65c7006f-7a55-1b21-96df-5225f7baffb1}
+2026-11-24T10:31:18.5191715Z Azure Region: westus3
+2026-11-24T10:31:18.5199215Z ##[endgroup]
+2026-11-24T10:31:18.5208446Z ##[group]Operating System
+2026-11-24T10:31:18.5221677Z Ubuntu
+2026-11-24T10:31:18.5235260Z 24.04.3
+2026-11-24T10:31:18.5238946Z LTS
+2026-11-24T10:31:18.5249746Z ##[endgroup]
+2026-11-24T10:31:18.5251984Z ##[group]Runner Image
+2026-11-24T10:31:18.5257284Z Image: ubuntu-24.04
+2026-11-24T10:31:18.5263091Z Version: 20261116.38.1
+2026-11-24T10:31:18.5280639Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.38/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-24T10:31:18.5294660Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.38
+2026-11-24T10:31:18.5296422Z ##[endgroup]
+2026-11-24T10:31:18.5309546Z ##[group]GITHUB_TOKEN Permissions
+2026-11-24T10:31:18.5310046Z Contents: read
+2026-11-24T10:31:18.5321753Z IdToken: write
+2026-11-24T10:31:18.5333439Z Metadata: read
+2026-11-24T10:31:18.5336360Z ##[endgroup]
+2026-11-24T10:31:18.5337260Z Secret source: Actions
+2026-11-24T10:31:18.5352039Z Prepare workflow directory
+2026-11-24T10:31:18.5358746Z Prepare all required actions
+2026-11-24T10:31:18.5376646Z Getting action download info
+2026-11-24T10:31:18.5381322Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-24T10:31:18.5393060Z Download action repository 'aws-actions/configure-aws-credentials@v4' (SHA:7474bc4690e29a8392af63c5b98e7449536d5c3a)
+2026-11-24T10:31:18.5400653Z Download action repository 'hashicorp/setup-terraform@v3' (SHA:b9cd54a3c349d3f38e8881555d616ced269862dd)
+2026-11-24T10:31:18.5413453Z Complete job name: terraform
+2026-11-24T10:31:19.2000009Z ##[group]Run actions/checkout@v4
+2026-11-24T10:31:19.2005778Z with:
+2026-11-24T10:31:19.2008378Z   repository: example-org/storefront-web
+2026-11-24T10:31:19.2021578Z   token: ***
+2026-11-24T10:31:19.2030730Z   ssh-strict: true
+2026-11-24T10:31:19.2048578Z   ssh-user: git
+2026-11-24T10:31:19.2058154Z   persist-credentials: true
+2026-11-24T10:31:19.2072009Z   clean: true
+2026-11-24T10:31:19.2078092Z   sparse-checkout-cone-mode: true
+2026-11-24T10:31:19.2089930Z   fetch-depth: 1
+2026-11-24T10:31:19.2093447Z   fetch-tags: false
+2026-11-24T10:31:19.2100454Z   show-progress: true
+2026-11-24T10:31:19.2104409Z   lfs: false
+2026-11-24T10:31:19.2107961Z   submodules: false
+2026-11-24T10:31:19.2120309Z   set-safe-directory: true
+2026-11-24T10:31:19.2133047Z env:
+2026-11-24T10:31:19.2147430Z   AWS_REGION: eu-west-1
+2026-11-24T10:31:19.2163509Z ##[endgroup]
+2026-11-24T10:31:19.2167409Z Syncing repository: example-org/storefront-web
+2026-11-24T10:31:19.2168878Z ##[group]Getting Git version info
+2026-11-24T10:31:19.2172285Z Working directory is '/home/runner/work/storefront-web/storefront-web'
+2026-11-24T10:31:19.2186861Z [command]/usr/bin/git version
+2026-11-24T10:31:19.2201809Z git version 2.51.2
+2026-11-24T10:31:19.2207292Z ##[endgroup]
+2026-11-24T10:31:19.2216130Z Temporarily overriding HOME='/home/runner/work/_temp/487f14eb-826e-0f49-a0b9-1ae691b92c6b' before making global git config changes
+2026-11-24T10:31:19.2232430Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T10:31:19.2247430Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-11-24T10:31:19.2259647Z Deleting the contents of '/home/runner/work/storefront-web/storefront-web'
+2026-11-24T10:31:19.2263209Z ##[group]Initializing the repository
+2026-11-24T10:31:19.2272016Z [command]/usr/bin/git init /home/runner/work/storefront-web/storefront-web
+2026-11-24T10:31:19.2288285Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-24T10:31:19.2293954Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-24T10:31:19.2310454Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-24T10:31:19.2317685Z hint:
+2026-11-24T10:31:19.2323461Z hint: 	git config --global init.defaultBranch <name>
+2026-11-24T10:31:19.2333730Z hint:
+2026-11-24T10:31:19.2344961Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-24T10:31:19.2361861Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-24T10:31:19.2370761Z hint:
+2026-11-24T10:31:19.2383478Z hint: 	git branch -m <name>
+2026-11-24T10:31:19.2389078Z Initialized empty Git repository in /home/runner/work/storefront-web/storefront-web/.git/
+2026-11-24T10:31:19.2394092Z [command]/usr/bin/git remote add origin https://github.com/example-org/storefront-web
+2026-11-24T10:31:19.2409047Z ##[endgroup]
+2026-11-24T10:31:19.2421547Z ##[group]Disabling automatic garbage collection
+2026-11-24T10:31:19.2431730Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-24T10:31:19.2432285Z ##[endgroup]
+2026-11-24T10:31:19.2432823Z ##[group]Setting up auth
+2026-11-24T10:31:19.2448054Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T10:31:19.2458861Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T10:31:19.2461161Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T10:31:19.2476409Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-24T10:31:19.2477709Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-24T10:31:19.2487861Z ##[endgroup]
+2026-11-24T10:31:19.2493509Z ##[group]Fetching the repository
+2026-11-24T10:31:19.2501923Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +f1a7c3e9b5d20486e2c8a4f6b0d9e13c7a5f2b48:refs/remotes/origin/main
+2026-11-24T10:31:19.2516654Z From https://github.com/example-org/storefront-web
+2026-11-24T10:31:19.2524585Z  * [new ref]         f1a7c3e9b5d20486e2c8a4f6b0d9e13c7a5f2b48 -> origin/main
+2026-11-24T10:31:19.2537578Z ##[endgroup]
+2026-11-24T10:31:19.2538761Z ##[group]Determining the checkout info
+2026-11-24T10:31:19.2553161Z ##[endgroup]
+2026-11-24T10:31:19.2554785Z [command]/usr/bin/git sparse-checkout disable
+2026-11-24T10:31:19.2564409Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-24T10:31:19.2567792Z ##[group]Checking out the ref
+2026-11-24T10:31:19.2576285Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-24T10:31:19.2579978Z Switched to a new branch 'main'
+2026-11-24T10:31:19.2595578Z branch 'main' set up to track 'origin/main'.
+2026-11-24T10:31:19.2603709Z ##[endgroup]
+2026-11-24T10:31:19.2608330Z [command]/usr/bin/git log -1 --format=%H
+2026-11-24T10:31:19.2612523Z f1a7c3e9b5d20486e2c8a4f6b0d9e13c7a5f2b48
+2026-11-24T10:31:20.2660000Z ##[group]Run aws-actions/configure-aws-credentials@v4
+2026-11-24T10:31:20.2675524Z with:
+2026-11-24T10:31:20.2686479Z   role-to-assume: arn:aws:iam::123456789012:role/storefront-terraform-staging
+2026-11-24T10:31:20.2702448Z   aws-region: eu-west-1
+2026-11-24T10:31:20.2712648Z   audience: sts.amazonaws.com
+2026-11-24T10:31:20.2717055Z env:
+2026-11-24T10:31:20.2732386Z   AWS_REGION: eu-west-1
+2026-11-24T10:31:20.2734079Z ##[endgroup]
+2026-11-24T10:31:20.2736379Z Assuming role with OIDC
+2026-11-24T10:31:21.3746718Z Authenticated as assumedRoleId AROABFFF4278E51466103:GitHubActions
+2026-11-24T10:31:22.3010002Z ##[group]Run hashicorp/setup-terraform@v3
+2026-11-24T10:31:22.3020988Z with:
+2026-11-24T10:31:22.3037664Z   terraform_version: 1.13.5
+2026-11-24T10:31:22.3054188Z   terraform_wrapper: false
+2026-11-24T10:31:22.3060326Z   cli_config_credentials_hostname: app.terraform.io
+2026-11-24T10:31:22.3065019Z env:
+2026-11-24T10:31:22.3071357Z   AWS_REGION: eu-west-1
+2026-11-24T10:31:22.3076526Z   AWS_DEFAULT_REGION: eu-west-1
+2026-11-24T10:31:22.3090788Z   AWS_ACCESS_KEY_ID: ***
+2026-11-24T10:31:22.3094764Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-24T10:31:22.3108064Z   AWS_SESSION_TOKEN: ***
+2026-11-24T10:31:22.3119240Z ##[endgroup]
+2026-11-24T10:31:22.3129719Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/fbd6fdc0-494c-400e-7266-0a3702006b1d
+2026-11-24T10:31:23.2380003Z ##[group]Run terraform init -input=false
+2026-11-24T10:31:23.2390641Z [36;1mterraform init -input=false[0m
+2026-11-24T10:31:23.2398003Z shell: /usr/bin/bash -e {0}
+2026-11-24T10:31:23.2415496Z env:
+2026-11-24T10:31:23.2417003Z   AWS_REGION: eu-west-1
+2026-11-24T10:31:23.2423472Z   AWS_DEFAULT_REGION: eu-west-1
+2026-11-24T10:31:23.2437427Z   AWS_ACCESS_KEY_ID: ***
+2026-11-24T10:31:23.2449489Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-24T10:31:23.2453958Z   AWS_SESSION_TOKEN: ***
+2026-11-24T10:31:23.2466765Z ##[endgroup]
+2026-11-24T10:31:23.2480003Z [0m[1mInitializing the backend...[0m
+2026-11-24T10:31:24.2484073Z [0m[32m
+2026-11-24T10:31:24.2485297Z Successfully configured the backend "s3"! Terraform will automatically
+2026-11-24T10:31:24.2500880Z use this backend unless the backend configuration changes.[0m
+2026-11-24T10:31:24.2501859Z [0m[1mInitializing provider plugins...[0m
+2026-11-24T10:31:24.2509935Z - Reusing previous version of hashicorp/aws from the dependency lock file
+2026-11-24T10:31:24.2527604Z - Installing hashicorp/aws v6.22.0...
+2026-11-24T10:31:28.8539739Z - Installed hashicorp/aws v6.22.0 (signed by HashiCorp)
+2026-11-24T10:31:28.8541622Z 
+2026-11-24T10:31:28.8544722Z [0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+2026-11-24T10:31:29.1580009Z ##[group]Run terraform apply -input=false -auto-approve -var environment=staging
+2026-11-24T10:31:29.1588809Z [36;1mterraform apply -input=false -auto-approve -var environment=staging[0m
+2026-11-24T10:31:29.1604854Z shell: /usr/bin/bash -e {0}
+2026-11-24T10:31:29.1613585Z env:
+2026-11-24T10:31:29.1630478Z   AWS_REGION: eu-west-1
+2026-11-24T10:31:29.1644692Z   AWS_DEFAULT_REGION: eu-west-1
+2026-11-24T10:31:29.1655509Z   AWS_ACCESS_KEY_ID: ***
+2026-11-24T10:31:29.1663561Z   AWS_SECRET_ACCESS_KEY: ***
+2026-11-24T10:31:29.1676016Z   AWS_SESSION_TOKEN: ***
+2026-11-24T10:31:29.1688416Z ##[endgroup]
+2026-11-24T10:31:29.1703509Z Acquiring state lock. This may take a few moments...
+2026-11-24T10:31:29.9717730Z [0m[1maws_s3_bucket.assets: Refreshing state... [id=acme-storefront-assets-staging][0m[0m
+2026-11-24T10:31:29.9726223Z [0m[1maws_cloudfront_origin_access_control.assets: Refreshing state... [id=E2QX7K4R9M3TZB][0m[0m
+2026-11-24T10:31:29.9742509Z [0m[1mdata.aws_caller_identity.current: Reading...[0m[0m
+2026-11-24T10:31:29.9744561Z [0m[1mdata.aws_caller_identity.current: Read complete after 0s [id=123456789012][0m[0m
+2026-11-24T10:31:29.9755385Z [0m[1mdata.aws_iam_policy_document.github_oidc: Reading...[0m[0m
+2026-11-24T10:31:29.9762054Z [0m[1mdata.aws_iam_policy_document.github_oidc: Read complete after 0s [id=3301852147][0m[0m
+2026-11-24T10:31:29.9773261Z [0m[1maws_iam_role.deploy: Refreshing state... [id=storefront-deploy-staging][0m[0m
+2026-11-24T10:31:29.9779354Z [0m[1maws_s3_bucket_public_access_block.assets: Refreshing state... [id=acme-storefront-assets-staging][0m[0m
+2026-11-24T10:31:29.9786716Z [0m[1maws_s3_bucket_versioning.assets: Refreshing state... [id=acme-storefront-assets-staging][0m[0m
+2026-11-24T10:31:29.9794078Z [0m[1maws_s3_bucket_server_side_encryption_configuration.assets: Refreshing state... [id=acme-storefront-assets-staging][0m[0m
+2026-11-24T10:31:29.9811778Z [0m[1maws_cloudfront_distribution.assets: Refreshing state... [id=E1W8N5C2Q7D4FA][0m[0m
+2026-11-24T10:31:29.9817309Z [0m[1mdata.aws_iam_policy_document.assets_bucket: Reading...[0m[0m
+2026-11-24T10:31:29.9831847Z [0m[1mdata.aws_iam_policy_document.deploy_assets: Reading...[0m[0m
+2026-11-24T10:31:29.9843185Z [0m[1mdata.aws_iam_policy_document.assets_key: Reading...[0m[0m
+2026-11-24T10:31:29.9852416Z [0m[1mdata.aws_iam_policy_document.assets_bucket: Read complete after 0s [id=1650243391][0m[0m
+2026-11-24T10:31:29.9857647Z [0m[1mdata.aws_iam_policy_document.deploy_assets: Read complete after 0s [id=2241907765][0m[0m
+2026-11-24T10:31:29.9870416Z [0m[1mdata.aws_iam_policy_document.assets_key: Read complete after 0s [id=4093517712][0m[0m
+2026-11-24T10:31:29.9888016Z [0m[1maws_s3_bucket_policy.assets: Refreshing state... [id=acme-storefront-assets-staging][0m[0m
+2026-11-24T10:31:29.9905430Z [0m[1maws_iam_role_policy.deploy_assets: Refreshing state... [id=storefront-deploy-staging:deploy-assets][0m[0m
+2026-11-24T10:31:29.9916847Z 
+2026-11-24T10:31:29.9917854Z Terraform used the selected providers to generate the following execution
+2026-11-24T10:31:29.9934816Z plan. Resource actions are indicated with the following symbols:
+2026-11-24T10:31:29.9947754Z   [32m+[0m create[0m
+2026-11-24T10:31:29.9964847Z   [33m~[0m update in-place[0m
+2026-11-24T10:31:29.9982009Z 
+2026-11-24T10:31:29.9995909Z Terraform will perform the following actions:
+2026-11-24T10:31:30.0012786Z 
+2026-11-24T10:31:30.0029931Z [1m  # aws_kms_alias.assets[0m will be created
+2026-11-24T10:31:30.0042331Z [0m  [32m+[0m[0m resource "aws_kms_alias" "assets" {
+2026-11-24T10:31:30.0059131Z       [32m+[0m[0m arn            = (known after apply)
+2026-11-24T10:31:30.0068300Z       [32m+[0m[0m id             = (known after apply)
+2026-11-24T10:31:30.0072493Z       [32m+[0m[0m name           = "alias/storefront-assets-staging"
+2026-11-24T10:31:30.0074617Z       [32m+[0m[0m target_key_arn = (known after apply)
+2026-11-24T10:31:30.0083893Z       [32m+[0m[0m target_key_id  = (known after apply)
+2026-11-24T10:31:30.0093586Z     }
+2026-11-24T10:31:30.0099000Z 
+2026-11-24T10:31:30.0101893Z [1m  # aws_kms_key.assets[0m will be created
+2026-11-24T10:31:30.0116624Z [0m  [32m+[0m[0m resource "aws_kms_key" "assets" {
+2026-11-24T10:31:30.0118700Z       [32m+[0m[0m arn                                = (known after apply)
+2026-11-24T10:31:30.0126086Z       [32m+[0m[0m bypass_policy_lockout_safety_check = false
+2026-11-24T10:31:30.0128755Z       [32m+[0m[0m customer_master_key_spec           = "SYMMETRIC_DEFAULT"
+2026-11-24T10:31:30.0144948Z       [32m+[0m[0m deletion_window_in_days            = 30
+2026-11-24T10:31:30.0154186Z       [32m+[0m[0m description                        = "storefront assets (staging)"
+2026-11-24T10:31:30.0155517Z       [32m+[0m[0m enable_key_rotation                = true
+2026-11-24T10:31:30.0157386Z       [32m+[0m[0m id                                 = (known after apply)
+2026-11-24T10:31:30.0161886Z       [32m+[0m[0m is_enabled                         = true
+2026-11-24T10:31:30.0172217Z       [32m+[0m[0m key_id                             = (known after apply)
+2026-11-24T10:31:30.0174300Z       [32m+[0m[0m key_usage                          = "ENCRYPT_DECRYPT"
+2026-11-24T10:31:30.0179648Z       [32m+[0m[0m multi_region                       = (known after apply)
+2026-11-24T10:31:30.0192593Z       [32m+[0m[0m policy                             = jsonencode(
+2026-11-24T10:31:30.0194586Z             {
+2026-11-24T10:31:30.0199155Z               + Statement = [
+2026-11-24T10:31:30.0200855Z                   + {
+2026-11-24T10:31:30.0217079Z                       + Action    = "kms:*"
+2026-11-24T10:31:30.0220862Z                       + Effect    = "Allow"
+2026-11-24T10:31:30.0233324Z                       + Principal = {
+2026-11-24T10:31:30.0247193Z                           + AWS = "arn:aws:iam::123456789012:root"
+2026-11-24T10:31:30.0264231Z                         }
+2026-11-24T10:31:30.0280593Z                       + Resource  = "*"
+2026-11-24T10:31:30.0285048Z                       + Sid       = "AccountAdministration"
+2026-11-24T10:31:30.0293500Z                     },
+2026-11-24T10:31:30.0306462Z                   + {
+2026-11-24T10:31:30.0324462Z                       + Action    = "kms:Decrypt"
+2026-11-24T10:31:30.0325917Z                       + Condition = {
+2026-11-24T10:31:30.0331917Z                           + StringEquals = {
+2026-11-24T10:31:30.0343331Z                               + "AWS:SourceArn" = "arn:aws:cloudfront::123456789012:distribution/E1W8N5C2Q7D4FA"
+2026-11-24T10:31:30.0345379Z                             }
+2026-11-24T10:31:30.0346779Z                         }
+2026-11-24T10:31:30.0353017Z                       + Effect    = "Allow"
+2026-11-24T10:31:30.0358600Z                       + Principal = {
+2026-11-24T10:31:30.0375593Z                           + Service = "cloudfront.amazonaws.com"
+2026-11-24T10:31:30.0390255Z                         }
+2026-11-24T10:31:30.0393055Z                       + Resource  = "*"
+2026-11-24T10:31:30.0394686Z                       + Sid       = "CloudFrontDecrypt"
+2026-11-24T10:31:30.0403493Z                     },
+2026-11-24T10:31:30.0404831Z                 ]
+2026-11-24T10:31:30.0408979Z               + Version   = "2012-10-17"
+2026-11-24T10:31:30.0418293Z             }
+2026-11-24T10:31:30.0424431Z         )
+2026-11-24T10:31:30.0441062Z       [32m+[0m[0m rotation_period_in_days            = (known after apply)
+2026-11-24T10:31:30.0456193Z       [32m+[0m[0m tags_all                           = {
+2026-11-24T10:31:30.0463779Z           + "environment" = "staging"
+2026-11-24T10:31:30.0469200Z           + "service"     = "storefront"
+2026-11-24T10:31:30.0479555Z         }
+2026-11-24T10:31:30.0493017Z     }
+2026-11-24T10:31:30.0504186Z 
+2026-11-24T10:31:30.0521617Z [1m  # aws_s3_bucket_server_side_encryption_configuration.assets[0m will be updated in-place
+2026-11-24T10:31:30.0528531Z [0m  [33m~[0m[0m resource "aws_s3_bucket_server_side_encryption_configuration" "assets" {
+2026-11-24T10:31:30.0533386Z         id                    = "acme-storefront-assets-staging"
+2026-11-24T10:31:30.0547679Z         # (2 unchanged attributes hidden)
+2026-11-24T10:31:30.0549617Z 
+2026-11-24T10:31:30.0558562Z       [33m~[0m[0m rule {
+2026-11-24T10:31:30.0559024Z           [33m~[0m[0m bucket_key_enabled = false [33m->[0m[0m true
+2026-11-24T10:31:30.0572931Z 
+2026-11-24T10:31:30.0589124Z           [33m~[0m[0m apply_server_side_encryption_by_default {
+2026-11-24T10:31:30.0595793Z               [32m+[0m[0m kms_master_key_id = (known after apply)
+2026-11-24T10:31:30.0613462Z               [33m~[0m[0m sse_algorithm     = "AES256" [33m->[0m[0m "aws:kms"
+2026-11-24T10:31:30.0630117Z             }
+2026-11-24T10:31:30.0633579Z         }
+2026-11-24T10:31:30.0634948Z     }
+2026-11-24T10:31:30.0650824Z 
+2026-11-24T10:31:30.0668093Z [1mPlan:[0m 2 to add, 1 to change, 0 to destroy.
+2026-11-24T10:31:30.0668900Z 
+2026-11-24T10:31:30.0675179Z Changes to Outputs:
+2026-11-24T10:31:30.0680855Z   [32m+[0m[0m assets_kms_key_arn = (known after apply)
+2026-11-24T10:31:30.3687831Z [0m[1maws_kms_key.assets: Creating...[0m[0m
+2026-11-24T10:31:32.6697119Z [0m[1maws_kms_key.assets: Creation complete after 2s [id=3f6c2a1e-9b84-4d07-a5c3-e81f0b7d2a96][0m
+2026-11-24T10:31:32.6705888Z [0m[1maws_kms_alias.assets: Creating...[0m[0m
+2026-11-24T10:31:32.6710164Z [0m[1maws_s3_bucket_server_side_encryption_configuration.assets: Modifying... [id=acme-storefront-assets-staging][0m[0m
+2026-11-24T10:31:33.1727172Z [0m[1maws_kms_alias.assets: Creation complete after 0s [id=alias/storefront-assets-staging][0m
+2026-11-24T10:31:33.5730858Z [0m[1maws_s3_bucket_server_side_encryption_configuration.assets: Modifications complete after 1s [id=acme-storefront-assets-staging][0m
+2026-11-24T10:31:33.5738796Z [0m[1m[32m
+2026-11-24T10:31:33.5756672Z Apply complete! Resources: 2 added, 1 changed, 0 destroyed.
+2026-11-24T10:31:33.5763689Z [0m[0m[1m[32m
+2026-11-24T10:31:33.5767696Z Outputs:[0m
+2026-11-24T10:31:33.5772765Z 
+2026-11-24T10:31:33.5787003Z assets_bucket = "acme-storefront-assets-staging"
+2026-11-24T10:31:33.5788834Z assets_kms_key_arn = "arn:aws:kms:eu-west-1:123456789012:key/3f6c2a1e-9b84-4d07-a5c3-e81f0b7d2a96"
+2026-11-24T10:31:33.5796996Z distribution_id = "E1W8N5C2Q7D4FA"
+2026-11-24T10:31:33.5799934Z Releasing state lock. This may take a few moments...
+2026-11-24T10:31:35.1920005Z Post job cleanup.
+2026-11-24T10:31:35.1923450Z [command]/usr/bin/git version
+2026-11-24T10:31:35.1941212Z git version 2.51.2
+2026-11-24T10:31:35.1956229Z Temporarily overriding HOME='/home/runner/work/_temp/9f7908cc-4ec2-f628-ace5-3ccda0d33a29' before making global git config changes
+2026-11-24T10:31:35.1963198Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T10:31:35.1972398Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-11-24T10:31:35.1989029Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T10:31:35.1998205Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T10:31:35.2000767Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T10:31:35.2018150Z http.https://github.com/.extraheader
+2026-11-24T10:31:35.2019050Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-24T10:31:35.2033398Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-24T10:31:36.3500006Z Cleaning up orphan processes

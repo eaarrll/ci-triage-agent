@@ -1,0 +1,506 @@
+{
+  "id": "s3-access-denied-kms-key",
+  "title": "S3 PutObject AccessDenied after the assets bucket moved to a customer-managed KMS key",
+  "description": "A push to main merges SEC-112: infra/storage.tf switches the assets bucket's default encryption from AES256 to aws:kms with a new customer-managed key (infra/kms.tf). The terraform job applies it successfully (its log shows sse_algorithm AES256 -> aws:kms and the new key). publish-assets then fails: every 'aws s3 sync' upload reports 'An error occurred (AccessDenied) when calling the PutObject operation: Access Denied', and the AWS permission-denied signature hint says the principal lacks the named action, which reads as s3:PutObject. But the deploy role's policy in infra/iam.tf already allows s3:PutObject, s3:GetObject and s3:DeleteObject on the bucket, and the same sync's deletes succeed: what the role lacks is permission to use the new key (kms:GenerateDataKey, plus kms:Decrypt for multipart uploads), which SSE-KMS requires on every PutObject. The key policy delegates to IAM (account root statement), so the fix is a KMS statement on aws_kms_key.assets in the deploy role's policy (or a grant in the key policy). Categories cloud_auth or configuration (IaC change). The keywords require naming KMS, the KMS permission or key policy, and the encryption change.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "storefront-web"
+  },
+  "run": {
+    "id": 19627715093,
+    "attempt": 1,
+    "workflowId": 70361942,
+    "workflowName": "Deploy staging",
+    "workflowPath": ".github/workflows/deploy-staging.yml",
+    "event": "push",
+    "headBranch": "main",
+    "headSha": "f1a7c3e9b5d20486e2c8a4f6b0d9e13c7a5f2b48",
+    "headRepoFullName": "example-org/storefront-web",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19627715093",
+    "displayTitle": "Encrypt storefront assets with a customer-managed KMS key (#233)",
+    "pullRequestNumbers": [],
+    "createdAt": "2026-11-24T10:31:12Z"
+  },
+  "jobs": [
+    {
+      "id": 56301284417,
+      "name": "terraform",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-24T10:31:18Z",
+      "completedAt": "2026-11-24T10:31:37Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19627715093/job/56301284417",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:18Z",
+          "completedAt": "2026-11-24T10:31:19Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:19Z",
+          "completedAt": "2026-11-24T10:31:20Z"
+        },
+        {
+          "number": 3,
+          "name": "Run aws-actions/configure-aws-credentials@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:20Z",
+          "completedAt": "2026-11-24T10:31:22Z"
+        },
+        {
+          "number": 4,
+          "name": "Run hashicorp/setup-terraform@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:22Z",
+          "completedAt": "2026-11-24T10:31:23Z"
+        },
+        {
+          "number": 5,
+          "name": "Run terraform init -input=false",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:23Z",
+          "completedAt": "2026-11-24T10:31:29Z"
+        },
+        {
+          "number": 6,
+          "name": "Run terraform apply -input=false -auto-approve -var environment=staging",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:29Z",
+          "completedAt": "2026-11-24T10:31:35Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:35Z",
+          "completedAt": "2026-11-24T10:31:36Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:36Z",
+          "completedAt": "2026-11-24T10:31:37Z"
+        }
+      ]
+    },
+    {
+      "id": 56301284430,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-24T10:31:17Z",
+      "completedAt": "2026-11-24T10:32:04Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19627715093/job/56301284430",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:17Z",
+          "completedAt": "2026-11-24T10:31:19Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:19Z",
+          "completedAt": "2026-11-24T10:31:20Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:20Z",
+          "completedAt": "2026-11-24T10:31:24Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:24Z",
+          "completedAt": "2026-11-24T10:31:33Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:33Z",
+          "completedAt": "2026-11-24T10:31:58Z"
+        },
+        {
+          "number": 6,
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:58Z",
+          "completedAt": "2026-11-24T10:32:01Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:32:01Z",
+          "completedAt": "2026-11-24T10:32:02Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:32:02Z",
+          "completedAt": "2026-11-24T10:32:03Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:32:03Z",
+          "completedAt": "2026-11-24T10:32:04Z"
+        }
+      ]
+    },
+    {
+      "id": 56301331860,
+      "name": "publish-assets",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-24T10:31:40Z",
+      "completedAt": "2026-11-24T10:31:52Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19627715093/job/56301331860",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:40Z",
+          "completedAt": "2026-11-24T10:31:41Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:41Z",
+          "completedAt": "2026-11-24T10:31:42Z"
+        },
+        {
+          "number": 3,
+          "name": "Run aws-actions/configure-aws-credentials@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:42Z",
+          "completedAt": "2026-11-24T10:31:44Z"
+        },
+        {
+          "number": 4,
+          "name": "Run actions/download-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:44Z",
+          "completedAt": "2026-11-24T10:31:46Z"
+        },
+        {
+          "number": 5,
+          "name": "Upload assets",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-24T10:31:46Z",
+          "completedAt": "2026-11-24T10:31:50Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:50Z",
+          "completedAt": "2026-11-24T10:31:51Z"
+        },
+        {
+          "number": 7,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T10:31:51Z",
+          "completedAt": "2026-11-24T10:31:52Z"
+        }
+      ]
+    },
+    {
+      "id": 56301379244,
+      "name": "invalidate-cdn",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-24T10:31:52Z",
+      "completedAt": "2026-11-24T10:31:52Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19627715093/job/56301379244",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "infra/kms.tf",
+      "status": "added",
+      "additions": 45,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,45 @@\n+# Customer-managed key for the assets bucket (SEC-112: no AWS-managed encryption for\n+# customer-facing buckets).\n+resource \"aws_kms_key\" \"assets\" {\n+  description             = \"storefront assets (${var.environment})\"\n+  deletion_window_in_days = 30\n+  enable_key_rotation     = true\n+  policy                  = data.aws_iam_policy_document.assets_key.json\n+}\n+\n+resource \"aws_kms_alias\" \"assets\" {\n+  name          = \"alias/storefront-assets-${var.environment}\"\n+  target_key_id = aws_kms_key.assets.key_id\n+}\n+\n+data \"aws_iam_policy_document\" \"assets_key\" {\n+  # Lets IAM policies in this account grant use of the key.\n+  statement {\n+    sid       = \"AccountAdministration\"\n+    actions   = [\"kms:*\"]\n+    resources = [\"*\"]\n+\n+    principals {\n+      type        = \"AWS\"\n+      identifiers = [\"arn:aws:iam::${data.aws_caller_identity.current.account_id}:root\"]\n+    }\n+  }\n+\n+  # CloudFront must decrypt objects it serves through the origin access control.\n+  statement {\n+    sid       = \"CloudFrontDecrypt\"\n+    actions   = [\"kms:Decrypt\"]\n+    resources = [\"*\"]\n+\n+    principals {\n+      type        = \"Service\"\n+      identifiers = [\"cloudfront.amazonaws.com\"]\n+    }\n+\n+    condition {\n+      test     = \"StringEquals\"\n+      variable = \"AWS:SourceArn\"\n+      values   = [aws_cloudfront_distribution.assets.arn]\n+    }\n+  }\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "infra/storage.tf",
+      "status": "modified",
+      "additions": 3,
+      "deletions": 1,
+      "patch": "@@ -23,8 +23,10 @@\n \n   rule {\n     apply_server_side_encryption_by_default {\n-      sse_algorithm = \"AES256\"\n+      sse_algorithm     = \"aws:kms\"\n+      kms_master_key_id = aws_kms_key.assets.arn\n     }\n+    bucket_key_enabled = true\n   }\n }\n ",
+      "previousPath": null
+    },
+    {
+      "path": "infra/outputs.tf",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 0,
+      "patch": "@@ -5,3 +5,7 @@\n output \"distribution_id\" {\n   value = aws_cloudfront_distribution.assets.id\n }\n+\n+output \"assets_kms_key_arn\" {\n+  value = aws_kms_key.assets.arn\n+}",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "publish-assets": [
+      {
+        "runId": 19624480117,
+        "attempt": 1,
+        "headSha": "f52b5a56cd84f4bcdc5727421f31b6c042475c9d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T07:55:40Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624480117"
+      },
+      {
+        "runId": 19624475357,
+        "attempt": 1,
+        "headSha": "85d6df64d28e9733920cf0b4ae1283b1eb5d3d96",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T00:30:35Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624475357"
+      },
+      {
+        "runId": 19624465963,
+        "attempt": 1,
+        "headSha": "f3977136de2f885ba00539da851bcfcc71f84c3c",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T21:03:40Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624465963"
+      },
+      {
+        "runId": 19624454850,
+        "attempt": 1,
+        "headSha": "b5517c9e54d9744eb13cc491f987ae64b4a78d70",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T16:42:09Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624454850"
+      },
+      {
+        "runId": 19624444533,
+        "attempt": 1,
+        "headSha": "908aa6b0ac697fbdeb5ee3c50c17f2bec25d8211",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T09:47:21Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624444533"
+      },
+      {
+        "runId": 19624430228,
+        "attempt": 1,
+        "headSha": "79714600218409b1afd0218dea3194de19c188c4",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T00:12:26Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624430228"
+      },
+      {
+        "runId": 19624425728,
+        "attempt": 1,
+        "headSha": "f395f05886f5550c40ac821ae58fee81af342457",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T16:59:10Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624425728"
+      },
+      {
+        "runId": 19624411381,
+        "attempt": 1,
+        "headSha": "e25db67f59b1edf59381b24dc10c62ba44f4b2fa",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T12:29:47Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624411381"
+      }
+    ],
+    "terraform": [
+      {
+        "runId": 19624480117,
+        "attempt": 1,
+        "headSha": "f52b5a56cd84f4bcdc5727421f31b6c042475c9d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T07:55:40Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624480117"
+      },
+      {
+        "runId": 19624475357,
+        "attempt": 1,
+        "headSha": "85d6df64d28e9733920cf0b4ae1283b1eb5d3d96",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T00:30:35Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624475357"
+      },
+      {
+        "runId": 19624465963,
+        "attempt": 1,
+        "headSha": "f3977136de2f885ba00539da851bcfcc71f84c3c",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T21:03:40Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624465963"
+      },
+      {
+        "runId": 19624454850,
+        "attempt": 1,
+        "headSha": "b5517c9e54d9744eb13cc491f987ae64b4a78d70",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T16:42:09Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624454850"
+      },
+      {
+        "runId": 19624444533,
+        "attempt": 1,
+        "headSha": "908aa6b0ac697fbdeb5ee3c50c17f2bec25d8211",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T09:47:21Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624444533"
+      },
+      {
+        "runId": 19624430228,
+        "attempt": 1,
+        "headSha": "79714600218409b1afd0218dea3194de19c188c4",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T00:12:26Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624430228"
+      },
+      {
+        "runId": 19624425728,
+        "attempt": 1,
+        "headSha": "f395f05886f5550c40ac821ae58fee81af342457",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T16:59:10Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624425728"
+      },
+      {
+        "runId": 19624411381,
+        "attempt": 1,
+        "headSha": "e25db67f59b1edf59381b24dc10c62ba44f4b2fa",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T12:29:47Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/storefront-web/actions/runs/19624411381"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "cloud_auth",
+      "configuration"
+    ],
+    "keywords": [
+      [
+        "kms"
+      ],
+      [
+        "GenerateDataKey",
+        "kms:Encrypt",
+        "kms:*",
+        "key policy"
+      ],
+      [
+        "encrypt",
+        "sse",
+        "aws:kms"
+      ]
+    ]
+  }
+}

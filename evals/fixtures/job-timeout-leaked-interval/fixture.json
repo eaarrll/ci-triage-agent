@@ -1,0 +1,688 @@
+{
+  "id": "job-timeout-leaked-interval",
+  "title": "Test job hits its 15-minute timeout because a module-level setInterval keeps Jest alive",
+  "description": "PR #154 adds src/metrics/batcher.ts (MetricsBatcher starts a setInterval in its constructor, never unref'd) and a module-level instance in src/metrics/index.ts, imported by the order handlers. Every test passes (18 suites, 214 tests in ~42 s), but the interval keeps the Node event loop alive, Jest prints 'Jest did not exit one second after the test run has completed' and hangs until the job's timeout-minutes: 15 cancels it. The log's loudest lines are the job-timeout annotation (the 'Job exceeded its time limit' signature, categorised infrastructure, whose hint suggests raising timeout-minutes) and 'The operation was canceled'. On main the same job passes on all of the last 10 runs. Correct answer: code, flaky=false: the PR's timer keeps the process alive; unref() it (or create the batcher lazily / stop it in test teardown). Raising the timeout or rerunning would hang the same way.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "events-worker"
+  },
+  "run": {
+    "id": 19599204716,
+    "attempt": 1,
+    "workflowId": 61842277,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/batched-metrics",
+    "headSha": "c7f1a3e95b2d08467c1e9a5f3b7d20e84a6c9f1b",
+    "headRepoFullName": "example-org/events-worker",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19599204716",
+    "displayTitle": "Batch StatsD counters and flush every 10s",
+    "pullRequestNumbers": [
+      154
+    ],
+    "createdAt": "2026-11-23T09:39:58Z"
+  },
+  "jobs": [
+    {
+      "id": 56198830401,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-23T09:40:02Z",
+      "completedAt": "2026-11-23T09:40:39Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19599204716/job/56198830401",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:02Z",
+          "completedAt": "2026-11-23T09:40:04Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:04Z",
+          "completedAt": "2026-11-23T09:40:05Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:05Z",
+          "completedAt": "2026-11-23T09:40:09Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:09Z",
+          "completedAt": "2026-11-23T09:40:18Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm run lint",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:18Z",
+          "completedAt": "2026-11-23T09:40:37Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:37Z",
+          "completedAt": "2026-11-23T09:40:38Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:38Z",
+          "completedAt": "2026-11-23T09:40:39Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:39Z",
+          "completedAt": "2026-11-23T09:40:39Z"
+        }
+      ]
+    },
+    {
+      "id": 56198830417,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-23T09:40:03Z",
+      "completedAt": "2026-11-23T09:55:06Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19599204716/job/56198830417",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:03Z",
+          "completedAt": "2026-11-23T09:40:04Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:04Z",
+          "completedAt": "2026-11-23T09:40:05Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:05Z",
+          "completedAt": "2026-11-23T09:40:07Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:07Z",
+          "completedAt": "2026-11-23T09:40:11Z"
+        },
+        {
+          "number": 5,
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "cancelled",
+          "startedAt": "2026-11-23T09:40:11Z",
+          "completedAt": "2026-11-23T09:55:04Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-23T09:55:04Z",
+          "completedAt": "2026-11-23T09:55:04Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:55:04Z",
+          "completedAt": "2026-11-23T09:55:05Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:55:05Z",
+          "completedAt": "2026-11-23T09:55:06Z"
+        }
+      ]
+    },
+    {
+      "id": 56198830433,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-23T09:40:04Z",
+      "completedAt": "2026-11-23T09:40:36Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19599204716/job/56198830433",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:04Z",
+          "completedAt": "2026-11-23T09:40:06Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:06Z",
+          "completedAt": "2026-11-23T09:40:07Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:07Z",
+          "completedAt": "2026-11-23T09:40:11Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:11Z",
+          "completedAt": "2026-11-23T09:40:20Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:20Z",
+          "completedAt": "2026-11-23T09:40:34Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:34Z",
+          "completedAt": "2026-11-23T09:40:35Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:35Z",
+          "completedAt": "2026-11-23T09:40:36Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-23T09:40:36Z",
+          "completedAt": "2026-11-23T09:40:36Z"
+        }
+      ]
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "src/metrics/batcher.ts",
+      "status": "added",
+      "additions": 40,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,40 @@\n+export interface MetricsSink {\n+  send(lines: string[]): Promise<void>;\n+}\n+\n+export interface BatcherOptions {\n+  flushIntervalMs: number;\n+  sink: MetricsSink;\n+  prefix?: string;\n+}\n+\n+/**\n+ * Buffers counters in memory and sends them in one batch per interval, instead of one UDP packet per\n+ * event. At peak we handle ~4k events/s, which was saturating the StatsD agent.\n+ */\n+export class MetricsBatcher {\n+  private readonly counters = new Map<string, number>();\n+  private readonly timer: NodeJS.Timeout;\n+\n+  constructor(private readonly opts: BatcherOptions) {\n+    this.timer = setInterval(() => void this.flush(), opts.flushIntervalMs);\n+  }\n+\n+  increment(name: string, by = 1): void {\n+    const key = `${this.opts.prefix ?? \"\"}${name}`;\n+    this.counters.set(key, (this.counters.get(key) ?? 0) + by);\n+  }\n+\n+  async flush(): Promise<void> {\n+    if (this.counters.size === 0) return;\n+    const lines = [...this.counters].map(([key, value]) => `${key}:${value}|c`);\n+    this.counters.clear();\n+    await this.opts.sink.send(lines);\n+  }\n+\n+  /** Sends what is buffered and stops the timer. Call on shutdown. */\n+  async stop(): Promise<void> {\n+    clearInterval(this.timer);\n+    await this.flush();\n+  }\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "src/metrics/index.ts",
+      "status": "added",
+      "additions": 9,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,9 @@\n+import { MetricsBatcher } from \"./batcher\";\n+import { statsdSink } from \"./statsd\";\n+\n+/** Process-wide counters, flushed every 10 seconds. */\n+export const metrics = new MetricsBatcher({\n+  flushIntervalMs: 10_000,\n+  sink: statsdSink(process.env.STATSD_HOST ?? \"127.0.0.1\", Number(process.env.STATSD_PORT ?? 8125)),\n+  prefix: \"events_worker.\",\n+});",
+      "previousPath": null
+    },
+    {
+      "path": "src/metrics/statsd.ts",
+      "status": "added",
+      "additions": 11,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,11 @@\n+import { createSocket } from \"node:dgram\";\n+import type { MetricsSink } from \"./batcher\";\n+\n+export function statsdSink(host: string, port: number): MetricsSink {\n+  const socket = createSocket(\"udp4\");\n+  socket.unref();\n+  return {\n+    send: (lines) =>\n+      new Promise((resolve) => socket.send(lines.join(\"\\n\"), port, host, () => resolve())),\n+  };\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "src/handlers/order-created.ts",
+      "status": "modified",
+      "additions": 3,
+      "deletions": 0,
+      "patch": "@@ -2,6 +2,7 @@\n import { z } from \"zod\";\n import { upsertOrder } from \"../store/orders\";\n import { publishAnalytics } from \"../analytics\";\n+import { metrics } from \"../metrics\";\n \n const event = z.object({\n   type: z.literal(\"order.created\"),\n@@ -15,5 +16,7 @@\n   const e = event.parse(raw);\n   await upsertOrder({ id: e.orderId, customerId: e.customerId, totalCents: e.totalCents, currency: e.currency, status: \"created\" });\n   await publishAnalytics(\"order_created\", { orderId: e.orderId, value: e.totalCents / 100, currency: e.currency });\n+  metrics.increment(\"orders.created\");\n+  metrics.increment(`orders.created.${e.currency.toLowerCase()}`);\n   log.info({ orderId: e.orderId }, \"order created\");\n }",
+      "previousPath": null
+    },
+    {
+      "path": "src/handlers/order-cancelled.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0,
+      "patch": "@@ -1,6 +1,7 @@\n import type { Logger } from \"pino\";\n import { z } from \"zod\";\n import { setOrderStatus } from \"../store/orders\";\n+import { metrics } from \"../metrics\";\n \n const event = z.object({\n   type: z.literal(\"order.cancelled\"),\n@@ -11,5 +12,6 @@\n export async function handleOrderCancelled(raw: unknown, log: Logger): Promise<void> {\n   const e = event.parse(raw);\n   await setOrderStatus(e.orderId, \"cancelled\");\n+  metrics.increment(`orders.cancelled.${e.reason}`);\n   log.info({ orderId: e.orderId, reason: e.reason }, \"order cancelled\");\n }",
+      "previousPath": null
+    },
+    {
+      "path": "src/main.ts",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0,
+      "patch": "@@ -1,5 +1,6 @@\n import pino from \"pino\";\n import { startConsumer } from \"./consumer\";\n+import { metrics } from \"./metrics\";\n \n const log = pino({ level: process.env.LOG_LEVEL ?? \"info\" });\n const consumer = startConsumer(log);\n@@ -7,5 +8,6 @@\n process.on(\"SIGTERM\", async () => {\n   log.info(\"shutting down\");\n   await consumer.stop();\n+  await metrics.stop();\n   process.exit(0);\n });",
+      "previousPath": null
+    },
+    {
+      "path": "test/metrics/batcher.test.ts",
+      "status": "added",
+      "additions": 33,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,33 @@\n+import { MetricsBatcher } from \"../../src/metrics/batcher\";\n+\n+describe(\"MetricsBatcher\", () => {\n+  beforeEach(() => jest.useFakeTimers());\n+  afterEach(() => jest.useRealTimers());\n+\n+  it(\"sends counters once per interval\", async () => {\n+    const send = jest.fn(async () => {});\n+    const batcher = new MetricsBatcher({ flushIntervalMs: 1000, sink: { send }, prefix: \"t.\" });\n+    batcher.increment(\"a\");\n+    batcher.increment(\"a\");\n+    batcher.increment(\"b\", 5);\n+    await jest.advanceTimersByTimeAsync(1000);\n+    expect(send).toHaveBeenCalledWith([\"t.a:2|c\", \"t.b:5|c\"]);\n+    await batcher.stop();\n+  });\n+\n+  it(\"does not send empty batches\", async () => {\n+    const send = jest.fn(async () => {});\n+    const batcher = new MetricsBatcher({ flushIntervalMs: 1000, sink: { send } });\n+    await jest.advanceTimersByTimeAsync(3000);\n+    expect(send).not.toHaveBeenCalled();\n+    await batcher.stop();\n+  });\n+\n+  it(\"flushes on stop\", async () => {\n+    const send = jest.fn(async () => {});\n+    const batcher = new MetricsBatcher({ flushIntervalMs: 1000, sink: { send } });\n+    batcher.increment(\"c\");\n+    await batcher.stop();\n+    expect(send).toHaveBeenCalledWith([\"c:1|c\"]);\n+  });\n+});",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test": [
+      {
+        "runId": 19597712088,
+        "attempt": 1,
+        "headSha": "808d69abe9b4ae8755a85a1e269b316066040c9d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T07:58:30Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597712088"
+      },
+      {
+        "runId": 19597698986,
+        "attempt": 1,
+        "headSha": "64c610f1440378720a5ae4ed0c0ae7098d236d67",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T02:29:14Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597698986"
+      },
+      {
+        "runId": 19597684710,
+        "attempt": 1,
+        "headSha": "2f63723365d77f288add222a4936b2982cfaaace",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T18:39:35Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597684710"
+      },
+      {
+        "runId": 19597674985,
+        "attempt": 1,
+        "headSha": "7bfd58a7ea598002f6c4b7f0c068a719b02f90d1",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T14:49:55Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597674985"
+      },
+      {
+        "runId": 19597668690,
+        "attempt": 1,
+        "headSha": "80c035ed1344d6bde11ff836950da74abc7bcf8d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T08:01:58Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597668690"
+      },
+      {
+        "runId": 19597662354,
+        "attempt": 1,
+        "headSha": "55470f68f986825375101b87b29b67f6f8d2042d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T00:10:20Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597662354"
+      },
+      {
+        "runId": 19597656618,
+        "attempt": 1,
+        "headSha": "6bb34824b35fa8eee1419e778084dc2318628178",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T16:43:31Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597656618"
+      },
+      {
+        "runId": 19597644596,
+        "attempt": 1,
+        "headSha": "ac5a910f3e2c852b3d3bb87e41e97467bd4a92d9",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T08:12:57Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597644596"
+      },
+      {
+        "runId": 19597630451,
+        "attempt": 1,
+        "headSha": "3cd0924214fa2965f22b4ac725cd8907e89edd98",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T00:04:25Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597630451"
+      },
+      {
+        "runId": 19597626108,
+        "attempt": 1,
+        "headSha": "567cdfa6fcca667a7d637ffcbab9629a8fa52a2a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T17:25:53Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597626108"
+      }
+    ],
+    "lint": [
+      {
+        "runId": 19597712088,
+        "attempt": 1,
+        "headSha": "808d69abe9b4ae8755a85a1e269b316066040c9d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T07:58:30Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597712088"
+      },
+      {
+        "runId": 19597698986,
+        "attempt": 1,
+        "headSha": "64c610f1440378720a5ae4ed0c0ae7098d236d67",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T02:29:14Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597698986"
+      },
+      {
+        "runId": 19597684710,
+        "attempt": 1,
+        "headSha": "2f63723365d77f288add222a4936b2982cfaaace",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T18:39:35Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597684710"
+      },
+      {
+        "runId": 19597674985,
+        "attempt": 1,
+        "headSha": "7bfd58a7ea598002f6c4b7f0c068a719b02f90d1",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T14:49:55Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597674985"
+      },
+      {
+        "runId": 19597668690,
+        "attempt": 1,
+        "headSha": "80c035ed1344d6bde11ff836950da74abc7bcf8d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T08:01:58Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597668690"
+      },
+      {
+        "runId": 19597662354,
+        "attempt": 1,
+        "headSha": "55470f68f986825375101b87b29b67f6f8d2042d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T00:10:20Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597662354"
+      },
+      {
+        "runId": 19597656618,
+        "attempt": 1,
+        "headSha": "6bb34824b35fa8eee1419e778084dc2318628178",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T16:43:31Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597656618"
+      },
+      {
+        "runId": 19597644596,
+        "attempt": 1,
+        "headSha": "ac5a910f3e2c852b3d3bb87e41e97467bd4a92d9",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T08:12:57Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597644596"
+      },
+      {
+        "runId": 19597630451,
+        "attempt": 1,
+        "headSha": "3cd0924214fa2965f22b4ac725cd8907e89edd98",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T00:04:25Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597630451"
+      },
+      {
+        "runId": 19597626108,
+        "attempt": 1,
+        "headSha": "567cdfa6fcca667a7d637ffcbab9629a8fa52a2a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T17:25:53Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597626108"
+      }
+    ],
+    "build": [
+      {
+        "runId": 19597712088,
+        "attempt": 1,
+        "headSha": "808d69abe9b4ae8755a85a1e269b316066040c9d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T07:58:30Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597712088"
+      },
+      {
+        "runId": 19597698986,
+        "attempt": 1,
+        "headSha": "64c610f1440378720a5ae4ed0c0ae7098d236d67",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T02:29:14Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597698986"
+      },
+      {
+        "runId": 19597684710,
+        "attempt": 1,
+        "headSha": "2f63723365d77f288add222a4936b2982cfaaace",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T18:39:35Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597684710"
+      },
+      {
+        "runId": 19597674985,
+        "attempt": 1,
+        "headSha": "7bfd58a7ea598002f6c4b7f0c068a719b02f90d1",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T14:49:55Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597674985"
+      },
+      {
+        "runId": 19597668690,
+        "attempt": 1,
+        "headSha": "80c035ed1344d6bde11ff836950da74abc7bcf8d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T08:01:58Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597668690"
+      },
+      {
+        "runId": 19597662354,
+        "attempt": 1,
+        "headSha": "55470f68f986825375101b87b29b67f6f8d2042d",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T00:10:20Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597662354"
+      },
+      {
+        "runId": 19597656618,
+        "attempt": 1,
+        "headSha": "6bb34824b35fa8eee1419e778084dc2318628178",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T16:43:31Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597656618"
+      },
+      {
+        "runId": 19597644596,
+        "attempt": 1,
+        "headSha": "ac5a910f3e2c852b3d3bb87e41e97467bd4a92d9",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T08:12:57Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597644596"
+      },
+      {
+        "runId": 19597630451,
+        "attempt": 1,
+        "headSha": "3cd0924214fa2965f22b4ac725cd8907e89edd98",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T00:04:25Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597630451"
+      },
+      {
+        "runId": 19597626108,
+        "attempt": 1,
+        "headSha": "567cdfa6fcca667a7d637ffcbab9629a8fa52a2a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-20T17:25:53Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/events-worker/actions/runs/19597626108"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "code"
+    ],
+    "keywords": [
+      [
+        "setInterval",
+        "interval",
+        "MetricsBatcher",
+        "batcher",
+        "timer"
+      ],
+      [
+        "did not exit",
+        "open handle",
+        "event loop",
+        "never exit",
+        "keeps the process",
+        "keep the process",
+        "keeps node",
+        "hang",
+        "alive",
+        "detectOpenHandles"
+      ]
+    ],
+    "flaky": false
+  }
+}

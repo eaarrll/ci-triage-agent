@@ -1,0 +1,366 @@
+{
+  "id": "deploy-missing-entrypoint-tsconfig-include",
+  "title": "Preview deploy cannot find dist/server.js because tsconfig.build.json now includes scripts/",
+  "description": "PR #305 adds scripts/seed-dev-data.ts and adds \"scripts\" to the include list of tsconfig.build.json. tsconfig.build.json never set rootDir, so tsc inferred it as the common root of the inputs: that used to be src/, and with scripts/ added it becomes the repository root, moving every output file from dist/<file>.js to dist/src/<file>.js. The build job still succeeds (its 'Report build output' step lists dist/src/server.js and dist/scripts/seed-dev-data.js) and uploads the artifact; the failure only shows in the later deploy-preview job, whose smoke test fails: the container exits with \"Error: Cannot find module '/app/dist/server.js'\" (Dockerfile CMD and package.json start both expect dist/server.js), and curl prints 'Connection reset by peer' (a 'Transient network error' signature hint) and 'Couldn't connect to server'. Nothing in the Dockerfile or deploy files changed. Correct answer: the tsconfig.build.json include change moved the output under dist/src; fix it there (set rootDir to src and keep scripts/ out of the build config, or give the script its own tsconfig). 'configuration' is accepted alongside 'code' because the edit is to build configuration. Patching the Dockerfile CMD alone would hide the regression (npm start breaks too) and does not name the cause.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "orders-api"
+  },
+  "run": {
+    "id": 19618842207,
+    "attempt": 1,
+    "workflowId": 81547720,
+    "workflowName": "Preview",
+    "workflowPath": ".github/workflows/preview.yml",
+    "event": "pull_request",
+    "headBranch": "chore/dev-seed-script",
+    "headSha": "d4b81e6f0a3c95d27e1b48f6c0a9d3e57b2f1c84",
+    "headRepoFullName": "example-org/orders-api",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19618842207",
+    "displayTitle": "Add a dev seed script",
+    "pullRequestNumbers": [
+      305
+    ],
+    "createdAt": "2026-11-24T08:12:35Z"
+  },
+  "jobs": [
+    {
+      "id": 56262710331,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-24T08:12:40Z",
+      "completedAt": "2026-11-24T08:12:54Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19618842207/job/56262710331",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:40Z",
+          "completedAt": "2026-11-24T08:12:41Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:41Z",
+          "completedAt": "2026-11-24T08:12:42Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:42Z",
+          "completedAt": "2026-11-24T08:12:44Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:44Z",
+          "completedAt": "2026-11-24T08:12:48Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm test",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:48Z",
+          "completedAt": "2026-11-24T08:12:51Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:51Z",
+          "completedAt": "2026-11-24T08:12:52Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:52Z",
+          "completedAt": "2026-11-24T08:12:53Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:53Z",
+          "completedAt": "2026-11-24T08:12:54Z"
+        }
+      ]
+    },
+    {
+      "id": 56262710348,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-24T08:12:41Z",
+      "completedAt": "2026-11-24T08:13:04Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19618842207/job/56262710348",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:41Z",
+          "completedAt": "2026-11-24T08:12:42Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:42Z",
+          "completedAt": "2026-11-24T08:12:43Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:43Z",
+          "completedAt": "2026-11-24T08:12:45Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:45Z",
+          "completedAt": "2026-11-24T08:12:49Z"
+        },
+        {
+          "number": 5,
+          "name": "Build",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:49Z",
+          "completedAt": "2026-11-24T08:12:57Z"
+        },
+        {
+          "number": 6,
+          "name": "Report build output",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:57Z",
+          "completedAt": "2026-11-24T08:12:58Z"
+        },
+        {
+          "number": 7,
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:12:58Z",
+          "completedAt": "2026-11-24T08:13:01Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:01Z",
+          "completedAt": "2026-11-24T08:13:02Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:02Z",
+          "completedAt": "2026-11-24T08:13:03Z"
+        },
+        {
+          "number": 10,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:03Z",
+          "completedAt": "2026-11-24T08:13:04Z"
+        }
+      ]
+    },
+    {
+      "id": 56262744012,
+      "name": "deploy-preview",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-24T08:13:08Z",
+      "completedAt": "2026-11-24T08:13:53Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/orders-api/actions/runs/19618842207/job/56262744012",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:08Z",
+          "completedAt": "2026-11-24T08:13:09Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:09Z",
+          "completedAt": "2026-11-24T08:13:10Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/download-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:10Z",
+          "completedAt": "2026-11-24T08:13:11Z"
+        },
+        {
+          "number": 4,
+          "name": "Run docker/setup-buildx-action@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:11Z",
+          "completedAt": "2026-11-24T08:13:15Z"
+        },
+        {
+          "number": 5,
+          "name": "Run docker/login-action@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:15Z",
+          "completedAt": "2026-11-24T08:13:16Z"
+        },
+        {
+          "number": 6,
+          "name": "Build image",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:16Z",
+          "completedAt": "2026-11-24T08:13:28Z"
+        },
+        {
+          "number": 7,
+          "name": "Smoke test image",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-24T08:13:28Z",
+          "completedAt": "2026-11-24T08:13:49Z"
+        },
+        {
+          "number": 8,
+          "name": "Push and deploy preview",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-24T08:13:49Z",
+          "completedAt": "2026-11-24T08:13:49Z"
+        },
+        {
+          "number": 9,
+          "name": "Post Run docker/login-action@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:49Z",
+          "completedAt": "2026-11-24T08:13:50Z"
+        },
+        {
+          "number": 10,
+          "name": "Post Run docker/setup-buildx-action@v3",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:50Z",
+          "completedAt": "2026-11-24T08:13:51Z"
+        },
+        {
+          "number": 11,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:51Z",
+          "completedAt": "2026-11-24T08:13:52Z"
+        },
+        {
+          "number": 12,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T08:13:52Z",
+          "completedAt": "2026-11-24T08:13:53Z"
+        }
+      ]
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "scripts/seed-dev-data.ts",
+      "status": "added",
+      "additions": 20,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,20 @@\n+import pg from \"pg\";\n+import { loadConfig } from \"../src/config.js\";\n+\n+// Fills a local database with a few customers and orders for manual testing.\n+const config = loadConfig();\n+const client = new pg.Client({ connectionString: config.databaseUrl });\n+await client.connect();\n+\n+const customers = [\"ana\", \"ben\", \"cy\", \"dee\"];\n+for (const [i, name] of customers.entries()) {\n+  await client.query(\"insert into customers (id, name) values ($1, $2) on conflict do nothing\", [`cus_${i + 1}`, name]);\n+  for (let n = 1; n <= 3; n++) {\n+    await client.query(\n+      \"insert into orders (id, customer_id, total_cents, status) values ($1, $2, $3, 'paid') on conflict do nothing\",\n+      [`ord_${i + 1}_${n}`, `cus_${i + 1}`, 1000 * n + i * 250],\n+    );\n+  }\n+}\n+console.log(`seeded ${customers.length} customers and ${customers.length * 3} orders`);\n+await client.end();",
+      "previousPath": null
+    },
+    {
+      "path": "tsconfig.build.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -5,6 +5,6 @@\n     \"outDir\": \"dist\",\n     \"sourceMap\": true\n   },\n-  \"include\": [\"src\"],\n+  \"include\": [\"src\", \"scripts\"],\n   \"exclude\": [\"src/**/*.test.ts\"]\n }",
+      "previousPath": null
+    },
+    {
+      "path": "package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "patch": "@@ -10,6 +10,7 @@\n     \"dev\": \"tsx watch src/server.ts\",\n     \"build\": \"tsc -p tsconfig.build.json\",\n     \"start\": \"node dist/server.js\",\n+    \"seed:dev\": \"tsx scripts/seed-dev-data.ts\",\n     \"test\": \"vitest run\",\n     \"lint\": \"eslint .\"\n   },",
+      "previousPath": null
+    },
+    {
+      "path": "README.md",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0,
+      "patch": "@@ -7,5 +7,7 @@\n npm run dev\n ```\n \n+To fill a local database with sample data, run `npm run seed:dev` (uses `DATABASE_URL`).\n+\n Every pull request gets a preview deployment once tests pass and the image passes its\n smoke test (`scripts/smoke-test.sh`).",
+      "previousPath": null
+    }
+  ],
+  "history": {},
+  "expected": {
+    "categories": [
+      "code",
+      "configuration"
+    ],
+    "keywords": [
+      [
+        "tsconfig"
+      ],
+      [
+        "rootDir",
+        "dist/src",
+        "common root",
+        "common source directory"
+      ]
+    ],
+    "fixPath": "tsconfig.build.json"
+  }
+}

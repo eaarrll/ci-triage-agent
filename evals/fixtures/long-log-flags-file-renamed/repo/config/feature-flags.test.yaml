@@ -1,0 +1,5 @@
+# Integration tests: everything that is on in any environment is on here.
+checkout_v2: true
+promo_stacking: true
+saved_carts: true
+gift_cards: true

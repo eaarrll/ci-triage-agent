@@ -1,0 +1,302 @@
+2026-11-24T08:13:08.6390008Z Current runner version: '2.330.0'
+2026-11-24T08:13:08.6397577Z ##[group]Runner Image Provisioner
+2026-11-24T08:13:08.6402122Z Hosted Compute Agent
+2026-11-24T08:13:08.6408508Z Version: 20261104.502
+2026-11-24T08:13:08.6410839Z Commit: d881a35a5ed26f49739d886248d35f121eea067d
+2026-11-24T08:13:08.6420491Z Build Date: 2026-11-04T18:22:51Z
+2026-11-24T08:13:08.6429639Z Worker ID: {c1b18dc4-3237-bf09-8fd2-245f45550ad0}
+2026-11-24T08:13:08.6433108Z Azure Region: westus
+2026-11-24T08:13:08.6442491Z ##[endgroup]
+2026-11-24T08:13:08.6452377Z ##[group]Operating System
+2026-11-24T08:13:08.6458160Z Ubuntu
+2026-11-24T08:13:08.6462360Z 24.04.3
+2026-11-24T08:13:08.6474991Z LTS
+2026-11-24T08:13:08.6483339Z ##[endgroup]
+2026-11-24T08:13:08.6501008Z ##[group]Runner Image
+2026-11-24T08:13:08.6509584Z Image: ubuntu-24.04
+2026-11-24T08:13:08.6525553Z Version: 20261116.38.1
+2026-11-24T08:13:08.6543277Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.38/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-24T08:13:08.6554177Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.38
+2026-11-24T08:13:08.6568322Z ##[endgroup]
+2026-11-24T08:13:08.6579353Z ##[group]GITHUB_TOKEN Permissions
+2026-11-24T08:13:08.6594746Z Contents: read
+2026-11-24T08:13:08.6597715Z Metadata: read
+2026-11-24T08:13:08.6611722Z Packages: write
+2026-11-24T08:13:08.6623191Z ##[endgroup]
+2026-11-24T08:13:08.6640477Z Secret source: Actions
+2026-11-24T08:13:08.6651908Z Prepare workflow directory
+2026-11-24T08:13:08.6654322Z Prepare all required actions
+2026-11-24T08:13:08.6664446Z Getting action download info
+2026-11-24T08:13:08.6676822Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-24T08:13:08.6688639Z Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+2026-11-24T08:13:08.6701091Z Download action repository 'docker/setup-buildx-action@v3' (SHA:e468171a9de216ec08956ac3ada2f0791b6bd435)
+2026-11-24T08:13:08.6713977Z Download action repository 'docker/login-action@v3' (SHA:5e57cd118135c172c3672efd75eb46360885c0ef)
+2026-11-24T08:13:08.6727877Z Complete job name: deploy-preview
+2026-11-24T08:13:09.3050009Z ##[group]Run actions/checkout@v4
+2026-11-24T08:13:09.3066361Z with:
+2026-11-24T08:13:09.3069416Z   repository: example-org/orders-api
+2026-11-24T08:13:09.3079785Z   token: ***
+2026-11-24T08:13:09.3097647Z   ssh-strict: true
+2026-11-24T08:13:09.3098623Z   ssh-user: git
+2026-11-24T08:13:09.3109561Z   persist-credentials: true
+2026-11-24T08:13:09.3127261Z   clean: true
+2026-11-24T08:13:09.3129247Z   sparse-checkout-cone-mode: true
+2026-11-24T08:13:09.3142547Z   fetch-depth: 1
+2026-11-24T08:13:09.3159847Z   fetch-tags: false
+2026-11-24T08:13:09.3167278Z   show-progress: true
+2026-11-24T08:13:09.3178823Z   lfs: false
+2026-11-24T08:13:09.3180609Z   submodules: false
+2026-11-24T08:13:09.3181516Z   set-safe-directory: true
+2026-11-24T08:13:09.3189254Z ##[endgroup]
+2026-11-24T08:13:09.3193578Z Syncing repository: example-org/orders-api
+2026-11-24T08:13:09.3202654Z ##[group]Getting Git version info
+2026-11-24T08:13:09.3213592Z Working directory is '/home/runner/work/orders-api/orders-api'
+2026-11-24T08:13:09.3229416Z [command]/usr/bin/git version
+2026-11-24T08:13:09.3246285Z git version 2.51.2
+2026-11-24T08:13:09.3259585Z ##[endgroup]
+2026-11-24T08:13:09.3260192Z Temporarily overriding HOME='/home/runner/work/_temp/0d3cea96-3ce1-00aa-40d6-819a5e719132' before making global git config changes
+2026-11-24T08:13:09.3275854Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T08:13:09.3276330Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/orders-api/orders-api
+2026-11-24T08:13:09.3292430Z Deleting the contents of '/home/runner/work/orders-api/orders-api'
+2026-11-24T08:13:09.3301754Z ##[group]Initializing the repository
+2026-11-24T08:13:09.3307316Z [command]/usr/bin/git init /home/runner/work/orders-api/orders-api
+2026-11-24T08:13:09.3317930Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-24T08:13:09.3319609Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-24T08:13:09.3324361Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-24T08:13:09.3336985Z hint:
+2026-11-24T08:13:09.3337961Z hint: 	git config --global init.defaultBranch <name>
+2026-11-24T08:13:09.3352530Z hint:
+2026-11-24T08:13:09.3358823Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-24T08:13:09.3375330Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-24T08:13:09.3377161Z hint:
+2026-11-24T08:13:09.3384909Z hint: 	git branch -m <name>
+2026-11-24T08:13:09.3389592Z Initialized empty Git repository in /home/runner/work/orders-api/orders-api/.git/
+2026-11-24T08:13:09.3406209Z [command]/usr/bin/git remote add origin https://github.com/example-org/orders-api
+2026-11-24T08:13:09.3412116Z ##[endgroup]
+2026-11-24T08:13:09.3422154Z ##[group]Disabling automatic garbage collection
+2026-11-24T08:13:09.3426730Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-24T08:13:09.3435461Z ##[endgroup]
+2026-11-24T08:13:09.3448430Z ##[group]Setting up auth
+2026-11-24T08:13:09.3459916Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T08:13:09.3466109Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T08:13:09.3475778Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T08:13:09.3490992Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-24T08:13:09.3500085Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-24T08:13:09.3507485Z ##[endgroup]
+2026-11-24T08:13:09.3517361Z ##[group]Fetching the repository
+2026-11-24T08:13:09.3527585Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +5f2c8a1e7d03b96e4a0c5d8f2b7e19a3c6d4f08e:refs/remotes/pull/305/merge
+2026-11-24T08:13:09.3532523Z From https://github.com/example-org/orders-api
+2026-11-24T08:13:09.3533692Z  * [new ref]         5f2c8a1e7d03b96e4a0c5d8f2b7e19a3c6d4f08e -> pull/305/merge
+2026-11-24T08:13:09.3540923Z ##[endgroup]
+2026-11-24T08:13:09.3548892Z ##[group]Determining the checkout info
+2026-11-24T08:13:09.3549930Z ##[endgroup]
+2026-11-24T08:13:09.3564247Z [command]/usr/bin/git sparse-checkout disable
+2026-11-24T08:13:09.3567778Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-24T08:13:09.3582716Z ##[group]Checking out the ref
+2026-11-24T08:13:09.3592561Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/305/merge
+2026-11-24T08:13:09.3600892Z Note: switching to 'refs/remotes/pull/305/merge'.
+2026-11-24T08:13:09.3617354Z 
+2026-11-24T08:13:09.3624830Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-24T08:13:09.3629216Z changes and commit them, and you can discard any commits you make in this
+2026-11-24T08:13:09.3641930Z state without impacting any branches by switching back to a branch.
+2026-11-24T08:13:09.3644554Z 
+2026-11-24T08:13:09.3652078Z If you want to create a new branch to retain commits you create, you may
+2026-11-24T08:13:09.3656016Z do so (now or later) by using -c with the switch command. Example:
+2026-11-24T08:13:09.3666954Z 
+2026-11-24T08:13:09.3672316Z   git switch -c <new-branch-name>
+2026-11-24T08:13:09.3675609Z 
+2026-11-24T08:13:09.3681609Z Or undo this operation with:
+2026-11-24T08:13:09.3699592Z 
+2026-11-24T08:13:09.3715247Z   git switch -
+2026-11-24T08:13:09.3728585Z 
+2026-11-24T08:13:09.3738409Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-24T08:13:09.3742854Z 
+2026-11-24T08:13:09.3750361Z HEAD is now at 5f2c8a1 Merge d4b81e6f0a3c95d27e1b48f6c0a9d3e57b2f1c84 into 93a0e5c7d1b64f28a9e3c05d7b1f4a6e82c9d0b3
+2026-11-24T08:13:09.3753709Z ##[endgroup]
+2026-11-24T08:13:09.3766085Z [command]/usr/bin/git log -1 --format=%H
+2026-11-24T08:13:09.3770709Z 5f2c8a1e7d03b96e4a0c5d8f2b7e19a3c6d4f08e
+2026-11-24T08:13:10.2720000Z ##[group]Run actions/download-artifact@v4
+2026-11-24T08:13:10.2730686Z with:
+2026-11-24T08:13:10.2734255Z   name: dist
+2026-11-24T08:13:10.2739748Z   path: dist/
+2026-11-24T08:13:10.2741748Z   merge-multiple: false
+2026-11-24T08:13:10.2742679Z   repository: example-org/orders-api
+2026-11-24T08:13:10.2747855Z   run-id: 19618842207
+2026-11-24T08:13:10.2750724Z ##[endgroup]
+2026-11-24T08:13:10.2751548Z Downloading single artifact
+2026-11-24T08:13:10.2759386Z Preparing to download the following artifacts:
+2026-11-24T08:13:10.2765148Z - dist (ID: 4782261930, Size: 21873, Expected Digest: sha256:cb36d24986d5b1689a1ab9de202f28352ef224e09a786ba5a2e43465bd4a7b53)
+2026-11-24T08:13:10.2778793Z Redirecting to blob download url: https://productionresultssa7.blob.core.windows.net/actions-results/30f5b016-f8e0-0aac-c8b1-d653821b75da/workflow-job-run-a02fed15/artifacts/08de639988ef2d207eafaf9b3c7323632611036059619f40eb87bcc656fb0e12.zip
+2026-11-24T08:13:10.2791517Z Starting download of artifact to: /home/runner/work/orders-api/orders-api/dist
+2026-11-24T08:13:10.2801055Z (node:2214) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-11-24T08:13:10.2816986Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T08:13:10.2829779Z SHA256 digest of downloaded artifact is cb36d24986d5b1689a1ab9de202f28352ef224e09a786ba5a2e43465bd4a7b53
+2026-11-24T08:13:10.2833662Z Artifact download completed successfully.
+2026-11-24T08:13:10.2846579Z Total of 1 artifact(s) downloaded
+2026-11-24T08:13:10.2848286Z Download artifact has finished successfully
+2026-11-24T08:13:11.3260001Z ##[group]Run docker/setup-buildx-action@v3
+2026-11-24T08:13:11.3274232Z with:
+2026-11-24T08:13:11.3286618Z   driver: docker-container
+2026-11-24T08:13:11.3298794Z   install: false
+2026-11-24T08:13:11.3306370Z   use: true
+2026-11-24T08:13:11.3314018Z   keep-state: false
+2026-11-24T08:13:11.3320394Z   cache-binary: true
+2026-11-24T08:13:11.3325132Z   cleanup: true
+2026-11-24T08:13:11.3334301Z ##[endgroup]
+2026-11-24T08:13:11.3347332Z ##[group]Docker info
+2026-11-24T08:13:11.3350956Z [command]/usr/bin/docker version
+2026-11-24T08:13:11.3361049Z Client: Docker Engine - Community
+2026-11-24T08:13:11.3364056Z  Version:           28.5.2
+2026-11-24T08:13:11.3366294Z  API version:       1.51
+2026-11-24T08:13:11.3374894Z Server: Docker Engine - Community
+2026-11-24T08:13:11.3380687Z  Engine:
+2026-11-24T08:13:11.3391532Z   Version:          28.5.2
+2026-11-24T08:13:11.3405701Z ##[endgroup]
+2026-11-24T08:13:11.3416870Z ##[group]Creating a new builder instance
+2026-11-24T08:13:11.3425618Z [command]/usr/bin/docker buildx create --name builder-364b051a-1ccf-9921-b8eb-9566a35bfcc9 --driver docker-container --buildkitd-flags --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host --use
+2026-11-24T08:13:11.3430394Z builder-364b051a-1ccf-9921-b8eb-9566a35bfcc9
+2026-11-24T08:13:11.3440625Z ##[endgroup]
+2026-11-24T08:13:11.3448325Z ##[group]Booting builder
+2026-11-24T08:13:11.3451663Z [command]/usr/bin/docker buildx inspect --bootstrap --builder builder-364b051a-1ccf-9921-b8eb-9566a35bfcc9
+2026-11-24T08:13:11.3464218Z #1 [internal] booting buildkit
+2026-11-24T08:13:11.3473887Z #1 pulling image moby/buildkit:buildx-stable-1
+2026-11-24T08:13:13.1482810Z #1 pulling image moby/buildkit:buildx-stable-1 1.9s done
+2026-11-24T08:13:13.1494958Z #1 creating container buildx_buildkit_builder-364b051a-1ccf-9921-b8eb-9566a35bfcc90
+2026-11-24T08:13:14.0508680Z #1 creating container buildx_buildkit_builder-364b051a-1ccf-9921-b8eb-9566a35bfcc90 0.9s done
+2026-11-24T08:13:14.0516228Z #1 DONE 2.8s
+2026-11-24T08:13:14.0518266Z ##[endgroup]
+2026-11-24T08:13:15.1150005Z ##[group]Run docker/login-action@v3
+2026-11-24T08:13:15.1153105Z with:
+2026-11-24T08:13:15.1163581Z   registry: ghcr.io
+2026-11-24T08:13:15.1172667Z   username: octo-dev-bot
+2026-11-24T08:13:15.1190543Z   password: ***
+2026-11-24T08:13:15.1207950Z   ecr: auto
+2026-11-24T08:13:15.1215481Z   logout: true
+2026-11-24T08:13:15.1223274Z ##[endgroup]
+2026-11-24T08:13:15.1227329Z Logging into ghcr.io...
+2026-11-24T08:13:15.1235712Z Login Succeeded!
+2026-11-24T08:13:16.2930006Z ##[group]Run docker buildx build --load -t ghcr.io/example-org/orders-api:pr-305 .
+2026-11-24T08:13:16.2936120Z [36;1mdocker buildx build --load -t ghcr.io/example-org/orders-api:pr-305 .[0m
+2026-11-24T08:13:16.2946099Z shell: /usr/bin/bash -e {0}
+2026-11-24T08:13:16.2961751Z ##[endgroup]
+2026-11-24T08:13:16.2963099Z #0 building with "builder-364b051a-1ccf-9921-b8eb-9566a35bfcc9" instance using docker-container driver
+2026-11-24T08:13:16.2977920Z 
+2026-11-24T08:13:16.2981651Z #1 [internal] load build definition from Dockerfile
+2026-11-24T08:13:16.2992513Z #1 transferring dockerfile: 236B done
+2026-11-24T08:13:16.3000806Z #1 DONE 0.0s
+2026-11-24T08:13:16.3005199Z 
+2026-11-24T08:13:16.3009637Z #2 [internal] load metadata for docker.io/library/node:24-alpine
+2026-11-24T08:13:17.4013069Z #2 DONE 1.1s
+2026-11-24T08:13:17.4014569Z 
+2026-11-24T08:13:17.4015807Z #3 [internal] load .dockerignore
+2026-11-24T08:13:17.4020876Z #3 transferring context: 74B done
+2026-11-24T08:13:17.4034652Z #3 DONE 0.0s
+2026-11-24T08:13:17.4042583Z 
+2026-11-24T08:13:17.4043690Z #4 [1/5] FROM docker.io/library/node:24-alpine@sha256:4f85bc10e452d9df3ca72bb3dbc1da5def2e2c70f79f12312d8391eeb2d2db25
+2026-11-24T08:13:17.4046838Z #4 resolve docker.io/library/node:24-alpine@sha256:fd6e652898d5668b65933de6ec94fd11eb649d1d91832fe8ba8158e390ed77db done
+2026-11-24T08:13:21.3051801Z #4 DONE 4.0s
+2026-11-24T08:13:21.3062932Z 
+2026-11-24T08:13:21.3069125Z #5 [internal] load build context
+2026-11-24T08:13:21.3086132Z #5 transferring context: 132.62kB 0.0s done
+2026-11-24T08:13:21.3090894Z #5 DONE 0.0s
+2026-11-24T08:13:21.3102770Z 
+2026-11-24T08:13:21.3107918Z #6 [2/5] WORKDIR /app
+2026-11-24T08:13:21.3108463Z #6 DONE 0.2s
+2026-11-24T08:13:21.3123725Z 
+2026-11-24T08:13:21.3131325Z #7 [3/5] COPY package.json package-lock.json ./
+2026-11-24T08:13:21.3132525Z #7 DONE 0.0s
+2026-11-24T08:13:21.3141318Z 
+2026-11-24T08:13:21.3143887Z #8 [4/5] RUN npm ci --omit=dev
+2026-11-24T08:13:25.2155712Z #8 3.914 added 61 packages, and audited 62 packages in 3s
+2026-11-24T08:13:25.2166450Z #8 3.915 
+2026-11-24T08:13:25.2182405Z #8 3.915 14 packages are looking for funding
+2026-11-24T08:13:25.2190974Z #8 3.915   run `npm fund` for details
+2026-11-24T08:13:25.2194067Z #8 3.917 
+2026-11-24T08:13:25.2202012Z #8 3.917 found 0 vulnerabilities
+2026-11-24T08:13:25.2204450Z #8 DONE 4.4s
+2026-11-24T08:13:25.2209743Z 
+2026-11-24T08:13:25.2221450Z #9 [5/5] COPY dist/ ./dist/
+2026-11-24T08:13:25.2239129Z #9 DONE 0.1s
+2026-11-24T08:13:25.2253050Z 
+2026-11-24T08:13:25.2268174Z #10 exporting to docker image format
+2026-11-24T08:13:25.2275505Z #10 exporting layers
+2026-11-24T08:13:26.0287844Z #10 exporting layers 0.8s done
+2026-11-24T08:13:26.0297675Z #10 exporting manifest sha256:8f1cf0d9f5992802d09be2faa57741f37390734d8d1233de68fe4f4cb46515ea done
+2026-11-24T08:13:26.0311413Z #10 exporting config sha256:c3aa31c91028357920950e7622648d47d990ab7714ffdd71978fd8313cfba9ff done
+2026-11-24T08:13:26.0312151Z #10 sending tarball
+2026-11-24T08:13:27.3314390Z #10 sending tarball 1.3s done
+2026-11-24T08:13:27.3332207Z #10 DONE 2.1s
+2026-11-24T08:13:27.3346107Z 
+2026-11-24T08:13:27.3351414Z #11 importing to docker
+2026-11-24T08:13:27.3365883Z #11 DONE 0.6s
+2026-11-24T08:13:28.0870008Z ##[group]Run ./scripts/smoke-test.sh ghcr.io/example-org/orders-api:pr-305
+2026-11-24T08:13:28.0883460Z [36;1m./scripts/smoke-test.sh ghcr.io/example-org/orders-api:pr-305[0m
+2026-11-24T08:13:28.0892439Z shell: /usr/bin/bash -e {0}
+2026-11-24T08:13:28.0904653Z ##[endgroup]
+2026-11-24T08:13:28.4922315Z b1e6d369e2a9986c0076807dfac8443e034ebe1921566b4b0c0149f54e6c7ad4
+2026-11-24T08:13:28.4939039Z Waiting for http://localhost:8080/healthz ...
+2026-11-24T08:13:28.4952508Z curl: (56) Recv failure: Connection reset by peer
+2026-11-24T08:13:29.4966809Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:30.4983217Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:31.4993149Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:32.5010102Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:33.5022796Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:34.5040042Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:35.5057150Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:36.5067168Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:37.5082221Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:38.5095184Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:39.5096230Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:40.5102300Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:41.5114849Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:42.5116864Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:43.5129272Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:44.5139835Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:45.5141298Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:46.5157068Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:47.5173390Z curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+2026-11-24T08:13:48.5190608Z Service did not become healthy after 20 attempts; container logs:
+2026-11-24T08:13:48.5191846Z node:internal/modules/cjs/loader:1408
+2026-11-24T08:13:48.5208346Z   throw err;
+2026-11-24T08:13:48.5221115Z   ^
+2026-11-24T08:13:48.5238708Z 
+2026-11-24T08:13:48.5247415Z Error: Cannot find module '/app/dist/server.js'
+2026-11-24T08:13:48.5255977Z     at Function._resolveFilename (node:internal/modules/cjs/loader:1405:15)
+2026-11-24T08:13:48.5273460Z     at defaultResolveImpl (node:internal/modules/cjs/loader:1061:19)
+2026-11-24T08:13:48.5290160Z     at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1066:22)
+2026-11-24T08:13:48.5306077Z     at Function._load (node:internal/modules/cjs/loader:1215:37)
+2026-11-24T08:13:48.5318653Z     at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2026-11-24T08:13:48.5336191Z     at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+2026-11-24T08:13:48.5346808Z     at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:151:5)
+2026-11-24T08:13:48.5350453Z     at node:internal/main/run_main_module:33:47 {
+2026-11-24T08:13:48.5351222Z   code: 'MODULE_NOT_FOUND',
+2026-11-24T08:13:48.5353715Z   requireStack: []
+2026-11-24T08:13:48.5354715Z }
+2026-11-24T08:13:48.5371177Z 
+2026-11-24T08:13:48.5378184Z Node.js v24.11.1
+2026-11-24T08:13:48.5392477Z ##[error]Process completed with exit code 1.
+2026-11-24T08:13:49.0460009Z Post job cleanup.
+2026-11-24T08:13:49.0467616Z ##[group]Logout from ghcr.io
+2026-11-24T08:13:49.0476961Z [command]/usr/bin/docker logout ghcr.io
+2026-11-24T08:13:49.0492123Z Removing login credentials for ghcr.io
+2026-11-24T08:13:49.0506823Z ##[endgroup]
+2026-11-24T08:13:50.1340000Z Post job cleanup.
+2026-11-24T08:13:50.1350200Z ##[group]Removing builder
+2026-11-24T08:13:50.1355531Z [command]/usr/bin/docker buildx rm builder-364b051a-1ccf-9921-b8eb-9566a35bfcc9
+2026-11-24T08:13:50.1362400Z builder-364b051a-1ccf-9921-b8eb-9566a35bfcc9 removed
+2026-11-24T08:13:50.1380224Z ##[endgroup]
+2026-11-24T08:13:50.1395755Z ##[group]Cleaning up certificates
+2026-11-24T08:13:50.1410700Z ##[endgroup]
+2026-11-24T08:13:51.0690001Z Post job cleanup.
+2026-11-24T08:13:51.0696132Z [command]/usr/bin/git version
+2026-11-24T08:13:51.0701018Z git version 2.51.2
+2026-11-24T08:13:51.0716725Z Temporarily overriding HOME='/home/runner/work/_temp/a8468b41-9f21-68b4-ec0f-f1a7da31eb04' before making global git config changes
+2026-11-24T08:13:51.0732401Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T08:13:51.0743718Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/orders-api/orders-api
+2026-11-24T08:13:51.0761318Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T08:13:51.0777749Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T08:13:51.0787901Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T08:13:51.0803418Z http.https://github.com/.extraheader
+2026-11-24T08:13:51.0813332Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-24T08:13:51.0815487Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-24T08:13:52.2560002Z Cleaning up orphan processes

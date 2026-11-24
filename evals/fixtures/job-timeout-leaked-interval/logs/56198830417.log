@@ -1,0 +1,198 @@
+2026-11-23T09:40:03.5790003Z Current runner version: '2.330.0'
+2026-11-23T09:40:03.5804189Z ##[group]Runner Image Provisioner
+2026-11-23T09:40:03.5816065Z Hosted Compute Agent
+2026-11-23T09:40:03.5821641Z Version: 20261104.502
+2026-11-23T09:40:03.5827610Z Commit: d881a35a5ed26f49739d886248d35f121eea067d
+2026-11-23T09:40:03.5837941Z Build Date: 2026-11-04T18:22:51Z
+2026-11-23T09:40:03.5838627Z Worker ID: {8d21adbf-4858-61e3-b610-a94dba10ef18}
+2026-11-23T09:40:03.5847158Z Azure Region: westus3
+2026-11-23T09:40:03.5851741Z ##[endgroup]
+2026-11-23T09:40:03.5868796Z ##[group]Operating System
+2026-11-23T09:40:03.5874103Z Ubuntu
+2026-11-23T09:40:03.5877765Z 24.04.3
+2026-11-23T09:40:03.5886310Z LTS
+2026-11-23T09:40:03.5903727Z ##[endgroup]
+2026-11-23T09:40:03.5912534Z ##[group]Runner Image
+2026-11-23T09:40:03.5926027Z Image: ubuntu-24.04
+2026-11-23T09:40:03.5929127Z Version: 20261116.38.1
+2026-11-23T09:40:03.5935058Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.38/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-23T09:40:03.5936165Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.38
+2026-11-23T09:40:03.5951672Z ##[endgroup]
+2026-11-23T09:40:03.5963196Z ##[group]GITHUB_TOKEN Permissions
+2026-11-23T09:40:03.5970665Z Contents: read
+2026-11-23T09:40:03.5987689Z Metadata: read
+2026-11-23T09:40:03.5990410Z ##[endgroup]
+2026-11-23T09:40:03.6007427Z Secret source: Actions
+2026-11-23T09:40:03.6016789Z Prepare workflow directory
+2026-11-23T09:40:03.6020489Z Prepare all required actions
+2026-11-23T09:40:03.6026910Z Getting action download info
+2026-11-23T09:40:03.6028334Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-23T09:40:03.6036096Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-23T09:40:03.6039396Z Complete job name: test
+2026-11-23T09:40:04.1200004Z ##[group]Run actions/checkout@v4
+2026-11-23T09:40:04.1217173Z with:
+2026-11-23T09:40:04.1234935Z   repository: example-org/events-worker
+2026-11-23T09:40:04.1236380Z   token: ***
+2026-11-23T09:40:04.1246628Z   ssh-strict: true
+2026-11-23T09:40:04.1247542Z   ssh-user: git
+2026-11-23T09:40:04.1252804Z   persist-credentials: true
+2026-11-23T09:40:04.1264880Z   clean: true
+2026-11-23T09:40:04.1266504Z   sparse-checkout-cone-mode: true
+2026-11-23T09:40:04.1276973Z   fetch-depth: 1
+2026-11-23T09:40:04.1292928Z   fetch-tags: false
+2026-11-23T09:40:04.1298542Z   show-progress: true
+2026-11-23T09:40:04.1303535Z   lfs: false
+2026-11-23T09:40:04.1316628Z   submodules: false
+2026-11-23T09:40:04.1327411Z   set-safe-directory: true
+2026-11-23T09:40:04.1334697Z ##[endgroup]
+2026-11-23T09:40:04.1342897Z Syncing repository: example-org/events-worker
+2026-11-23T09:40:04.1358142Z ##[group]Getting Git version info
+2026-11-23T09:40:04.1368211Z Working directory is '/home/runner/work/events-worker/events-worker'
+2026-11-23T09:40:04.1371528Z [command]/usr/bin/git version
+2026-11-23T09:40:04.1378204Z git version 2.51.2
+2026-11-23T09:40:04.1381866Z ##[endgroup]
+2026-11-23T09:40:04.1391128Z Temporarily overriding HOME='/home/runner/work/_temp/d7efdd65-3c21-d4c7-b0e5-3af5684baf12' before making global git config changes
+2026-11-23T09:40:04.1393428Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-23T09:40:04.1394159Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/events-worker/events-worker
+2026-11-23T09:40:04.1401435Z Deleting the contents of '/home/runner/work/events-worker/events-worker'
+2026-11-23T09:40:04.1404997Z ##[group]Initializing the repository
+2026-11-23T09:40:04.1407511Z [command]/usr/bin/git init /home/runner/work/events-worker/events-worker
+2026-11-23T09:40:04.1416442Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-23T09:40:04.1422673Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-23T09:40:04.1434335Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-23T09:40:04.1443559Z hint:
+2026-11-23T09:40:04.1454028Z hint: 	git config --global init.defaultBranch <name>
+2026-11-23T09:40:04.1462211Z hint:
+2026-11-23T09:40:04.1467428Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-23T09:40:04.1471259Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-23T09:40:04.1482935Z hint:
+2026-11-23T09:40:04.1496235Z hint: 	git branch -m <name>
+2026-11-23T09:40:04.1508742Z Initialized empty Git repository in /home/runner/work/events-worker/events-worker/.git/
+2026-11-23T09:40:04.1523980Z [command]/usr/bin/git remote add origin https://github.com/example-org/events-worker
+2026-11-23T09:40:04.1537935Z ##[endgroup]
+2026-11-23T09:40:04.1543211Z ##[group]Disabling automatic garbage collection
+2026-11-23T09:40:04.1557042Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-23T09:40:04.1561773Z ##[endgroup]
+2026-11-23T09:40:04.1569104Z ##[group]Setting up auth
+2026-11-23T09:40:04.1577735Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-23T09:40:04.1590380Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-23T09:40:04.1601473Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-23T09:40:04.1616766Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-23T09:40:04.1621904Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-23T09:40:04.1624935Z ##[endgroup]
+2026-11-23T09:40:04.1638004Z ##[group]Fetching the repository
+2026-11-23T09:40:04.1643297Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +0e4a8c2f6b1d93570e4b8a2c6f1d95370b4e8c2a:refs/remotes/pull/154/merge
+2026-11-23T09:40:04.1652397Z From https://github.com/example-org/events-worker
+2026-11-23T09:40:04.1655742Z  * [new ref]         0e4a8c2f6b1d93570e4b8a2c6f1d95370b4e8c2a -> pull/154/merge
+2026-11-23T09:40:04.1671673Z ##[endgroup]
+2026-11-23T09:40:04.1685411Z ##[group]Determining the checkout info
+2026-11-23T09:40:04.1697180Z ##[endgroup]
+2026-11-23T09:40:04.1713780Z [command]/usr/bin/git sparse-checkout disable
+2026-11-23T09:40:04.1716811Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-23T09:40:04.1724428Z ##[group]Checking out the ref
+2026-11-23T09:40:04.1738759Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/154/merge
+2026-11-23T09:40:04.1752197Z Note: switching to 'refs/remotes/pull/154/merge'.
+2026-11-23T09:40:04.1766059Z 
+2026-11-23T09:40:04.1781397Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-23T09:40:04.1792311Z changes and commit them, and you can discard any commits you make in this
+2026-11-23T09:40:04.1798997Z state without impacting any branches by switching back to a branch.
+2026-11-23T09:40:04.1801128Z 
+2026-11-23T09:40:04.1804959Z If you want to create a new branch to retain commits you create, you may
+2026-11-23T09:40:04.1810266Z do so (now or later) by using -c with the switch command. Example:
+2026-11-23T09:40:04.1816080Z 
+2026-11-23T09:40:04.1827204Z   git switch -c <new-branch-name>
+2026-11-23T09:40:04.1830897Z 
+2026-11-23T09:40:04.1840880Z Or undo this operation with:
+2026-11-23T09:40:04.1851997Z 
+2026-11-23T09:40:04.1865704Z   git switch -
+2026-11-23T09:40:04.1879659Z 
+2026-11-23T09:40:04.1887404Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-23T09:40:04.1900973Z 
+2026-11-23T09:40:04.1902935Z HEAD is now at 0e4a8c2 Merge c7f1a3e95b2d08467c1e9a5f3b7d20e84a6c9f1b into 5a9e3c1f7b0d24869e3a1c5f9b7d04e28c6a1e3f
+2026-11-23T09:40:04.1906904Z ##[endgroup]
+2026-11-23T09:40:04.1920897Z [command]/usr/bin/git log -1 --format=%H
+2026-11-23T09:40:04.1924059Z 0e4a8c2f6b1d93570e4b8a2c6f1d95370b4e8c2a
+2026-11-23T09:40:05.1660005Z ##[group]Run actions/setup-node@v4
+2026-11-23T09:40:05.1671029Z with:
+2026-11-23T09:40:05.1673474Z   node-version-file: .nvmrc
+2026-11-23T09:40:05.1680843Z   cache: npm
+2026-11-23T09:40:05.1693205Z   always-auth: false
+2026-11-23T09:40:05.1703536Z   check-latest: false
+2026-11-23T09:40:05.1720212Z   token: ***
+2026-11-23T09:40:05.1733474Z ##[endgroup]
+2026-11-23T09:40:05.1738929Z Resolved .nvmrc as 24
+2026-11-23T09:40:05.1748429Z Found in cache @ /opt/hostedtoolcache/node/24.11.1/x64
+2026-11-23T09:40:05.1758298Z ##[group]Environment details
+2026-11-23T09:40:05.1766298Z node: v24.11.1
+2026-11-23T09:40:05.1773650Z npm: 11.6.2
+2026-11-23T09:40:05.1791467Z yarn: 1.22.22
+2026-11-23T09:40:05.1801450Z ##[endgroup]
+2026-11-23T09:40:05.1811798Z [command]/opt/hostedtoolcache/node/24.11.1/x64/bin/npm config get cache
+2026-11-23T09:40:05.1814467Z /home/runner/.npm
+2026-11-23T09:40:05.1832098Z Cache hit for: node-cache-Linux-x64-npm-7d1f5b9e3a0c48e62f7b1d5a9e3c0f48b6d2a7e1c5f9b3d0a8e4c2f6b1d9a7e3
+2026-11-23T09:40:05.1838381Z Received 79871209 of 79871209 (100.0%), 60.8 MBs/sec
+2026-11-23T09:40:05.1842181Z Cache Size: ~76 MB (79871209 B)
+2026-11-23T09:40:05.1853767Z [command]/usr/bin/tar -xf /home/runner/work/_temp/c4ba1a91-4e13-dc3d-4ff0-dc746a5886da/cache.tzst -P -C /home/runner/work/events-worker/events-worker --use-compress-program unzstd
+2026-11-23T09:40:05.1871629Z Cache restored successfully
+2026-11-23T09:40:05.1881874Z Cache restored from key: node-cache-Linux-x64-npm-7d1f5b9e3a0c48e62f7b1d5a9e3c0f48b6d2a7e1c5f9b3d0a8e4c2f6b1d9a7e3
+2026-11-23T09:40:07.1130007Z ##[group]Run npm ci
+2026-11-23T09:40:07.1136952Z [36;1mnpm ci[0m
+2026-11-23T09:40:07.1150421Z shell: /usr/bin/bash -e {0}
+2026-11-23T09:40:07.1165676Z ##[endgroup]
+2026-11-23T09:40:10.3179786Z 
+2026-11-23T09:40:10.3180400Z added 388 packages, and audited 389 packages in 5s
+2026-11-23T09:40:10.3183762Z 
+2026-11-23T09:40:10.3184455Z 97 packages are looking for funding
+2026-11-23T09:40:10.3201931Z   run `npm fund` for details
+2026-11-23T09:40:10.3207500Z 
+2026-11-23T09:40:10.3208200Z found 0 vulnerabilities
+2026-11-23T09:40:11.2540001Z ##[group]Run npm test -- --ci
+2026-11-23T09:40:11.2540456Z [36;1mnpm test -- --ci[0m
+2026-11-23T09:40:11.2542025Z shell: /usr/bin/bash -e {0}
+2026-11-23T09:40:11.2556318Z ##[endgroup]
+2026-11-23T09:40:11.2564225Z 
+2026-11-23T09:40:11.2565370Z > events-worker@3.2.0 test
+2026-11-23T09:40:11.2569018Z > jest --ci
+2026-11-23T09:40:11.2584656Z 
+2026-11-23T09:40:17.3839290Z [1m[42m[30m PASS [0m [2mtest/handlers/[0m[1morder-refunded.test.ts[0m
+2026-11-23T09:40:17.8784352Z [1m[42m[30m PASS [0m [2mtest/[0m[1midempotency.test.ts[0m
+2026-11-23T09:40:21.4824201Z [1m[42m[30m PASS [0m [2mtest/store/[0m[1morders.test.ts[0m
+2026-11-23T09:40:22.9373271Z [1m[42m[30m PASS [0m [2mtest/analytics/[0m[1mpublish.test.ts[0m
+2026-11-23T09:40:26.4898575Z [1m[42m[30m PASS [0m [2mtest/metrics/[0m[1mbatcher.test.ts[0m
+2026-11-23T09:40:30.0856731Z [1m[42m[30m PASS [0m [2mtest/handlers/[0m[1mpayment-failed.test.ts[0m
+2026-11-23T09:40:30.7512962Z [1m[42m[30m PASS [0m [2mtest/handlers/[0m[1morder-created.test.ts[0m
+2026-11-23T09:40:34.6549466Z [1m[42m[30m PASS [0m [2mtest/store/[0m[1mcustomers.test.ts[0m
+2026-11-23T09:40:38.7512939Z [1m[42m[30m PASS [0m [2mtest/[0m[1mretry.test.ts[0m
+2026-11-23T09:40:42.6474488Z [1m[42m[30m PASS [0m [2mtest/handlers/[0m[1mcustomer-merged.test.ts[0m
+2026-11-23T09:40:46.0219851Z [1m[42m[30m PASS [0m [2mtest/analytics/[0m[1mschema.test.ts[0m
+2026-11-23T09:40:49.0234816Z [1m[42m[30m PASS [0m [2mtest/[0m[1mconfig.test.ts[0m
+2026-11-23T09:40:53.0765672Z [1m[42m[30m PASS [0m [2mtest/consumer/[0m[1mvisibility.test.ts[0m
+2026-11-23T09:40:56.1218875Z [1m[42m[30m PASS [0m [2mtest/consumer/[0m[1mdead-letter.test.ts[0m
+2026-11-23T09:41:00.2024317Z [1m[42m[30m PASS [0m [2mtest/handlers/[0m[1morder-cancelled.test.ts[0m
+2026-11-23T09:41:03.9390903Z [1m[42m[30m PASS [0m [2mtest/handlers/[0m[1morder-shipped.test.ts[0m
+2026-11-23T09:41:06.7960306Z [1m[42m[30m PASS [0m [2mtest/handlers/[0m[1mpayment-captured.test.ts[0m
+2026-11-23T09:41:09.7946247Z [1m[42m[30m PASS [0m [2mtest/consumer/[0m[1mpoll.test.ts[0m
+2026-11-23T09:41:09.7955085Z 
+2026-11-23T09:41:09.7960361Z [1mTest Suites: [0m[1m[32m18 passed[0m, 18 total
+2026-11-23T09:41:09.7962316Z [1mTests:       [0m[1m[32m214 passed[0m, 214 total
+2026-11-23T09:41:09.7977947Z [1mSnapshots:   [0m[1m[32m6 passed[0m, 6 total
+2026-11-23T09:41:09.7983761Z [1mTime:[0m        41.837 s
+2026-11-23T09:41:09.7991623Z [2mRan all test suites[0m[2m.[0m
+2026-11-23T09:41:10.8007255Z [1m[33mJest did not exit one second after the test run has completed.[39m[22m
+2026-11-23T09:41:10.8011900Z 
+2026-11-23T09:41:10.8022979Z [1m[33m'This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot.'[39m[22m
+2026-11-23T09:55:03.2126289Z ##[error]The job running on runner GitHub Actions 1000233187 has exceeded the maximum execution time of 15 minutes.
+2026-11-23T09:55:03.2131896Z ##[error]The operation was canceled.
+2026-11-23T09:55:04.1820004Z Post job cleanup.
+2026-11-23T09:55:04.1822235Z [command]/usr/bin/git version
+2026-11-23T09:55:04.1833928Z git version 2.51.2
+2026-11-23T09:55:04.1841673Z Temporarily overriding HOME='/home/runner/work/_temp/c324ae17-66cd-3ccd-85ce-acecc43604a7' before making global git config changes
+2026-11-23T09:55:04.1847828Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-23T09:55:04.1855604Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/events-worker/events-worker
+2026-11-23T09:55:04.1865297Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-23T09:55:04.1882697Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-23T09:55:04.1892442Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-23T09:55:04.1894942Z http.https://github.com/.extraheader
+2026-11-23T09:55:04.1908880Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-23T09:55:04.1916135Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-23T09:55:05.1200005Z Cleaning up orphan processes

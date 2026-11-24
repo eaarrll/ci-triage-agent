@@ -1,0 +1,3 @@
+# <package> <test>: retried up to twice by scripts/test-ci.sh. Keep docs/flaky-tests.md in sync.
+./internal/ws TestClientReconnect
+./internal/hub TestBroadcastFanout
