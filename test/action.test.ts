@@ -427,3 +427,16 @@ describe("action: review fixes", () => {
     expect(state.outputs.mode).toBe("error");
   });
 });
+
+describe("action: cancelled runs in same-workflow mode", () => {
+  it("skips when the in-progress run has only cancelled jobs", async () => {
+    const cancelled: JobInfo = { ...JOB, conclusion: "cancelled" };
+    const backend = fakeBackend(runInfo({ conclusion: null }), { jobs: [cancelled] });
+
+    await run();
+
+    expect(state.outputs.mode).toBe("skipped");
+    expect(runTriage).not.toHaveBeenCalled();
+    expect(backend.upserts).toHaveLength(0);
+  });
+});

@@ -242,6 +242,7 @@ export function withRedaction(inner: TriageBackend): RedactingBackend {
     total += result.count;
     return result.text;
   };
+  const redactNullable = (text: string | null): string | null => (text === null ? null : redact(text));
 
   return {
     get repo() {
@@ -250,11 +251,25 @@ export function withRedaction(inner: TriageBackend): RedactingBackend {
     get redactionCount() {
       return total;
     },
+    // Short strings (titles, branch, job and step names, paths) are cheap to scan and can be
+    // set by whoever opened the PR, so nothing string-shaped bypasses the redactor.
     async getRun() {
       const run = await inner.getRun();
-      return run.displayTitle === null ? run : { ...run, displayTitle: redact(run.displayTitle) };
+      return {
+        ...run,
+        workflowName: redact(run.workflowName),
+        headBranch: redactNullable(run.headBranch),
+        displayTitle: redactNullable(run.displayTitle),
+      };
     },
-    listJobs: () => inner.listJobs(),
+    async listJobs() {
+      const jobs = await inner.listJobs();
+      return jobs.map((job) => ({
+        ...job,
+        name: redact(job.name),
+        steps: job.steps.map((step) => ({ ...step, name: redact(step.name) })),
+      }));
+    },
     async getJobLog(jobId) {
       // Strip colour codes first: a token split by escapes ("ghp_ab\u001b[0mcd...") would slip
       // past the patterns here and then be reassembled when the log is normalized.
@@ -264,12 +279,23 @@ export function withRedaction(inner: TriageBackend): RedactingBackend {
       const content = await inner.readFile(path, ref);
       return content === null ? null : redact(content);
     },
-    listDirectory: (path, ref) => inner.listDirectory(path, ref),
+    async listDirectory(path, ref) {
+      const entries = await inner.listDirectory(path, ref);
+      return entries === null ? null : entries.map(redact);
+    },
     async getChangedFiles() {
       const files = await inner.getChangedFiles();
-      return files.map((file) => (file.patch === null ? file : { ...file, patch: redact(file.patch) }));
+      return files.map((file) => ({
+        ...file,
+        path: redact(file.path),
+        previousPath: redactNullable(file.previousPath),
+        patch: redactNullable(file.patch),
+      }));
     },
-    getJobHistory: (jobName, limit) => inner.getJobHistory(jobName, limit),
+    async getJobHistory(jobName, limit) {
+      const entries = await inner.getJobHistory(jobName, limit);
+      return entries.map((entry) => ({ ...entry, branch: redactNullable(entry.branch) }));
+    },
   };
 }
 

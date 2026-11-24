@@ -49,7 +49,9 @@ inputs:
     required: false
     default: "0.50"
   timeout-seconds:
-    description: Time budget for the investigation in seconds, from 30 to 1800.
+    description: >-
+      Time budget for the investigation in seconds, from 30 to 1800. Keep the job's timeout-minutes above
+      timeout-seconds / 60 + 3, or the runner kills the job before the action can report.
     required: false
     default: "300"
   max-failed-jobs:
@@ -59,7 +61,8 @@ inputs:
   fail-on-error:
     description: >-
       Fail this step when the action itself hits an error. By default it fails open: problems are logged as
-      warnings and the build result is never changed.
+      warnings and the build result is never changed. Invalid inputs always fail the step, since they are a
+      workflow bug to fix.
     required: false
     default: "false"
   extra-instructions:

@@ -83,6 +83,14 @@ async function triage(config: Config): Promise<void> {
     return;
   }
 
+  // `if: always()` in the same workflow also runs when the run is being cancelled; cancelled
+  // jobs explain nothing, so do not spend tokens or post a comment about them.
+  if (run.conclusion === null && ctx.failedJobs.every((job) => job.job.conclusion === "cancelled")) {
+    core.info("Only cancelled jobs so far (the run is being cancelled); nothing to triage.");
+    core.setOutput("mode", "skipped");
+    return;
+  }
+
   const meta: ReportMeta = {
     run: ctx.run,
     repo: config.repo,

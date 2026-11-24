@@ -732,7 +732,8 @@ describe("withRedaction", () => {
     expect(changed?.patch).toBe(
       `@@ -1 +1 @@\n-DB_PASSWORD=${marker("password")}\n+DB_PASSWORD=${marker("password")}`,
     );
-    expect(changed?.path).toBe(secretPath);
+    // Paths are attacker-controllable too, so they are redacted like everything else.
+    expect(changed?.path).toBe("fixtures/[REDACTED:github_token].json");
     expect(binary).toEqual(files[1]);
   });
 
@@ -740,16 +741,17 @@ describe("withRedaction", () => {
     const backend = withRedaction(new StubBackend());
 
     expect(backend.repo).toBe(repo);
-    expect(await backend.listJobs()).toBe(jobs);
-    expect(await backend.listDirectory("", "main")).toBe(directory);
-    expect(await backend.getJobHistory("test", 10)).toBe(history);
+    expect(await backend.listJobs()).toEqual(jobs);
+    // Directory entries are redacted too: a file name can carry a token.
+    expect(await backend.listDirectory("", "main")).toEqual(["src/", "[REDACTED:npm_token].txt"]);
+    expect(await backend.getJobHistory("test", 10)).toEqual(history);
     expect(await backend.readFile("missing", "main")).toBeNull();
 
     const { displayTitle, ...rest } = await backend.getRun();
     const { displayTitle: _original, ...originalRest } = run;
     expect(displayTitle).not.toBe(run.displayTitle);
     expect(rest).toEqual(originalRest);
-    expect(backend.redactionCount).toBe(1);
+    expect(backend.redactionCount).toBe(2);
   });
 
   it("keeps a null run title null", async () => {
@@ -775,7 +777,7 @@ describe("withRedaction", () => {
     await backend.getRun();
     await backend.listJobs();
 
-    expect(backend.redactionCount).toBe(6);
+    expect(backend.redactionCount).toBe(7);
   });
 
   it("calls the inner backend's methods on the backend itself, so prototype methods keep `this`", async () => {
@@ -809,7 +811,7 @@ describe("withRedaction", () => {
 
     expect(await backend.getJobLog(1)).toBe(`${TS} DB_PASSWORD=${marker("password")}`);
     expect(await backend.readFile("ci.env", "main")).toBe(`${TS} DB_PASSWORD=${marker("password")}`);
-    expect(await backend.listJobs()).toBe(jobs);
+    expect(await backend.listJobs()).toEqual(jobs);
   });
 
   it("propagates errors from the inner backend unchanged", async () => {
@@ -849,5 +851,75 @@ describe("withRedaction + ANSI", () => {
     expect(log).not.toContain(token);
     expect(log).toContain("[REDACTED:");
     expect(backend.redactionCount).toBeGreaterThan(0);
+  });
+});
+
+describe("withRedaction covers short strings too", () => {
+  it("redacts job, step and branch names, paths and directory entries", async () => {
+    const token = ["ghp", "_", "Q1w2E3r4T5y6U7i8O9p0A1s2D3f4G5h6J7k8"].join("");
+    const job = {
+      id: 1,
+      name: `deploy ${token}`,
+      status: "completed",
+      conclusion: "failure",
+      startedAt: null,
+      completedAt: null,
+      runnerLabels: [],
+      htmlUrl: null,
+      steps: [
+        {
+          number: 1,
+          name: `Run curl -H "Authorization: Bearer ${token}"`,
+          status: "completed",
+          conclusion: "failure",
+          startedAt: null,
+          completedAt: null,
+        },
+      ],
+    };
+    const backend = withRedaction({
+      repo: { owner: "example-org", repo: "demo" },
+      getRun: async () => ({
+        ...({} as RunInfo),
+        workflowName: "CI",
+        headBranch: `fix/${token}`,
+        displayTitle: null,
+      }),
+      listJobs: async () => [job],
+      getJobLog: async () => "",
+      readFile: async () => null,
+      listDirectory: async () => [`${token}.txt`],
+      getChangedFiles: async () => [
+        {
+          path: `keys/${token}`,
+          status: "added",
+          additions: 1,
+          deletions: 0,
+          patch: null,
+          previousPath: null,
+        },
+      ],
+      getJobHistory: async () => [
+        {
+          runId: 1,
+          attempt: 1,
+          headSha: "a",
+          branch: `b/${token}`,
+          event: "push",
+          conclusion: "success",
+          createdAt: "",
+          sameSha: false,
+          htmlUrl: null,
+        },
+      ],
+    });
+    const everything = JSON.stringify([
+      await backend.getRun(),
+      await backend.listJobs(),
+      await backend.listDirectory("", "main"),
+      await backend.getChangedFiles(),
+      await backend.getJobHistory("deploy", 5),
+    ]);
+    expect(everything).not.toContain(token);
   });
 });

@@ -4,6 +4,7 @@
  * the context instead of thrown, so one expired log never prevents a triage of the rest.
  */
 import { extractExcerpt, failedStepsOf, parseJobLog } from "./logs.js";
+import { redactSecrets } from "./redact.js";
 import { matchSignatures } from "./signatures.js";
 import type {
   AgentLogger,
@@ -125,6 +126,7 @@ async function mapWithConcurrency<T, R>(
   return results;
 }
 
+/** Error text ends up in the agent's context, so it goes through the redactor like everything else. */
 function errorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
+  return redactSecrets(error instanceof Error ? error.message : String(error)).text;
 }

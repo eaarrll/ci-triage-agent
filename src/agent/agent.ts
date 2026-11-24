@@ -9,6 +9,7 @@ import Anthropic, {
   PermissionDeniedError,
   RateLimitError,
 } from "@anthropic-ai/sdk";
+import { EnvHttpProxyAgent, fetch as undiciFetch } from "undici";
 import type {
   BetaContentBlockParam,
   BetaMessage,
@@ -55,6 +56,10 @@ const MAX_RETRIES = 2;
 const FINAL_RESERVE_SHARE = 0.2;
 /** ...or this multiple of the slowest turn so far, whichever is larger. */
 const FINAL_RESERVE_TURNS = 1.5;
+/** Tool calls run per model turn; extra parallel calls are refused so one turn cannot fan out. */
+export const MAX_TOOL_CALLS_PER_TURN = 8;
+/** Consecutive turns cut off at max_tokens inside a tool call before the agent must answer. */
+const MAX_TRUNCATED_RETRIES = 1;
 
 const FALLBACK_BETA = "server-side-fallback-2026-07-01";
 /**
@@ -145,14 +150,33 @@ async function investigate(
   const started = performance.now();
   const { logger } = opts;
   const client =
-    opts.client ?? new Anthropic({ apiKey: opts.apiKey, maxRetries: MAX_RETRIES, timeout: opts.timeoutMs });
+    opts.client ??
+    new Anthropic({
+      apiKey: opts.apiKey,
+      maxRetries: MAX_RETRIES,
+      timeout: opts.timeoutMs,
+      ...proxyOptions(),
+    });
   warnAboutModelControls(opts, logger);
+  let admittedTurn = -1;
+  let admittedCalls = 0;
   const tools = createTools({
     ctx,
     backend,
     ...(logger && { logger }),
     // Tools run after the response that asked for them, so the current turn is the right one.
     onCall: (call) => state.trace.push({ turn: state.turns, ...call }),
+    admit: () => {
+      if (signal.aborted) return "Skipped: the investigation's time limit was reached.";
+      if (admittedTurn !== state.turns) {
+        admittedTurn = state.turns;
+        admittedCalls = 0;
+      }
+      admittedCalls += 1;
+      return admittedCalls > MAX_TOOL_CALLS_PER_TURN
+        ? `Skipped: at most ${MAX_TOOL_CALLS_PER_TURN} tool calls run per turn. Make fewer, more targeted calls.`
+        : null;
+    },
   });
 
   const startFinal = opts.maxTurns <= 1;
@@ -164,6 +188,7 @@ async function investigate(
   let warnedUnpriced = false;
   let turnStarted = started;
   let slowestTurnMs = 0;
+  let truncatedRetries = 0;
 
   for await (const message of runner) {
     const now = performance.now();
@@ -177,12 +202,30 @@ async function investigate(
     if (message.stop_reason === "pause_turn") continue;
 
     // A tool call cut off at max_tokens may carry a silently truncated input: never run it.
+    // Retry once (budget permitting); after that, or when a limit is hit, the agent must answer.
     if (message.stop_reason === "max_tokens" && hasToolUse(message) && !finalRequested) {
-      logger?.warning(`Turn ${state.turns} hit max_tokens inside a tool call; asking the agent to retry it.`);
-      continueWith(runner, message, [{ role: "user", content: truncatedToolResults(message) }], false);
+      const cause =
+        budgetCause(state, opts, now - started, slowestTurnMs) ??
+        (truncatedRetries >= MAX_TRUNCATED_RETRIES ? "max_turns" : null);
+      const errors = truncatedToolResults(message);
+      if (cause) {
+        stopCause = cause;
+        finalRequested = true;
+        logger?.warning(
+          `Turn ${state.turns} hit max_tokens inside a tool call; asking for the final answer.`,
+        );
+        continueWithFinal(runner, message, errors, cause);
+      } else {
+        truncatedRetries += 1;
+        logger?.warning(
+          `Turn ${state.turns} hit max_tokens inside a tool call; asking the agent to retry it.`,
+        );
+        continueWith(runner, message, [{ role: "user", content: errors }], false);
+      }
       turnStarted = performance.now();
       continue;
     }
+    truncatedRetries = 0;
 
     if (message.stop_reason === "tool_use" && !finalRequested) {
       if (state.usage.costUsd === null && !warnedUnpriced) {
@@ -295,16 +338,25 @@ async function requestFinalAnswer(
   message: BetaMessage,
   cause: BudgetCause,
 ): Promise<void> {
-  const results = await toolResults(runner);
+  continueWithFinal(runner, message, await toolResults(runner), cause);
+}
+
+/** Send `blocks` (the answers to the pending tool calls) plus the "answer now" instruction. */
+function continueWithFinal(
+  runner: BetaToolRunner<false>,
+  message: BetaMessage,
+  blocks: BetaContentBlockParam[],
+  cause: BudgetCause,
+): void {
   const instruction = `${FINAL_INSTRUCTIONS[cause]} ${ANSWER_NOW}`;
   // A system message is the operator channel; older models get the same text after the tool results.
   const followUp: BetaMessageParam[] =
-    supportsSystemMessages(message.model) && results.length > 0
+    supportsSystemMessages(message.model) && blocks.length > 0
       ? [
-          { role: "user", content: results },
+          { role: "user", content: blocks },
           { role: "system", content: instruction },
         ]
-      : [{ role: "user", content: [...results, { type: "text", text: instruction }] }];
+      : [{ role: "user", content: [...blocks, { type: "text", text: instruction }] }];
   continueWith(runner, message, followUp);
 }
 
@@ -353,6 +405,25 @@ function truncatedToolResults(message: BetaMessage): BetaContentBlockParam[] {
         ]
       : [],
   );
+}
+
+/**
+ * Self-hosted runners behind a proxy set HTTPS_PROXY (Octokit already honours it). Node's
+ * built-in fetch does not, so route the Anthropic client through undici's env-aware agent,
+ * which also respects NO_PROXY.
+ */
+type ClientOptions = NonNullable<ConstructorParameters<typeof Anthropic>[0]>;
+
+export function proxyOptions(
+  env: NodeJS.ProcessEnv = process.env,
+): Pick<ClientOptions, "fetch" | "fetchOptions"> {
+  const proxy = env["HTTPS_PROXY"] ?? env["https_proxy"] ?? env["HTTP_PROXY"] ?? env["http_proxy"];
+  if (!proxy) return {};
+  // undici's fetch and dispatcher are typed separately from the DOM fetch types the SDK uses.
+  return {
+    fetch: undiciFetch as unknown as ClientOptions["fetch"],
+    fetchOptions: { dispatcher: new EnvHttpProxyAgent() } as unknown as ClientOptions["fetchOptions"],
+  };
 }
 
 // ---------------------------------------------------------------------------

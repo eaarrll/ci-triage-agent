@@ -8945,7 +8945,7 @@ var require_env_http_proxy_agent = __commonJS({
       "https:": 443
     };
     var experimentalWarned = false;
-    var EnvHttpProxyAgent = class extends DispatcherBase {
+    var EnvHttpProxyAgent2 = class extends DispatcherBase {
       #noProxyValue = null;
       #noProxyEntries = null;
       #opts = null;
@@ -9064,7 +9064,7 @@ var require_env_http_proxy_agent = __commonJS({
         return process.env.no_proxy ?? process.env.NO_PROXY ?? "";
       }
     };
-    module.exports = EnvHttpProxyAgent;
+    module.exports = EnvHttpProxyAgent2;
   }
 });
 
@@ -19029,7 +19029,7 @@ var require_undici = __commonJS({
     var BalancedPool = require_balanced_pool();
     var Agent = require_agent();
     var ProxyAgent2 = require_proxy_agent();
-    var EnvHttpProxyAgent = require_env_http_proxy_agent();
+    var EnvHttpProxyAgent2 = require_env_http_proxy_agent();
     var RetryAgent = require_retry_agent();
     var errors = require_errors();
     var util2 = require_util();
@@ -19052,7 +19052,7 @@ var require_undici = __commonJS({
     module.exports.BalancedPool = BalancedPool;
     module.exports.Agent = Agent;
     module.exports.ProxyAgent = ProxyAgent2;
-    module.exports.EnvHttpProxyAgent = EnvHttpProxyAgent;
+    module.exports.EnvHttpProxyAgent = EnvHttpProxyAgent2;
     module.exports.RetryAgent = RetryAgent;
     module.exports.RetryHandler = RetryHandler;
     module.exports.DecoratorHandler = DecoratorHandler;
@@ -56426,6 +56426,7 @@ function getOctokit(token, options, ...additionalPlugins) {
 
 // src/agent/agent.ts
 init_sdk();
+var import_undici3 = __toESM(require_undici(), 1);
 
 // src/agent/pricing.ts
 var PRICES = {
@@ -76962,6 +76963,273 @@ function ascending(a, b) {
   return a - b;
 }
 
+// src/redact.ts
+var MARKER_PREFIX = "[REDACTED:";
+var MARKER_PATTERN = String.raw`\[REDACTED:\w{1,32}\]`;
+var GITHUB_MASK = "***";
+var MIN_GENERIC_SECRET_LENGTH = 8;
+var MAX_PASSES = 4;
+var MAX_PEM_BODY_CHARS = 16384;
+var LOG_TIMESTAMP = String.raw`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?Z `;
+var PEM_LABEL = String.raw`(?:[A-Z0-9]{2,10} ){0,2}PRIVATE KEY(?: BLOCK)?`;
+var LINE_BREAK_AND_TIMESTAMP = new RegExp(String.raw`\r?\n(?:${LOG_TIMESTAMP})?`, "g");
+var GENERIC_KEYWORDS = [
+  "password",
+  "passwd",
+  "pwd",
+  "secret",
+  "token",
+  "api[_-]?key",
+  "access[_-]?key",
+  "account[_-]?key",
+  "secret[_-]?key",
+  "client[_-]?secret",
+  "private[_-]?key"
+].join("|");
+var GENERIC_KINDS = {
+  password: "password",
+  passwd: "password",
+  pwd: "password",
+  secret: "secret",
+  token: "token",
+  apikey: "api_key",
+  accesskey: "access_key",
+  accountkey: "account_key",
+  secretkey: "secret_key",
+  clientsecret: "client_secret",
+  privatekey: "private_key"
+};
+var RULES = [
+  {
+    // Whole PEM block: multi-line, or JSON-escaped on one line (GCP service-account keys).
+    // The body may not cross another BEGIN/END marker, which keeps a pile of unterminated
+    // headers linear instead of rescanning up to the size cap from each one.
+    kind: "private_key",
+    pattern: new RegExp(
+      String.raw`(?<secret>-----BEGIN (?<label>${PEM_LABEL})-----(?:(?!-----(?:BEGIN|END) )[\s\S]){0,${MAX_PEM_BODY_CHARS}}-----END \k<label>-----)`,
+      "g"
+    )
+  },
+  {
+    // A header with no matching END (truncated log, `head` of a key file): take the header
+    // and the base64 lines that follow it.
+    kind: "private_key",
+    pattern: new RegExp(
+      String.raw`(?<secret>-----BEGIN ${PEM_LABEL}-----(?:(?:\r?\n(?:${LOG_TIMESTAMP})?[ \t]{0,32}|(?:\\r)?\\n)[A-Za-z0-9+/=]{16,}(?=\r?\n|\\[rn]|"|$))*)`,
+      "g"
+    )
+  },
+  { kind: "jwt", pattern: /(?<![\w-])(?<secret>eyJ[\w-]{2,}\.eyJ[\w-]{2,}\.[\w-]*)/g },
+  { kind: "github_token", pattern: /(?<!\w)(?<secret>gh[pousr]_[A-Za-z0-9]{36,}|github_pat_\w{50,})/g },
+  { kind: "anthropic_key", pattern: /(?<![\w-])(?<secret>sk-ant-[\w-]{20,})/g },
+  {
+    // Classic `sk-` and `sk-proj-` keys. Requiring digits and both cases keeps kebab-case
+    // identifiers that happen to start with `sk-` out.
+    kind: "openai_key",
+    pattern: /(?<![\w-])(?<secret>sk-(?!ant-)[\w-]{20,})/g,
+    accept: (secret) => /\d/.test(secret) && /[a-z]/.test(secret) && /[A-Z]/.test(secret)
+  },
+  { kind: "google_api_key", pattern: /(?<![\w-])(?<secret>AIza[\w-]{35})(?![\w-])/g },
+  {
+    kind: "aws_access_key_id",
+    pattern: /(?<![A-Za-z0-9])(?<secret>(?:AKIA|ASIA|AGPA|AIDA|AROA|ANPA|ANVA|AIPA)[A-Z0-9]{16})(?![A-Za-z0-9])/g
+  },
+  {
+    kind: "aws_secret",
+    pattern: /(?<pre>(?:aws[_-]?)?secret[_-]?access[_-]?key["']?[ \t]*[=:][ \t]*["']?)(?<secret>[A-Za-z0-9/+=]{40})(?![A-Za-z0-9/+=])/gi
+  },
+  {
+    // Storage connection strings (AccountKey=) and Service Bus / Event Hubs ones (SharedAccessKey=).
+    kind: "azure_key",
+    pattern: /(?<pre>(?:AccountKey|SharedAccessKey)[ \t]*=[ \t]*)(?<secret>[A-Za-z0-9+/]{20,}={0,2})/gi
+  },
+  {
+    // SAS signatures in URLs and in `SharedAccessSignature sr=...&sig=...` tokens. The double
+    // negative reads "preceded by a delimiter or the start of the text".
+    kind: "azure_sas",
+    pattern: /(?<pre>(?<![^?&;\s"'])sig=)(?<secret>[A-Za-z0-9%+/=_-]{16,})/g
+  },
+  {
+    // Entra ID client secrets have a recognisable shape (`xxx8Q~...`) even outside an assignment.
+    kind: "azure_client_secret",
+    pattern: /(?<![\w~.-])(?<secret>[\w~.]{3}\dQ~[\w~.-]{31,34})(?![\w~.-])/g
+  },
+  {
+    kind: "slack_webhook",
+    pattern: /(?<pre>https:\/\/hooks\.slack\.com\/(?:services|workflows|triggers)\/)(?<secret>[\w/-]{8,})/g
+  },
+  { kind: "slack_token", pattern: /(?<![\w-])(?<secret>xox[abprs]-[A-Za-z0-9-]{10,})/g },
+  { kind: "stripe_key", pattern: /(?<!\w)(?<secret>(?:sk|rk)_live_[A-Za-z0-9]{16,})/g },
+  { kind: "npm_token", pattern: /(?<!\w)(?<secret>npm_[A-Za-z0-9]{36})(?![A-Za-z0-9])/g },
+  {
+    // ~/.docker/config.json, possibly JSON-escaped inside another string. The value is padded
+    // base64 of `user:password`, so its length is a multiple of 4.
+    kind: "docker_auth",
+    pattern: /(?<pre>\\?"auth\\?"[ \t]*:[ \t]*\\?")(?<secret>[A-Za-z0-9+/=]{12,})(?=\\?")/g,
+    accept: (secret) => secret.length % 4 === 0
+  },
+  {
+    kind: "kubeconfig",
+    // YAML, or JSON from `kubectl config view --raw -o json`.
+    pattern: /(?<pre>(?<![\w-])client-(?:key|certificate)-data(?:\\?["'])?[ \t]*:[ \t]*(?:\\?["'])?)(?<secret>[A-Za-z0-9+/=]{16,})/g
+  },
+  {
+    kind: "authorization",
+    pattern: /(?<pre>(?<![\w-])(?:proxy-)?authorization["']?[ \t]*[:=][ \t]*["']?(?:bearer|basic|token|bot)[ \t]+)(?<secret>[\w.~+/=-]{16,})/gi
+  },
+  {
+    // `Bearer <token>` outside a header (curl traces, SDK debug output). Prose such as
+    // "Bearer authentication-required" has no digits.
+    kind: "bearer_token",
+    pattern: /(?<pre>(?<![\w-])bearer[ \t]+)(?<secret>[\w.~+/=-]{16,})/gi,
+    accept: (secret) => /\d/.test(secret) && /[A-Za-z]/.test(secret)
+  },
+  {
+    // scheme://user:password@host keeps the user and host. A URL password is a credential
+    // even when it is short or a plain word, so only masks and references are spared.
+    // As in WHATWG URL parsing, the user ends at the first ":" and the password at the last
+    // "@" of the authority, so an e-mail user or an "@" in the password cannot leak part of
+    // it. A user that is already a marker (`https://<token>@host`) is taken whole: splitting
+    // it at its own ":" would mangle the marker and count the token twice. Quotes and angle
+    // brackets end the URL, so a JSON string after it cannot be swallowed up to its "@".
+    kind: "url_password",
+    pattern: new RegExp(
+      String.raw`(?<pre>(?<![A-Za-z0-9+.-])[A-Za-z][A-Za-z0-9+.-]{0,31}:\/\/(?:${MARKER_PATTERN}|[^\s:/?#[\\"'\x60<>]){0,256}:)(?<secret>[^\s/?#\\"'\x60<>]{1,256})(?=@)`,
+      "g"
+    ),
+    accept: (secret) => !isMaskedOrReference(secret)
+  },
+  {
+    // `password=...`, `"api_key": "..."`, `client_secret: ...`. The keyword must end the key
+    // (DB_PASSWORD, accessToken), so `TOKEN_PERMISSIONS: read` or `secret-scanning: enabled`
+    // never reach the value checks. Quoted values may contain spaces; bare ones stop at
+    // whitespace and common delimiters. `==`, `=~` and `::` are comparisons or paths.
+    // Quotes may be JSON-escaped (`{\"password\":\"...\"}`), as in a secret manager's
+    // SecretString or a JSON document logged inside another string.
+    kind: (groups) => GENERIC_KINDS[(groups.kw ?? "").toLowerCase().replace(/[_-]/g, "")] ?? "secret",
+    pattern: new RegExp(
+      String.raw`(?<pre>(?<kw>${GENERIC_KEYWORDS})(?:\\?["'])?[ \t]*(?:=>|:=|=(?![=~])|:(?!:))[ \t]*(?:\\?["'])?)` + String.raw`(?<secret>(?<=\\")[^"\\\r\n]{1,1024}(?=\\")|(?<=")[^"\r\n]{1,1024}(?=")|(?<=')[^'\r\n]{1,1024}(?=')|(?<!["'])[^\s"'\x60,;&)\]}]+)`,
+      "gi"
+    ),
+    accept: isPlausibleGenericSecret
+  }
+];
+function redactSecrets(text) {
+  let current = text;
+  let count3 = 0;
+  for (let pass = 0; pass < MAX_PASSES; pass++) {
+    const result = redactPass(current);
+    if (result.count === 0) break;
+    current = result.text;
+    count3 += result.count;
+  }
+  return { text: current, count: count3 };
+}
+function redactPass(text) {
+  let count3 = 0;
+  let current = text;
+  for (const rule of RULES) {
+    current = current.replace(rule.pattern, (match, ...rest) => {
+      const replacement = redactMatch(rule, match, rest[rest.length - 1]);
+      if (replacement === null) return match;
+      count3 += 1;
+      return replacement;
+    });
+  }
+  return { text: current, count: count3 };
+}
+function withRedaction(inner) {
+  let total = 0;
+  const redact = (text) => {
+    const result = redactSecrets(text);
+    total += result.count;
+    return result.text;
+  };
+  const redactNullable = (text) => text === null ? null : redact(text);
+  return {
+    get repo() {
+      return inner.repo;
+    },
+    get redactionCount() {
+      return total;
+    },
+    // Short strings (titles, branch, job and step names, paths) are cheap to scan and can be
+    // set by whoever opened the PR, so nothing string-shaped bypasses the redactor.
+    async getRun() {
+      const run2 = await inner.getRun();
+      return {
+        ...run2,
+        workflowName: redact(run2.workflowName),
+        headBranch: redactNullable(run2.headBranch),
+        displayTitle: redactNullable(run2.displayTitle)
+      };
+    },
+    async listJobs() {
+      const jobs = await inner.listJobs();
+      return jobs.map((job) => ({
+        ...job,
+        name: redact(job.name),
+        steps: job.steps.map((step) => ({ ...step, name: redact(step.name) }))
+      }));
+    },
+    async getJobLog(jobId) {
+      return redact(stripAnsi(await inner.getJobLog(jobId)));
+    },
+    async readFile(path4, ref2) {
+      const content = await inner.readFile(path4, ref2);
+      return content === null ? null : redact(content);
+    },
+    async listDirectory(path4, ref2) {
+      const entries = await inner.listDirectory(path4, ref2);
+      return entries === null ? null : entries.map(redact);
+    },
+    async getChangedFiles() {
+      const files = await inner.getChangedFiles();
+      return files.map((file2) => ({
+        ...file2,
+        path: redact(file2.path),
+        previousPath: redactNullable(file2.previousPath),
+        patch: redactNullable(file2.patch)
+      }));
+    },
+    async getJobHistory(jobName, limit2) {
+      const entries = await inner.getJobHistory(jobName, limit2);
+      return entries.map((entry) => ({ ...entry, branch: redactNullable(entry.branch) }));
+    }
+  };
+}
+function redactMatch(rule, match, groups) {
+  const secret = groups.secret;
+  if (secret === void 0 || secret.includes(MARKER_PREFIX)) return null;
+  if (rule.accept !== void 0 && !rule.accept(secret)) return null;
+  const pre = groups.pre ?? "";
+  const kind = typeof rule.kind === "string" ? rule.kind : rule.kind(groups);
+  return pre + mask(kind, secret) + match.slice(pre.length + secret.length);
+}
+function mask(kind, secret) {
+  const marker = `${MARKER_PREFIX}${kind}]`;
+  if (!secret.includes("\n")) return marker;
+  return marker + (secret.match(LINE_BREAK_AND_TIMESTAMP) ?? []).join("");
+}
+function isMaskedOrReference(value) {
+  return value.includes(MARKER_PREFIX) || value.includes(GITHUB_MASK) || /^[$<]/.test(value);
+}
+function isPlausibleGenericSecret(raw) {
+  const value = raw.trim();
+  return value.length >= MIN_GENERIC_SECRET_LENGTH && !isMaskedOrReference(value) && // Terraform's "(sensitive value)", {{ templates }}, [lists], %WINDOWS_VARS%, ***masks.
+  !/^[({[%*]/.test(value) && // Interpolation anywhere: "Bearer ${token}", "#{secret}", "%(password)s".
+  !/\$\{|\{\{|#\{|%\(/.test(value) && // One character repeated: xxxxxxxx, ........
+  !/^(.)\1+$/.test(value) && // Counts, ports, versions, dates.
+  !/^[\d\s.,:_+-]+$/.test(value) && // Paths and URLs (credentials inside URLs have their own rule).
+  !/^(?:~|\.{1,2})?\/|^[A-Za-z]:[\\/]|^[A-Za-z][A-Za-z0-9+.-]*:\/\//.test(value) && // Calls and lookups in code: getToken(), os.environ["TOKEN"].
+  !/^[A-Za-z_$][\w$.]*[([]/.test(value) && !isWordLike(value);
+}
+function isWordLike(value) {
+  if (!/^[A-Za-z]+(?:[ _./-][A-Za-z]+)*$/.test(value)) return false;
+  const words = value.match(/[A-Z]?[a-z]+|[A-Z]+(?![a-z])/g) ?? [];
+  return words.every((word) => word.length >= 2);
+}
+
 // src/agent/tools.ts
 var MAX_TOOL_RESULT_CHARS = 12e3;
 var MAX_FILE_RESULT_CHARS = 4e4;
@@ -77105,6 +77373,11 @@ function defineTool(deps, spec) {
     inputSchema: spec.input,
     run: async (input2) => {
       const started = performance.now();
+      const refused = deps.admit?.(spec.name) ?? null;
+      if (refused !== null) {
+        record2(deps, { name: spec.name, input: input2, ok: false, resultChars: refused.length, durationMs: 0 });
+        throw new Error(refused);
+      }
       try {
         const result = capResult(await spec.run(input2), maxChars);
         record2(deps, {
@@ -77159,7 +77432,7 @@ function since(started) {
   return Math.round(performance.now() - started);
 }
 function errorMessage2(error63) {
-  return error63 instanceof Error ? error63.message : String(error63);
+  return redactSecrets(error63 instanceof Error ? error63.message : String(error63)).text;
 }
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, Math.trunc(value)));
@@ -77326,6 +77599,8 @@ var MAX_TOKENS = 16e3;
 var MAX_RETRIES = 2;
 var FINAL_RESERVE_SHARE = 0.2;
 var FINAL_RESERVE_TURNS = 1.5;
+var MAX_TOOL_CALLS_PER_TURN = 8;
+var MAX_TRUNCATED_RETRIES = 1;
 var FALLBACK_BETA = "server-side-fallback-2026-07-01";
 var FALLBACK_MODELS = /* @__PURE__ */ new Set([
   "claude-opus-5-5",
@@ -77371,14 +77646,30 @@ async function runTriage(ctx, backend, opts) {
 async function investigate(ctx, backend, opts, state, signal) {
   const started = performance.now();
   const { logger: logger2 } = opts;
-  const client = opts.client ?? new Anthropic({ apiKey: opts.apiKey, maxRetries: MAX_RETRIES, timeout: opts.timeoutMs });
+  const client = opts.client ?? new Anthropic({
+    apiKey: opts.apiKey,
+    maxRetries: MAX_RETRIES,
+    timeout: opts.timeoutMs,
+    ...proxyOptions()
+  });
   warnAboutModelControls(opts, logger2);
+  let admittedTurn = -1;
+  let admittedCalls = 0;
   const tools = createTools({
     ctx,
     backend,
     ...logger2 && { logger: logger2 },
     // Tools run after the response that asked for them, so the current turn is the right one.
-    onCall: (call) => state.trace.push({ turn: state.turns, ...call })
+    onCall: (call) => state.trace.push({ turn: state.turns, ...call }),
+    admit: () => {
+      if (signal.aborted) return "Skipped: the investigation's time limit was reached.";
+      if (admittedTurn !== state.turns) {
+        admittedTurn = state.turns;
+        admittedCalls = 0;
+      }
+      admittedCalls += 1;
+      return admittedCalls > MAX_TOOL_CALLS_PER_TURN ? `Skipped: at most ${MAX_TOOL_CALLS_PER_TURN} tool calls run per turn. Make fewer, more targeted calls.` : null;
+    }
   });
   const startFinal = opts.maxTurns <= 1;
   const runner = client.beta.messages.toolRunner(buildParams(ctx, opts, tools, startFinal), { signal });
@@ -77388,6 +77679,7 @@ async function investigate(ctx, backend, opts, state, signal) {
   let warnedUnpriced = false;
   let turnStarted = started;
   let slowestTurnMs = 0;
+  let truncatedRetries = 0;
   for await (const message of runner) {
     const now = performance.now();
     slowestTurnMs = Math.max(slowestTurnMs, now - turnStarted);
@@ -77397,11 +77689,26 @@ async function investigate(ctx, backend, opts, state, signal) {
     if (message.stop_reason === "refusal") return refusal(state, message);
     if (message.stop_reason === "pause_turn") continue;
     if (message.stop_reason === "max_tokens" && hasToolUse2(message) && !finalRequested) {
-      logger2?.warning(`Turn ${state.turns} hit max_tokens inside a tool call; asking the agent to retry it.`);
-      continueWith(runner, message, [{ role: "user", content: truncatedToolResults(message) }], false);
+      const cause = budgetCause(state, opts, now - started, slowestTurnMs) ?? (truncatedRetries >= MAX_TRUNCATED_RETRIES ? "max_turns" : null);
+      const errors = truncatedToolResults(message);
+      if (cause) {
+        stopCause = cause;
+        finalRequested = true;
+        logger2?.warning(
+          `Turn ${state.turns} hit max_tokens inside a tool call; asking for the final answer.`
+        );
+        continueWithFinal(runner, message, errors, cause);
+      } else {
+        truncatedRetries += 1;
+        logger2?.warning(
+          `Turn ${state.turns} hit max_tokens inside a tool call; asking the agent to retry it.`
+        );
+        continueWith(runner, message, [{ role: "user", content: errors }], false);
+      }
       turnStarted = performance.now();
       continue;
     }
+    truncatedRetries = 0;
     if (message.stop_reason === "tool_use" && !finalRequested) {
       if (state.usage.costUsd === null && !warnedUnpriced) {
         warnedUnpriced = true;
@@ -77490,12 +77797,14 @@ function budgetCause(state, opts, elapsedMs, slowestTurnMs) {
   return null;
 }
 async function requestFinalAnswer(runner, message, cause) {
-  const results = await toolResults(runner);
+  continueWithFinal(runner, message, await toolResults(runner), cause);
+}
+function continueWithFinal(runner, message, blocks, cause) {
   const instruction = `${FINAL_INSTRUCTIONS[cause]} ${ANSWER_NOW}`;
-  const followUp = supportsSystemMessages(message.model) && results.length > 0 ? [
-    { role: "user", content: results },
+  const followUp = supportsSystemMessages(message.model) && blocks.length > 0 ? [
+    { role: "user", content: blocks },
     { role: "system", content: instruction }
-  ] : [{ role: "user", content: [...results, { type: "text", text: instruction }] }];
+  ] : [{ role: "user", content: [...blocks, { type: "text", text: instruction }] }];
   continueWith(runner, message, followUp);
 }
 async function requestRepair(runner, message) {
@@ -77531,6 +77840,14 @@ function truncatedToolResults(message) {
       }
     ] : []
   );
+}
+function proxyOptions(env = process.env) {
+  const proxy = env["HTTPS_PROXY"] ?? env["https_proxy"] ?? env["HTTP_PROXY"] ?? env["http_proxy"];
+  if (!proxy) return {};
+  return {
+    fetch: import_undici3.fetch,
+    fetchOptions: { dispatcher: new import_undici3.EnvHttpProxyAgent() }
+  };
 }
 function supportsAdaptiveThinking(model) {
   const id = normalizeModelId(model);
@@ -78166,7 +78483,7 @@ async function mapWithConcurrency(items, limit2, task) {
   return results;
 }
 function errorMessage3(error63) {
-  return error63 instanceof Error ? error63.message : String(error63);
+  return redactSecrets(error63 instanceof Error ? error63.message : String(error63)).text;
 }
 
 // src/github/gateway.ts
@@ -78586,247 +78903,6 @@ function isPresent(value) {
 }
 function clamp2(value, min, max) {
   return Number.isNaN(value) ? min : Math.min(Math.max(value, min), max);
-}
-
-// src/redact.ts
-var MARKER_PREFIX = "[REDACTED:";
-var MARKER_PATTERN = String.raw`\[REDACTED:\w{1,32}\]`;
-var GITHUB_MASK = "***";
-var MIN_GENERIC_SECRET_LENGTH = 8;
-var MAX_PASSES = 4;
-var MAX_PEM_BODY_CHARS = 16384;
-var LOG_TIMESTAMP = String.raw`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?Z `;
-var PEM_LABEL = String.raw`(?:[A-Z0-9]{2,10} ){0,2}PRIVATE KEY(?: BLOCK)?`;
-var LINE_BREAK_AND_TIMESTAMP = new RegExp(String.raw`\r?\n(?:${LOG_TIMESTAMP})?`, "g");
-var GENERIC_KEYWORDS = [
-  "password",
-  "passwd",
-  "pwd",
-  "secret",
-  "token",
-  "api[_-]?key",
-  "access[_-]?key",
-  "account[_-]?key",
-  "secret[_-]?key",
-  "client[_-]?secret",
-  "private[_-]?key"
-].join("|");
-var GENERIC_KINDS = {
-  password: "password",
-  passwd: "password",
-  pwd: "password",
-  secret: "secret",
-  token: "token",
-  apikey: "api_key",
-  accesskey: "access_key",
-  accountkey: "account_key",
-  secretkey: "secret_key",
-  clientsecret: "client_secret",
-  privatekey: "private_key"
-};
-var RULES = [
-  {
-    // Whole PEM block: multi-line, or JSON-escaped on one line (GCP service-account keys).
-    // The body may not cross another BEGIN/END marker, which keeps a pile of unterminated
-    // headers linear instead of rescanning up to the size cap from each one.
-    kind: "private_key",
-    pattern: new RegExp(
-      String.raw`(?<secret>-----BEGIN (?<label>${PEM_LABEL})-----(?:(?!-----(?:BEGIN|END) )[\s\S]){0,${MAX_PEM_BODY_CHARS}}-----END \k<label>-----)`,
-      "g"
-    )
-  },
-  {
-    // A header with no matching END (truncated log, `head` of a key file): take the header
-    // and the base64 lines that follow it.
-    kind: "private_key",
-    pattern: new RegExp(
-      String.raw`(?<secret>-----BEGIN ${PEM_LABEL}-----(?:(?:\r?\n(?:${LOG_TIMESTAMP})?[ \t]{0,32}|(?:\\r)?\\n)[A-Za-z0-9+/=]{16,}(?=\r?\n|\\[rn]|"|$))*)`,
-      "g"
-    )
-  },
-  { kind: "jwt", pattern: /(?<![\w-])(?<secret>eyJ[\w-]{2,}\.eyJ[\w-]{2,}\.[\w-]*)/g },
-  { kind: "github_token", pattern: /(?<!\w)(?<secret>gh[pousr]_[A-Za-z0-9]{36,}|github_pat_\w{50,})/g },
-  { kind: "anthropic_key", pattern: /(?<![\w-])(?<secret>sk-ant-[\w-]{20,})/g },
-  {
-    // Classic `sk-` and `sk-proj-` keys. Requiring digits and both cases keeps kebab-case
-    // identifiers that happen to start with `sk-` out.
-    kind: "openai_key",
-    pattern: /(?<![\w-])(?<secret>sk-(?!ant-)[\w-]{20,})/g,
-    accept: (secret) => /\d/.test(secret) && /[a-z]/.test(secret) && /[A-Z]/.test(secret)
-  },
-  { kind: "google_api_key", pattern: /(?<![\w-])(?<secret>AIza[\w-]{35})(?![\w-])/g },
-  {
-    kind: "aws_access_key_id",
-    pattern: /(?<![A-Za-z0-9])(?<secret>(?:AKIA|ASIA|AGPA|AIDA|AROA|ANPA|ANVA|AIPA)[A-Z0-9]{16})(?![A-Za-z0-9])/g
-  },
-  {
-    kind: "aws_secret",
-    pattern: /(?<pre>(?:aws[_-]?)?secret[_-]?access[_-]?key["']?[ \t]*[=:][ \t]*["']?)(?<secret>[A-Za-z0-9/+=]{40})(?![A-Za-z0-9/+=])/gi
-  },
-  {
-    // Storage connection strings (AccountKey=) and Service Bus / Event Hubs ones (SharedAccessKey=).
-    kind: "azure_key",
-    pattern: /(?<pre>(?:AccountKey|SharedAccessKey)[ \t]*=[ \t]*)(?<secret>[A-Za-z0-9+/]{20,}={0,2})/gi
-  },
-  {
-    // SAS signatures in URLs and in `SharedAccessSignature sr=...&sig=...` tokens. The double
-    // negative reads "preceded by a delimiter or the start of the text".
-    kind: "azure_sas",
-    pattern: /(?<pre>(?<![^?&;\s"'])sig=)(?<secret>[A-Za-z0-9%+/=_-]{16,})/g
-  },
-  {
-    // Entra ID client secrets have a recognisable shape (`xxx8Q~...`) even outside an assignment.
-    kind: "azure_client_secret",
-    pattern: /(?<![\w~.-])(?<secret>[\w~.]{3}\dQ~[\w~.-]{31,34})(?![\w~.-])/g
-  },
-  {
-    kind: "slack_webhook",
-    pattern: /(?<pre>https:\/\/hooks\.slack\.com\/(?:services|workflows|triggers)\/)(?<secret>[\w/-]{8,})/g
-  },
-  { kind: "slack_token", pattern: /(?<![\w-])(?<secret>xox[abprs]-[A-Za-z0-9-]{10,})/g },
-  { kind: "stripe_key", pattern: /(?<!\w)(?<secret>(?:sk|rk)_live_[A-Za-z0-9]{16,})/g },
-  { kind: "npm_token", pattern: /(?<!\w)(?<secret>npm_[A-Za-z0-9]{36})(?![A-Za-z0-9])/g },
-  {
-    // ~/.docker/config.json, possibly JSON-escaped inside another string. The value is padded
-    // base64 of `user:password`, so its length is a multiple of 4.
-    kind: "docker_auth",
-    pattern: /(?<pre>\\?"auth\\?"[ \t]*:[ \t]*\\?")(?<secret>[A-Za-z0-9+/=]{12,})(?=\\?")/g,
-    accept: (secret) => secret.length % 4 === 0
-  },
-  {
-    kind: "kubeconfig",
-    // YAML, or JSON from `kubectl config view --raw -o json`.
-    pattern: /(?<pre>(?<![\w-])client-(?:key|certificate)-data(?:\\?["'])?[ \t]*:[ \t]*(?:\\?["'])?)(?<secret>[A-Za-z0-9+/=]{16,})/g
-  },
-  {
-    kind: "authorization",
-    pattern: /(?<pre>(?<![\w-])(?:proxy-)?authorization["']?[ \t]*[:=][ \t]*["']?(?:bearer|basic|token|bot)[ \t]+)(?<secret>[\w.~+/=-]{16,})/gi
-  },
-  {
-    // `Bearer <token>` outside a header (curl traces, SDK debug output). Prose such as
-    // "Bearer authentication-required" has no digits.
-    kind: "bearer_token",
-    pattern: /(?<pre>(?<![\w-])bearer[ \t]+)(?<secret>[\w.~+/=-]{16,})/gi,
-    accept: (secret) => /\d/.test(secret) && /[A-Za-z]/.test(secret)
-  },
-  {
-    // scheme://user:password@host keeps the user and host. A URL password is a credential
-    // even when it is short or a plain word, so only masks and references are spared.
-    // As in WHATWG URL parsing, the user ends at the first ":" and the password at the last
-    // "@" of the authority, so an e-mail user or an "@" in the password cannot leak part of
-    // it. A user that is already a marker (`https://<token>@host`) is taken whole: splitting
-    // it at its own ":" would mangle the marker and count the token twice. Quotes and angle
-    // brackets end the URL, so a JSON string after it cannot be swallowed up to its "@".
-    kind: "url_password",
-    pattern: new RegExp(
-      String.raw`(?<pre>(?<![A-Za-z0-9+.-])[A-Za-z][A-Za-z0-9+.-]{0,31}:\/\/(?:${MARKER_PATTERN}|[^\s:/?#[\\"'\x60<>]){0,256}:)(?<secret>[^\s/?#\\"'\x60<>]{1,256})(?=@)`,
-      "g"
-    ),
-    accept: (secret) => !isMaskedOrReference(secret)
-  },
-  {
-    // `password=...`, `"api_key": "..."`, `client_secret: ...`. The keyword must end the key
-    // (DB_PASSWORD, accessToken), so `TOKEN_PERMISSIONS: read` or `secret-scanning: enabled`
-    // never reach the value checks. Quoted values may contain spaces; bare ones stop at
-    // whitespace and common delimiters. `==`, `=~` and `::` are comparisons or paths.
-    // Quotes may be JSON-escaped (`{\"password\":\"...\"}`), as in a secret manager's
-    // SecretString or a JSON document logged inside another string.
-    kind: (groups) => GENERIC_KINDS[(groups.kw ?? "").toLowerCase().replace(/[_-]/g, "")] ?? "secret",
-    pattern: new RegExp(
-      String.raw`(?<pre>(?<kw>${GENERIC_KEYWORDS})(?:\\?["'])?[ \t]*(?:=>|:=|=(?![=~])|:(?!:))[ \t]*(?:\\?["'])?)` + String.raw`(?<secret>(?<=\\")[^"\\\r\n]{1,1024}(?=\\")|(?<=")[^"\r\n]{1,1024}(?=")|(?<=')[^'\r\n]{1,1024}(?=')|(?<!["'])[^\s"'\x60,;&)\]}]+)`,
-      "gi"
-    ),
-    accept: isPlausibleGenericSecret
-  }
-];
-function redactSecrets(text) {
-  let current = text;
-  let count3 = 0;
-  for (let pass = 0; pass < MAX_PASSES; pass++) {
-    const result = redactPass(current);
-    if (result.count === 0) break;
-    current = result.text;
-    count3 += result.count;
-  }
-  return { text: current, count: count3 };
-}
-function redactPass(text) {
-  let count3 = 0;
-  let current = text;
-  for (const rule of RULES) {
-    current = current.replace(rule.pattern, (match, ...rest) => {
-      const replacement = redactMatch(rule, match, rest[rest.length - 1]);
-      if (replacement === null) return match;
-      count3 += 1;
-      return replacement;
-    });
-  }
-  return { text: current, count: count3 };
-}
-function withRedaction(inner) {
-  let total = 0;
-  const redact = (text) => {
-    const result = redactSecrets(text);
-    total += result.count;
-    return result.text;
-  };
-  return {
-    get repo() {
-      return inner.repo;
-    },
-    get redactionCount() {
-      return total;
-    },
-    async getRun() {
-      const run2 = await inner.getRun();
-      return run2.displayTitle === null ? run2 : { ...run2, displayTitle: redact(run2.displayTitle) };
-    },
-    listJobs: () => inner.listJobs(),
-    async getJobLog(jobId) {
-      return redact(stripAnsi(await inner.getJobLog(jobId)));
-    },
-    async readFile(path4, ref2) {
-      const content = await inner.readFile(path4, ref2);
-      return content === null ? null : redact(content);
-    },
-    listDirectory: (path4, ref2) => inner.listDirectory(path4, ref2),
-    async getChangedFiles() {
-      const files = await inner.getChangedFiles();
-      return files.map((file2) => file2.patch === null ? file2 : { ...file2, patch: redact(file2.patch) });
-    },
-    getJobHistory: (jobName, limit2) => inner.getJobHistory(jobName, limit2)
-  };
-}
-function redactMatch(rule, match, groups) {
-  const secret = groups.secret;
-  if (secret === void 0 || secret.includes(MARKER_PREFIX)) return null;
-  if (rule.accept !== void 0 && !rule.accept(secret)) return null;
-  const pre = groups.pre ?? "";
-  const kind = typeof rule.kind === "string" ? rule.kind : rule.kind(groups);
-  return pre + mask(kind, secret) + match.slice(pre.length + secret.length);
-}
-function mask(kind, secret) {
-  const marker = `${MARKER_PREFIX}${kind}]`;
-  if (!secret.includes("\n")) return marker;
-  return marker + (secret.match(LINE_BREAK_AND_TIMESTAMP) ?? []).join("");
-}
-function isMaskedOrReference(value) {
-  return value.includes(MARKER_PREFIX) || value.includes(GITHUB_MASK) || /^[$<]/.test(value);
-}
-function isPlausibleGenericSecret(raw) {
-  const value = raw.trim();
-  return value.length >= MIN_GENERIC_SECRET_LENGTH && !isMaskedOrReference(value) && // Terraform's "(sensitive value)", {{ templates }}, [lists], %WINDOWS_VARS%, ***masks.
-  !/^[({[%*]/.test(value) && // Interpolation anywhere: "Bearer ${token}", "#{secret}", "%(password)s".
-  !/\$\{|\{\{|#\{|%\(/.test(value) && // One character repeated: xxxxxxxx, ........
-  !/^(.)\1+$/.test(value) && // Counts, ports, versions, dates.
-  !/^[\d\s.,:_+-]+$/.test(value) && // Paths and URLs (credentials inside URLs have their own rule).
-  !/^(?:~|\.{1,2})?\/|^[A-Za-z]:[\\/]|^[A-Za-z][A-Za-z0-9+.-]*:\/\//.test(value) && // Calls and lookups in code: getToken(), os.environ["TOKEN"].
-  !/^[A-Za-z_$][\w$.]*[([]/.test(value) && !isWordLike(value);
-}
-function isWordLike(value) {
-  if (!/^[A-Za-z]+(?:[ _./-][A-Za-z]+)*$/.test(value)) return false;
-  const words = value.match(/[A-Z]?[a-z]+|[A-Z]+(?![a-z])/g) ?? [];
-  return words.every((word) => word.length >= 2);
 }
 
 // src/report.ts
@@ -79442,6 +79518,11 @@ async function triage(config2) {
     const resolved = run2.conclusion === null && await resolveEarlierComment(config2, gateway, run2);
     if (!resolved) info("No failed jobs found in this run; nothing to triage.");
     setOutput("mode", resolved ? "resolved" : "skipped");
+    return;
+  }
+  if (run2.conclusion === null && ctx.failedJobs.every((job) => job.job.conclusion === "cancelled")) {
+    info("Only cancelled jobs so far (the run is being cancelled); nothing to triage.");
+    setOutput("mode", "skipped");
     return;
   }
   const meta3 = {

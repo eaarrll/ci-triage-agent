@@ -1,15 +1,15 @@
 # Eval results: heuristic
 
-Run on 2026-11-23 · mode **heuristic** (signature matching, no LLM) · 17 fixtures × 1 repeat
+Run on 2026-11-24 · mode **heuristic** (signature matching, no LLM) · 17 fixtures × 1 repeat
 
 | Metric | Value |
 | --- | --- |
-| Pass rate | 6/17 (35%) |
+| Pass rate | 4/17 (24%) |
 | Errors | 0 |
 | Cost per case | mean $0.0000, median $0.0000 |
 | Total cost | $0.0000 |
 | Mean turns | 0.0 |
-| Latency | p50 8 ms, p95 18 ms |
+| Latency | p50 5 ms, p95 11 ms |
 
 ## By expected category
 
@@ -18,7 +18,7 @@ Run on 2026-11-23 · mode **heuristic** (signature matching, no LLM) · 17 fixtu
 | code | 0/5 | 0% |
 | flaky | 0/1 | 0% |
 | dependency | 0/2 | 0% |
-| infrastructure | 4/4 | 100% |
+| infrastructure | 2/4 | 50% |
 | cloud_auth | 2/3 | 67% |
 | configuration | 0/2 | 0% |
 
@@ -29,8 +29,8 @@ Run on 2026-11-23 · mode **heuristic** (signature matching, no LLM) · 17 fixtu
 | ❌ | aws-iam-passrole | cloud_auth | cloud_auth (low) | $0.0000 | 0 | none | missing keywords: PassRole |
 | ✅ | aws-quota-vcpu | cloud_auth / configuration | cloud_auth (low) | $0.0000 | 0 | none |  |
 | ✅ | azure-oidc-subject-mismatch | cloud_auth / configuration | cloud_auth (low) | $0.0000 | 0 | none |  |
-| ✅ | disk-full-docker | infrastructure | infrastructure (low) | $0.0000 | 0 | none |  |
-| ✅ | docker-oom-137 | infrastructure | infrastructure (low) | $0.0000 | 0 | none |  |
+| ❌ | disk-full-docker | infrastructure / code | infrastructure (low) | $0.0000 | 0 | none | missing keywords: tensorrt/onnx/requirements-gpu |
+| ❌ | docker-oom-137 | infrastructure / code | infrastructure (low) | $0.0000 | 0 | none | missing keywords: plotly |
 | ✅ | dockerhub-rate-limit | infrastructure / flaky | infrastructure (low) | $0.0000 | 0 | none |  |
 | ❌ | eslint-unused-vars | code | unknown (low) | $0.0000 | 0 | none | category unknown, expected code; fix location not identified |
 | ❌ | flaky-network-test | flaky / infrastructure | unknown (low) | $0.0000 | 0 | none | category unknown, expected flaky or infrastructure; wrong flaky_suspected |

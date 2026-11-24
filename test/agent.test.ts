@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { describe, expect, it, vi } from "vitest";
-import { effortFor, runTriage, type AgentOptions } from "../src/agent/agent.js";
+import { effortFor, MAX_TOOL_CALLS_PER_TURN, runTriage, type AgentOptions } from "../src/agent/agent.js";
 import type {
   AgentLogger,
   JobHistoryEntry,
@@ -913,5 +913,67 @@ describe("model controls from review", () => {
     );
 
     expect(lines.warning.join("\n")).toContain("no effort control");
+  });
+});
+
+describe("budget guards from the security review", () => {
+  it("retries a truncated tool call once, then forces the final answer", async () => {
+    const readFile = vi.fn(async () => "x\n");
+    const { client, requests } = scriptedClient([
+      reply([toolUse("toolu_1", "read_file", { path: "a.ts" })], "max_tokens"),
+      reply([toolUse("toolu_2", "read_file", { path: "a.ts" })], "max_tokens"),
+      reply([finalAnswer()], "end_turn"),
+    ]);
+
+    const outcome = expectOk(await runTriage(context(), backend({ readFile }), options(client)));
+
+    expect(readFile).not.toHaveBeenCalled();
+    expect(requests).toHaveLength(3);
+    expect(requests[1]?.body.tool_choice).toBeUndefined();
+    expect(requests[2]?.body.tool_choice).toEqual({ type: "none" });
+    expect(outcome.stopCause).toBe("max_turns");
+  });
+
+  it("checks the cost budget before retrying a truncated tool call", async () => {
+    const { client, requests } = scriptedClient([
+      reply([toolUse("toolu_1", "read_file", { path: "a.ts" })], "max_tokens", {
+        input_tokens: 10_000,
+        output_tokens: 16_000,
+      }),
+      reply([finalAnswer()], "end_turn"),
+    ]);
+
+    const outcome = expectOk(await runTriage(context(), backend(), options(client, { maxCostUsd: 0.01 })));
+
+    expect(requests[1]?.body.tool_choice).toEqual({ type: "none" });
+    expect(outcome.stopCause).toBe("budget");
+  });
+
+  it("runs at most MAX_TOOL_CALLS_PER_TURN tool calls from one turn", async () => {
+    const readFile = vi.fn(async () => "x\n");
+    const calls = Array.from({ length: MAX_TOOL_CALLS_PER_TURN + 4 }, (_, i) =>
+      toolUse(`toolu_${i}`, "read_file", { path: `f${i}.ts` }),
+    );
+    const { client, requests } = scriptedClient([
+      reply(calls, "tool_use"),
+      reply([finalAnswer()], "end_turn"),
+    ]);
+
+    expectOk(await runTriage(context(), backend({ readFile }), options(client)));
+
+    expect(readFile).toHaveBeenCalledTimes(MAX_TOOL_CALLS_PER_TURN);
+    const results = lastMessage(requests[1]).content as Array<{ is_error?: boolean; content: unknown }>;
+    expect(results).toHaveLength(MAX_TOOL_CALLS_PER_TURN + 4);
+    expect(results.filter((r) => r.is_error)).toHaveLength(4);
+  });
+});
+
+describe("proxyOptions", () => {
+  it("adds a proxy-aware fetch only when a proxy is configured", async () => {
+    const { proxyOptions } = await import("../src/agent/agent.js");
+    expect(proxyOptions({})).toEqual({});
+    const opts = proxyOptions({ HTTPS_PROXY: "http://proxy.internal.example:3128" });
+    expect(typeof opts.fetch).toBe("function");
+    expect(opts.fetchOptions).toHaveProperty("dispatcher");
   });
 });

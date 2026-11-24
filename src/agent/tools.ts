@@ -2,6 +2,7 @@ import { betaZodTool } from "@anthropic-ai/sdk/helpers/beta/zod";
 import type { BetaRunnableTool } from "@anthropic-ai/sdk/lib/tools/BetaRunnableTool";
 import { z } from "zod";
 import { parseJobLog } from "../logs.js";
+import { redactSecrets } from "../redact.js";
 import type {
   AgentLogger,
   JobHistoryEntry,
@@ -38,6 +39,8 @@ export interface ToolDeps {
   backend: TriageBackend;
   logger?: AgentLogger;
   onCall?: (trace: Omit<ToolCallTrace, "turn">) => void;
+  /** Gate checked before every call: return a reason to refuse it (for example a per-turn cap), or null. */
+  admit?: (toolName: string) => string | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -241,6 +244,11 @@ function defineTool<Schema extends z.ZodObject>(
     inputSchema: spec.input,
     run: async (input: z.infer<Schema>) => {
       const started = performance.now();
+      const refused = deps.admit?.(spec.name) ?? null;
+      if (refused !== null) {
+        record(deps, { name: spec.name, input, ok: false, resultChars: refused.length, durationMs: 0 });
+        throw new Error(refused);
+      }
       try {
         const result = capResult(await spec.run(input), maxChars);
         record(deps, {
@@ -302,8 +310,9 @@ function since(started: number): number {
   return Math.round(performance.now() - started);
 }
 
+/** Tool errors are shown to the model, so they are redacted like any other tool output. */
 function errorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
+  return redactSecrets(error instanceof Error ? error.message : String(error)).text;
 }
 
 function clamp(value: number, min: number, max: number): number {

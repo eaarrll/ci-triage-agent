@@ -56,11 +56,11 @@ jobs:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
 
-That's it. Failures get a comment on the PR (and a job summary on every run); when the workflow passes
-again, the comment is marked as resolved. `workflow_run` runs in the base repository's context, so it also
+That's it. Failures get a comment on the PR and a job summary; when the workflow passes again, the
+comment is marked as resolved. `workflow_run` runs in the base repository's context, so it also
 works for pull requests from forks, and this action never checks out or executes PR code.
 
-Prefer a single workflow? Run it as a last job with `needs: [...]` and `if: always()`; see
+Prefer a single workflow? Run it as a last job with `needs: [...]` and `if: ${{ !cancelled() }}`; see
 [`examples/same-workflow.yml`](examples/same-workflow.yml).
 
 ## How it works
@@ -107,8 +107,10 @@ diff, or check history when the failure looks unrelated to the change.
   raw HTML, no images, and no clickable links from model text (URLs are rendered as code).
 - **Bounded cost and time.** Turn, dollar and wall-clock limits (`max-turns`, `max-cost-usd`,
   `timeout-seconds`). When a limit is near, the agent is asked for its best answer from the evidence so far.
-- **Fails open.** Action errors are warnings, never a red build. If the agent errors, refuses or there is no
-  API key, the heuristic triage still produces a comment.
+- **Fails open.** Once its inputs are valid, the action never turns a build red: its own errors are
+  warnings (unless you set `fail-on-error`). If the agent errors, refuses or there is no API key, the
+  heuristic triage still produces a comment. Invalid inputs do fail the step, because they are a workflow
+  bug.
 
 ## Evals
 

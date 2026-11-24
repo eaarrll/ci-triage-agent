@@ -23,11 +23,11 @@ jobs:
     # Failures get triaged; successes mark an earlier triage comment as resolved.
     if: contains(fromJSON('["failure", "timed_out", "success"]'), github.event.workflow_run.conclusion)
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 10 # keep it above timeout-seconds / 60 + 3
     steps:
       - uses: eaarrll/ci-triage-agent@v1
         with:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
-          # model: claude-haiku-5-5   # ~1¢ per triage instead of ~10–30¢
+          # model: claude-haiku-5-5   # ~0.1¢ per triage instead of ~4¢ (see evals/results)
           # extra-instructions: |
           #   Integration tests use Testcontainers; Docker Hub pulls go through our mirror.
