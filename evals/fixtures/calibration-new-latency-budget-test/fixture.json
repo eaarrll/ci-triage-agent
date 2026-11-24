@@ -1,0 +1,251 @@
+{
+  "id": "calibration-new-latency-budget-test",
+  "title": "A brand-new latency-budget test misses by 7% on its only run: regression or runner noise is unknowable",
+  "description": "Calibration case. PR #77 adds TestRankLatencyBudget (p95 of 100 Rank calls over a 50k-document catalog must stay under 200ms) and, in the same PR, a slog.Debug call in Rank. The new test reports p50=167ms p95=214ms and fails. It has never run anywhere before, so there is no baseline: the budget may simply be too tight for shared runners, or the PR's change may have slowed Rank (a disabled Debug call still evaluates its arguments, but len() calls are cheap). Main is green, but main does not have the test. One sample, 7% over a new threshold, on a noisy shared runner cannot separate a real regression from noise; running the test on main's code, or a few reruns, would. A calibrated answer names the 214ms against the 200ms budget, says the cause is not established and keeps confidence at medium or below; any of unknown, code, flaky or infrastructure is acceptable.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "search-api"
+  },
+  "run": {
+    "id": 19647731180,
+    "attempt": 1,
+    "workflowId": 59028441,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "perf/rank-budget",
+    "headSha": "6a0e4c8f2b5d91736a0e4c8f2b5d9173e8c2a6f0",
+    "headRepoFullName": "example-org/search-api",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19647731180",
+    "displayTitle": "Add a latency budget test for ranking",
+    "pullRequestNumbers": [
+      77
+    ],
+    "createdAt": "2026-11-24T14:03:46Z"
+  },
+  "jobs": [
+    {
+      "id": 56338204415,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-24T14:03:51Z",
+      "completedAt": "2026-11-24T14:04:26Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19647731180/job/56338204415",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T14:03:51Z",
+          "completedAt": "2026-11-24T14:03:52Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T14:03:52Z",
+          "completedAt": "2026-11-24T14:03:53Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T14:03:53Z",
+          "completedAt": "2026-11-24T14:03:55Z"
+        },
+        {
+          "number": 4,
+          "name": "Test",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-24T14:03:55Z",
+          "completedAt": "2026-11-24T14:04:24Z"
+        },
+        {
+          "number": 5,
+          "name": "Post Run actions/setup-go@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-24T14:04:24Z",
+          "completedAt": "2026-11-24T14:04:24Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T14:04:24Z",
+          "completedAt": "2026-11-24T14:04:25Z"
+        },
+        {
+          "number": 7,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T14:04:25Z",
+          "completedAt": "2026-11-24T14:04:26Z"
+        }
+      ]
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "internal/rank/rank.go",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0,
+      "patch": "@@ -1,6 +1,7 @@\n package rank\n \n import (\n+\t\"log/slog\"\n \t\"sort\"\n \t\"strings\"\n )\n@@ -29,6 +30,7 @@\n \t\t}\n \t}\n \tsort.Slice(results, func(i, j int) bool { return results[i].Score > results[j].Score })\n+\tslog.Debug(\"ranked\", \"query\", query, \"candidates\", len(docs), \"matches\", len(results))\n \tif len(results) > n {\n \t\tresults = results[:n]\n \t}",
+      "previousPath": null
+    },
+    {
+      "path": "internal/rank/budget_test.go",
+      "status": "added",
+      "additions": 41,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,41 @@\n+package rank\n+\n+import (\n+\t\"fmt\"\n+\t\"sort\"\n+\t\"testing\"\n+\t\"time\"\n+)\n+\n+// p95 of Rank over the 50k-document catalog fixture must stay under 200ms (SLO: search p95 < 300ms end to end).\n+const rankBudget = 200 * time.Millisecond\n+\n+func TestRankLatencyBudget(t *testing.T) {\n+\tif testing.Short() {\n+\t\tt.Skip(\"latency budget runs in full mode only\")\n+\t}\n+\tdocs := loadCatalog(t, \"testdata/catalog-50k.json\")\n+\tqueries := []string{\"red shoes\", \"wireless earbuds\", \"kids raincoat\", \"standing desk\", \"coffee grinder\"}\n+\n+\tvar samples []time.Duration\n+\tfor i := 0; i < 100; i++ {\n+\t\tstart := time.Now()\n+\t\tRank(docs, queries[i%len(queries)], 20)\n+\t\tsamples = append(samples, time.Since(start))\n+\t}\n+\tsort.Slice(samples, func(i, j int) bool { return samples[i] < samples[j] })\n+\tp50, p95 := samples[49], samples[94]\n+\tt.Logf(\"p50=%s p95=%s over %d runs\", p50.Round(time.Millisecond), p95.Round(time.Millisecond), len(samples))\n+\tif p95 > rankBudget {\n+\t\tt.Fatalf(\"p95 %s exceeds the %s budget\", p95.Round(time.Millisecond), rankBudget)\n+\t}\n+}\n+\n+func loadCatalog(t *testing.T, path string) []Doc {\n+\tt.Helper()\n+\tdocs, err := readCatalog(path)\n+\tif err != nil {\n+\t\tt.Fatal(fmt.Errorf(\"load %s: %w\", path, err))\n+\t}\n+\treturn docs\n+}",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test": [
+      {
+        "runId": 19645100392,
+        "attempt": 1,
+        "headSha": "c21ac5905333076a38590a87229f3a8a4b61a908",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T10:44:18Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19645100392"
+      },
+      {
+        "runId": 19645094817,
+        "attempt": 1,
+        "headSha": "1ef4caa159b6e2ba80c49839df5391c2e487d10c",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T01:24:43Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19645094817"
+      },
+      {
+        "runId": 19645082858,
+        "attempt": 1,
+        "headSha": "f6f1f818462ecc78533335df4e4ba67750343afe",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T18:41:16Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19645082858"
+      },
+      {
+        "runId": 19645074816,
+        "attempt": 1,
+        "headSha": "fc3481fe5267f4c03a6e7817e4b71047e2b65675",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T14:41:47Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19645074816"
+      },
+      {
+        "runId": 19645069471,
+        "attempt": 1,
+        "headSha": "932f010888182497402ddb4e699af56d603de51f",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T06:18:33Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19645069471"
+      },
+      {
+        "runId": 19645056843,
+        "attempt": 1,
+        "headSha": "5c55b957890299df49a604fb0870cc15d66d7429",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T22:33:15Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19645056843"
+      },
+      {
+        "runId": 19645041896,
+        "attempt": 1,
+        "headSha": "799d5ff70bf5636186224d3b1ffe86897ec4646c",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T17:43:54Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19645041896"
+      },
+      {
+        "runId": 19645031300,
+        "attempt": 1,
+        "headSha": "0ec3b889fc6d4fdf7526cc245b2b231818f72dab",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T12:18:51Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19645031300"
+      },
+      {
+        "runId": 19645026170,
+        "attempt": 1,
+        "headSha": "81da4f65f02dc7125bc3b8ea39dd96d640973d58",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T03:44:45Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19645026170"
+      },
+      {
+        "runId": 19645018156,
+        "attempt": 1,
+        "headSha": "8873b699b515ef66b8af6e0c1529f3a1fa4615a8",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T20:15:54Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/search-api/actions/runs/19645018156"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "unknown",
+      "code",
+      "flaky",
+      "infrastructure"
+    ],
+    "keywords": [
+      [
+        "214",
+        "budget",
+        "threshold",
+        "200ms",
+        "200 ms"
+      ]
+    ],
+    "maxConfidence": "medium"
+  }
+}

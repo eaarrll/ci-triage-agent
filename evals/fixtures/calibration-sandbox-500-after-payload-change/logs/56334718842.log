@@ -1,0 +1,237 @@
+2026-11-24T13:40:22.3540002Z Current runner version: '2.330.0'
+2026-11-24T13:40:22.3542495Z ##[group]Runner Image Provisioner
+2026-11-24T13:40:22.3553819Z Hosted Compute Agent
+2026-11-24T13:40:22.3569133Z Version: 20261104.502
+2026-11-24T13:40:22.3576571Z Commit: d881a35a5ed26f49739d886248d35f121eea067d
+2026-11-24T13:40:22.3576971Z Build Date: 2026-11-04T18:22:51Z
+2026-11-24T13:40:22.3592426Z Worker ID: {7f0b60fb-df7d-9f35-b5cb-b7ff8773b8d2}
+2026-11-24T13:40:22.3610371Z Azure Region: westus3
+2026-11-24T13:40:22.3628302Z ##[endgroup]
+2026-11-24T13:40:22.3630940Z ##[group]Operating System
+2026-11-24T13:40:22.3631557Z Ubuntu
+2026-11-24T13:40:22.3632764Z 24.04.3
+2026-11-24T13:40:22.3643164Z LTS
+2026-11-24T13:40:22.3659964Z ##[endgroup]
+2026-11-24T13:40:22.3663071Z ##[group]Runner Image
+2026-11-24T13:40:22.3672302Z Image: ubuntu-24.04
+2026-11-24T13:40:22.3682802Z Version: 20261116.38.1
+2026-11-24T13:40:22.3685864Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261116.38/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-24T13:40:22.3699057Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261116.38
+2026-11-24T13:40:22.3710340Z ##[endgroup]
+2026-11-24T13:40:22.3715419Z ##[group]GITHUB_TOKEN Permissions
+2026-11-24T13:40:22.3726933Z Contents: read
+2026-11-24T13:40:22.3727788Z Metadata: read
+2026-11-24T13:40:22.3732857Z ##[endgroup]
+2026-11-24T13:40:22.3743102Z Secret source: Actions
+2026-11-24T13:40:22.3759695Z Prepare workflow directory
+2026-11-24T13:40:22.3764719Z Prepare all required actions
+2026-11-24T13:40:22.3778619Z Getting action download info
+2026-11-24T13:40:22.3789633Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2026-11-24T13:40:22.3796519Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-24T13:40:22.3812240Z Complete job name: test
+2026-11-24T13:40:23.1310003Z ##[group]Run actions/checkout@v4
+2026-11-24T13:40:23.1324727Z with:
+2026-11-24T13:40:23.1328296Z   repository: example-org/payouts-service
+2026-11-24T13:40:23.1332489Z   token: ***
+2026-11-24T13:40:23.1342158Z   ssh-strict: true
+2026-11-24T13:40:23.1359496Z   ssh-user: git
+2026-11-24T13:40:23.1375072Z   persist-credentials: true
+2026-11-24T13:40:23.1391834Z   clean: true
+2026-11-24T13:40:23.1396372Z   sparse-checkout-cone-mode: true
+2026-11-24T13:40:23.1399141Z   fetch-depth: 1
+2026-11-24T13:40:23.1402558Z   fetch-tags: false
+2026-11-24T13:40:23.1411858Z   show-progress: true
+2026-11-24T13:40:23.1412827Z   lfs: false
+2026-11-24T13:40:23.1428927Z   submodules: false
+2026-11-24T13:40:23.1437803Z   set-safe-directory: true
+2026-11-24T13:40:23.1454003Z env:
+2026-11-24T13:40:23.1455641Z   BANK_API_URL: https://sandbox.bankapi.example.com
+2026-11-24T13:40:23.1471672Z   BANK_API_KEY: ***
+2026-11-24T13:40:23.1477041Z ##[endgroup]
+2026-11-24T13:40:23.1480258Z Syncing repository: example-org/payouts-service
+2026-11-24T13:40:23.1489096Z ##[group]Getting Git version info
+2026-11-24T13:40:23.1497372Z Working directory is '/home/runner/work/payouts-service/payouts-service'
+2026-11-24T13:40:23.1512927Z [command]/usr/bin/git version
+2026-11-24T13:40:23.1523703Z git version 2.51.2
+2026-11-24T13:40:23.1534796Z ##[endgroup]
+2026-11-24T13:40:23.1544034Z Temporarily overriding HOME='/home/runner/work/_temp/8e2a926e-396f-8feb-1151-9401ef6c8af9' before making global git config changes
+2026-11-24T13:40:23.1556965Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T13:40:23.1563127Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/payouts-service/payouts-service
+2026-11-24T13:40:23.1578827Z Deleting the contents of '/home/runner/work/payouts-service/payouts-service'
+2026-11-24T13:40:23.1589934Z ##[group]Initializing the repository
+2026-11-24T13:40:23.1598696Z [command]/usr/bin/git init /home/runner/work/payouts-service/payouts-service
+2026-11-24T13:40:23.1612727Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-24T13:40:23.1627489Z hint: is subject to change. To configure the initial branch name to use in all
+2026-11-24T13:40:23.1642696Z hint: of your new repositories, which will suppress this warning, call:
+2026-11-24T13:40:23.1648672Z hint:
+2026-11-24T13:40:23.1658496Z hint: 	git config --global init.defaultBranch <name>
+2026-11-24T13:40:23.1673996Z hint:
+2026-11-24T13:40:23.1679710Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-24T13:40:23.1694672Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-24T13:40:23.1702710Z hint:
+2026-11-24T13:40:23.1719010Z hint: 	git branch -m <name>
+2026-11-24T13:40:23.1726858Z Initialized empty Git repository in /home/runner/work/payouts-service/payouts-service/.git/
+2026-11-24T13:40:23.1732965Z [command]/usr/bin/git remote add origin https://github.com/example-org/payouts-service
+2026-11-24T13:40:23.1741596Z ##[endgroup]
+2026-11-24T13:40:23.1747972Z ##[group]Disabling automatic garbage collection
+2026-11-24T13:40:23.1751027Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-24T13:40:23.1756503Z ##[endgroup]
+2026-11-24T13:40:23.1769510Z ##[group]Setting up auth
+2026-11-24T13:40:23.1780810Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T13:40:23.1789696Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T13:40:23.1799458Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T13:40:23.1813110Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-24T13:40:23.1823758Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-24T13:40:23.1833265Z ##[endgroup]
+2026-11-24T13:40:23.1834027Z ##[group]Fetching the repository
+2026-11-24T13:40:23.1848334Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d4a8e2c6f0b39157d4a8e2c6f0b39157b5d9f3a7:refs/remotes/pull/340/merge
+2026-11-24T13:40:23.1865134Z From https://github.com/example-org/payouts-service
+2026-11-24T13:40:23.1868110Z  * [new ref]         d4a8e2c6f0b39157d4a8e2c6f0b39157b5d9f3a7 -> pull/340/merge
+2026-11-24T13:40:23.1872065Z ##[endgroup]
+2026-11-24T13:40:23.1879741Z ##[group]Determining the checkout info
+2026-11-24T13:40:23.1895696Z ##[endgroup]
+2026-11-24T13:40:23.1912058Z [command]/usr/bin/git sparse-checkout disable
+2026-11-24T13:40:23.1919303Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-24T13:40:23.1936672Z ##[group]Checking out the ref
+2026-11-24T13:40:23.1948272Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/340/merge
+2026-11-24T13:40:23.1951127Z Note: switching to 'refs/remotes/pull/340/merge'.
+2026-11-24T13:40:23.1956065Z 
+2026-11-24T13:40:23.1962603Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-24T13:40:23.1979141Z changes and commit them, and you can discard any commits you make in this
+2026-11-24T13:40:23.1980441Z state without impacting any branches by switching back to a branch.
+2026-11-24T13:40:23.1996158Z 
+2026-11-24T13:40:23.2002758Z If you want to create a new branch to retain commits you create, you may
+2026-11-24T13:40:23.2015096Z do so (now or later) by using -c with the switch command. Example:
+2026-11-24T13:40:23.2024772Z 
+2026-11-24T13:40:23.2025734Z   git switch -c <new-branch-name>
+2026-11-24T13:40:23.2034989Z 
+2026-11-24T13:40:23.2044365Z Or undo this operation with:
+2026-11-24T13:40:23.2049603Z 
+2026-11-24T13:40:23.2053689Z   git switch -
+2026-11-24T13:40:23.2060289Z 
+2026-11-24T13:40:23.2063603Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-24T13:40:23.2071472Z 
+2026-11-24T13:40:23.2078027Z HEAD is now at d4a8e2c Merge 1f5b9d3e7a0c26481f5b9d3e7a0c2648c3e7a1d5 into 8c2e6a0f4b7d13958c2e6a0f4b7d1395e9a3c7f1
+2026-11-24T13:40:23.2091527Z ##[endgroup]
+2026-11-24T13:40:23.2106889Z [command]/usr/bin/git log -1 --format=%H
+2026-11-24T13:40:23.2111303Z d4a8e2c6f0b39157d4a8e2c6f0b39157b5d9f3a7
+2026-11-24T13:40:24.2570004Z ##[group]Run actions/setup-python@v5
+2026-11-24T13:40:24.2575328Z with:
+2026-11-24T13:40:24.2578135Z   python-version: 3.12
+2026-11-24T13:40:24.2582366Z   cache: pip
+2026-11-24T13:40:24.2585242Z   check-latest: false
+2026-11-24T13:40:24.2588204Z   token: ***
+2026-11-24T13:40:24.2605711Z   update-environment: true
+2026-11-24T13:40:24.2623304Z   allow-prereleases: false
+2026-11-24T13:40:24.2633742Z   freethreaded: false
+2026-11-24T13:40:24.2634580Z env:
+2026-11-24T13:40:24.2637780Z   BANK_API_URL: https://sandbox.bankapi.example.com
+2026-11-24T13:40:24.2650059Z   BANK_API_KEY: ***
+2026-11-24T13:40:24.2658442Z ##[endgroup]
+2026-11-24T13:40:24.2662111Z ##[group]Installed versions
+2026-11-24T13:40:24.2675211Z Successfully set up CPython (3.12.12)
+2026-11-24T13:40:24.2685611Z ##[endgroup]
+2026-11-24T13:40:24.2697535Z [command]/opt/hostedtoolcache/Python/3.12.12/x64/bin/pip cache dir
+2026-11-24T13:40:24.2703135Z /home/runner/.cache/pip
+2026-11-24T13:40:24.9705211Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.12-pip-9d4ea5fbf89951b829c68d2c514f34ae49f0bb917c3b583e097f164f4748c3ef
+2026-11-24T13:40:26.1600006Z ##[group]Run pip install -e ".[dev]"
+2026-11-24T13:40:26.1600406Z [36;1mpip install -e ".[dev]"[0m
+2026-11-24T13:40:26.1613237Z shell: /usr/bin/bash -e {0}
+2026-11-24T13:40:26.1623320Z env:
+2026-11-24T13:40:26.1624668Z   BANK_API_URL: https://sandbox.bankapi.example.com
+2026-11-24T13:40:26.1638199Z   BANK_API_KEY: ***
+2026-11-24T13:40:26.1643899Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.12/x64
+2026-11-24T13:40:26.1652475Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.12/x64/lib
+2026-11-24T13:40:26.1669651Z ##[endgroup]
+2026-11-24T13:40:26.1682444Z Obtaining file:///home/runner/work/payouts-service/payouts-service
+2026-11-24T13:40:26.1688613Z   Installing build dependencies: started
+2026-11-24T13:40:27.3701269Z   Installing build dependencies: finished with status 'done'
+2026-11-24T13:40:27.3709845Z Collecting requests>=2.32 (from payouts-service==2.4.0)
+2026-11-24T13:40:27.3723007Z   Using cached requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+2026-11-24T13:40:27.3738238Z Collecting pytest>=8 (from payouts-service==2.4.0)
+2026-11-24T13:40:27.3751721Z   Using cached pytest-8.4.2-py3-none-any.whl.metadata (7.7 kB)
+2026-11-24T13:40:27.3759745Z Collecting responses>=0.25 (from payouts-service==2.4.0)
+2026-11-24T13:40:27.3772607Z   Using cached responses-0.25.8-py3-none-any.whl.metadata (47 kB)
+2026-11-24T13:40:28.9790584Z Successfully installed certifi-2025.11.12 charset_normalizer-3.4.4 idna-3.11 iniconfig-2.3.0 packaging-25.0 payouts-service-2.4.0 pluggy-1.6.0 pygments-2.19.2 pytest-8.4.2 pyyaml-6.0.3 requests-2.32.5 responses-0.25.8 urllib3-2.5.0
+2026-11-24T13:40:30.1320000Z ##[group]Run pytest tests/unit
+2026-11-24T13:40:30.1332679Z [36;1mpytest tests/unit[0m
+2026-11-24T13:40:30.1347924Z shell: /usr/bin/bash -e {0}
+2026-11-24T13:40:30.1358093Z env:
+2026-11-24T13:40:30.1361724Z   BANK_API_URL: https://sandbox.bankapi.example.com
+2026-11-24T13:40:30.1372624Z   BANK_API_KEY: ***
+2026-11-24T13:40:30.1381586Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.12/x64
+2026-11-24T13:40:30.1392500Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.12/x64/lib
+2026-11-24T13:40:30.1400993Z ##[endgroup]
+2026-11-24T13:40:30.1411193Z ============================= test session starts ==============================
+2026-11-24T13:40:30.1412893Z platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0
+2026-11-24T13:40:30.1430524Z rootdir: /home/runner/work/payouts-service/payouts-service
+2026-11-24T13:40:30.1435986Z configfile: pyproject.toml
+2026-11-24T13:40:30.1449748Z collected 31 items
+2026-11-24T13:40:30.1466124Z 
+2026-11-24T13:40:30.7477948Z tests/unit/test_bank_client.py ...........                               [ 35%]
+2026-11-24T13:40:30.7482200Z tests/unit/test_service.py ............                                  [ 74%]
+2026-11-24T13:40:30.7496017Z tests/unit/test_webhooks.py ........                                     [100%]
+2026-11-24T13:40:30.7499700Z 
+2026-11-24T13:40:30.7500117Z ============================== 31 passed in 0.94s ==============================
+2026-11-24T13:40:32.2020002Z ##[group]Run pytest tests/integration -v
+2026-11-24T13:40:32.2022919Z [36;1mpytest tests/integration -v[0m
+2026-11-24T13:40:32.2031288Z shell: /usr/bin/bash -e {0}
+2026-11-24T13:40:32.2034695Z env:
+2026-11-24T13:40:32.2048195Z   BANK_API_URL: https://sandbox.bankapi.example.com
+2026-11-24T13:40:32.2056326Z   BANK_API_KEY: ***
+2026-11-24T13:40:32.2065540Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.12/x64
+2026-11-24T13:40:32.2068526Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.12/x64/lib
+2026-11-24T13:40:32.2081795Z ##[endgroup]
+2026-11-24T13:40:32.2099688Z ============================= test session starts ==============================
+2026-11-24T13:40:32.2103757Z platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0 -- /opt/hostedtoolcache/Python/3.12.12/x64/bin/python
+2026-11-24T13:40:32.2105333Z cachedir: .pytest_cache
+2026-11-24T13:40:32.2113119Z rootdir: /home/runner/work/payouts-service/payouts-service
+2026-11-24T13:40:32.2126733Z configfile: pyproject.toml
+2026-11-24T13:40:32.2134419Z collecting ... collected 3 items
+2026-11-24T13:40:32.2147226Z 
+2026-11-24T13:40:33.0149289Z tests/integration/test_bank_sandbox.py::test_sandbox_balance PASSED        [ 33%]
+2026-11-24T13:40:34.9156780Z tests/integration/test_bank_sandbox.py::test_create_payout_sandbox FAILED  [ 66%]
+2026-11-24T13:40:35.8167950Z tests/integration/test_bank_sandbox.py::test_get_payout_sandbox PASSED     [100%]
+2026-11-24T13:40:35.8182881Z 
+2026-11-24T13:40:35.8195274Z =================================== FAILURES ===================================
+2026-11-24T13:40:35.8210167Z __________________________ test_create_payout_sandbox __________________________
+2026-11-24T13:40:35.8221205Z 
+2026-11-24T13:40:35.8231298Z client = <payouts.bank.BankClient object at 0x7f6a1c2b3d90>
+2026-11-24T13:40:35.8243712Z 
+2026-11-24T13:40:35.8256136Z     def test_create_payout_sandbox(client):
+2026-11-24T13:40:35.8272005Z >       payout = client.create_payout(SANDBOX_ACCOUNT, Decimal("12.50"), "EUR", reference="ACME ORDER 100231")
+2026-11-24T13:40:35.8282112Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-24T13:40:35.8283567Z 
+2026-11-24T13:40:35.8295967Z tests/integration/test_bank_sandbox.py:25: 
+2026-11-24T13:40:35.8307943Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+2026-11-24T13:40:35.8322929Z src/payouts/bank.py:41: in create_payout
+2026-11-24T13:40:35.8330212Z     res.raise_for_status()
+2026-11-24T13:40:35.8343412Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+2026-11-24T13:40:35.8358912Z 
+2026-11-24T13:40:35.8363336Z self = <Response [500]>
+2026-11-24T13:40:35.8364381Z 
+2026-11-24T13:40:35.8375898Z     def raise_for_status(self):
+2026-11-24T13:40:35.8383150Z         ...
+2026-11-24T13:40:35.8389436Z >           raise HTTPError(http_error_msg, response=self)
+2026-11-24T13:40:35.8393850Z E           requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://sandbox.bankapi.example.com/v2/payouts
+2026-11-24T13:40:35.8399229Z 
+2026-11-24T13:40:35.8413836Z /opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/requests/models.py:1026: HTTPError
+2026-11-24T13:40:35.8415781Z ------------------------------ Captured log call -------------------------------
+2026-11-24T13:40:35.8417743Z DEBUG    urllib3.connectionpool:connectionpool.py:544 https://sandbox.bankapi.example.com:443 "POST /v2/payouts HTTP/1.1" 500 63
+2026-11-24T13:40:35.8422412Z =========================== short test summary info ============================
+2026-11-24T13:40:35.8429312Z FAILED tests/integration/test_bank_sandbox.py::test_create_payout_sandbox - requests.exceptions.HTTPError: 500 Server Error: Internal Server Error for url: https://sandbox.bankapi.example.com/v2/payouts
+2026-11-24T13:40:35.8446498Z ========================= 1 failed, 2 passed in 3.71s ==========================
+2026-11-24T13:40:35.8464381Z ##[error]Process completed with exit code 1.
+2026-11-24T13:40:37.3530007Z Post job cleanup.
+2026-11-24T13:40:37.3535014Z [command]/usr/bin/git version
+2026-11-24T13:40:37.3544007Z git version 2.51.2
+2026-11-24T13:40:37.3550469Z Temporarily overriding HOME='/home/runner/work/_temp/0bff3a63-58af-c535-2088-222a383319c3' before making global git config changes
+2026-11-24T13:40:37.3555083Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T13:40:37.3569514Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/payouts-service/payouts-service
+2026-11-24T13:40:37.3585614Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T13:40:37.3597090Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T13:40:37.3602821Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T13:40:37.3616638Z http.https://github.com/.extraheader
+2026-11-24T13:40:37.3627952Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-24T13:40:37.3628590Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http\.https\:\/\/github\.com\/\.extraheader' || :"
+2026-11-24T13:40:38.0910008Z Cleaning up orphan processes

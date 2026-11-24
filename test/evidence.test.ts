@@ -163,6 +163,27 @@ describe("checkEvidence", () => {
   });
 });
 
+describe("text the agent was shown", () => {
+  it("verifies a quote from the first message or a tool result, but not as a log line", async () => {
+    const [fixture] = loadFixtures(FIXTURES, ["mini"]);
+    if (fixture === undefined) throw new Error("mini fixture missing");
+    const seen = ["Log error: Logs for job 101 are unavailable (expired or deleted)"];
+    const src = await loadEvidenceSources(withRedaction(createFixtureBackend(fixture)), seen);
+    expect(
+      await checkEvidence(ev("test", null, "Logs for job 101 are unavailable (expired or deleted)"), src),
+    ).toMatchObject({
+      verdict: "verified",
+      foundAt: "agent context",
+    });
+    expect((await checkEvidence(ev("test", 4, "Logs for job 101 are unavailable"), src)).verdict).toBe(
+      "misplaced",
+    );
+    expect((await checkEvidence(ev("test", null, "Logs for job 102 are unavailable"), src)).verdict).toBe(
+      "not_found",
+    );
+  });
+});
+
 describe("gradeEvidence", () => {
   const result = (evidence: TriageEvidence[]): TriageResult => ({
     category: "code",

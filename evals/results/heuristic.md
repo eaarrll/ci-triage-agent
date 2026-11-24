@@ -1,16 +1,16 @@
 # Eval results: heuristic
 
-Run on 2026-11-24 · mode **heuristic** (signature matching, no LLM) · 25 fixtures × 1 repeat
+Run on 2026-11-24 · mode **heuristic** (signature matching, no LLM) · 29 fixtures × 1 repeat
 
 | Metric | Value |
 | --- | --- |
-| Pass rate | 4/25 (16%) |
+| Pass rate | 7/29 (24%) |
 | Errors | 0 |
 | Cost per case | mean $0.0000, median $0.0000 |
 | Total cost | $0.0000 |
 | Mean turns | 0.0 |
-| Latency | p50 5 ms, p95 13 ms |
-| Evidence | 67/67 quotes verified (100%) · 0 misplaced · 0 not found · all verified in 25/25 cases |
+| Latency | p50 5 ms, p95 19 ms |
+| Evidence | 74/74 quotes verified (100%) · 0 misplaced · 0 not found · all verified in 28/29 cases |
 
 ## By expected category
 
@@ -22,6 +22,7 @@ Run on 2026-11-24 · mode **heuristic** (signature matching, no LLM) · 25 fixtu
 | infrastructure | 2/4 | 50% |
 | cloud_auth | 2/4 | 50% |
 | configuration | 0/3 | 0% |
+| unknown | 3/4 | 75% |
 
 ## Cases
 
@@ -30,6 +31,10 @@ Run on 2026-11-24 · mode **heuristic** (signature matching, no LLM) · 25 fixtu
 | ❌ | aws-iam-passrole | cloud_auth | cloud_auth (low) | $0.0000 | 0 | none | 2/2 | missing keywords: PassRole |
 | ✅ | aws-quota-vcpu | cloud_auth / configuration | cloud_auth (low) | $0.0000 | 0 | none | 3/3 |  |
 | ✅ | azure-oidc-subject-mismatch | cloud_auth / configuration | cloud_auth (low) | $0.0000 | 0 | none | 2/2 |  |
+| ✅ | calibration-job-never-started | unknown / infrastructure / configuration | unknown (low) | $0.0000 | 0 | none | 0/0 |  |
+| ✅ | calibration-new-latency-budget-test | unknown / code / flaky / infrastructure | unknown (low) | $0.0000 | 0 | none | 3/3 |  |
+| ✅ | calibration-sandbox-500-after-payload-change | unknown / code / flaky / infrastructure | unknown (low) | $0.0000 | 0 | none | 3/3 |  |
+| ❌ | calibration-segfault-after-native-bump | unknown / dependency / flaky / infrastructure / code | unknown (low) | $0.0000 | 0 | none | 1/1 | missing keywords: segmentation fault/segfault/SIGSEGV/139/crash |
 | ❌ | deploy-missing-entrypoint-tsconfig-include | code / configuration | infrastructure (low) | $0.0000 | 0 | none | 3/3 | category infrastructure, expected code or configuration; missing keywords: tsconfig, rootDir/dist/src/common root/common source directory; fix location not identified |
 | ❌ | disk-full-docker | infrastructure / code | infrastructure (low) | $0.0000 | 0 | none | 3/3 | missing keywords: tensorrt/onnx/requirements-gpu |
 | ❌ | docker-oom-137 | infrastructure / code | infrastructure (low) | $0.0000 | 0 | none | 3/3 | missing keywords: plotly |

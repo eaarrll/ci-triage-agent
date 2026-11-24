@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createFixtureBackend, loadFixtures, normalizeRepoPath } from "../evals/fixture.js";
 import type { FixtureExpectation, FixtureFile, LoadedFixture } from "../evals/fixture.js";
 import { grade } from "../evals/grade.js";
+import { buildContext } from "../src/context.js";
 import {
   DEFAULT_OUT_DIR,
   UsageError,
@@ -19,6 +20,7 @@ import {
   percentile,
   renderConsoleTable,
   renderMarkdownReport,
+  replayToolResults,
   reportHeader,
   summarize,
   summarizeTools,
@@ -156,6 +158,27 @@ describe("loadFixtures", () => {
       }),
     });
     expect(() => loadFixtures(timedOut)).toThrow(/failed job "e2e" \(id 103\) has no logs\/103\.log/);
+  });
+
+  it("lets a failed job's log be unavailable when the fixture says so", async () => {
+    const root = makeRoot({
+      gone: (f) => ({
+        ...f,
+        jobs: [...f.jobs, { ...f.jobs[1], id: 103, name: "deploy", conclusion: "failure", steps: [] }],
+        unavailableLogs: [103],
+      }),
+    });
+    const [fixture] = loadFixtures(root);
+    if (fixture === undefined) throw new Error("fixture missing");
+    await expect(createFixtureBackend(fixture).getJobLog(103)).rejects.toThrow(
+      "Logs for job 103 are unavailable (expired or deleted)",
+    );
+    expect(() => loadFixtures(makeRoot({ bad: (f) => ({ ...f, unavailableLogs: [999] }) }))).toThrow(
+      /unavailableLogs lists 999, which is not a job of the run/,
+    );
+    expect(() => loadFixtures(makeRoot({ both: (f) => ({ ...f, unavailableLogs: [101] }) }))).toThrow(
+      /job 101 is in unavailableLogs but has logs\/101\.log/,
+    );
   });
 
   it("does not require logs for jobs that succeeded", () => {
@@ -392,7 +415,24 @@ describe("grade", () => {
       forbiddenHits: [],
       flakyOk: true,
       fixPathOk: true,
+      confidenceOk: null,
     });
+  });
+
+  it("fails a result more confident than maxConfidence allows", () => {
+    const unsure: FixtureExpectation = {
+      categories: ["code", "unknown"],
+      keywords: [],
+      maxConfidence: "medium",
+    };
+    expect(grade(triage({ confidence: "high" }), unsure)).toMatchObject({ pass: false, confidenceOk: false });
+    expect(grade(triage({ confidence: "medium" }), unsure)).toMatchObject({ pass: true, confidenceOk: true });
+    expect(grade(triage({ confidence: "medium" }), { ...unsure, maxConfidence: "low" })).toMatchObject({
+      pass: false,
+      confidenceOk: false,
+    });
+    expect(grade(triage({ confidence: "low" }), { ...unsure, maxConfidence: "low" }).confidenceOk).toBe(true);
+    expect(grade(null, unsure).confidenceOk).toBe(false);
   });
 
   it("accepts any of the expected categories", () => {
@@ -511,10 +551,12 @@ describe("grade", () => {
       forbiddenHits: [],
       flakyOk: false,
       fixPathOk: false,
+      confidenceOk: null,
     });
     const minimal = grade(null, { categories: ["code"], keywords: [] });
     expect(minimal.flakyOk).toBeNull();
     expect(minimal.fixPathOk).toBeNull();
+    expect(minimal.confidenceOk).toBeNull();
     expect(minimal.pass).toBe(false);
   });
 });
@@ -687,6 +729,37 @@ function record(overrides: Partial<CaseRecord>): CaseRecord {
   return { ...toCaseRecord(MINI_FILE(), 1, okOutcome(triage()), 1500), ...overrides };
 }
 
+describe("replayToolResults", () => {
+  it("rebuilds what each traced tool call returned, errors included", async () => {
+    const backend = createFixtureBackend(loadMini());
+    const ctx = await buildContext(backend);
+    const results = await replayToolResults(ctx, backend, [
+      { turn: 1, name: "get_job_history", input: { job: "test" }, ok: true, resultChars: 0, durationMs: 0 },
+      {
+        turn: 1,
+        name: "read_file",
+        input: { path: "src/discount.py" },
+        ok: true,
+        resultChars: 0,
+        durationMs: 0,
+      },
+      {
+        turn: 2,
+        name: "search_log",
+        input: { job: "nope", pattern: "x" },
+        ok: false,
+        resultChars: 0,
+        durationMs: 0,
+      },
+      { turn: 2, name: "no_such_tool", input: {}, ok: false, resultChars: 0, durationMs: 0 },
+    ]);
+    expect(results).toHaveLength(3);
+    expect(results[0]).toContain('History of job "test"');
+    expect(results[1]).toContain("return int(round(price_cents * (100 - percent) / 100, -1))");
+    expect(results[2]).toMatch(/nope/);
+  });
+});
+
 describe("toCaseRecord", () => {
   it("grades an ok outcome and flattens usage and trace", () => {
     const r = toCaseRecord(MINI_FILE(), 2, okOutcome(triage()), 1234.6);
@@ -701,6 +774,8 @@ describe("toCaseRecord", () => {
       forbiddenHits: [],
       flakyOk: true,
       fixPathOk: true,
+      maxConfidence: null,
+      confidenceOk: null,
       costUsd: 0.0421,
       inputTokens: 12_000,
       outputTokens: 900,
@@ -782,6 +857,9 @@ describe("failureReasons", () => {
       forbiddenHits: ["CANARY-7731"],
       flakyOk: false,
       fixPathOk: false,
+      confidence: "high",
+      maxConfidence: "low",
+      confidenceOk: false,
     });
     expect(failureReasons(r)).toEqual([
       "category flaky, expected code or dependency",
@@ -789,6 +867,7 @@ describe("failureReasons", () => {
       "forbidden text: CANARY-7731",
       "wrong flaky_suspected",
       "fix location not identified",
+      "confidence high, expected at most low",
     ]);
   });
 

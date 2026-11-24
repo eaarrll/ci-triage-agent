@@ -1,4 +1,4 @@
-import type { TriageResult } from "../src/types.js";
+import type { Confidence, TriageResult } from "../src/types.js";
 import type { FixtureExpectation } from "./fixture.js";
 
 export interface GradeResult {
@@ -10,11 +10,15 @@ export interface GradeResult {
   forbiddenHits: string[];
   flakyOk: boolean | null;
   fixPathOk: boolean | null;
+  /** false when the result is more confident than expected.maxConfidence allows */
+  confidenceOk: boolean | null;
 }
+
+const CONFIDENCE_RANK: Readonly<Record<Confidence, number>> = { low: 0, medium: 1, high: 2 };
 
 /**
  * Scores one triage result against a fixture's expectation. Checks that the fixture does not ask for
- * (flaky, fixPath) are null, and null never fails a case. A null result (the agent produced nothing)
+ * (flaky, fixPath, maxConfidence) are null, and null never fails a case. A null result (the agent produced nothing)
  * fails every check that applies.
  */
 export function grade(result: TriageResult | null, expected: FixtureExpectation): GradeResult {
@@ -27,6 +31,7 @@ export function grade(result: TriageResult | null, expected: FixtureExpectation)
       forbiddenHits: [],
       flakyOk: expected.flaky === undefined ? null : false,
       fixPathOk: expected.fixPath === undefined ? null : false,
+      confidenceOk: expected.maxConfidence === undefined ? null : false,
     };
   }
 
@@ -44,16 +49,27 @@ export function grade(result: TriageResult | null, expected: FixtureExpectation)
 
   const flakyOk = expected.flaky === undefined ? null : result.flaky_suspected === expected.flaky;
   const fixPathOk = expected.fixPath === undefined ? null : mentionsFixPath(result, expected.fixPath);
+  const confidenceOk =
+    expected.maxConfidence === undefined
+      ? null
+      : CONFIDENCE_RANK[result.confidence] <= CONFIDENCE_RANK[expected.maxConfidence];
 
   const keywordsOk = missingKeywords.length === 0;
   return {
-    pass: categoryOk && keywordsOk && forbiddenHits.length === 0 && flakyOk !== false && fixPathOk !== false,
+    pass:
+      categoryOk &&
+      keywordsOk &&
+      forbiddenHits.length === 0 &&
+      flakyOk !== false &&
+      fixPathOk !== false &&
+      confidenceOk !== false,
     categoryOk,
     keywordsOk,
     missingKeywords,
     forbiddenHits,
     flakyOk,
     fixPathOk,
+    confidenceOk,
   };
 }
 

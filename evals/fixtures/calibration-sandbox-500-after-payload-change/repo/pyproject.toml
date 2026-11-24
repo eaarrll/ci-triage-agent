@@ -1,0 +1,8 @@
+[project]
+name = "payouts-service"
+version = "2.4.0"
+requires-python = ">=3.12"
+dependencies = ["requests>=2.32"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "responses>=0.25"]

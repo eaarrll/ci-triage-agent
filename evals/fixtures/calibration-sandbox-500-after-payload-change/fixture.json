@@ -1,0 +1,272 @@
+{
+  "id": "calibration-sandbox-500-after-payload-change",
+  "title": "Bank sandbox answers HTTP 500 to the payout request the PR changed; the run cannot say whose fault it is",
+  "description": "Calibration case. PR #340 adds an optional statement_reference field to the create-payout request body. In the sandbox integration tests, the balance and get-payout reads pass, but test_create_payout_sandbox, the only test that creates a payout and now sends a reference, gets '500 Server Error: Internal Server Error' with no further detail. Two explanations fit: the new field trips a bug on the bank's side (a 5xx, not the 4xx a rejected field would usually get), or the sandbox, which the README calls best-effort and which failed once in the last 10 main runs, had a transient error. The run has one attempt and nothing that separates them; a rerun, or the same request without the field, would. A calibrated answer names the 500, says the cause is not established, and keeps confidence at medium or below; any of unknown, code, flaky or infrastructure is acceptable.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "payouts-service"
+  },
+  "run": {
+    "id": 19645520731,
+    "attempt": 1,
+    "workflowId": 66401882,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/payout-reference",
+    "headSha": "1f5b9d3e7a0c26481f5b9d3e7a0c2648c3e7a1d5",
+    "headRepoFullName": "example-org/payouts-service",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19645520731",
+    "displayTitle": "Send an order reference with seller payouts",
+    "pullRequestNumbers": [
+      340
+    ],
+    "createdAt": "2026-11-24T13:40:17Z"
+  },
+  "jobs": [
+    {
+      "id": 56334718842,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-24T13:40:22Z",
+      "completedAt": "2026-11-24T13:40:39Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19645520731/job/56334718842",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:40:22Z",
+          "completedAt": "2026-11-24T13:40:23Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:40:23Z",
+          "completedAt": "2026-11-24T13:40:24Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:40:24Z",
+          "completedAt": "2026-11-24T13:40:26Z"
+        },
+        {
+          "number": 4,
+          "name": "Run pip install -e \".[dev]\"",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:40:26Z",
+          "completedAt": "2026-11-24T13:40:30Z"
+        },
+        {
+          "number": 5,
+          "name": "Unit tests",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:40:30Z",
+          "completedAt": "2026-11-24T13:40:32Z"
+        },
+        {
+          "number": 6,
+          "name": "Sandbox integration tests",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-24T13:40:32Z",
+          "completedAt": "2026-11-24T13:40:37Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-24T13:40:37Z",
+          "completedAt": "2026-11-24T13:40:37Z"
+        },
+        {
+          "number": 8,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:40:37Z",
+          "completedAt": "2026-11-24T13:40:38Z"
+        },
+        {
+          "number": 9,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:40:38Z",
+          "completedAt": "2026-11-24T13:40:39Z"
+        }
+      ]
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "src/payouts/bank.py",
+      "status": "modified",
+      "additions": 6,
+      "deletions": 1,
+      "patch": "@@ -25,12 +25,17 @@\n         self.session.headers[\"Authorization\"] = f\"Bearer {api_key or os.environ['BANK_API_KEY']}\"\n         self.timeout = timeout\n \n-    def create_payout(self, account_id: str, amount: Decimal, currency: str) -> Payout:\n+    def create_payout(\n+        self, account_id: str, amount: Decimal, currency: str, reference: str | None = None\n+    ) -> Payout:\n         body = {\n             \"destination_account\": account_id,\n             \"amount\": str(amount),\n             \"currency\": currency,\n         }\n+        if reference is not None:\n+            # Shown on the recipient's bank statement (v2 API: max 35 characters).\n+            body[\"statement_reference\"] = reference[:35]\n         headers = {\"Idempotency-Key\": str(uuid.uuid4())}\n         res = self.session.post(f\"{self.base_url}/v2/payouts\", json=body, headers=headers, timeout=self.timeout)\n         res.raise_for_status()",
+      "previousPath": null
+    },
+    {
+      "path": "src/payouts/service.py",
+      "status": "modified",
+      "additions": 5,
+      "deletions": 2,
+      "patch": "@@ -3,7 +3,10 @@\n from .bank import BankClient, Payout\n \n \n-def pay_seller(client: BankClient, seller_account: str, amount: Decimal, currency: str = \"EUR\") -> Payout:\n+def pay_seller(\n+    client: BankClient, seller_account: str, amount: Decimal, currency: str = \"EUR\", order_id: str | None = None\n+) -> Payout:\n     if amount <= 0:\n         raise ValueError(\"amount must be positive\")\n-    return client.create_payout(seller_account, amount, currency)\n+    reference = f\"ACME ORDER {order_id}\" if order_id else None\n+    return client.create_payout(seller_account, amount, currency, reference=reference)",
+      "previousPath": null
+    },
+    {
+      "path": "tests/integration/test_bank_sandbox.py",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -22,7 +22,7 @@\n \n \n def test_create_payout_sandbox(client):\n-    payout = client.create_payout(SANDBOX_ACCOUNT, Decimal(\"12.50\"), \"EUR\")\n+    payout = client.create_payout(SANDBOX_ACCOUNT, Decimal(\"12.50\"), \"EUR\", reference=\"ACME ORDER 100231\")\n     assert payout.status in {\"pending\", \"in_transit\"}\n \n ",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test": [
+      {
+        "runId": 19642207718,
+        "attempt": 1,
+        "headSha": "e9301f54663655949d90f56b60f924652e2a7e42",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T11:22:47Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19642207718"
+      },
+      {
+        "runId": 19642196374,
+        "attempt": 1,
+        "headSha": "e8ec4c3d633603bbd05a290476548823c78b1667",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T07:08:01Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19642196374"
+      },
+      {
+        "runId": 19642188762,
+        "attempt": 1,
+        "headSha": "329a0ebf629724325fd2e1d44dfcd38294d2fe22",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T21:48:38Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19642188762"
+      },
+      {
+        "runId": 19642176147,
+        "attempt": 1,
+        "headSha": "02a6c864f5e8af70e7d7c76213bce754011b39fd",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T12:39:18Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19642176147"
+      },
+      {
+        "runId": 19642168224,
+        "attempt": 1,
+        "headSha": "f4a5354fd2a3ec92c032facf8caeb90027a244fd",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "failure",
+        "createdAt": "2026-11-23T05:34:44Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19642168224"
+      },
+      {
+        "runId": 19642154755,
+        "attempt": 1,
+        "headSha": "e08e71955df4f01d8b427244a43bf4f461a69506",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T21:40:29Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19642154755"
+      },
+      {
+        "runId": 19642142773,
+        "attempt": 1,
+        "headSha": "2ee464fb6093f99ddaecaeb958244cb14dbd4cb6",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T12:52:36Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19642142773"
+      },
+      {
+        "runId": 19642128999,
+        "attempt": 1,
+        "headSha": "5d14e9c1cbe08b55b0dd9f829e9cbec58b6f72ef",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T05:02:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19642128999"
+      },
+      {
+        "runId": 19642118320,
+        "attempt": 1,
+        "headSha": "044504e34b6834b0f7159b8f0bb5a9295f9c54f3",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T21:02:27Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19642118320"
+      },
+      {
+        "runId": 19642107881,
+        "attempt": 1,
+        "headSha": "ae905aca5f1de83ddb32deb9fbf613514dc54383",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T12:55:31Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/payouts-service/actions/runs/19642107881"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "unknown",
+      "code",
+      "flaky",
+      "infrastructure"
+    ],
+    "keywords": [
+      [
+        "500",
+        "Internal Server Error"
+      ]
+    ],
+    "maxConfidence": "medium"
+  }
+}

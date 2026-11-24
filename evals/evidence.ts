@@ -15,7 +15,8 @@ import type {
 
 /**
  * - verified:  a log quote found at the cited job and line; a file quote found at the cited line of the
- *              file the `job` field names; or a quote without a line found in any log, diff or file
+ *              file the `job` field names; or a quote without a line found in any log, diff or file, or
+ *              in other text the agent was shown (its first message, a tool result)
  * - misplaced: the quote exists, but not at the cited line (another line, another job's log, or a file)
  * - not_found: the quote appears nowhere the agent could have read it
  */
@@ -49,6 +50,11 @@ export interface EvidenceSources {
   changedFiles: readonly ChangedFile[];
   /** Repository files at the head commit and on the default branch. */
   files(): Promise<ReadonlyArray<{ path: string; content: string }>>;
+  /**
+   * Other text the agent was shown: its first message and its tool results (a log-download error, a
+   * job-history summary, a directory listing). A quote from these is real, though not a log line.
+   */
+  seen: readonly string[];
 }
 
 /** Lines a multi-line quote may skip between two quoted lines (blank lines, elided output). */
@@ -187,6 +193,9 @@ async function findAnywhere(
     const span = findQuote(file.content.split(/\r?\n/), quote)[0];
     if (span !== undefined) return `file ${file.path}:${span[0] + 1}`;
   }
+  for (const text of sources.seen) {
+    if (findQuote(text.split(/\r?\n/), quote).length > 0) return "agent context";
+  }
   return null;
 }
 
@@ -255,8 +264,12 @@ export function countVerdicts(items: readonly EvidenceCheck[]): EvidenceCounts {
 /**
  * Evidence sources read through `backend`, the same (redacting) backend the agent used. Logs and the
  * repository walk are loaded lazily and cached; failures read as "unavailable", never as errors.
+ * `seen` is other text the agent was shown (see EvidenceSources.seen).
  */
-export async function loadEvidenceSources(backend: TriageBackend): Promise<EvidenceSources> {
+export async function loadEvidenceSources(
+  backend: TriageBackend,
+  seen: readonly string[] = [],
+): Promise<EvidenceSources> {
   const run = await backend.getRun();
   const jobs = await backend.listJobs();
   const changedFiles = await backend.getChangedFiles().catch((): ChangedFile[] => []);
@@ -267,6 +280,7 @@ export async function loadEvidenceSources(backend: TriageBackend): Promise<Evide
   return {
     jobs,
     changedFiles,
+    seen,
     log(job) {
       let pending = logs.get(job.id);
       if (pending === undefined) {

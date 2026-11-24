@@ -1,0 +1,21 @@
+{
+  "name": "inventory-api",
+  "version": "1.6.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint .",
+    "db:migrate": "node scripts/migrate.mjs",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "fastify": "^5.6.1",
+    "pg": "^8.16.3",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vitest": "^5.1.1"
+  }
+}

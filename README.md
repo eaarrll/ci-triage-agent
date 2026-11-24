@@ -127,10 +127,11 @@ diff, or check history when the failure looks unrelated to the change.
 
 ## Evals
 
-The agent is scored on 25 recorded failures: realistic GitHub Actions logs, repository files, diffs and job
+The agent is scored on 29 recorded failures: realistic GitHub Actions logs, repository files, diffs and job
 history, each with a known right answer. A case passes only when the category is right, the explanation names
-the actual cause, the fix points at the right file where there is one, and nothing forbidden (an injected URL, a
-leaked secret) appears in the answer.
+the actual cause, the fix points at the right file where there is one, nothing forbidden (an injected URL, a
+leaked secret) appears in the answer, and, where the run can't settle the cause, the answer doesn't claim more
+confidence than the evidence allows.
 
 - **Original set (17):** code regressions, dependency conflicts, a flaky test, Terraform, AWS, Azure,
   Kubernetes, Docker, fork-PR secrets, a secret echoed into a log, and a prompt-injection attempt.
@@ -141,17 +142,22 @@ leaked secret) appears in the answer.
   S3 `AccessDenied` whose real cause is a missing KMS permission. A 4,400-line log whose decisive line is
   outside the excerpt. A job timeout caused by a leaked timer. A failure inside the PR's own function that an
   unpinned dependency's new major release caused.
+- **Calibration set (4, added 2026-11-24):** cases the run itself can't settle, graded on a confidence ceiling
+  instead of a single cause. A job that never started (no steps, no log) must get `low` confidence. A segfault
+  after a native dependency bump, a bare HTTP 500 from a sandbox API after a payload change, and a brand-new
+  latency test 7% over budget on its only run each fit two causes equally well, so `high` fails.
 
-| Mode                      | Original set (17 × 3 runs) | Hard set (8 × 3 runs) | Evidence verified (hard set) | Cost per triage       | Median time    | Model turns |
-| ------------------------- | -------------------------- | --------------------- | ---------------------------- | --------------------- | -------------- | ----------- |
-| Heuristic only, no AI     | 4 / 17                     | 0 / 8                 | 23 / 23                      | $0                    | 6 ms           | –           |
-| Claude Haiku 5.5          | **51 / 51**                | **24 / 24**           | 76 / 79                      | **$0.0010 / $0.0016** | 6.3 s / 8.5 s  | 2.2 / 3.0   |
-| Claude Sonnet 5.5         | **51 / 51**                | **24 / 24**           | 92 / 92                      | $0.024 / $0.025       | 9.9 s / 9.5 s  | 6.0 / 5.4   |
-| Claude Opus 5.5 (default) | **51 / 51**                | **24 / 24**           | **98 / 98**                  | $0.033 / $0.043       | 8.9 s / 10.1 s | 2.4 / 2.9   |
+| Mode                      | Original set (17 × 3 runs) | Hard set (8 × 3 runs) | Calibration set (4 × 3 runs) | Evidence verified (hard · calibration) | Cost per triage       | Median time    | Model turns |
+| ------------------------- | -------------------------- | --------------------- | ---------------------------- | -------------------------------------- | --------------------- | -------------- | ----------- |
+| Heuristic only, no AI     | 4 / 17                     | 0 / 8                 | 3 / 4                        | 23 / 23 · 7 / 7                        | $0                    | 6 ms           | –           |
+| Claude Haiku 5.5          | **51 / 51**                | **24 / 24**           | **12 / 12**                  | 76 / 79 · 35 / 40                      | **$0.0010 / $0.0016** | 6.3 s / 8.5 s  | 2.2 / 3.0   |
+| Claude Sonnet 5.5         | **51 / 51**                | **24 / 24**           | **12 / 12**                  | 92 / 92 · 37 / 37                      | $0.024 / $0.025       | 9.9 s / 9.5 s  | 6.0 / 5.4   |
+| Claude Opus 5.5 (default) | **51 / 51**                | **24 / 24**           | **12 / 12**                  | **98 / 98 · 48 / 48**                  | $0.033 / $0.043       | 8.9 s / 10.1 s | 2.4 / 2.9   |
 
-Cost, time and turns are original set / hard set. All at `effort: medium`, measured 2026-11-24
-([per-case results](evals/results/); the hard set's reports end in `-medium-hard`, and a second run at
-`effort: low` in `-low-hard`). The hard-set figures come from the run that added the evidence check; an earlier
+Cost, time and turns are original set / hard set; on the calibration set a triage cost $0.0016 (Haiku), $0.020
+(Sonnet) and $0.058 (Opus). All at `effort: medium`, measured 2026-11-24 ([per-case results](evals/results/);
+the hard set's reports end in `-medium-hard`, a second run at `effort: low` in `-low-hard`, and the calibration
+set's in `-medium-calibration`). The hard-set figures come from the run that added the evidence check; an earlier
 run of the same set also scored 24/24 on every model. "Evidence verified" counts cited quotes found where the
 agent could have seen them, at the line they name ([how](evals/README.md#evidence-check)); it doesn't affect
 whether a case passes.
@@ -178,15 +184,25 @@ What the numbers do and don't say:
   is where it says; Sonnet's 92 all check out too (some cite a file by path and line, which counts). Haiku
   verified 76 of 79: in 3 of its 24 answers it cited a source line as a line of the job's log, or "quoted" a
   diff with its own annotations mixed in. Its diagnoses were still right, but a reader following those
-  citations would land in the wrong place.
-- **What could separate them next.** Cases the logs genuinely can't settle (where the right answer is
-  `unknown` with low confidence, which tests calibration), and tighter turn and cost caps.
+  citations would land in the wrong place. The calibration set shows the same pattern: Sonnet and Opus verified every
+  quote, Haiku 35 of 40 (the rest paraphrase tool output with labels of its own).
+- **All three stayed calibrated.** On the job that never started, all 9 answers said `unknown` with `low`
+  confidence and pointed at the missing log. On the three two-cause cases, every answer leaned towards the more
+  likely cause (the dependency bump, the new request field, the new code) but none claimed `high`. Only Opus
+  once went down to `low`. The heuristic's fixed answer ("unknown, low") passes 3 of 4 here by construction,
+  which is why this set tests overclaiming, not diagnosis.
+- **A fixture gap planted a false lead, and the models took it.** The first version of the never-started
+  fixture left two existing helper files out of its repository tree. Haiku (2 of 3 runs) and Sonnet (1 of 3)
+  then blamed the "missing" import, at `medium` confidence, for a job that never ran. The fixture was fixed and
+  that run discarded; the takeaway for writing fixtures is that a partial tree is itself evidence to the agent.
+- **What could separate them next.** Tighter turn and cost caps, and calibration cases where a confident but
+  wrong story is available in the run.
 - **The first run was not perfect.** It scored 15–16 of 17. Every miss was the same disagreement: for an OOM
   and a full disk triggered by the PR's new dependencies, the models said `code` where the key said
   `infrastructure`. The models were right that a rerun would not help, so the key now accepts both but
   requires the triggering change to be named. The change and its reason are
   [logged](evals/README.md#answer-key-changes).
-- **Haiku 5.5 matched Opus on both sets at about 1/30 of the cost.** `model: claude-haiku-5-5` is a reasonable
+- **Haiku 5.5 matched Opus on all three sets at about 1/30 of the cost.** `model: claude-haiku-5-5` is a reasonable
   choice for high-volume repositories. Opus stays the default, but these fixtures show no accuracy gap that
   would justify its cost; the case for it rests on failures they don't cover.
 

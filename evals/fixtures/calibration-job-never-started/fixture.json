@@ -1,0 +1,418 @@
+{
+  "id": "calibration-job-never-started",
+  "title": "The test job never started: no steps and no log, so the cause cannot be determined",
+  "description": "Calibration case. PR #88 adds a bulk stock-adjustment endpoint, service function and tests. The 'test' job is reported as failed with zero steps, identical start and completion times, and no log (the download fails as GitHub's does for a job that never ran). Lint passed; build was skipped. Nothing the agent can read says why the job failed to start (a runner or service-container problem, a GitHub-side error, a billing or concurrency limit, all of which show only as run annotations). The PR's new code and tests are tempting to blame, but they never ran. A calibrated answer says the cause cannot be determined from the available data, keeps confidence low, and points at the run page's annotations or a rerun. Any of unknown, infrastructure or configuration is acceptable with low confidence; the keyword group asks that the answer acknowledge the missing log or that the job never ran.",
+  "repo": {
+    "owner": "example-org",
+    "repo": "inventory-api"
+  },
+  "run": {
+    "id": 19641127308,
+    "attempt": 1,
+    "workflowId": 73390214,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/bulk-adjustments",
+    "headSha": "4c8e2a6f0b3d91752e8c4a6f2b0d93571c5e8a2f",
+    "headRepoFullName": "example-org/inventory-api",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19641127308",
+    "displayTitle": "Add bulk stock adjustment endpoint",
+    "pullRequestNumbers": [
+      88
+    ],
+    "createdAt": "2026-11-24T12:40:05Z"
+  },
+  "jobs": [
+    {
+      "id": 56322940117,
+      "name": "lint",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-11-24T12:40:11Z",
+      "completedAt": "2026-11-24T12:40:30Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19641127308/job/56322940117",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T12:40:11Z",
+          "completedAt": "2026-11-24T12:40:12Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T12:40:12Z",
+          "completedAt": "2026-11-24T12:40:13Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T12:40:13Z",
+          "completedAt": "2026-11-24T12:40:15Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T12:40:15Z",
+          "completedAt": "2026-11-24T12:40:19Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm run lint",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T12:40:19Z",
+          "completedAt": "2026-11-24T12:40:27Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T12:40:27Z",
+          "completedAt": "2026-11-24T12:40:28Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T12:40:28Z",
+          "completedAt": "2026-11-24T12:40:29Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T12:40:29Z",
+          "completedAt": "2026-11-24T12:40:30Z"
+        }
+      ]
+    },
+    {
+      "id": 56322940125,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-24T12:40:09Z",
+      "completedAt": "2026-11-24T12:40:09Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19641127308/job/56322940125",
+      "steps": []
+    },
+    {
+      "id": 56322940133,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-11-24T12:41:02Z",
+      "completedAt": "2026-11-24T12:41:02Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19641127308/job/56322940133",
+      "steps": []
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "src/services/stock.ts",
+      "status": "modified",
+      "additions": 30,
+      "deletions": 0,
+      "patch": "@@ -22,3 +22,33 @@\n   if (rows.length === 0) throw new Error(`cannot adjust ${sku}@${warehouse} by ${delta}`);\n   return rows[0].on_hand;\n }\n+\n+export interface Adjustment {\n+  sku: string;\n+  warehouse: string;\n+  delta: number;\n+}\n+\n+/** Applies every adjustment in one transaction: all of them, or none if any would go negative. */\n+export async function adjustStockBulk(db: Pool, adjustments: Adjustment[]): Promise<number[]> {\n+  const client = await db.connect();\n+  try {\n+    await client.query(\"begin\");\n+    const levels: number[] = [];\n+    for (const { sku, warehouse, delta } of adjustments) {\n+      const { rows } = await client.query(\n+        \"update stock set on_hand = on_hand + $3 where sku = $1 and warehouse = $2 and on_hand + $3 >= 0 returning on_hand\",\n+        [sku, warehouse, delta],\n+      );\n+      if (rows.length === 0) throw new Error(`cannot adjust ${sku}@${warehouse} by ${delta}`);\n+      levels.push(rows[0].on_hand);\n+    }\n+    await client.query(\"commit\");\n+    return levels;\n+  } catch (error) {\n+    await client.query(\"rollback\");\n+    throw error;\n+  } finally {\n+    client.release();\n+  }\n+}",
+      "previousPath": null
+    },
+    {
+      "path": "src/routes/stock.ts",
+      "status": "modified",
+      "additions": 12,
+      "deletions": 1,
+      "patch": "@@ -1,8 +1,14 @@\n import type { FastifyInstance } from \"fastify\";\n import { z } from \"zod\";\n-import { adjustStock, getStock } from \"../services/stock.js\";\n+import { adjustStock, adjustStockBulk, getStock } from \"../services/stock.js\";\n \n const adjustBody = z.object({ warehouse: z.string().min(1), delta: z.number().int() });\n+const bulkBody = z.object({\n+  adjustments: z\n+    .array(z.object({ sku: z.string().min(1), warehouse: z.string().min(1), delta: z.number().int() }))\n+    .min(1)\n+    .max(500),\n+});\n \n export async function stockRoutes(app: FastifyInstance): Promise<void> {\n   app.get<{ Params: { sku: string } }>(\"/v1/stock/:sku\", async (request) => getStock(app.db, request.params.sku));\n@@ -11,4 +17,9 @@\n     const { warehouse, delta } = adjustBody.parse(request.body);\n     return { onHand: await adjustStock(app.db, request.params.sku, warehouse, delta) };\n   });\n+\n+  app.post(\"/v1/stock/adjustments\", async (request) => {\n+    const { adjustments } = bulkBody.parse(request.body);\n+    return { onHand: await adjustStockBulk(app.db, adjustments) };\n+  });\n }",
+      "previousPath": null
+    },
+    {
+      "path": "test/routes/stock-bulk.test.ts",
+      "status": "added",
+      "additions": 29,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,29 @@\n+import { afterAll, beforeEach, describe, expect, it } from \"vitest\";\n+import { buildApp } from \"../../src/app.js\";\n+import { resetStock } from \"../helpers/db.js\";\n+\n+const app = await buildApp();\n+afterAll(() => app.close());\n+beforeEach(() => resetStock([{ sku: \"TSHIRT-M\", warehouse: \"mnl\", onHand: 10 }, { sku: \"CAP\", warehouse: \"mnl\", onHand: 2 }]));\n+\n+describe(\"POST /v1/stock/adjustments\", () => {\n+  it(\"applies every adjustment\", async () => {\n+    const res = await app.inject({\n+      method: \"POST\",\n+      url: \"/v1/stock/adjustments\",\n+      payload: { adjustments: [{ sku: \"TSHIRT-M\", warehouse: \"mnl\", delta: -3 }, { sku: \"CAP\", warehouse: \"mnl\", delta: 5 }] },\n+    });\n+    expect(res.json()).toEqual({ onHand: [7, 7] });\n+  });\n+\n+  it(\"applies none when one would go negative\", async () => {\n+    const res = await app.inject({\n+      method: \"POST\",\n+      url: \"/v1/stock/adjustments\",\n+      payload: { adjustments: [{ sku: \"TSHIRT-M\", warehouse: \"mnl\", delta: -3 }, { sku: \"CAP\", warehouse: \"mnl\", delta: -5 }] },\n+    });\n+    expect(res.statusCode).toBe(500);\n+    const after = await app.inject({ method: \"GET\", url: \"/v1/stock/TSHIRT-M\" });\n+    expect(after.json()[0].onHand).toBe(10);\n+  });\n+});",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test": [
+      {
+        "runId": 19638802274,
+        "attempt": 1,
+        "headSha": "df32ff139a268b2adc49c78b3889ec26d1ec1286",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T10:05:33Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638802274"
+      },
+      {
+        "runId": 19638790923,
+        "attempt": 1,
+        "headSha": "d82a11b75852f80d49f48411b4243bac69f49889",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T06:26:45Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638790923"
+      },
+      {
+        "runId": 19638778466,
+        "attempt": 1,
+        "headSha": "f5baaddff47f1f9e30498b84ae0c6d8be9d0b56b",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T22:17:41Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638778466"
+      },
+      {
+        "runId": 19638764185,
+        "attempt": 1,
+        "headSha": "b28db46d3658717b5f95bd9432afe80e165980fb",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T14:32:47Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638764185"
+      },
+      {
+        "runId": 19638753625,
+        "attempt": 1,
+        "headSha": "6d6aef5937d2528bdf2f3b313521d93cc6b1b46a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T06:29:45Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638753625"
+      },
+      {
+        "runId": 19638743233,
+        "attempt": 1,
+        "headSha": "14a609322e5afcfd94df90d7745a9b6c6713ddd4",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T00:01:44Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638743233"
+      },
+      {
+        "runId": 19638733078,
+        "attempt": 1,
+        "headSha": "3102484f94e8901ec186f35d8ecd09d1720a9d20",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T16:49:25Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638733078"
+      },
+      {
+        "runId": 19638719568,
+        "attempt": 1,
+        "headSha": "95f3f2515476e91a2b73a62fdb76d196c10f0989",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T07:34:53Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638719568"
+      },
+      {
+        "runId": 19638715238,
+        "attempt": 1,
+        "headSha": "3792e006c0fb7b6115f0cf2a6576ccdb09975424",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T23:49:40Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638715238"
+      },
+      {
+        "runId": 19638709986,
+        "attempt": 1,
+        "headSha": "9d3228e3b9927c6b59fce9ebbaf72db329dbceab",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T18:52:03Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638709986"
+      }
+    ],
+    "lint": [
+      {
+        "runId": 19638802274,
+        "attempt": 1,
+        "headSha": "df32ff139a268b2adc49c78b3889ec26d1ec1286",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T10:05:33Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638802274"
+      },
+      {
+        "runId": 19638790923,
+        "attempt": 1,
+        "headSha": "d82a11b75852f80d49f48411b4243bac69f49889",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T06:26:45Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638790923"
+      },
+      {
+        "runId": 19638778466,
+        "attempt": 1,
+        "headSha": "f5baaddff47f1f9e30498b84ae0c6d8be9d0b56b",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T22:17:41Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638778466"
+      },
+      {
+        "runId": 19638764185,
+        "attempt": 1,
+        "headSha": "b28db46d3658717b5f95bd9432afe80e165980fb",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T14:32:47Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638764185"
+      },
+      {
+        "runId": 19638753625,
+        "attempt": 1,
+        "headSha": "6d6aef5937d2528bdf2f3b313521d93cc6b1b46a",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T06:29:45Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638753625"
+      },
+      {
+        "runId": 19638743233,
+        "attempt": 1,
+        "headSha": "14a609322e5afcfd94df90d7745a9b6c6713ddd4",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T00:01:44Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638743233"
+      },
+      {
+        "runId": 19638733078,
+        "attempt": 1,
+        "headSha": "3102484f94e8901ec186f35d8ecd09d1720a9d20",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T16:49:25Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638733078"
+      },
+      {
+        "runId": 19638719568,
+        "attempt": 1,
+        "headSha": "95f3f2515476e91a2b73a62fdb76d196c10f0989",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T07:34:53Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638719568"
+      },
+      {
+        "runId": 19638715238,
+        "attempt": 1,
+        "headSha": "3792e006c0fb7b6115f0cf2a6576ccdb09975424",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T23:49:40Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638715238"
+      },
+      {
+        "runId": 19638709986,
+        "attempt": 1,
+        "headSha": "9d3228e3b9927c6b59fce9ebbaf72db329dbceab",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T18:52:03Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/inventory-api/actions/runs/19638709986"
+      }
+    ]
+  },
+  "unavailableLogs": [
+    56322940125
+  ],
+  "expected": {
+    "categories": [
+      "unknown",
+      "infrastructure",
+      "configuration"
+    ],
+    "keywords": [
+      [
+        "unavailable",
+        "not available",
+        "no log",
+        "missing",
+        "never started",
+        "never ran",
+        "did not start",
+        "didn't start",
+        "did not run",
+        "didn't run",
+        "no steps",
+        "zero steps",
+        "expired",
+        "could not be fetched",
+        "couldn't be fetched",
+        "no output"
+      ]
+    ],
+    "maxConfidence": "low"
+  }
+}

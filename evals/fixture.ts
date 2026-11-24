@@ -16,7 +16,8 @@ import type {
 // On-disk layout of one fixture (evals/fixtures/<id>/):
 //   fixture.json        FixtureFile (below)
 //   logs/<jobId>.log    raw job log exactly as GitHub serves it (timestamp-prefixed lines);
-//                       required for every job whose conclusion is "failure" or "timed_out"
+//                       required for every job whose conclusion is "failure" or "timed_out",
+//                       unless the job is listed in unavailableLogs
 //   repo/<path>         repository tree at run.headSha (served for ref === run.headSha or "HEAD")
 //   base/<path>         optional: files as they are on the default branch. For ref === run.defaultBranch,
 //                       base/<path> wins and repo/<path> is the fallback, so base/ only needs the files
@@ -33,6 +34,11 @@ export interface FixtureExpectation {
   flaky?: boolean;
   /** When set, fix_location.path must equal it or the suggested_fix must mention it. */
   fixPath?: string;
+  /**
+   * When set, result.confidence must not exceed it. For calibration cases the evidence cannot settle:
+   * "low" when there is no information at all, "medium" when several causes fit equally well.
+   */
+  maxConfidence?: "low" | "medium";
 }
 
 export interface FixtureFile {
@@ -46,6 +52,8 @@ export interface FixtureFile {
   changedFiles: ChangedFile[];
   /** jobName -> history entries, newest first */
   history: Record<string, JobHistoryEntry[]>;
+  /** Job ids whose log download fails as on GitHub (404/410), e.g. a job that never started. */
+  unavailableLogs?: number[];
   expected: FixtureExpectation;
 }
 
@@ -132,6 +140,7 @@ const expectationSchema = z.strictObject({
   forbidden: z.array(nonEmpty).optional(),
   flaky: z.boolean().optional(),
   fixPath: nonEmpty.optional(),
+  maxConfidence: z.enum(["low", "medium"]).optional(),
 });
 
 const fixtureFileSchema = z.object({
@@ -143,6 +152,7 @@ const fixtureFileSchema = z.object({
   jobs: z.array(jobInfoSchema).min(1),
   changedFiles: z.array(changedFileSchema),
   history: z.record(z.string(), z.array(jobHistoryEntrySchema)),
+  unavailableLogs: z.array(idSchema).optional(),
   expected: expectationSchema,
 });
 
@@ -190,7 +200,17 @@ function loadFixture(dir: string): LoadedFixture {
   }
 
   const file = parsed.data;
+  const unavailable = new Set(file.unavailableLogs ?? []);
+  for (const id of unavailable) {
+    if (!file.jobs.some((job) => job.id === id)) {
+      throw new Error(`Fixture ${name}: unavailableLogs lists ${id}, which is not a job of the run`);
+    }
+    if (existsSync(join(dir, "logs", `${id}.log`))) {
+      throw new Error(`Fixture ${name}: job ${id} is in unavailableLogs but has logs/${id}.log`);
+    }
+  }
   for (const job of file.jobs) {
+    if (unavailable.has(job.id)) continue;
     if (job.conclusion !== null && FAILED_CONCLUSIONS.has(job.conclusion)) {
       const logPath = join(dir, "logs", `${job.id}.log`);
       if (!existsSync(logPath)) {
@@ -260,6 +280,10 @@ export function createFixtureBackend(fixture: LoadedFixture): TriageBackend {
       const job = file.jobs.find((j) => j.id === jobId);
       if (job === undefined) {
         throw new Error(`Fixture ${file.id}: no job with id ${jobId}`);
+      }
+      if (file.unavailableLogs?.includes(jobId)) {
+        // The GitHub gateway's message for a 404/410 log download.
+        throw new Error(`Logs for job ${jobId} are unavailable (expired or deleted)`);
       }
       try {
         return await readFile(join(dir, "logs", `${jobId}.log`), "utf8");

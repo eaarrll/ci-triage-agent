@@ -11,6 +11,8 @@ import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { runTriage } from "../src/agent/agent.js";
+import { renderContext } from "../src/agent/prompt.js";
+import { createTools } from "../src/agent/tools.js";
 import { buildContext } from "../src/context.js";
 import { withRedaction } from "../src/redact.js";
 import { heuristicTriage } from "../src/signatures.js";
@@ -18,6 +20,9 @@ import { CATEGORIES } from "../src/types.js";
 import type {
   AgentLogger,
   Category,
+  ToolCallTrace,
+  TriageBackend,
+  TriageContext,
   Confidence,
   Effort,
   StopCause,
@@ -186,6 +191,9 @@ export interface CaseRecord {
   forbiddenHits: string[];
   flakyOk: boolean | null;
   fixPathOk: boolean | null;
+  /** The fixture's confidence ceiling (calibration cases), and whether the answer stayed within it. */
+  maxConfidence: Confidence | null;
+  confidenceOk: boolean | null;
   /** null when the model has no known price or the case crashed before reporting usage */
   costUsd: number | null;
   inputTokens: number;
@@ -229,6 +237,8 @@ export function toCaseRecord(
     forbiddenHits: graded.forbiddenHits,
     flakyOk: graded.flakyOk,
     fixPathOk: graded.fixPathOk,
+    maxConfidence: fixture.expected.maxConfidence ?? null,
+    confidenceOk: graded.confidenceOk,
     costUsd: outcome.usage.costUsd,
     inputTokens: outcome.usage.inputTokens,
     outputTokens: outcome.usage.outputTokens,
@@ -263,6 +273,11 @@ export function failureReasons(record: CaseRecord): string[] {
   if (record.forbiddenHits.length > 0) reasons.push(`forbidden text: ${record.forbiddenHits.join(", ")}`);
   if (record.flakyOk === false) reasons.push("wrong flaky_suspected");
   if (record.fixPathOk === false) reasons.push("fix location not identified");
+  if (record.confidenceOk === false) {
+    reasons.push(
+      `confidence ${record.confidence ?? "none"}, expected at most ${record.maxConfidence ?? "?"}`,
+    );
+  }
   return reasons;
 }
 
@@ -600,7 +615,7 @@ async function runCase(
           logger,
         });
     const latencyMs = performance.now() - started;
-    const evidence = await checkCaseEvidence(outcome, backend, logger);
+    const evidence = await checkCaseEvidence(outcome, ctx, backend, logger);
     return toCaseRecord(fixture.file, repeat, outcome, latencyMs, evidence);
   } catch (err) {
     // A crash in the code under test is a failed case, not a harness error.
@@ -618,16 +633,43 @@ async function runCase(
 /** Evidence grading is a side metric: if it breaks, the case keeps its grade and the problem is logged. */
 async function checkCaseEvidence(
   outcome: TriageOutcome,
-  backend: Parameters<typeof loadEvidenceSources>[0],
+  ctx: TriageContext,
+  backend: TriageBackend,
   logger: AgentLogger,
 ): Promise<EvidenceGrade | null> {
   if (outcome.status !== "ok") return null;
   try {
-    return await gradeEvidence(outcome.result, await loadEvidenceSources(backend));
+    const seen = [renderContext(ctx), ...(await replayToolResults(ctx, backend, outcome.trace))];
+    return await gradeEvidence(outcome.result, await loadEvidenceSources(backend, seen));
   } catch (err) {
     logger.warning(`evidence check failed: ${errorMessage(err)}`);
     return null;
   }
+}
+
+/**
+ * The text of every tool result the agent saw, rebuilt by re-running its calls: the tools are read-only
+ * and the fixture backend is deterministic, so a replay returns what the agent was shown. An error is
+ * kept too (the model sees its message).
+ */
+export async function replayToolResults(
+  ctx: TriageContext,
+  backend: TriageBackend,
+  trace: readonly ToolCallTrace[],
+): Promise<string[]> {
+  const tools = new Map(createTools({ ctx, backend }).map((tool) => [tool.name, tool]));
+  const results: string[] = [];
+  for (const call of trace) {
+    const tool = tools.get(call.name);
+    if (tool === undefined) continue;
+    try {
+      const input = tool.parse(call.input) as never;
+      results.push(String(await tool.run(input)));
+    } catch (err) {
+      results.push(errorMessage(err));
+    }
+  }
+  return results;
 }
 
 function heuristicOutcome(result: ReturnType<typeof heuristicTriage>): TriageOutcome {

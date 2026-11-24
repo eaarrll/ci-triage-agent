@@ -1,0 +1,284 @@
+{
+  "id": "calibration-segfault-after-native-bump",
+  "title": "A test file's process dies with SIGSEGV after a native dependency bump; one run cannot tell why",
+  "description": "Calibration case. PR #212 bumps @pixelkit/native (a prebuilt native image library) from ^2.7.3 to ^2.8.0 and adds AVIF output. The new AVIF tests pass. test/resize.test.js, which the PR did not touch, dies part-way through: its first two tests pass, then the file's process ends with signal SIGSEGV and no stack trace or core dump. The test job passed on the last 10 main runs and this is the commit's only attempt. Two causes fit the evidence equally well: a crash introduced by the 2.8.0 native binary (on the 16-bit PNG path, say), or a nondeterministic native crash unrelated to the change. A rerun, a run on main with 2.8.0, or a core dump would tell them apart; nothing in the run does. A calibrated answer names the segfault, says the cause is not established and keeps confidence at medium or below. Category is open (unknown, dependency, flaky, infrastructure or code).",
+  "repo": {
+    "owner": "example-org",
+    "repo": "thumbnailer"
+  },
+  "run": {
+    "id": 19643380516,
+    "attempt": 1,
+    "workflowId": 80213347,
+    "workflowName": "CI",
+    "workflowPath": ".github/workflows/ci.yml",
+    "event": "pull_request",
+    "headBranch": "feat/avif-thumbnails",
+    "headSha": "e2a6c0f4b8d13957e2a6c0f4b8d13957a1c5e9f3",
+    "headRepoFullName": "example-org/thumbnailer",
+    "isFork": false,
+    "defaultBranch": "main",
+    "conclusion": "failure",
+    "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19643380516",
+    "displayTitle": "Add AVIF thumbnails (bump @pixelkit/native to 2.8)",
+    "pullRequestNumbers": [
+      212
+    ],
+    "createdAt": "2026-11-24T13:12:35Z"
+  },
+  "jobs": [
+    {
+      "id": 56331185720,
+      "name": "test",
+      "status": "completed",
+      "conclusion": "failure",
+      "startedAt": "2026-11-24T13:12:40Z",
+      "completedAt": "2026-11-24T13:12:53Z",
+      "runnerLabels": [
+        "ubuntu-latest"
+      ],
+      "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19643380516/job/56331185720",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:12:40Z",
+          "completedAt": "2026-11-24T13:12:41Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:12:41Z",
+          "completedAt": "2026-11-24T13:12:42Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:12:42Z",
+          "completedAt": "2026-11-24T13:12:44Z"
+        },
+        {
+          "number": 4,
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:12:44Z",
+          "completedAt": "2026-11-24T13:12:48Z"
+        },
+        {
+          "number": 5,
+          "name": "Run npm test",
+          "status": "completed",
+          "conclusion": "failure",
+          "startedAt": "2026-11-24T13:12:48Z",
+          "completedAt": "2026-11-24T13:12:51Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "startedAt": "2026-11-24T13:12:51Z",
+          "completedAt": "2026-11-24T13:12:51Z"
+        },
+        {
+          "number": 7,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:12:51Z",
+          "completedAt": "2026-11-24T13:12:52Z"
+        },
+        {
+          "number": 8,
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-11-24T13:12:52Z",
+          "completedAt": "2026-11-24T13:12:53Z"
+        }
+      ]
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "package.json",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -8,7 +8,7 @@\n     \"test\": \"node --test\"\n   },\n   \"dependencies\": {\n-    \"@pixelkit/native\": \"^2.7.3\",\n+    \"@pixelkit/native\": \"^2.8.0\",\n     \"fastify\": \"^5.6.1\"\n   }\n }",
+      "previousPath": null
+    },
+    {
+      "path": "package-lock.json",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 4,
+      "patch": "@@ -8,14 +8,14 @@\n       \"name\": \"thumbnailer\",\n       \"version\": \"3.1.0\",\n       \"dependencies\": {\n-        \"@pixelkit/native\": \"^2.7.3\",\n+        \"@pixelkit/native\": \"^2.8.0\",\n         \"fastify\": \"^5.6.1\"\n       }\n     },\n     \"node_modules/@pixelkit/native\": {\n-      \"version\": \"2.7.3\",\n-      \"resolved\": \"https://registry.npmjs.org/@pixelkit/native/-/native-2.7.3.tgz\",\n-      \"integrity\": \"sha512-Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0A==\",\n+      \"version\": \"2.8.0\",\n+      \"resolved\": \"https://registry.npmjs.org/@pixelkit/native/-/native-2.8.0.tgz\",\n+      \"integrity\": \"sha512-Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake0Fake1Fake1B==\",\n       \"hasInstallScript\": true,\n       \"license\": \"Apache-2.0\",\n       \"engines\": {",
+      "previousPath": null
+    },
+    {
+      "path": "src/thumbs.js",
+      "status": "modified",
+      "additions": 4,
+      "deletions": 2,
+      "patch": "@@ -1,13 +1,15 @@\n import { open } from \"@pixelkit/native\";\n \n-export const FORMATS = [\"jpeg\", \"webp\"];\n+export const FORMATS = [\"jpeg\", \"webp\", \"avif\"];\n \n /** Encodes a thumbnail of `input` (a Buffer) at the given width. */\n export async function thumbnail(input, { width, format = \"webp\", quality = 80 }) {\n   if (!FORMATS.includes(format)) throw new Error(`unsupported format ${format}`);\n   const image = await open(input);\n   try {\n-    return await image.resize({ width, fit: \"inside\" }).encode(format, { quality });\n+    // AVIF needs @pixelkit/native 2.8+, which bundles libavif.\n+    const options = format === \"avif\" ? { quality, effort: 4 } : { quality };\n+    return await image.resize({ width, fit: \"inside\" }).encode(format, options);\n   } finally {\n     image.close();\n   }",
+      "previousPath": null
+    },
+    {
+      "path": "test/avif.test.js",
+      "status": "added",
+      "additions": 19,
+      "deletions": 0,
+      "patch": "@@ -0,0 +1,19 @@\n+import { test } from \"node:test\";\n+import assert from \"node:assert/strict\";\n+import { readFile } from \"node:fs/promises\";\n+import { open } from \"@pixelkit/native\";\n+import { thumbnail } from \"../src/thumbs.js\";\n+\n+const beach = () => readFile(new URL(\"./images/beach.jpg\", import.meta.url));\n+\n+test(\"encodes an AVIF thumbnail\", async () => {\n+  const out = await open(await thumbnail(await beach(), { width: 320, format: \"avif\" }));\n+  assert.equal(out.format, \"avif\");\n+  assert.equal(out.width, 320);\n+});\n+\n+test(\"AVIF is smaller than WebP at the same quality\", async () => {\n+  const avif = await thumbnail(await beach(), { width: 640, format: \"avif\", quality: 60 });\n+  const webp = await thumbnail(await beach(), { width: 640, format: \"webp\", quality: 60 });\n+  assert.ok(avif.length < webp.length);\n+});",
+      "previousPath": null
+    },
+    {
+      "path": "README.md",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "patch": "@@ -1,3 +1,3 @@\n # thumbnailer\n \n-Resizes uploaded product photos into JPEG and WebP thumbnails.\n+Resizes uploaded product photos into JPEG, WebP and AVIF thumbnails.",
+      "previousPath": null
+    }
+  ],
+  "history": {
+    "test": [
+      {
+        "runId": 19640917745,
+        "attempt": 1,
+        "headSha": "0ccfbf8e667d7b276fdadf171693777c95d5eef7",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T09:48:02Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19640917745"
+      },
+      {
+        "runId": 19640904586,
+        "attempt": 1,
+        "headSha": "57395a9e7acb752b0c03f1d764f3a53d86a581d7",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-24T01:02:08Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19640904586"
+      },
+      {
+        "runId": 19640895942,
+        "attempt": 1,
+        "headSha": "ea59c52cfd84772526fc26e8caedf1d152e4de19",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T21:17:38Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19640895942"
+      },
+      {
+        "runId": 19640882318,
+        "attempt": 1,
+        "headSha": "e4346e0628f147bf1a13a150a5b25e0c5f6e86eb",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T16:37:29Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19640882318"
+      },
+      {
+        "runId": 19640876926,
+        "attempt": 1,
+        "headSha": "a5d307f44d6ab322efea088f697876b64fba08e2",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T08:22:25Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19640876926"
+      },
+      {
+        "runId": 19640867000,
+        "attempt": 1,
+        "headSha": "6e5eb5808e5e734f57133b2446ec2f5d46ab9ee2",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-23T04:09:36Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19640867000"
+      },
+      {
+        "runId": 19640852747,
+        "attempt": 1,
+        "headSha": "5be297d5b720036bc4c4955da9da8170badd0515",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T18:28:48Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19640852747"
+      },
+      {
+        "runId": 19640846927,
+        "attempt": 1,
+        "headSha": "23c75afe6b4d03cc213ccd068206a1e2d63d31b3",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T11:12:46Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19640846927"
+      },
+      {
+        "runId": 19640837999,
+        "attempt": 1,
+        "headSha": "6c88bcfe4d6c7d0e1e7d81982ef1fd409e10e5bd",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-22T02:56:37Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19640837999"
+      },
+      {
+        "runId": 19640823797,
+        "attempt": 1,
+        "headSha": "dea074d1808c31546429ae2df8757a013a702ebd",
+        "branch": "main",
+        "event": "push",
+        "conclusion": "success",
+        "createdAt": "2026-11-21T19:38:28Z",
+        "sameSha": false,
+        "htmlUrl": "https://github.com/example-org/thumbnailer/actions/runs/19640823797"
+      }
+    ]
+  },
+  "expected": {
+    "categories": [
+      "unknown",
+      "dependency",
+      "flaky",
+      "infrastructure",
+      "code"
+    ],
+    "keywords": [
+      [
+        "segmentation fault",
+        "segfault",
+        "SIGSEGV",
+        "139",
+        "crash"
+      ]
+    ],
+    "maxConfidence": "medium"
+  }
+}
